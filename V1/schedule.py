@@ -4,8 +4,8 @@ import game_info as game_broad
 import agent as agent
 
 
-
-#step1 调度决定开始游戏
+#step0 调度接到外部的开始请求，传入初始地图，传入初始角色，传入计算信息
+#step1 调度开始游戏,调用棋盘初始化游戏
 #step2 调度开始自增计时器
 #step3 调度获取棋盘中可用游戏角色的ap
 #step3.5 获取当前状态
@@ -19,8 +19,9 @@ import agent as agent
 
 class schedule:
 
-    def __init__(self,hero_list,state):
+    def __init__(self,hero_list,state,claculate_info):
         self.hero_list=hero_list
+        self.calculate_info=claculate_info
         self.state=state
         self.game=game_broad.game(hero=self.hero_list,state=self.state)
         self.agent_1=agent.randomAgent(name='a1',self.game)
@@ -28,7 +29,7 @@ class schedule:
         self.timeout_tick=100000
         self.tick=0
     def start(self):
-        self.game.start
+        self.game.start()
     def run(self):
 
         while self.tick<self.timeout_tick:
@@ -58,8 +59,8 @@ class schedule:
         pass
 
 
-def schedule_api(hero_list,state):
-    sch=schedule(hero_list,state)
+def schedule_api(state_init,hero_init,claculate_info):
+    sch=schedule(hero_list,state,claculate_info)
     sch.start()
     sch.run()
     return sch
