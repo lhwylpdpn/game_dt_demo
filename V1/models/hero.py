@@ -32,7 +32,7 @@ class Hero():
         self.__AvailableSkills = kwargs.get("AvailableSkills", []) # 可用的技能
         self.__Features = kwargs.get("Features", None)        #
         self.__RoundAction = kwargs.get("RoundAction", None)  # 
-        self.__JumpHeight = kwargs.get("JumpHeight", [])      # 
+        self.__JumpHeight = kwargs.get("JumpHeight", [])   # 跳跃的高度 
         self.__skid0 =  kwargs.get("skid0", None)          #技能0ID  skill0 = Skill(A).time - 1
         self.__skid1 =  kwargs.get("skid1", None)          #技能1ID
         self.__skid2 =  kwargs.get("skid2", None)          #技能2ID
@@ -44,7 +44,8 @@ class Hero():
         self.__rankMax = kwargs.get("rankMax", None)       #品质上限
         self.__rankname = kwargs.get("rankname", None)     #品质名称
         # 初始数值
-        self.__Hp = kwargs.get("Hp", None)                           #生命-初始
+        self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
+        self.__Hp = kwargs.get("Hp", None)                           #生命
         self.__Atk = kwargs.get("Atk", None)                         #攻击-初始
         self.__Def = kwargs.get("Def", None)                         #防御-初始
         self.__MagicalDef = kwargs.get("MagicalDef", None)           #魔法防御
@@ -57,7 +58,7 @@ class Hero():
         self.__efectBase = kwargs.get("efectBase", None)             #效果抵抗-初始
         self.__efectHitBase = kwargs.get("efectHitBase", None)       #效果命中-初始
         self.__hitBase = kwargs.get("hitBase", None)                 #命中-初始
-        self.__dogBase = kwargs.get("dogBase", None)                 #闪避-初始
+        self.__dogBase = kwargs.get("dogBase", None)                 #警戒-初始
         self.__antiBase = kwargs.get("antiBase", None)               #抗暴-初始
         self.__atkRateBase = kwargs.get("atkRateBase", None)         #攻击间隔-初始
         self.__AtkDistance = kwargs.get("AtkDistance", [])           #攻击距离
@@ -310,6 +311,10 @@ class Hero():
     def set_rankname(self, rankname):
         self.__rankname = rankname
         return self
+    
+    @property
+    def HpBase(self): # 最高血量
+        return self.__HpBase
     
     @property
     def Hp(self):

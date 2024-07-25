@@ -32,12 +32,14 @@ class Map(): # 地图
         for each in origin_map_data:
             postion_list.append(each.get('position'))
         df = pd.DataFrame(postion_list)
-        return list(df.max())
+        x, y, z = list(df.max())
+        return x+1, y+1, z+1 
 
 
 class Land(): # 地块
     
     def __init__(self, **kwargs):
+        self.__position = kwargs.get("position", None)
         self.__sn = kwargs.get("sn", None)
         self.__PlotDescription = kwargs.get("PlotDescription", None)
         self.__Ap = kwargs.get("Ap", None)
@@ -46,6 +48,50 @@ class Land(): # 地块
         self.__DestroyState = kwargs.get("DestroyState", [])
         self.__DestroyHp = kwargs.get("DestroyHp", None)
         self.__effects = kwargs.get("effects", [])
+    
+    def __gt__(self, other):
+        if isinstance(other, Land):
+            other = other.position[1]
+        if self.position[1] > other:
+            return True
+        return False
+    
+    def __lt__(self, other):
+        if isinstance(other, Land):
+            other = other.position[1]
+        if self.position[1] < other:
+            return True
+        return False
+    
+    def __le__(self, other):
+        if isinstance(other, Land):
+            other = other.position[1]
+        if self.position[1] <= other:
+            return True
+        return False
+    
+    def __ge__(self, other):
+        if isinstance(other, Land):
+            other = other.position[1]
+        if self.position[1] >= other:
+            return True
+        return False
+    
+    def __eq__(self, other):
+        if isinstance(other, Land):
+            other = other.position[1]
+        if self.position[1] == other:
+            return True
+        return False
+        
+    @property
+    def position(self): # 
+        return self.__position
+    
+    def set_position(self, position):
+        self.__position = position
+        return self 
+    
     
     @property
     def sn(self): # 
