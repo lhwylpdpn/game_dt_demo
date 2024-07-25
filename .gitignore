@@ -1,0 +1,6 @@
+*.txt
+requirements.txt
+*.pyc
+__pycache__
+project
+
