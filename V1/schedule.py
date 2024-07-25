@@ -2,6 +2,9 @@
 import time
 import game_info as game_broad
 import agent as agent
+from buildpatrol import BuildPatrol
+from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
+from test_map_data import origin_map_data    # 后续通过api获取前端传递的数据
 
 
 #step0 调度接到外部的开始请求，传入初始地图，传入初始角色，传入计算信息
@@ -58,8 +61,11 @@ class schedule:
 
         pass
 
+# 如何用，您这里修改
+map = BuildPatrol.build_map(origin_map_data)    # map
+heros = BuildPatrol.build_heros(origin_hero_data)  # heros
 
-def schedule_api(state_init,hero_init,claculate_info):
+def schedule_api(state_init, hero_init,claculate_info):
     sch=schedule(hero_list,state,claculate_info)
     sch.start()
     sch.run()

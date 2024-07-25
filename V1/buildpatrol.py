@@ -16,7 +16,7 @@ from test_map_data import origin_map_data
 class BuildPatrol():
     
     @staticmethod
-    def build_heros():  # 返回英雄的对象
+    def build_heros(origin_hero_data):  # 返回英雄的对象
         heros = []
         for each in origin_hero_data:
             _hero = Hero(**each)
@@ -31,7 +31,7 @@ class BuildPatrol():
         return heros
 
     @staticmethod
-    def build_map():  # 返回加载地块的MAP对象
+    def build_map(origin_map_data):  # 返回加载地块的MAP对象
         map = Map(*Map.find_map_size(origin_map_data))
         for each in origin_map_data:
             position = each.get("position")
@@ -46,6 +46,6 @@ class BuildPatrol():
 
         
 if __name__ == "__main__":
-    map = BuildPatrol.build_map()    # map
-    heros = BuildPatrol.build_heros()  # heros
+    map = BuildPatrol.build_map(origin_map_data)    # map
+    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monsters = BuildPatrol.build_monster()# monster 
