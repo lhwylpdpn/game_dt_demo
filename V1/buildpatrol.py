@@ -27,6 +27,7 @@ class BuildPatrol():
                     skill_effect =SkillEffect(**each_skill_effect)
                     skill_detail.effects_add(skill_effect)
                 getattr(_hero, f"set_skid{i}")(skill_detail)
+            # pprint(_hero.dict_short())
             heros.append(_hero)
         return heros
 
@@ -46,6 +47,7 @@ class BuildPatrol():
 
         
 if __name__ == "__main__":
-    map = BuildPatrol.build_map(origin_map_data)    # map
+    #map = BuildPatrol.build_map(origin_map_data)    # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    monsters = BuildPatrol.build_monster()# monster 
+    #monsters = BuildPatrol.build_monster()# monster 
+    

@@ -87,7 +87,10 @@ class Hero():
         
         # position 位置
         self.__position = kwargs.get("position")                    #  坐标
-
+    
+    def dict_short(self):
+        fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skid0"]
+        return self.dict(fields)
     
     def dict(self, fields=[]):
         if not fields:
