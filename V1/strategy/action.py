@@ -110,7 +110,7 @@ class Action(object):
 
 
 if __name__ == '__main__':
-    from auto_fight.tree.constant import HERO, ENEMY_A, ENEMY_B, MAPS
+    from V1.strategy.handler.constant import HERO, ENEMY_A, ENEMY_B, MAPS
 
     hero = HERO
     maps = MAPS
