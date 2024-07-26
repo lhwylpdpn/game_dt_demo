@@ -13,8 +13,8 @@ class Game(object):
     def action(self, step):
         Action().run_action(step)
 
-    def get_current_alive_hero(self, heroes):
-        heroes_data = heroes.now_data()
+    def get_current_alive_hero(self):
+        return [h for h in self.hero if not h.is_death()]
 
     def get_current_state(self):
         return {"hero": self.hero, "monster": self.monster, "map": self.maps}
