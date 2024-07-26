@@ -47,7 +47,8 @@ class BuildPatrol():
 
         
 if __name__ == "__main__":
-    #map = BuildPatrol.build_map(origin_map_data)    # map
-    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    map = BuildPatrol.build_map(origin_map_data)    # map
+    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     #monsters = BuildPatrol.build_monster()# monster 
+    map.list_land_postion()
     

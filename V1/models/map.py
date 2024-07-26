@@ -34,6 +34,11 @@ class Map(): # 地图
         df = pd.DataFrame(postion_list)
         x, y, z = list(df.max())
         return x+1, y+1, z+1 
+    
+    def list_land_postion(self):
+        a = pd.DataFrame(np.nonzero(self.map))
+        return np.array(a.T.values.tolist()).tolist()
+        
 
 
 class Land(): # 地块
