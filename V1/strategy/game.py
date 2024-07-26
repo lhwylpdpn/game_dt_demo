@@ -2,8 +2,6 @@
 # @Author  : Bin
 # @Time    : 2024/7/22 10:59
 from V1.strategy.action import Action
-from V1.strategy.handler.func import Func
-from auto_fight.tree.constant import HERO, ENEMY_A, ENEMY_B
 
 
 class Hero(object):
