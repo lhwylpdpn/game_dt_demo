@@ -3,6 +3,7 @@ origin_hero_data = [
         "sn": 3,
         "HeroID": 11003,
         "Name": "法系女主",
+        "max_step":2,
         "protagonist": 1,
         "BaseClassID": [
             10005,
@@ -83,6 +84,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\fangyu3",
                 "SkillSpine": "",
                 "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
+                "range": 2,
                 "effects": [
                     {
                         "id": 1,
@@ -101,6 +103,7 @@ origin_hero_data = [
         "HeroID": 4028,
         "Name": "芙蕾娅",
         "protagonist": 0,
+        "max_step":2,
         "BaseClassID": [
             10007,
             10008
@@ -182,6 +185,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\skill\\cike1",
                 "SkillSpine": "",
                 "effecDescribe": "弱点打击伤害增加<color=#faa755>10%</color>",
+                "range": 2,
                 "effects": [
                     {
                         "id": 1,
@@ -208,6 +212,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\gongji5",
                 "SkillSpine": "",
                 "effecDescribe": "怪物技能，使用藤条进行攻击。",
+                "range": 2,
                 "effects": [
                     {
                         "id": 1,
@@ -226,6 +231,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\fangyu3",
                 "SkillSpine": "",
                 "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
+                "range": 2,
                 "effects": [
                     {
                         "id": 1,
