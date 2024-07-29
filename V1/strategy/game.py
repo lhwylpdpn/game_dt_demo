@@ -14,14 +14,10 @@ class Game(object):
         Action().run_action(step)
 
     def get_current_alive_hero(self):
-        return [h for h in self.hero if not h.is_death()]
+        return [h for h in self.hero if not h.is_death()] + [m for m in self.monster if not m.is_death()]
 
     def get_current_state(self):
         return {"hero": self.hero, "monster": self.monster, "map": self.maps}
 
     def start(self, heroes, enemies, maps):
         pass
-
-
-if __name__ == '__main__':
-    f = Game()

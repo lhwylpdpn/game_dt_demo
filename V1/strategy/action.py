@@ -31,7 +31,7 @@ class Action(object):
         hero_skills = hero["skills"]
         hero_position = hero["position"]
         hero_max_step = hero["max_step"]
-        hero_normal_attack_range = hero["normal_attack_range"]
+        hero_normal_attack_range = hero["AtkDistance"][1]
 
         if SkillFunc().has_attack_skill_available(hero_skills):
             res, move_queue, attack = SelfFunc().can_skill_attack_multiple_enemies(
@@ -57,7 +57,7 @@ class Action(object):
         hero_position = hero["position"]
         hero_max_step = hero["max_step"]
         boss = [enemies[0]]   # TODO 假设BOSS
-        hero_normal_attack_range = hero["normal_attack_range"]
+        hero_normal_attack_range = hero["AtkDistance"][1]
 
         if DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies):
             res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
