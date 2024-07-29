@@ -85,6 +85,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\fangyu3",
                 "SkillSpine": "",
                 "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
+                "skill_type": "Attack",
                 "range": 2,
                 "effects": [
                     {
@@ -187,6 +188,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\skill\\cike1",
                 "SkillSpine": "",
                 "effecDescribe": "弱点打击伤害增加<color=#faa755>10%</color>",
+                "skill_type": "Attack",
                 "range": 2,
                 "effects": [
                     {
@@ -233,6 +235,7 @@ origin_hero_data = [
                 "SkillIcon": "texture/icon\\skill\\fangyu3",
                 "SkillSpine": "",
                 "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
+                "skill_type": "Attack",
                 "range": 2,
                 "effects": [
                     {

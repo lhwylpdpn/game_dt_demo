@@ -51,6 +51,7 @@ origin_monster_data = {
             "SkillLev": 1,
             "SkillSpine": "",
             "range":2,
+            "skill_type": "Attack",
             "effects": [
                 {
                     "id": 1,

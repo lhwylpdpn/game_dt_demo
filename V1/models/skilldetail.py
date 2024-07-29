@@ -15,6 +15,7 @@ class SkillDetail():
         self.__SkillIcon = kwargs.get("SkillIcon", None)
         self.__SkillSpine	= kwargs.get("SkillSpine", None)
         self.__effecDescribe	= kwargs.get("effecDescribe", None)
+        self.__skill_type = kwargs.get("skill_type", None)
         self.__range = kwargs.get("range", None)
         self.__effects = []
         self.init_data = kwargs
@@ -85,6 +86,14 @@ class SkillDetail():
     
     def set_effecDescribe(self, v):
         self.__effecDescribe = v
+        return self
+
+    @property
+    def skill_type(self):
+        return self.__skill_type
+    
+    def set_skill_type(self, v):
+        self.__skill_type = v
         return self
 
     @property
