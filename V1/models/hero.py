@@ -20,6 +20,8 @@ class Hero():
         self.__sn = kwargs.get("sn", None)                         #sn
         self.__HeroID = kwargs.get("HeroID", None)
         self.__Name = kwargs.get("Name", None)
+        self.__max_step = kwargs.get("max_step", None)
+        self.__normal_attack_range = kwargs.get("normal_attack_range", None) 
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
         self.__BaseClassID = kwargs.get("BaseClassID", [])
         self.__race = kwargs.get("race", None)                     #种族
@@ -85,7 +87,7 @@ class Hero():
         self.__position = kwargs.get("position")                    #  坐标
     
     def dict_short(self):
-        fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills"]
+        fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills", "max_step", "normal_attack_range"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
@@ -123,7 +125,23 @@ class Hero():
     def set_Name(self, v):
         self.__Name = v
         return self
+
+    @property
+    def max_step(self): # 
+        return self.__max_step
     
+    def set_max_step(self, v):
+        self.__max_step = v
+        return self
+
+    @property
+    def normal_attack_range(self): # 
+        return self.__normal_attack_range
+    
+    def set_normal_attack_range(self, v):
+        self.__normal_attack_range = v
+        return self
+
     @property
     def protagonist(self): # 
         return self.__protagonist

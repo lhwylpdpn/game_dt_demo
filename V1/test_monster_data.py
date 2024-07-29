@@ -7,6 +7,8 @@ origin_monster_data = {
     "Clazz": 2,
     "Features": 0,
     "Level": 1,
+    "max_step":2,
+    "normal_attack_range":2,
     "natures": [
 
     ],
@@ -48,6 +50,7 @@ origin_monster_data = {
             "SkillId": 30,
             "SkillLev": 1,
             "SkillSpine": "",
+            "range":2,
             "effects": [
                 {
                     "id": 1,
