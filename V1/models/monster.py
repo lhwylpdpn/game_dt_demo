@@ -689,9 +689,7 @@ class Monster():
         return self.__position
     
     def move_position(self,x,y,z):
-        return self.set_p_x(x)
-                   .set_p_y(y)
-                   .set_p_z(z)
+        return self.set_p_x(x).set_p_y(y).set_p_z(z)
     
     def attack(self): # 攻击
         # TODO
@@ -716,6 +714,7 @@ class Monster():
         # TODO  调用伤害函数
         # self 自己属性的改变
         # 敌人攻击的改变
+        return
 
 
     def skill_attach(self, enemys, position): #技能攻击
@@ -723,3 +722,4 @@ class Monster():
         # self 自己属性的改表
         # 敌人属性的改变
         # 地块的改变
+        return
