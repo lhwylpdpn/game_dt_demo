@@ -5,12 +5,14 @@
 """
 from pprint import pprint
 from models.hero import Hero
+from models.monster import Monster
 from models.skill import Skill
 from models.skilldetail import SkillDetail
 from models.skilleffect import SkillEffect
 from models.map import Map, Land
 from test_hero_data import origin_hero_data
 from test_map_data import origin_map_data
+from test_monster_data import origin_monster_data
 
 
 class BuildPatrol():
@@ -20,13 +22,15 @@ class BuildPatrol():
         heros = []
         for each in origin_hero_data:
             _hero = Hero(**each)
-            for i in range(len(each.get("skills"))):
-                each_skill_data = each.get("skills")[i]
-                skill_detail = SkillDetail(**each_skill_data)
-                for each_skill_effect in each_skill_data.get("effects"):
-                    skill_effect =SkillEffect(**each_skill_effect)
+            skills = []
+            for skill in each.get("skills"):
+                skill_detail = SkillDetail(**skill)
+                for each_skill_effect in skill.get("effects"):
+                    skill_effect = SkillEffect(**each_skill_effect)
                     skill_detail.effects_add(skill_effect)
-                getattr(_hero, f"set_skid{i}")(skill_detail)
+                skills.append(skill_detail)
+            _hero.set_skills(skills)
+                # getattr(_hero, f"set_skid{i}")(skill_detail)
             # pprint(_hero.dict_short())
             heros.append(_hero)
         return heros
@@ -42,13 +46,23 @@ class BuildPatrol():
         return map
     
     @staticmethod
-    def build_monster(): # 返回monster的对象
-        return
+    def build_monster(origin_monster_data): # 返回monster的对象
+        monster = Monster(**origin_monster_data)
+        skills = []
+        for skill in origin_monster_data.get("skills"):
+            skill_detail = SkillDetail(**skill)
+            for each_skill_effect in skill.get("effects"):
+                skill_effect = SkillEffect(**each_skill_effect)
+                skill_detail.effects_add(skill_effect)
+            skills.append(skill_detail)
+        monster.set_skills(skills)
+        return monster
 
         
 if __name__ == "__main__":
-    map = BuildPatrol.build_map(origin_map_data)    # map
+    #map = BuildPatrol.build_map(origin_map_data)    # map
     #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    #monsters = BuildPatrol.build_monster()# monster 
-    map.list_land_postion()
-    
+    monster = BuildPatrol.build_monster(origin_monster_data)# monster 
+    #map.list_land_postion()
+    #print(heros[0].dict_short())
+    print(monster.dict_short())

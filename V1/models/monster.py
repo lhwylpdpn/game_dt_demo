@@ -1,42 +1,39 @@
 # -*- coding:utf-8 -*-
 """
 author : HU
-date: 2024-07-18
+date: 2024-07-26
 """
 import json
 
-class Hero():
+class Monster():
     
     def __init__(self, **kwargs):
-        # 初始数据留存为后续重新初始化做准备
-        # 行动力增加自增的函数
-        # 移动 - 连带地块对hero属性营销
-        # 攻击地块，敌人 - 连带地块
-        #
-        # skill攻击 - 地块，敌人
-        # buff 
 
         # 基本属性
         self.__sn = kwargs.get("sn", None)                         #sn
-        self.__HeroID = kwargs.get("HeroID", None)
+        self.__MonsterId = kwargs.get("MonsterId", None)
+        self.__MonsterClass = kwargs.get("MonsterClass", None)
         self.__Name = kwargs.get("Name", None)
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
-        self.__BaseClassID = kwargs.get("BaseClassID", [])
-        self.__race = kwargs.get("race", None)                     #种族
-        self.__attributetype = kwargs.get("attributetype", None)   #属性
-        self.__Quality = kwargs.get("Quality", None)               #英雄的稀有度
+        self.__Rank = kwargs.get("Rank", None)                     #
         self.__clazz = kwargs.get("clazz", None)                   #职业 1射手 2战士 3法师 4治疗 5刺客 6辅助 7坦克
-        self.__Weapon = kwargs.get("Weapon", None)                 #武器
+        self.__Weapons = kwargs.get("Weapons", None)                 #武器
         self.__WeaponsId = kwargs.get("WeaponsId", None)           #武器ID
+        self.__ApproachEffect = kwargs.get("ApproachEffect", None) 
+        self.__Duration = kwargs.get("Duration", None) 
+        self.__exp = kwargs.get("exp", None) 
         self.__levMax = kwargs.get("levMax", None)                 #等级上限
         self.__AvailableSkills = kwargs.get("AvailableSkills", []) # 可用的技能
-        self.__Features = kwargs.get("Features", None)        #
-        self.__RoundAction = kwargs.get("RoundAction", None)  # 
-        self.__JumpHeight = kwargs.get("JumpHeight", [])   # 跳跃的高度 
+        self.__Features = kwargs.get("Features", None)
+        self.__Level = kwargs.get("Level", None)                   # 
+        
+        self.__RoundAction = kwargs.get("RoundAction", None)       # 
+        self.__JumpHeight = kwargs.get("JumpHeight", [])           # 跳跃的高度 
+        self.__SpecialItems = kwargs.get("SpecialItems", []) 
+        
         self.__skills =  kwargs.get("skills", [])           # 技能
         self.__natures = kwargs.get("natures", [])         #支持的性格
         self.__medals = kwargs.get("medals", None)         #支持的奖章
-        self.__rankBase = kwargs.get("rankBase", None)     #初始品质
         self.__rankMax = kwargs.get("rankMax", None)       #品质上限
         self.__rankname = kwargs.get("rankname", None)     #品质名称
         # 初始数值
@@ -48,6 +45,13 @@ class Hero():
         self.__Strength = kwargs.get("Strength", None)               #力量-初始
         self.__Agile = kwargs.get("Agile", None)                     #敏捷-初始
         self.__Velocity = kwargs.get("Velocity", None)               #速度-初始   行动力
+        self.__HateRange = kwargs.get("HateRange", None)
+        self.__Counterattack = kwargs.get("Counterattack", None)
+        self.__ForwardShake = kwargs.get("ForwardShake", None)
+        self.__HitForwardShake = kwargs.get("HitForwardShake", None)
+        self.__AttributetypeIcon = kwargs.get("AttributetypeIcon", None)
+        
+        
         self.__spBase = kwargs.get("spBase", None)                   #必杀能量值-初始
         self.__critBase = kwargs.get("critBase", None)               #暴击率-初始
         self.__critDmgBase = kwargs.get("critDmgBase", None)         #暴击伤害-初始
@@ -64,28 +68,13 @@ class Hero():
         self.__hateBase = kwargs.get("hateBase", {})                           # 仇恨
         self.__luckyBase = kwargs.get("luckyBase", None)                       # 运气
         self.__smartBase = kwargs.get("smartBase", None)                       # 灵巧
-        # 成长数值
-        self.__hpgrow = kwargs.get("hpgrow", [])                  #生命成长
-        self.__atkgrow = kwargs.get("atkgrow", [])                #攻击成长
-        self.__defgrow = kwargs.get("defgrow", [])                #防御成长
-        self.__StrengthRow = kwargs.get("StrengthRow", [])        #力量成长
-        self.__AgileRow = kwargs.get("AgileRow", [])              #敏捷成长
-        self.__VelocityGrow = kwargs.get("VelocityGrow", [])      #速度成长
-        self.__MagicalDefGrow = kwargs.get("MagicalDefGrow", [])  #魔法防御成长
-        
-        # other
-        self.__Lines = kwargs.get("Lines", None)                    #触发台词
-        self.__outCastle = kwargs.get("outCastle", None)            #能否带出关卡
-        self.__openingRemarks = kwargs.get("openingRemarks", None)  #开场白
-        self.__isRandom = kwargs.get("isRandom", None)              #0, 不是随机 1, 随机
-        self.__isRecruitDrop = kwargs.get("isRecruitDrop", None)    #是否抽卡掉落0-不掉落,1-掉落
         self.init_data = kwargs
         
         # position 位置
         self.__position = kwargs.get("position")                    #  坐标
     
     def dict_short(self):
-        fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills"]
+        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
@@ -109,11 +98,19 @@ class Hero():
         return self
     
     @property
-    def HeroID(self): # 
-        return self.__HeroID
+    def MonsterId(self): # 
+        return self.__MonsterId
     
-    def set_HeroID(self, HeroID):
-        self.__HeroID = HeroID
+    def set_MonsterId(self, MonsterId):
+        self.__MonsterId = MonsterId
+        return self
+    
+    @property
+    def MonsterClass(self): # 
+        return self.__MonsterClass
+    
+    def set_MonsterClass(self, v):
+        self.__MonsterClass = v
         return self
     
     @property
@@ -130,6 +127,14 @@ class Hero():
     
     def set_protagonist(self, v):
         self.__protagonist = v
+        return self
+    
+    @property
+    def Rank(self): # 
+        return self.__Rank
+    
+    def set_Rank(self, v):
+        self.__Rank = v
         return self
     
     @property
@@ -173,11 +178,11 @@ class Hero():
         return self
     
     @property
-    def Weapon(self):
-        return self.__Weapon
+    def Weapons(self):
+        return self.__Weapons
     
-    def set_Weapon(self, Weapon):
-        self.__Weapon = Weapon
+    def set_Weapons(self, v):
+        self.__Weapons = v
         return self
     
     @property
@@ -186,6 +191,30 @@ class Hero():
     
     def set_WeaponsId(self, WeaponsId):
         self.__WeaponsId = WeaponsId
+        return self
+    
+    @property
+    def ApproachEffect(self):
+        return self.__ApproachEffect
+    
+    def set_ApproachEffect(self, v):
+        self.__ApproachEffect = v
+        return self
+    
+    @property
+    def Duration(self):
+        return self.__Duration
+    
+    def set_Duration(self, v):
+        self.__Duration = v
+        return self
+    
+    @property
+    def exp(self):
+        return self.__exp
+    
+    def set_exp(self, v):
+        self.__exp = v
         return self
     
     @property
@@ -229,6 +258,14 @@ class Hero():
         return self
     
     @property
+    def SpecialItems(self):
+        return self.__SpecialItems
+    
+    def set_SpecialItems(self, v):
+        self.__SpecialItems = v
+        return self
+    
+    @property
     def skills(self):
         return self.__skills
     
@@ -239,6 +276,7 @@ class Hero():
     def skills_add(self, skill):
         self.__skills.append(skill)
         return self
+    
     
     @property
     def natures(self):
@@ -338,6 +376,46 @@ class Hero():
     
     def set_Velocity(self, Velocity):
         self.__Velocity = Velocity
+        return self
+    
+    @property
+    def HateRange(self):
+        return self.__HateRange
+    
+    def set_HateRange(self, HateRange):
+        self.__HateRange = HateRange
+        return self
+    
+    @property
+    def Counterattack(self):
+        return self.__Counterattack
+    
+    def set_Counterattack(self, v):
+        self.__Counterattack = v
+        return self
+    
+    @property
+    def ForwardShake(self):
+        return self.__ForwardShake
+    
+    def set_ForwardShake(self, v):
+        self.__ForwardShake = v
+        return self
+
+    @property
+    def HitForwardShake(self):
+        return self.__HitForwardShake
+    
+    def set_HitForwardShake(self, v):
+        self.__HitForwardShake = v
+        return self
+    
+    @property
+    def AttributetypeIcon(self):
+        return self.__AttributetypeIcon
+    
+    def set_AttributetypeIcon(self, v):
+        self.__AttributetypeIcon = v
         return self
     
     @property
