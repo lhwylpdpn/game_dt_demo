@@ -6,7 +6,13 @@ from V1.strategy.action import Action
 
 class Agent(object):
 
-    def choice_hero_act(self, hero, enemies, maps):
+    def choice_hero_act(self, hero, state):
+        hero = hero.dict_short()
+        enemies = [_.dict_short() for _ in state["monster"]]
+        maps = state["map"].list_land_postion()
+        print("hero:", hero)
+        print("enemies:", enemies)
+        print("maps:", maps)
         return Action().hero_action(hero, enemies, maps)
 
     def choice_monster_act(self):
