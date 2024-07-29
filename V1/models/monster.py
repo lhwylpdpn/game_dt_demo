@@ -15,6 +15,7 @@ class Monster():
         self.__MonsterClass = kwargs.get("MonsterClass", None)
         self.__Name = kwargs.get("Name", None)
         self.__max_step = kwargs.get("max_step", None)
+        self.__normal_attach_range = kwargs.get("normal_attach_range", None) 
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
         self.__Rank = kwargs.get("Rank", None)                     #
         self.__clazz = kwargs.get("clazz", None)                   #职业 1射手 2战士 3法师 4治疗 5刺客 6辅助 7坦克
@@ -75,7 +76,7 @@ class Monster():
         self.__position = kwargs.get("position")                    #  坐标
     
     def dict_short(self):
-        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step"]
+        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step", "normal_attach_range"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
@@ -129,7 +130,15 @@ class Monster():
     def set_max_step(self, v):
         self.__max_step = v
         return self
-
+    
+    @property
+    def normal_attach_range(self): # 
+        return self.__normal_attach_range
+    
+    def set_normal_attach_range(self, v):
+        self.__normal_attach_range = v
+        return self
+   
     @property
     def protagonist(self): # 
         return self.__protagonist
