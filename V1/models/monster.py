@@ -15,7 +15,7 @@ class Monster():
         self.__MonsterClass = kwargs.get("MonsterClass", None)
         self.__Name = kwargs.get("Name", None)
         self.__max_step = kwargs.get("max_step", None)
-        self.__normal_attach_range = kwargs.get("normal_attach_range", None) 
+        self.__normal_attack_range = kwargs.get("normal_attack_range", None) 
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
         self.__Rank = kwargs.get("Rank", None)                     #
         self.__clazz = kwargs.get("clazz", None)                   #职业 1射手 2战士 3法师 4治疗 5刺客 6辅助 7坦克
@@ -76,7 +76,7 @@ class Monster():
         self.__position = kwargs.get("position")                    #  坐标
     
     def dict_short(self):
-        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step", "normal_attach_range"]
+        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step", "normal_attack_range"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
@@ -132,11 +132,11 @@ class Monster():
         return self
     
     @property
-    def normal_attach_range(self): # 
-        return self.__normal_attach_range
+    def normal_attack_range(self): # 
+        return self.__normal_attack_range
     
-    def set_normal_attach_range(self, v):
-        self.__normal_attach_range = v
+    def set_normal_attack_range(self, v):
+        self.__normal_attack_range = v
         return self
    
     @property
@@ -689,7 +689,9 @@ class Monster():
         return self.__position
     
     def move_position(self,x,y,z):
-        return self.set_p_x(x).set_p_y(y).set_p_z(z)
+        return self.set_p_x(x)
+                   .set_p_y(y)
+                   .set_p_z(z)
     
     def attack(self): # 攻击
         # TODO
@@ -706,27 +708,18 @@ class Monster():
     def is_death(self):
         return self.Hp <= 0 
     
-    def use_skill0(self):
+    def use_skill(self):
         # TODO
         return self
     
-    def use_skill1(self):
-        # TODO
-        return self
-    
-    def use_skill2(self):
-        # TODO
-        return self
-    
-    def use_skill3(self):
-        # TODO
-        return self
-    
-    def use_skill4(self):
-        
-        # TODO
-        return self
-    
-    def calculate_attach(self, *args): # 传入涉及到伤害的对象
-        # TODO
-        return
+    def normal_attach(self, enemys): #正常攻击 
+        # TODO  调用伤害函数
+        # self 自己属性的改变
+        # 敌人攻击的改变
+
+
+    def skill_attach(self, enemys, position): #技能攻击
+        # TODO 调用攻击伤害函数
+        # self 自己属性的改表
+        # 敌人属性的改变
+        # 地块的改变

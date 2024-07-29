@@ -4,7 +4,7 @@ origin_hero_data = [
         "HeroID": 11003,
         "Name": "法系女主",
         "max_step":2,
-        "normal_attach_range":2,
+        "normal_attack_range":2,
         "protagonist": 1,
         "BaseClassID": [
             10005,
@@ -105,7 +105,7 @@ origin_hero_data = [
         "Name": "芙蕾娅",
         "protagonist": 0,
         "max_step":2,
-        "normal_attach_range":2,
+        "normal_attack_range":2,
         "BaseClassID": [
             10007,
             10008
