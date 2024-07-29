@@ -7,7 +7,8 @@ class SkillFunc(object):
     def can_heal_skill(skills):
         # 是否有回血技能 TODO 写死
         for s in skills:
-            if s["skill_type"] == "Recovery" and s["remainingUses"] > 0:
+            # if s["skill_type"] == "Recovery" and s["remainingUses"] > 0:
+            if s["skill_type"] == "Recovery":
                 return True
         return False
 
@@ -15,7 +16,8 @@ class SkillFunc(object):
     def has_attack_skill_available(skills):
         # 是否有可用攻击技能
         for s in skills:
-            if s["skill_type"] == "Attack" and s["remainingUses"] > 0:
+            # if s["skill_type"] == "Attack" and s["remainingUses"] > 0:
+            if s["skill_type"] == "Attack":
                 return True
         return False
 

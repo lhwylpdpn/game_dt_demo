@@ -31,7 +31,7 @@ class Action(object):
         hero_skills = hero["skills"]
         hero_position = hero["position"]
         hero_max_step = hero["max_step"]
-        hero_normal_attack_range = hero["AtkDistance"][1]
+        hero_normal_attack_range = hero["normal_attach_range"]
 
         if SkillFunc().has_attack_skill_available(hero_skills):
             res, move_queue, attack = SelfFunc().can_skill_attack_multiple_enemies(
@@ -57,21 +57,21 @@ class Action(object):
         hero_position = hero["position"]
         hero_max_step = hero["max_step"]
         boss = [enemies[0]]   # TODO 假设BOSS
-        hero_normal_attack_range = hero["AtkDistance"][1]
+        hero_normal_attack_range = hero["normal_attach_range"]
 
         if DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies):
             res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
             )
             print("警戒范围内有敌方单位: ", move_queue)
-            return True, {"action_type": "move", "steps": move_queue}
+            return True, [{"action_type": "move", "steps": move_queue}]
 
         else:
             res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, boss, maps, hero_max_step
             )
             print("警戒范围无有敌方单位， 向boss地点移动:", move_queue)
-            return True, {"action_type": "move", "steps": move_queue}
+            return True, [{"action_type": "move", "steps": move_queue}]
 
     def hero_action(self, hero, enemies, maps):
         tf, steps = self.heal(hero, enemies, maps)
