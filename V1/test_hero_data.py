@@ -217,6 +217,7 @@ origin_hero_data = [
                 "SkillSpine": "",
                 "effecDescribe": "怪物技能，使用藤条进行攻击。",
                 "range": 2,
+                "coefficient": 20,
                 "effects": [
                     {
                         "id": 1,
@@ -237,6 +238,7 @@ origin_hero_data = [
                 "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
                 "skill_type": "Attack",
                 "range": 2,
+                "coefficient": 20,
                 "effects": [
                     {
                         "id": 1,

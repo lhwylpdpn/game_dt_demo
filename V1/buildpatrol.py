@@ -56,13 +56,14 @@ class BuildPatrol():
                 skill_detail.effects_add(skill_effect)
             skills.append(skill_detail)
         monster.set_skills(skills)
-        return [monster,]
+        return monster
 
         
 if __name__ == "__main__":
-    #map = BuildPatrol.build_map(origin_map_data)    # map
-    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    monster = BuildPatrol.build_monster(origin_monster_data)# monster 
+    map = BuildPatrol.build_map(origin_map_data)    # map
+    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    #monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     #map.list_land_postion()
-    print(heros[1].dict_short())
+    #print(heros[1].dict_short())
     #print(monster[0].dict_short())
+    print(map.dict())

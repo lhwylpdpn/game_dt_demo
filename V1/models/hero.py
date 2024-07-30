@@ -4,6 +4,7 @@ author : HU
 date: 2024-07-18
 """
 import json
+from utils.damage import damage
 
 class Hero():
     
@@ -35,7 +36,7 @@ class Hero():
         self.__Features = kwargs.get("Features", None)        #
         self.__RoundAction = kwargs.get("RoundAction", None)  # 
         self.__JumpHeight = kwargs.get("JumpHeight", [])   # 跳跃的高度 
-        self.__skills =  kwargs.get("skills", [])           # 技能
+        self.__skills =  kwargs.get("skills", [])          # 技能
         self.__natures = kwargs.get("natures", [])         #支持的性格
         self.__medals = kwargs.get("medals", None)         #支持的奖章
         self.__rankBase = kwargs.get("rankBase", None)     #初始品质
@@ -649,6 +650,15 @@ class Hero():
         # TODO
         return self
     
-    def calculate_attach(self, *args): # 传入涉及到伤害的对象
-        # TODO
-        return
+    def func_attack(self, enemys=[], skill=None): #技能攻击
+        # TODO 调用攻击伤害函数
+        # self 自己属性的改表
+        # 敌人属性的改变
+        # 地块的改变
+        if not isinstance(list, enemys):
+            enemys = [enemys, ]
+        for each in enemys:
+            result = damage(attacker=self, defender=enemys, skill=skill)
+            _t_hp = each.Hp - result
+            each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
+        return self

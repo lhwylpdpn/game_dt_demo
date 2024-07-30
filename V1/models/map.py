@@ -22,6 +22,15 @@ class Map(): # 地图
     def view_from_y(self):
         return np.max(self.map, axis=1)
     
+    def dict(self):
+        data = []
+        for each_postion in self.list_land_postion():
+            x,y,z = each_postion
+            land = self.map[x,y,z]
+            if isinstance(land, Land):
+                data.append(land.dict())
+        return data
+    
     def load_land(self,x,y,z, land): # 加载地块
         self.map[x,y,z] = land
         return self
@@ -33,6 +42,7 @@ class Map(): # 地图
             postion_list.append(each.get('position'))
         df = pd.DataFrame(postion_list)
         x, y, z = list(df.max())
+        print(x, y, z)
         return x+1, y+1, z+1 
     
     def list_land_postion(self):
@@ -53,6 +63,11 @@ class Land(): # 地块
         self.__DestroyState = kwargs.get("DestroyState", [])
         self.__DestroyHp = kwargs.get("DestroyHp", None)
         self.__effects = kwargs.get("effects", [])
+    
+    def dict(self, fields=[]):
+        fields = ["position", "sn", "PlotDescription", "Ap", "Block", "DestroyEffectsId", "DestroyState", "DestroyHp", "effects"]
+        data = {field: self.__getattribute__(field) for field in fields}
+        return data
     
     def __gt__(self, other):
         if isinstance(other, Land):
