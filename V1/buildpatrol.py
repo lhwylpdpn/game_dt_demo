@@ -43,7 +43,7 @@ class BuildPatrol():
             land = Land(**each)
             map.load_land(*position, land)
         # pprint(map.view_from_y())
-        return map
+        return [map,]
     
     @staticmethod
     def build_monster(origin_monster_data): # 返回monster的对象
@@ -56,7 +56,7 @@ class BuildPatrol():
                 skill_detail.effects_add(skill_effect)
             skills.append(skill_detail)
         monster.set_skills(skills)
-        return monster
+        return [monster,]
 
         
 if __name__ == "__main__":
