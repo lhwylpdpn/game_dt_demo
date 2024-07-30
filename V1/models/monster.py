@@ -709,7 +709,7 @@ class Monster():
         # self 自己属性的改表
         # 敌人属性的改变
         # 地块的改变
-        if not isinstance(list, enemys):
+        if not isinstance(enemys, list):
             enemys = [enemys, ]
         for each in enemys:
             result = damage(attacker=self, defender=enemys, skill=skill)
