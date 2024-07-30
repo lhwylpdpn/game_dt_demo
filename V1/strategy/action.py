@@ -117,7 +117,7 @@ class Action(object):
             skill = [s for s in hero.skills if s.SkillId == step["steps"]][0]
             attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
             print(f"使用技能[{skill}] 攻击敌人{attack_enemies_ids}")
-            hero.func_attack(skill, attack_enemies)
+            hero.func_attack(attack_enemies, skill)
 
     def run_action(self, steps, hero, monster):
         if isinstance(steps, dict):
