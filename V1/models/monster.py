@@ -155,6 +155,14 @@ class Monster():
     def set_Rank(self, v):
         self.__Rank = v
         return self
+
+    @property
+    def Level(self): # 
+        return self.__Level
+    
+    def set_Level(self, v):
+        self.__Level = v
+        return self
     
     @property
     def BaseClassID(self): # 

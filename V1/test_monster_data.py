@@ -19,6 +19,7 @@ origin_monster_data = {
         0,
         1
     ],
+    "dogBase":4,
     "Velocity": 150,
     "HateRange": 5,
     "Counterattack": 0,
