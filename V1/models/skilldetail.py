@@ -17,6 +17,7 @@ class SkillDetail():
         self.__effecDescribe	= kwargs.get("effecDescribe", None)
         self.__skill_type = kwargs.get("skill_type", None)
         self.__range = kwargs.get("range", None)
+        self.__coefficient = kwargs.get("coefficient", None)
         self.__effects = []
         self.init_data = kwargs
     
@@ -102,6 +103,14 @@ class SkillDetail():
     
     def set_range(self, v):
         self.__range = v
+        return self
+    
+    @property
+    def coefficient(self):
+        return self.__coefficient
+    
+    def set_coefficient(self, v):
+        self.__coefficient = v
         return self
     
     @property

@@ -4,6 +4,7 @@ author : HU
 date: 2024-07-26
 """
 import json
+from utils.damage import damage
 
 class Monster():
     
@@ -691,10 +692,6 @@ class Monster():
     def move_position(self,x,y,z):
         return self.set_p_x(x).set_p_y(y).set_p_z(z)
     
-    def attack(self): # 攻击
-        # TODO
-        return self
-    
     def move_close_enemy(self):
         # TODO
         return self
@@ -706,20 +703,16 @@ class Monster():
     def is_death(self):
         return self.Hp <= 0 
     
-    def use_skill(self):
-        # TODO
-        return self
-    
-    def normal_attach(self, enemys): #正常攻击 
-        # TODO  调用伤害函数
-        # self 自己属性的改变
-        # 敌人攻击的改变
-        return
 
-
-    def skill_attach(self, enemys, position): #技能攻击
+    def func_attack(self, enemys=[], skill=None): #技能攻击
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
         # 敌人属性的改变
         # 地块的改变
-        return
+        if not isinstance(list, enemys):
+            enemys = [enemys, ]
+        for each in enemys:
+            result = damage(attacker=self, defender=enemys, skill=skill)
+            _t_hp = each.Hp - result
+            each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
+        return self
