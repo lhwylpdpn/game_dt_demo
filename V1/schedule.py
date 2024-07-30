@@ -49,21 +49,18 @@ class schedule:
         state = self.game.get_current_state()
         alive_hero = self.game.get_current_alive_hero()
 
-        for hero in alive_hero:
-            print('hero1', hero.__class__.__name__.lower())
 
-        # print('tick',self.tick)
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
             alive_hero_name = hero.__class__.__name__.lower()
-            print('alive_hero_name', alive_hero_name)
+            print('schedule alive_hero_name', alive_hero_name)
             if self.tick % hero.Velocity == 0:
                 # 查看hero的队列
                 if hero.__class__.__name__.lower() == 'hero':
                     actions = self.agent_1.choice_hero_act(hero, state)
                 if hero.__class__.__name__.lower() == 'monster':
                     actions = self.agent_2.choice_monster_act(hero, state)
-                print('choose action', actions)
+                print('schedule choose action', actions)
                 for action in actions:
                     self.game.action(action)
                     new_state = self.game.get_current_state()
@@ -138,8 +135,8 @@ class schedule:
 
         update_dict={'hero':hero_update_dict,'map':map_update_dict,'monster':monster_update_dict}
         error_dict={'hero':hero_error_dict,'map':map_error_dict,'monster':monster_error_dict}
-        print('update_dict',update_dict)
-        print('error_dict',error_dict)
+        print('schedule after action update_dict',update_dict)
+        print('schedule after action error_dict',error_dict)
         self.record_update_dict[self.tick]=update_dict
         self.record_error_dict[self.tick]=error_dict
         self.action_dict[self.tick]=action
@@ -153,7 +150,10 @@ if __name__ == '__main__':
     monster = BuildPatrol.build_monster(origin_monster_data)
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
     sch.run()
-    print(sch.send_update())
+    update,action=sch.send_update()
+    for k,v in update.items():
+        print('schdule update给强爷的state',k,v)
+        print('schdule update给强爷的action',k,action[k])
 
 
 

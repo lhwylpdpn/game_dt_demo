@@ -1,13 +1,14 @@
 import random
 #准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage(attacker,defender,skill):
+
     if attacker.__class__.__name__.lower()=='hero':
         #英雄的属性
         attacker_HP=attacker.Hp
         attacker_Atk=attacker.Atk
         attacker_Def=defender.Def
         attacker_Velocity=attacker.Velocity
-        attacker_skill_coefficient=skill.coefficient
+        attacker_skill_coefficient=1#先写死
         attacker_x=attacker.x
         attacker_y=attacker.y
         attacker_z=attacker.z
