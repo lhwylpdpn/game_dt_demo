@@ -49,7 +49,10 @@ class Action(object):
                 )
                 if res:
                     # print(f"移动步骤：{move_queue}, 普通攻击：{attack}")
-                    return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "normal_attack", "steps": attack, "attack_enemies": attack_enemies}]
+                    move_step = [{"action_type": "move", "steps": m} for m in move_queue]
+                    move_step.append({"action_type": "normal_attack", "steps": attack, "attack_enemies": attack_enemies})
+                    return True, move_step
+                    # return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "normal_attack", "steps": attack, "attack_enemies": attack_enemies}]
 
         return False, {}
 
