@@ -663,8 +663,7 @@ class Hero():
             enemys = [enemys, ]
         for each in enemys:
             result = damage(attacker=self, defender=each, skill=skill)
-            self.set_hateBase(5, each.sn)
-            each.set_hateBase(5, self.sn)
+            each.set_hateBase(5, each.MonsterId)
             _t_hp = each.Hp - result
             print("Hp <before>: ", each.Hp)
             print("Hp <damaeg>: ", result)
