@@ -726,6 +726,7 @@ class Monster():
         for each in enemys:
             result = damage(attacker=self, defender=each, skill=skill)
             each.set_hateBase(8, self.MonsterId)
+            self.set_natures(['4','5','6'])
             _t_hp = each.Hp - result
             print("Hp <before>: ", each.Hp)
             print("Hp <damaeg>: ", result)
