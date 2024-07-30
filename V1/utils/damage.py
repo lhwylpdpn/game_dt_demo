@@ -1,8 +1,7 @@
 import random
 #准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage(attacker,defender,skill):
-
-    if attacker.__class__.__name__.lower()=='Hero':
+    if attacker.__class__.__name__.lower()=='hero':
         #英雄的属性
         attacker_HP=attacker.Hp
         attacker_Atk=attacker.Atk
@@ -13,7 +12,7 @@ def damage(attacker,defender,skill):
         attacker_y=attacker.y
         attacker_z=attacker.z
         attacker_critBase=attacker.critBase
-    if defender.__class__.__name__.lower()=='Monster':
+    if defender.__class__.__name__.lower()=='monster':
 
         #对手的属性
         defender_HP=defender.Hp
