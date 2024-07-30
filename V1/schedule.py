@@ -31,6 +31,9 @@ class schedule:
         self.agent_2 = agent()
         self.timeout_tick = 100000
         self.tick = 0
+        self.record_update_dict = {}
+        self.record_error_dict = {}
+        self.action_dict= {}
 
     def start(self):
         self.game.start()
@@ -106,18 +109,20 @@ class schedule:
 
 
         a_map_dict={}
-        for map in a_map:
-
-            a_map_dict[map.sn]=map.dict()
+        for i in range(len(a_map)):
+            a_map_dict[i]={}
+            for each in a_map[i].dict():
+                a_map_dict[i][each['sn']]=each
         b_map_dict={}
-        for map in b_map:
-            b_map_dict[map.sn]=map.dict()
+        for i in range(len(b_map)):
+            b_map_dict[i]={}
+            for each in b_map[i].dict():
+                b_map_dict[i][each['sn']]=each
 
         map_update_dict={k: a_map_dict[k] for k in a_map_dict if k in b_map_dict and a_map_dict[k] != b_map_dict[k]}
         map_error_dict_diff_a={k: a_map_dict[k] for k in a_map_dict if k not in b_map_dict}
         map_error_dict_diff_b={k: b_map_dict[k] for k in b_map_dict if k not in a_map_dict}
         map_error_dict={**map_error_dict_diff_a,**map_error_dict_diff_b}
-
 
         a_monster_dict={}
         for monster in a_monster:
@@ -135,6 +140,12 @@ class schedule:
         error_dict={'hero':hero_error_dict,'map':map_error_dict,'monster':monster_error_dict}
         print('update_dict',update_dict)
         print('error_dict',error_dict)
+        self.record_update_dict[self.tick]=update_dict
+        self.record_error_dict[self.tick]=error_dict
+        self.action_dict[self.tick]=action
+
+    def send_update(self):
+        return self.record_update_dict,self.action_dict
 
 if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
@@ -142,5 +153,7 @@ if __name__ == '__main__':
     monster = BuildPatrol.build_monster(origin_monster_data)
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
     sch.run()
+    print(sch.send_update())
+
 
 
