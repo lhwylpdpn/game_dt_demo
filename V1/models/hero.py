@@ -75,7 +75,7 @@ class Hero():
         self.__AgileRow = kwargs.get("AgileRow", [])              #敏捷成长
         self.__VelocityGrow = kwargs.get("VelocityGrow", [])      #速度成长
         self.__MagicalDefGrow = kwargs.get("MagicalDefGrow", [])  #魔法防御成长
-        
+         
         # other
         self.__Lines = kwargs.get("Lines", None)                    #触发台词
         self.__outCastle = kwargs.get("outCastle", None)            #能否带出关卡
