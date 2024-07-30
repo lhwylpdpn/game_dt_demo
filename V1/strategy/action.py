@@ -99,6 +99,7 @@ class Action(object):
             print("执行虎哥[加血]函数")
         if step["action_type"] == "move" and step["steps"]:
             print("执行虎哥[移动]函数")
+            hero.move_position(*step["steps"])
         if step["action_type"] == "normal_attack" and step["steps"]:
             print("执行虎哥[普通攻击]函数")
         if step["action_type"] == "skill_attack" and step["steps"]:
@@ -126,4 +127,4 @@ if __name__ == '__main__':
     f = Action()
     s = f.hero_action(hero, enemies, maps)
     print('-->', s)
-    f.run_action(s)
+    f.run_action(s, "", "")
