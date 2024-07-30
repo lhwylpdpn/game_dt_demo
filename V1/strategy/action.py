@@ -120,6 +120,7 @@ class Action(object):
             hero.func_attack(attack_enemies, skill)
 
     def run_action(self, steps, hero, monster):
+        print(f"本次行动步骤：{steps}")
         if isinstance(steps, dict):
             self.choose_action(steps, hero, monster)
         if isinstance(steps, list):
