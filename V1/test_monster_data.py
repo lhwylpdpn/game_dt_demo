@@ -4,7 +4,7 @@ origin_monster_data = {
     "MonsterClass": 1,
     "Name": "骷髅怪",
     "Rank": 1,
-    "Clazz": 2,
+    "clazz": 2,
     "Features": 0,
     "Level": 1,
     "max_step":2,
