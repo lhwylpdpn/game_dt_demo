@@ -39,7 +39,7 @@ class Action(object):
             )
 
             if res:
-                print(f"移动步骤：{move_queue}, 技能攻击：{attack}")
+                # print(f"移动步骤：{move_queue}, 技能攻击：{attack}")
                 move_step = [{"action_type": "move", "steps": m} for m in move_queue]
                 move_step.append({"action_type": "skill_attack", "steps": attack, "attack_enemies": attack_enemies})
                 return True, move_step
@@ -48,7 +48,7 @@ class Action(object):
                     hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
                 )
                 if res:
-                    print(f"移动步骤：{move_queue}, 普通攻击：{attack}")
+                    # print(f"移动步骤：{move_queue}, 普通攻击：{attack}")
                     return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "normal_attack", "steps": attack, "attack_enemies": attack_enemies}]
 
         return False, {}
@@ -65,13 +65,13 @@ class Action(object):
             res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
             )
-            print("警戒范围内有敌方单位: ", move_queue)
+            # print("警戒范围内有敌方单位: ", move_queue)
 
         else:
             res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, boss, maps, hero_max_step
             )
-            print("警戒范围无敌方单位， 向boss地点移动:", move_queue)
+            # print("警戒范围无敌方单位， 向boss地点移动:", move_queue)
 
         move_step = [{"action_type": "move", "steps": m} for m in move_queue]
         return True, move_step
@@ -120,6 +120,7 @@ class Action(object):
             hero.func_attack(attack_enemies, skill)
 
     def run_action(self, steps, hero, monster):
+        print(f"本次行动步骤：{steps}")
         if isinstance(steps, dict):
             self.choose_action(steps, hero, monster)
         if isinstance(steps, list):
