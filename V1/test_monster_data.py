@@ -30,9 +30,6 @@ origin_monster_data = {
     "WeaponsId": "10001",
     "ApproachEffect": 0,
     "Duration": 0,
-    "Skid1": 30,
-    "Skid2": 0,
-    "Skid3": 0,
     "exp": 0,
     "RoundAction": 6,
     "JumpHeight": [
