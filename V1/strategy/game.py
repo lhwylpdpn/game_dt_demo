@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/22 10:59
+from V1.buildpatrol import BuildPatrol
 from V1.strategy.action import Action
+from V1.test_hero_data import origin_hero_data
+from V1.test_map_data import origin_map_data
+from V1.test_monster_data import origin_monster_data
 
 
 class Game(object):
@@ -32,3 +36,22 @@ class Game(object):
 
     def start(self, heroes, enemies, maps):
         pass
+
+
+if __name__ == '__main__':
+    from V1.strategy.handler.constant import HERO, ENEMY_A, ENEMY_B, MAPS
+
+    hero = HERO
+    maps = MAPS
+    enemies = [ENEMY_A, ENEMY_B]
+
+
+    map = BuildPatrol.build_map(origin_map_data)  # map
+    heros = BuildPatrol.build_heros(hero)  # heros
+    monster = BuildPatrol.build_monster(enemies)
+
+    f = Game(heros, monster, map)
+
+    f2 = Action()
+    s = f2.hero_action(hero, enemies, maps)
+    print(s)

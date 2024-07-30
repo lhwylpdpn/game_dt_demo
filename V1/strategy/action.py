@@ -97,17 +97,27 @@ class Action(object):
     def choose_action(self, step, hero, monster):
         if step["action_type"] == "heal" and step["steps"]:
             print("执行虎哥[加血]函数")
+
         if step["action_type"] == "move" and step["steps"]:
-            print("执行虎哥[移动]函数")
+            print(f"英雄移动到{step['steps']}点位")
+            hero = [h for h in hero if h.protagonist == 1][0]
             hero.move_position(*step["steps"])
+
         if step["action_type"] == "normal_attack" and step["steps"]:
-            print("执行虎哥[普通攻击]函数")
+            attack_enemies_ids = [_["MonsterId"] for _ in step["attack_enemies"]]
+            hero = [h for h in hero if h.protagonist == 1][0]
+            skill = hero.skills[0]
+            attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
+            hero.func_attack(attack_enemies, skill)
+            print(f"使用普通攻击 攻击敌人{attack_enemies_ids}")
+
         if step["action_type"] == "skill_attack" and step["steps"]:
-            monster = [_["MonsterId"] for _ in monster]
-            skill = [s for s in hero.skills if s.SkillId == step["SkillId"]]
-            enemies = [e for e in monster if e.MonsterId in monster]
-            print(f"使用技能[{skill}] 攻击敌人{monster}")
-            hero.func_attack(skill, enemies)
+            attack_enemies_ids = [_["MonsterId"] for _ in step["attack_enemies"]]
+            hero = [h for h in hero if h.protagonist == 1][0]
+            skill = [s for s in hero.skills if s.SkillId == step["steps"]]
+            attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
+            print(f"使用技能[{skill}] 攻击敌人{attack_enemies_ids}")
+            hero.func_attack(skill, attack_enemies)
 
     def run_action(self, steps, hero, monster):
         if isinstance(steps, dict):
