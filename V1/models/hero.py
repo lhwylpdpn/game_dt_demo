@@ -468,7 +468,10 @@ class Hero():
         return self.__hateBase
     
     def set_hateBase(self, hateBase, sn): #对某个敌人的仇恨值
-        self.__hateBase[sn] = hateBase
+        if sn in self.__hateBase.keys():
+            self.__hateBase[sn] = hateBase + self.__hateBase[sn]
+        else:
+            self.__hateBase[sn] = hateBase
         return self
     
     @property
@@ -659,6 +662,7 @@ class Hero():
             enemys = [enemys, ]
         for each in enemys:
             result = damage(attacker=self, defender=each, skill=skill)
+            self.set_hateBase(5, each.sn)
             _t_hp = each.Hp - result
             print("Hp <before>: ", each.Hp)
             print("Hp <damaeg>: ", result)

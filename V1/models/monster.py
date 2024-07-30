@@ -554,7 +554,10 @@ class Monster():
         return self.__hateBase
     
     def set_hateBase(self, hateBase, sn): #对某个敌人的仇恨值
-        self.__hateBase[sn] = hateBase
+        if sn in self.__hateBase.keys():
+            self.__hateBase[sn] = hateBase + self.__hateBase[sn]
+        else:
+            self.__hateBase[sn] = hateBase
         return self
     
     @property
