@@ -114,7 +114,7 @@ class Action(object):
         if step["action_type"] == "skill_attack" and step["steps"]:
             attack_enemies_ids = [_["MonsterId"] for _ in step["attack_enemies"]]
             hero = [h for h in hero if h.protagonist == 1][0]
-            skill = [s for s in hero.skills if s.SkillId == step["steps"]]
+            skill = [s for s in hero.skills if s.SkillId == step["steps"]][0]
             attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
             print(f"使用技能[{skill}] 攻击敌人{attack_enemies_ids}")
             hero.func_attack(skill, attack_enemies)
