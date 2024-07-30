@@ -7,6 +7,8 @@ origin_hero_data = [
         "normal_attack_range":2,
         "protagonist": 1,
         "dogBase":4,
+        "critBase":0.5,
+        ""
         "BaseClassID": [
             10005,
             10006
@@ -107,6 +109,7 @@ origin_hero_data = [
         "Name": "芙蕾娅",
         "protagonist": 0,
         "dogBase":4,
+        "critBase":0.5,
         "max_step":2,
         "normal_attack_range":2,
         "BaseClassID": [

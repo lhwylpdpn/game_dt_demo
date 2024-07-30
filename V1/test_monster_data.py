@@ -8,6 +8,7 @@ origin_monster_data = {
     "Features": 0,
     "Level": 1,
     "max_step":2,
+    "critBase":0.2,
     "normal_attack_range":2,
     "natures": [
 
