@@ -6,7 +6,7 @@ origin_hero_data = [
         "max_step":2,
         "normal_attack_range":2,
         "protagonist": 1,
-        "dogbase":4,
+        "dogBase":4,
         "BaseClassID": [
             10005,
             10006
@@ -106,7 +106,7 @@ origin_hero_data = [
         "HeroID": 4028,
         "Name": "芙蕾娅",
         "protagonist": 0,
-        "dogbase":4,
+        "dogBase":4,
         "max_step":2,
         "normal_attack_range":2,
         "BaseClassID": [
