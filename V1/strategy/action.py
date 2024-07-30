@@ -34,20 +34,22 @@ class Action(object):
         hero_normal_attack_range = hero["normal_attack_range"]
 
         if SkillFunc().has_attack_skill_available(hero_skills):
-            res, move_queue, attack = SelfFunc().can_skill_attack_multiple_enemies(
+            res, move_queue, attack, attack_enemies = SelfFunc().can_skill_attack_multiple_enemies(
                 hero_position, hero_skills, enemies, maps, hero_max_step
             )
 
             if res:
                 print(f"移动步骤：{move_queue}, 技能攻击：{attack}")
-                return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "skill_attack", "steps": attack}]
+                move_step = [{"action_type": "move", "steps": m} for m in move_queue]
+                move_step.append({"action_type": "skill_attack", "steps": attack, "attack_enemies": attack_enemies})
+                return True, move_step
             else:
-                res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
+                res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
                     hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
                 )
                 if res:
                     print(f"移动步骤：{move_queue}, 普通攻击：{attack}")
-                    return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "normal_attack", "steps": attack}]
+                    return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "normal_attack", "steps": attack, "attack_enemies": attack_enemies}]
 
         return False, {}
 
@@ -64,14 +66,15 @@ class Action(object):
                 hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
             )
             print("警戒范围内有敌方单位: ", move_queue)
-            return True, [{"action_type": "move", "steps": move_queue}]
 
         else:
-            res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
+            res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, boss, maps, hero_max_step
             )
-            print("警戒范围无有敌方单位， 向boss地点移动:", move_queue)
-            return True, [{"action_type": "move", "steps": move_queue}]
+            print("警戒范围无敌方单位， 向boss地点移动:", move_queue)
+
+        move_step = [{"action_type": "move", "steps": m} for m in move_queue]
+        return True, move_step
 
     def hero_action(self, hero, enemies, maps):
         tf, steps = self.heal(hero, enemies, maps)
@@ -91,7 +94,7 @@ class Action(object):
     def monster_action(self):
         print("敌人在原地发呆！")
 
-    def choose_action(self, step):
+    def choose_action(self, step, hero, monster):
         if step["action_type"] == "heal" and step["steps"]:
             print("执行虎哥[加血]函数")
         if step["action_type"] == "move" and step["steps"]:
@@ -99,14 +102,18 @@ class Action(object):
         if step["action_type"] == "normal_attack" and step["steps"]:
             print("执行虎哥[普通攻击]函数")
         if step["action_type"] == "skill_attack" and step["steps"]:
-            print("执行虎哥[技能攻击]函数")
+            monster = [_["MonsterId"] for _ in monster]
+            skill = [s for s in hero.skills if s.SkillId == step["SkillId"]]
+            enemies = [e for e in monster if e.MonsterId in monster]
+            print(f"使用技能[{skill}] 攻击敌人{monster}")
+            hero.func_attack(skill, enemies)
 
-    def run_action(self, steps):
+    def run_action(self, steps, hero, monster):
         if isinstance(steps, dict):
-            self.choose_action(steps)
+            self.choose_action(steps, hero, monster)
         if isinstance(steps, list):
             for step in steps:
-                self.choose_action(step)
+                self.choose_action(step, hero, monster)
 
 
 if __name__ == '__main__':

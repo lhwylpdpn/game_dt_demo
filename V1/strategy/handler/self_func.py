@@ -62,10 +62,11 @@ class SelfFunc(object):
         # 英雄技能能攻击到>1的敌人 OR 英雄移动X后, 技能能攻击到>1的敌人
         path = []
         skill_counts = []
+        attack_enemies = []
         for skill in skills:
             skill_range = skill["range"]
-            count = len(DistanceFunc().is_within_attack_range(skill_range, hero_position, enemies))
-            skill_counts.append(count)
+            attack_enemies = DistanceFunc().is_within_attack_range(skill_range, hero_position, enemies)
+            skill_counts.append(len(attack_enemies))
 
         # BFS队列，记录位置、当前步数、移动路径和使用的技能
         queue = deque([(hero_position, 0, [], None)])
@@ -80,7 +81,8 @@ class SelfFunc(object):
             # 判断当前位置是否满足技能攻击范围内有多个敌方单位的条件
             for idx, count in enumerate(skill_counts):
                 if count >= 2:
-                    return True, [], skills[idx]["SkillId"]
+                    attack_enemies = DistanceFunc().is_within_attack_range(skills[idx], hero_position, enemies)
+                    return True, [], skills[idx]["SkillId"], attack_enemies
 
             possible_moves = SelfFunc().possible_moves(current_position)
 
@@ -93,24 +95,27 @@ class SelfFunc(object):
                     can_attack_two_enemies = False
                     for idx, skill in enumerate(skills):
                         skill_range = skill["range"]
-                        if len(DistanceFunc().is_within_attack_range(skill_range, move, enemies)) >= 2:
+                        attack_enemies = DistanceFunc().is_within_attack_range(skill_range, move, enemies)
+                        # if len(DistanceFunc().is_within_attack_range(skill_range, move, enemies)) >= 2:
+                        if len(attack_enemies):
                             can_attack_two_enemies = True
                             used_skill = skill["SkillId"]
                             break
 
                     if can_attack_two_enemies:
-                        return True, new_path, used_skill
+                        return True, new_path, used_skill, attack_enemies
 
-                    queue.append((move, current_steps + 1, new_path, used_skill))
+                    queue.append((move, current_steps + 1, new_path, used_skill)),
 
-        return False, path, None
+        return False, path, None, None
 
     @staticmethod
     def can_normal_attack_multiple_enemies(hero_position, attack_range, enemies, map_blocks, max_steps):
         # 英雄技能能攻击到>1的敌人 OR 英雄移动X后, 技能能攻击到>1的敌人
         path = []
         enemy_count = 1
-        skill_counts = [len(DistanceFunc().is_within_attack_range(attack_range, hero_position, enemies))]
+        attack_enemies = DistanceFunc().is_within_attack_range(attack_range, hero_position, enemies)
+        skill_counts = [len(attack_enemies)]
 
         queue = deque([(hero_position, 0, [], None)])
         visited = set()
@@ -124,7 +129,7 @@ class SelfFunc(object):
             # 判断当前位置是否满足技能攻击范围内有多个敌方单位的条件
             for idx, count in enumerate(skill_counts):
                 if count >= enemy_count:
-                    return True, [], "普通攻击"
+                    return True, [], "普通攻击", attack_enemies
 
             possible_moves = SelfFunc().possible_moves(current_position)
 
@@ -132,13 +137,15 @@ class SelfFunc(object):
                 if move in map_blocks and move not in visited:
                     visited.add(move)
                     new_path = path + [move]  # 记录新的移动路径
+                    attack_enemies = DistanceFunc().is_within_attack_range(attack_range, hero_position, enemies)
 
-                    if len(DistanceFunc().is_within_attack_range(attack_range, move, enemies)) >= enemy_count:
-                        return True, new_path, "普通攻击"
+                    # if len(DistanceFunc().is_within_attack_range(attack_range, move, enemies)) >= enemy_count:
+                    if len(attack_enemies) >= enemy_count:
+                        return True, new_path, "普通攻击", attack_enemies
 
                     queue.append((move, current_steps + 1, new_path, used_skill))
 
-        return False, path, None
+        return False, path, None, None
 
     @staticmethod
     def execute_heal():
