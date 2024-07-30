@@ -69,11 +69,72 @@ class schedule:
                 if self.game.check_game_over():
                     break
 
-    def _record(self, action, before_state, after_state):
-        print('action', action)
-        print('before_state', before_state)
-        print('after_state', after_state)
+    def _record(self,action,before_state,after_state):
 
+
+        b_map=before_state['map']
+        b_hero=before_state['hero']
+        b_monster=before_state['monster']
+        a_map=after_state['map']
+        a_hero=after_state['hero']
+        a_monster=after_state['monster']
+
+        if type(b_map)!=list:
+            b_map=[b_map]
+        if type(b_hero)!=list:
+            b_hero=[b_hero]
+        if type(b_monster)!=list:
+            b_monster=[b_monster]
+        if type(a_map)!=list:
+            a_map=[a_map]
+        if type(a_hero)!=list:
+            a_hero=[a_hero]
+        if type(a_monster)!=list:
+            a_monster=[a_monster]
+
+        a_hero_dict={}
+        for hero in a_hero:
+            a_hero_dict[hero.sn]=hero.dict()
+        b_hero_dict={}
+        for hero in b_hero:
+            b_hero_dict[hero.sn]=hero.dict()
+
+        hero_update_dict={k: a_hero_dict[k] for k in a_hero_dict if k in b_hero_dict and a_hero_dict[k] != b_hero_dict[k]}
+        hero_error_dict_diff_a={k: a_hero_dict[k] for k in a_hero_dict if k not in b_hero_dict}
+        hero_error_dict_diff_b={k: b_hero_dict[k] for k in b_hero_dict if k not in a_hero_dict}
+        hero_error_dict={**hero_error_dict_diff_a,**hero_error_dict_diff_b}
+
+
+        a_map_dict={}
+        for map in a_map:
+
+            a_map_dict[map.sn]=map.dict()
+        b_map_dict={}
+        for map in b_map:
+            b_map_dict[map.sn]=map.dict()
+
+        map_update_dict={k: a_map_dict[k] for k in a_map_dict if k in b_map_dict and a_map_dict[k] != b_map_dict[k]}
+        map_error_dict_diff_a={k: a_map_dict[k] for k in a_map_dict if k not in b_map_dict}
+        map_error_dict_diff_b={k: b_map_dict[k] for k in b_map_dict if k not in a_map_dict}
+        map_error_dict={**map_error_dict_diff_a,**map_error_dict_diff_b}
+
+
+        a_monster_dict={}
+        for monster in a_monster:
+            a_monster_dict[monster.sn]=monster.dict()
+        b_monster_dict={}
+        for monster in b_monster:
+            b_monster_dict[monster.sn]=monster.dict()
+
+        monster_update_dict={k: a_monster_dict[k] for k in a_monster_dict if k in b_monster_dict and a_monster_dict[k] != b_monster_dict[k]}
+        monster_error_dict_diff_a={k: a_monster_dict[k] for k in a_monster_dict if k not in b_monster_dict}
+        monster_error_dict_diff_b={k: b_monster_dict[k] for k in b_monster_dict if k not in a_monster_dict}
+        monster_error_dict={**monster_error_dict_diff_a,**monster_error_dict_diff_b}
+
+        update_dict={'hero':hero_update_dict,'map':map_update_dict,'monster':monster_update_dict}
+        error_dict={'hero':hero_error_dict,'map':map_error_dict,'monster':monster_error_dict}
+        print('update_dict',update_dict)
+        print('error_dict',error_dict)
 
 if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
@@ -81,3 +142,5 @@ if __name__ == '__main__':
     monster = BuildPatrol.build_monster(origin_monster_data)
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
     sch.run()
+
+
