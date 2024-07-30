@@ -670,26 +670,26 @@ class Monster():
         return self
 
     @property
-    def p_x(self):
+    def x(self):
         return self.__position[0]
     
-    def set_p_x(self, p_x):
+    def set_x(self, p_x):
         self.__position[0]= p_x
         return self
     
     @property
-    def p_y(self):
+    def y(self):
         return self.__position[1]
     
-    def set_p_y(self, p_y):
+    def set_y(self, p_y):
         self.__position[1]= p_y
         return self
     
     @property
-    def p_z(self):
+    def z(self):
         return self.__position[2]
     
-    def set_p_z(self, p_z):
+    def set_z(self, p_z):
         self.__position[2]= p_z
         return self   
     
