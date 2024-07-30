@@ -43,7 +43,7 @@ class BuildPatrol():
             land = Land(**each)
             map.load_land(*position, land)
         # pprint(map.view_from_y())
-        return [map,]
+        return map
     
     @staticmethod
     def build_monster(origin_monster_data): # 返回monster的对象
