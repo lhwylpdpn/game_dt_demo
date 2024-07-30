@@ -4,7 +4,7 @@ def damage(attacker,defender,skill):
 
     if attacker.__class__.__name__.lower()=='hero':
         #英雄的属性
-        attacker_HP=attacker.HP
+        attacker_HP=attacker.Hp
         attacker_Atk=attacker.Atk
         attacker_Def=defender.Def
         attacker_Velocity=attacker.Velocity
@@ -16,7 +16,7 @@ def damage(attacker,defender,skill):
     if defender.__class__.__name__.lower()=='Monster':
 
         #对手的属性
-        defender_HP=defender.HP
+        defender_HP=defender.Hp
         defender_Atk=defender.Atk
         defender_Def=defender.Def
         defender_Velocity=defender.Velocity
