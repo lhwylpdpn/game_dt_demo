@@ -558,6 +558,7 @@ class Monster():
             self.__hateBase[sn] = hateBase + self.__hateBase[sn]
         else:
             self.__hateBase[sn] = hateBase
+        print("hateBase:", sn, self.__hateBase[sn])
         return self
     
     @property
@@ -724,6 +725,8 @@ class Monster():
             enemys = [enemys, ]
         for each in enemys:
             result = damage(attacker=self, defender=each, skill=skill)
+            self.set_hateBase(5, each.sn)
+            each.set_hateBase(5, self.sn)
             _t_hp = each.Hp - result
             print("Hp <before>: ", each.Hp)
             print("Hp <damaeg>: ", result)

@@ -9,6 +9,7 @@ origin_monster_data = {
     "Level": 1,
     "max_step":2,
     "critBase":0.2,
+    "hateBase":{},
     "normal_attack_range":2,
     "natures": [
 

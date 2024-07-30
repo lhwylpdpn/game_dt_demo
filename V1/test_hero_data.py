@@ -8,6 +8,7 @@ origin_hero_data = [
         "protagonist": 1,
         "dogBase":4,
         "critBase":0.5,
+        "hateBase":{},
         ""
         "BaseClassID": [
             10005,
