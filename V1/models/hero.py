@@ -94,7 +94,8 @@ class Hero():
         )
     
     def dict_short(self):
-        fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills", "max_step", "normal_attack_range"]
+        fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills",
+                   "max_step", "normal_attack_range", "dogBase"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
