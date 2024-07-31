@@ -86,7 +86,7 @@ class Monster():
         )
     
     def dict_short(self):
-        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step", "normal_attack_range"]
+        fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step", "normal_attack_range","dogBase"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
