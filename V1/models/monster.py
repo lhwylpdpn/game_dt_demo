@@ -20,7 +20,7 @@ class Monster():
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
         self.__Rank = kwargs.get("Rank", None)                     #
         self.__clazz = kwargs.get("clazz", None)                   #职业 1射手 2战士 3法师 4治疗 5刺客 6辅助 7坦克
-        self.__Weapons = kwargs.get("Weapons", None)                 #武器
+        self.__Weapons = kwargs.get("Weapons", None)               #武器
         self.__WeaponsId = kwargs.get("WeaponsId", None)           #武器ID
         self.__ApproachEffect = kwargs.get("ApproachEffect", None) 
         self.__Duration = kwargs.get("Duration", None) 
@@ -42,8 +42,10 @@ class Monster():
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
-        self.__Atk = kwargs.get("Atk", None)                         #攻击-初始
-        self.__Def = kwargs.get("Def", None)                         #防御-初始
+        self.__Atk = kwargs.get("Atk", None)                         #攻击
+        self.__AtkBase = kwargs.get("AtkBase", None)                 #攻击-初始
+        self.__Def = kwargs.get("Def", None)                         #防御
+        self.__DefBase = kwargs.get("DefBase", None)                 #防御-初始
         self.__MagicalDef = kwargs.get("MagicalDef", None)           #魔法防御
         self.__Strength = kwargs.get("Strength", None)               #力量-初始
         self.__Agile = kwargs.get("Agile", None)                     #敏捷-初始
@@ -73,8 +75,15 @@ class Monster():
         self.__smartBase = kwargs.get("smartBase", None)                       # 灵巧
         self.init_data = kwargs
         
+        
         # position 位置
         self.__position = kwargs.get("position")                    #  坐标
+        self.__avali_move_p_list = kwargs.get("avali_move_p_list", [])  #  可移动范围
+        self.__shoot_p_list = kwargs.get("shoot_p_list", [])            #  可攻击范围
+        self.__atk_effect_p_list = kwargs.get("atk_effect_p_list", [])         #  攻击效果范围
+        self.init_data.update( #临时加
+            {"avali_move_p_list":[], "shoot_p_list":[], "atk_effect_p_list":[]}
+        )
     
     def dict_short(self):
         fields = ["sn", "MonsterId", "Name", "protagonist", "Hp", "Atk", "position", "JumpHeight", "skills","max_step", "normal_attack_range"]
@@ -700,9 +709,33 @@ class Monster():
     @property
     def position(self):
         return self.__position
+
+    @property
+    def avali_move_p_list(self):
+        return self.__avali_move_p_list
+    
+    def set_avali_move_p_list(self, v):
+        self.__avali_move_p_list = v
+        return self 
+
+    @property
+    def shoot_p_list(self):
+        return self.__shoot_p_list
+    
+    def set_shoot_p_list(self, v):
+        self.__shoot_p_list = v
+        return self 
+
+    @property
+    def atk_effect_p_list(self):
+        return self.__atk_effect_p_list
+    
+    def set_atk_effect_p_list(self, v):
+        self.__atk_effect_p_list = v
+        return self 
     
     def move_position(self,x,y,z):
-        return self.set_p_x(x).set_p_y(y).set_p_z(z)
+        return self.set_x(x).set_y(y).set_z(z)
     
     def move_close_enemy(self):
         # TODO

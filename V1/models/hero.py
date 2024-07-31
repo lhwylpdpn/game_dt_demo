@@ -86,6 +86,12 @@ class Hero():
         
         # position 位置
         self.__position = kwargs.get("position")                    #  坐标
+        self.__avali_move_p_list = kwargs.get("avali_move_p_list", [])  #  可移动范围
+        self.__shoot_p_list = kwargs.get("shoot_p_list", [])            #  可攻击范围
+        self.__atk_effect_p_list = kwargs.get("atk_effect_p_list", [])         #  攻击效果范围
+        self.init_data.update( #临时加
+            {"avali_move_p_list":[], "shoot_p_list":[], "atk_effect_p_list":[]}
+        )
     
     def dict_short(self):
         fields = ["sn", "HeroID", "Name", "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills", "max_step", "normal_attack_range"]
@@ -614,9 +620,33 @@ class Hero():
     @property
     def position(self):
         return self.__position
+
+    @property
+    def avali_move_p_list(self):
+        return self.__avali_move_p_list
+    
+    def set_avali_move_p_list(self, v):
+        self.__avali_move_p_list = v
+        return self 
+
+    @property
+    def shoot_p_list(self):
+        return self.__shoot_p_list
+    
+    def set_shoot_p_list(self, v):
+        self.__shoot_p_list = v
+        return self 
+
+    @property
+    def atk_effect_p_list(self):
+        return self.__atk_effect_p_list
+    
+    def set_atk_effect_p_list(self, v):
+        self.__atk_effect_p_list = v
+        return self 
     
     def move_position(self,x,y,z):
-        return self.set_p_x(x).set_p_y(y).set_p_z(z)
+        return self.set_x(x).set_y(y).set_z(z)
     
     def attack(self): # 攻击
         # TODO
