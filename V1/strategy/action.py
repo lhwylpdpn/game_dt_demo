@@ -80,19 +80,15 @@ class Action(object):
         return True, move_step
 
     def hero_action(self, hero, enemies, maps):
-        tf, steps = self.heal(hero, enemies, maps)
+        tf, steps = self.attack(hero, enemies, maps)
         if tf:
             return steps
         else:
-            tf, steps = self.attack(hero, enemies, maps)
+            tf, steps = self.move(hero, enemies, maps)
             if tf:
                 return steps
             else:
-                tf, steps = self.move(hero, enemies, maps)
-                if tf:
-                    return steps
-                else:
-                    raise Exception("ERROR!")
+                raise Exception("ERROR!")
 
     def monster_action(self):
         print("敌人在原地发呆！")
