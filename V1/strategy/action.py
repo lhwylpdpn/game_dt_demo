@@ -103,7 +103,7 @@ class Action(object):
         if step["action_type"] == "heal" and step["steps"]:
             print("执行虎哥[加血]函数")
 
-        if step["action_type"] == "move" and step["steps"]:
+        if step["action_type"] == "MOVE" and step["steps"]:
             print(f"英雄移动到{step['steps']}点位")
             hero = [h for h in hero if h.protagonist == 1][0]
             hero.move_position(*step["steps"])
