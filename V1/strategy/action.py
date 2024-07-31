@@ -61,23 +61,28 @@ class Action(object):
         hero_dog_base = hero["dogBase"]
         hero_position = hero["position"]
         hero_max_step = hero["max_step"]
-        boss = [enemies[0]]   # TODO 假设BOSS
+        boss_position = enemies[0]["position"]   # TODO 假设BOSS
         hero_normal_attack_range = hero["normal_attack_range"]
 
         if DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies):
             res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
             )
-            # print("警戒范围内有敌方单位: ", move_queue)
+            print("警戒范围内有敌方单位: ", move_queue)
 
         else:
-            res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
-                hero_position, hero_normal_attack_range, boss, maps, hero_max_step
-            )
-            # print("警戒范围无敌方单位， 向boss地点移动:", move_queue)
+            # res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
+            #     hero_position, hero_normal_attack_range, boss, maps, hero_max_step
+            # )
+            move_queue = DistanceFunc().manhattan_path(hero_position, boss_position, hero_max_step)
+            print("警戒范围无敌方单位， 向boss地点移动:", move_queue)
 
         move_step = [{"action_type": "MOVE", "steps": m} for m in move_queue]
         return True, move_step
+
+    def wait(self):
+        print("当前回合行动：WAIT")
+        return [{"action_type": "WAIT"}]
 
     def select_action(self, hero, enemies, maps):
         tf, steps = self.attack(hero, enemies, maps)
@@ -88,7 +93,7 @@ class Action(object):
             if tf:
                 return steps
             else:
-                raise Exception("ERROR!")
+                return True, self.wait()
 
     def monster_action(self):
         print("敌人在原地发呆！")
