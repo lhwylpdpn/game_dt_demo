@@ -79,7 +79,7 @@ class Action(object):
         move_step = [{"action_type": "MOVE", "steps": m} for m in move_queue]
         return True, move_step
 
-    def hero_action(self, hero, enemies, maps):
+    def select_action(self, hero, enemies, maps):
         tf, steps = self.attack(hero, enemies, maps)
         if tf:
             return steps
