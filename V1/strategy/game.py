@@ -15,7 +15,7 @@ class Game(object):
         self.maps = maps
 
     def action(self, step):
-        Action().run_action(step, self.hero, self.monster)
+        return Action().run_action(step, self.hero, self.monster)
 
     def check_game_over(self):
         monster = [m for m in self.monster if not m.is_death()]
