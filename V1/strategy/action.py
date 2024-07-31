@@ -65,7 +65,7 @@ class Action(object):
         hero_normal_attack_range = hero["normal_attack_range"]
 
         if DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies):
-            res, move_queue, attack = SelfFunc().can_normal_attack_multiple_enemies(
+            res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
                 hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
             )
             print("警戒范围内有敌方单位: ", move_queue)
