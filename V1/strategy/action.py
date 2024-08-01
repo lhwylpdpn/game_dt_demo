@@ -139,24 +139,30 @@ class Action(object):
             print("执行虎哥[加血]函数")
 
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
-            hero = [h for h in hero if h.protagonist == 1][0]
+            # hero = [h for h in hero if h.protagonist == 1][0]
             hero.move_position(*step["move_position"])
 
         if "SKILL_" in step["action_type"]:
             if step["action_type"] == "SKILL_NORMAL":
                 attack_enemies_ids = step["attack_enemies"]
-                hero = [h for h in hero if h.protagonist == 1][0]
+                # hero = [h for h in hero if h.protagonist == 1][0]
                 skill = hero.skills[0]
-                attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
+                try:
+                    attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
+                except Exception as e:
+                    attack_enemies = [e for e in monster if e.HeroID in attack_enemies_ids]
                 hero.func_attack(attack_enemies, skill)
                 print(f"使用普通攻击 攻击敌人{attack_enemies_ids}")
                 res["atk_range"] = step["atk_range"]
                 res["atk_position"] = step["atk_position"]
             else:
                 attack_enemies_ids = step["attack_enemies"]
-                hero = [h for h in hero if h.protagonist == 1][0]
-                skill = [s for s in hero.skills if s.SkillId == step["steps"]][0]
-                attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
+                # hero = [h for h in hero if h.protagonist == 1][0]
+                skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
+                try:
+                    attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
+                except Exception as e:
+                    attack_enemies = [e for e in monster if e.HeroID in attack_enemies_ids]
                 print(f"使用技能[{skill}] 攻击敌人{attack_enemies_ids}")
                 hero.func_attack(attack_enemies, skill)
                 res["atk_range"] = step["atk_range"]

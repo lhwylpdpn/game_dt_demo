@@ -14,12 +14,21 @@ class Game(object):
         self.monster = monster
         self.maps = maps
 
-    def action(self, step):
-        hero = [h for h in self.hero if h.protagonist == 1][0]
+    def hero_action(self, hero, step):
+        # hero = [h for h in self.hero if h.protagonist == 1][0]
         if hero.is_death():
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
-        res = Action().run_action(step, self.hero, self.monster)
-        print(f">>行动结束返回:{res}")
+        res = Action().run_action(step, hero, self.monster)
+        print(f"HERO >> 行动结束返回:{res}")
+        return res
+
+    def monster_action(self, hero, step):
+        # print(self.monster)
+        # hero = [h for h in self.monster if h.protagonist == 1][0]
+        if hero.is_death():
+            return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
+        res = Action().run_action(step, hero, self.hero)
+        print(f"MONSTER >> 行动结束返回:{res}")
         return res
 
     def check_game_over(self):
