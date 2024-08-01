@@ -117,7 +117,10 @@ class schedule:
 
                 for action in actions:
                     self.performance.event_start('game_action')
-                    self.game.action(action)
+                    if hero.__class__.__name__.lower() == 'hero':
+                        self.game.hero_action(hero, action)
+                    else:
+                        self.game.monster_action(hero, action)
                     self.performance.event_end('game_action')
                     self.performance.event_start('get_current_state')
                     new_state = self.game.get_current_state()
@@ -216,11 +219,14 @@ if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
-    heros[0].set_x(100)
-    heros[0].set_y(100)
-    heros[0].set_z(100)
-    heros[0].set_Atk(1)
-    heros[0].set_max_step(1)
+
+    heros[0].set_x(1)
+    heros[0].set_y(1)
+    heros[0].set_z(1)
+    heros[0].set_Atk(20)
+    heros[0].set_max_step(100)
+    #heros[0].set_max_step(3)
+
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
     sch.run()
     update=sch.send_update()
