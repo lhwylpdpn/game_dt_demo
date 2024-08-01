@@ -24,12 +24,10 @@ class Game(object):
 
     def check_game_over(self):
         monster = [m for m in self.monster if not m.is_death()]
-        print("monster :", monster)
         if not monster:
             return True
 
         hero = [h for h in self.hero if not h.is_death()]
-        print("hero :", hero)
 
         if not hero:
             return True

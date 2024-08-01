@@ -53,4 +53,4 @@ class DistanceFunc(object):
             path.append((x, y, z))
             steps -= 1
 
-        return tuple(path)
+        return path

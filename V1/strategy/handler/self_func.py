@@ -156,3 +156,26 @@ class SelfFunc(object):
     def escape(hero_position, enemies, map_blocks, max_steps):
         # 逃跑：当次可移动范围内，距离所有人敌人的距离平均值最远的位置
         return SelfFunc().find_farthest_position(hero_position, enemies, map_blocks, max_steps)
+
+    @staticmethod
+    def determine_direction(pos1, pos2):
+        # 判断移动方向
+        x1, y1, z1 = pos1
+        x2, y2, z2 = pos2
+
+        if x2 == x1 + 1 and y2 == y1 and z2 == z1:
+            return "RIGHT"
+        elif x2 == x1 - 1 and y2 == y1 and z2 == z1:
+            return "LEFT"
+        elif y2 == y1 + 1 and x2 == x1 and z2 == z1:
+            return "BOTTOM"
+        elif y2 == y1 - 1 and x2 == x1 and z2 == z1:
+            return "TOP"
+        else:
+            raise Exception("invalid move")
+
+    @staticmethod
+    def generate_pairs(lst):
+        # 返回相邻数组
+        return [(lst[i], lst[i + 1]) for i in range(len(lst) - 1)]
+
