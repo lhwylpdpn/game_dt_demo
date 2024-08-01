@@ -63,10 +63,10 @@ class BuildPatrol():
 
         
 if __name__ == "__main__":
-    #map = BuildPatrol.build_map(origin_map_data)    # map
-    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    monster = BuildPatrol.build_monster(origin_monster_data)# monster 
+    map = BuildPatrol.build_map(origin_map_data)    # map
+    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    #monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     #map.list_land_postion()
-    print(heros[1].dict())
-    print(monster[0].dict())
-    #print(map.dict())
+    #print(heros[1].dict())
+    #print(monster[0].dict())
+    print(map.view_from_y())

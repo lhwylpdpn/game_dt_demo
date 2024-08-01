@@ -42,7 +42,7 @@ class Map(): # 地图
             postion_list.append(each.get('position'))
         df = pd.DataFrame(postion_list)
         x, y, z = list(df.max())
-        print(x, y, z)
+        print("map size:", x+1, y+1, z+1)
         return x+1, y+1, z+1 
     
     def list_land_postion(self):
@@ -100,7 +100,7 @@ class Land(): # 地块
     def __eq__(self, other):
         if isinstance(other, Land):
             other = other.position[1]
-        if self.position[1] == other:
+        if self.position[2] == other:
             return True
         return False
         
