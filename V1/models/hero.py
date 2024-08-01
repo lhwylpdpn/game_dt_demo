@@ -24,7 +24,7 @@ class Hero():
         self.__RoundAction = kwargs.get("RoundAction", None)       # 行动步数
         self.__JumpHeight = kwargs.get("JumpHeight", [])           # 跳跃的高度 
         self.__skills =  kwargs.get("skills", [])                  # 技能
-        self.__dogBase = kwargs.get("dogBase", None)               # 警戒-初始
+        self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
@@ -56,9 +56,9 @@ class Hero():
         self.__avali_move_p_list = kwargs.get("avali_move_p_list", [])         #  可移动范围
         self.__shoot_p_list = kwargs.get("shoot_p_list", [])                   #  可攻击范围
         self.__atk_effect_p_list = kwargs.get("atk_effect_p_list", [])         #  攻击效果范围
-        
+
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "dogBase",  "Hp", "Atk",  "Def", "MagicalAtk",
+            "DogBase",  "Hp", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", 
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
@@ -66,7 +66,7 @@ class Hero():
     
     def dict_short(self):
         fields = ["HeroID",  "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills",
-                   "RoundAction", "dogBase"]
+                   "RoundAction", "DogBase"]
         return self.dict(fields)
     
     def dict(self, fields=[]):
@@ -219,11 +219,11 @@ class Hero():
         return self
 
     @property
-    def dogBase(self):
-        return self.__dogBase
+    def DogBase(self):
+        return self.__DogBase
     
-    def set_dogBase(self, dogBase):
-        self.__dogBase = dogBase
+    def set_DogBase(self, DogBase):
+        self.__DogBase = DogBase
         return self
     
     @property
