@@ -23,9 +23,10 @@ class DistanceFunc(object):
         # 当前攻击(普攻 OR 技能 OR 警戒)范围内的敌人列表
         count = []
         for enemy in enemies:
-            enemy_position = enemy["position"]
-            if BasicFunc().manhattan_distance(hero_position, enemy_position) <= range:
-                count.append(enemy)
+            if enemy["Hp"] > 0:
+                enemy_position = enemy["position"]
+                if BasicFunc().manhattan_distance(hero_position, enemy_position) <= range:
+                    count.append(enemy)
         return count
 
     @staticmethod
