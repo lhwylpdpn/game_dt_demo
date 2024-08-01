@@ -1,213 +1,396 @@
 origin_hero_data = [
     {
-        "sn": 3,
-        "HeroID": 11003,
-        "Name": "法系女主",
-        "max_step":2,
-        "normal_attack_range":2,
-        "protagonist": 1,
-        "dogBase":4,
-        "critBase":0.5,
-        "hateBase":{},
-        ""
-        "BaseClassID": [
-            10005,
-            10006
-        ],
-        "AvailableSkills": [
-            39
-        ],
-        "levMax": 50,
-        "natures": [
-
-        ],
-        "Weapon": 3,
-        "WeaponsId": 10002,
-        "Features": 0,
-        "RoundAction": 3,
-        "JumpHeight": [
-            8,
-            8
-        ],
-        "Quality": 1,
-        "Hp": 24,
-        "Strength": 2,
-        "Atk": 10,
-        "Agile": 2,
-        "Def": 2,
-        "MagicalDef": 1,
-        "Velocity": 160,
-        "hpgrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "StrengthRow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "atkgrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "AgileRow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "defgrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "MagicalDefGrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "VelocityGrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "AtkDistance": [
-            0,
-            1
-        ],
         "position": [
             3,
             5,
-            8
+            7
         ],
         "skills": [
             {
-                "sn": 192,
-                "SkillId": 39,
+                "SkillId": 200,
                 "SkillLev": 1,
-                "SkillIcon": "texture/icon\\skill\\fangyu3",
-                "SkillSpine": "",
-                "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
-                "skill_type": "Attack",
-                "range": 2,
+                "DefaultSkills": 1,
+                "ActiveSkills": 1,
                 "effects": [
                     {
-                        "id": 1,
-                        "key": "",
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
                         "param": [
-                            "110"
-                        ],
-                        "tag": ""
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "sn": 5,
-        "HeroID": 4028,
-        "Name": "芙蕾娅",
-        "protagonist": 0,
-        "dogBase":4,
-        "critBase":0.5,
-        "max_step":2,
-        "normal_attack_range":2,
-        "BaseClassID": [
-            10007,
-            10008
-        ],
-        "AvailableSkills": [
-            39,
-            10,
-            28
-        ],
-        "levMax": 50,
-        "natures": [
-
-        ],
-        "Weapon": 2,
-        "WeaponsId": 10008,
-        "Features": 0,
-        "RoundAction": 8,
-        "JumpHeight": [
-            6,
-            6
-        ],
-        "Quality": 1,
-        "Hp": 999,
-        "Strength": 2,
-        "Atk": 10,
-        "Agile": 2,
-        "Def": 2,
-        "MagicalDef": 1,
-        "Velocity": 160,
-        "hpgrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "StrengthRow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "atkgrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "AgileRow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "defgrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "MagicalDefGrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "VelocityGrow": [
-            0.3,
-            0.6,
-            0.8
-        ],
-        "AtkDistance": [
-            0,
-            1
-        ],
-        "position": [
-            3,
-            5,
-            6
-        ],
-        "skills": [
-            {
-                "sn": 55,
-                "SkillId": 10,
-                "SkillLev": 1,
-                "SkillIcon": "texture/icon\\skill\\skill\\cike1",
-                "SkillSpine": "",
-                "effecDescribe": "弱点打击伤害增加<color=#faa755>10%</color>",
-                "skill_type": "Attack",
-                "range": 2,
-                "effects": [
-                    {
-                        "id": 1,
-                        "key": "",
-                        "param": [
-                            "110"
+                            "0",
+                            "1"
                         ],
                         "tag": ""
                     },
                     {
-                        "id": 56,
-                        "key": "DESTROY_PLOT",
+                        "id": 60,
+                        "key": "ATK",
+                        "param": [
+                            "100",
+                            "130"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 63,
+                        "key": "IS_PLOT_HEIGHT",
+                        "param": [
+                            "1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 201,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 1,
+                "effects": [
+                    {
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
+                        "param": [
+                            "0",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 60,
+                        "key": "ATK",
+                        "param": [
+                            "100",
+                            "85"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 61,
+                        "key": "HIT_LINE",
+                        "param": [
+                            "-1",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 62,
+                        "key": "REPEL_TARGET",
+                        "param": [
+                            "2"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 59,
+                        "key": "USE_COUNT",
+                        "param": [
+                            "5"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 202,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 1,
+                "effects": [
+                    {
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
+                        "param": [
+                            "0",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 64,
+                        "key": "ADD_HP",
+                        "param": [
+                            "100",
+                            "30"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 85,
+                        "key": "BUFF_DEF",
+                        "param": [
+                            "125",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 88,
+                        "key": "BUFF_MAGICAL_DEF",
+                        "param": [
+                            "125",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 59,
+                        "key": "USE_COUNT",
+                        "param": [
+                            "5"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 203,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 67,
+                        "key": "IS_HIT",
+                        "param": [
+
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 65,
+                        "key": "ADD_DEF",
+                        "param": [
+                            "25",
+                            "25"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 204,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 68,
+                        "key": "IS_DEFAULT_HIT",
+                        "param": [
+
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 84,
+                        "key": "ATK_BACK",
+                        "param": [
+                            "50",
+                            "100"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 63,
+                        "key": "IS_PLOT_HEIGHT",
+                        "param": [
+                            "2"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 205,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 85,
+                        "key": "BUFF_DEF",
+                        "param": [
+                            "40",
+                            "-1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 87,
+                        "key": "BUFF_HP",
+                        "param": [
+                            "20",
+                            "-1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 206,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 86,
+                        "key": "BUFF_ATK",
+                        "param": [
+                            "10",
+                            "-1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 87,
+                        "key": "BUFF_HP",
+                        "param": [
+                            "20",
+                            "-1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 207,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 69,
+                        "key": "IS_WAIT",
+                        "param": [
+
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 64,
+                        "key": "ADD_HP",
+                        "param": [
+                            "100",
+                            "5"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 208,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 71,
+                        "key": "IS_NEAR_HERO",
+                        "param": [
+                            "0",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 86,
+                        "key": "BUFF_ATK",
+                        "param": [
+                            "35",
+                            "-1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 85,
+                        "key": "BUFF_DEF",
+                        "param": [
+                            "35",
+                            "-1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 66,
+                        "key": "ADD_MAGICAL_DEF",
+                        "param": [
+                            "100",
+                            "35"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            }
+        ],
+        "DogBase": 6,
+        "HeroID": 5002,
+        "AvailableSkills": [
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208
+        ],
+        "RoundAction": 3,
+        "JumpHeight": [
+            1
+        ],
+        "Hp": 408,
+        "Atk": 97,
+        "MagicalAtk": 65,
+        "Agile": 77,
+        "Def": 55,
+        "MagicalDef": 69,
+        "Velocity": 85,
+        "Luck": 93
+    },
+    {
+        "position": [
+            3,
+            5,
+            6
+        ],
+        "skills": [
+            {
+                "SkillId": 300,
+                "SkillLev": 1,
+                "DefaultSkills": 1,
+                "ActiveSkills": 1,
+                "effects": [
+                    {
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
+                        "param": [
+                            "2",
+                            "3"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 72,
+                        "key": "ATK_FORMULA_1",
+                        "param": [
+                            "100",
+                            "65"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 63,
+                        "key": "IS_PLOT_HEIGHT",
+                        "param": [
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 73,
+                        "key": "UPDATE_ATK_DISTANCE",
                         "param": [
 
                         ],
@@ -216,46 +399,262 @@ origin_hero_data = [
                 ]
             },
             {
-                "sn": 163,
-                "SkillId": 28,
+                "SkillId": 301,
                 "SkillLev": 1,
-                "SkillIcon": "texture/icon\\skill\\gongji5",
-                "SkillSpine": "",
-                "effecDescribe": "怪物技能，使用藤条进行攻击。",
-                "range": 2,
-                "coefficient": 20,
+                "DefaultSkills": 0,
+                "ActiveSkills": 1,
                 "effects": [
                     {
-                        "id": 1,
-                        "key": "",
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
                         "param": [
-                            "100"
+                            "2",
+                            "4"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 60,
+                        "key": "ATK",
+                        "param": [
+                            "100",
+                            "150"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 74,
+                        "key": "HIT_RANGE",
+                        "param": [
+                            "1",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 73,
+                        "key": "UPDATE_ATK_DISTANCE",
+                        "param": [
+
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 59,
+                        "key": "USE_COUNT",
+                        "param": [
+                            "5"
                         ],
                         "tag": ""
                     }
                 ]
             },
             {
-                "sn": 192,
-                "SkillId": 39,
+                "SkillId": 302,
                 "SkillLev": 1,
-                "SkillIcon": "texture/icon\\skill\\fangyu3",
-                "SkillSpine": "",
-                "effecDescribe": "梅耶剑术造成的伤害增加<color=#faa755>10%</color>。",
-                "skill_type": "Attack",
-                "range": 2,
-                "coefficient": 20,
+                "DefaultSkills": 0,
+                "ActiveSkills": 1,
                 "effects": [
                     {
-                        "id": 1,
-                        "key": "",
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
                         "param": [
-                            "110"
+                            "2",
+                            "5"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 75,
+                        "key": "MOVE_SELF2TARGET",
+                        "param": [
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 76,
+                        "key": "MOVE_TARGET2SELF",
+                        "param": [
+                            "4"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 60,
+                        "key": "ATK",
+                        "param": [
+                            "100",
+                            "50"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 59,
+                        "key": "USE_COUNT",
+                        "param": [
+                            "5"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 303,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 67,
+                        "key": "IS_HIT",
+                        "param": [
+
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 77,
+                        "key": "DEBUFF_ROUND_ACTION_BACK",
+                        "param": [
+                            "25",
+                            "1",
+                            "3"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 304,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 68,
+                        "key": "IS_DEFAULT_HIT",
+                        "param": [
+
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 78,
+                        "key": "BUFF_MISS_HIT",
+                        "param": [
+                            "50",
+                            "-1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 305,
+                "SkillLev": 1,
+                "DefaultSkills": 0,
+                "ActiveSkills": 0,
+                "effects": [
+                    {
+                        "id": 80,
+                        "key": "BUFF_HIT_RATE",
+                        "param": [
+                            "10",
+                            "-1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 306,
+                "SkillLev": 1,
+                "effects": [
+                    {
+                        "id": 81,
+                        "key": "BUFF_MAX_ATK_DISTANCE",
+                        "param": [
+                            "10",
+                            "-1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 307,
+                "SkillLev": 1,
+                "effects": [
+                    {
+                        "id": 82,
+                        "key": "BUFF_ROUND_ACTION",
+                        "param": [
+                            "1",
+                            "-1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 83,
+                        "key": "BUFF_JUMP_HEIGHT",
+                        "param": [
+                            "2",
+                            "-1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            },
+            {
+                "SkillId": 308,
+                "SkillLev": 1,
+                "effects": [
+                    {
+                        "id": 82,
+                        "key": "BUFF_ROUND_ACTION",
+                        "param": [
+                            "1",
+                            "-1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 81,
+                        "key": "BUFF_MAX_ATK_DISTANCE",
+                        "param": [
+                            "1",
+                            "-1"
                         ],
                         "tag": ""
                     }
                 ]
             }
-        ]
+        ],
+        "DogBase": 6,
+        "HeroID": 5003,
+        "AvailableSkills": [
+            300,
+            301,
+            302,
+            303,
+            304,
+            305,
+            306,
+            307,
+            308
+        ],
+        "RoundAction": 3,
+        "JumpHeight": [
+            3
+        ],
+        "Hp": 277,
+        "Atk": 105,
+        "MagicalAtk": 64,
+        "Agile": 89,
+        "Def": 73,
+        "MagicalDef": 77,
+        "Velocity": 108,
+        "Luck": 111
     }
 ]

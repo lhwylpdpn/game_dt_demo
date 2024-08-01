@@ -47,23 +47,26 @@ class BuildPatrol():
     
     @staticmethod
     def build_monster(origin_monster_data): # 返回monster的对象
-        monster = Monster(**origin_monster_data)
-        skills = []
-        for skill in origin_monster_data.get("skills"):
-            skill_detail = SkillDetail(**skill)
-            for each_skill_effect in skill.get("effects"):
-                skill_effect = SkillEffect(**each_skill_effect)
-                skill_detail.effects_add(skill_effect)
-            skills.append(skill_detail)
-        monster.set_skills(skills)
-        return [monster,]
+        monsters = []
+        for each in origin_monster_data:
+            monster = Monster(**each)
+            skills = []
+            for skill in each.get("skills"):
+                skill_detail = SkillDetail(**skill)
+                for each_skill_effect in skill.get("effects"):
+                    skill_effect = SkillEffect(**each_skill_effect)
+                    skill_detail.effects_add(skill_effect)
+                skills.append(skill_detail)
+            monster.set_skills(skills)
+            monsters.append(monster)
+        return monsters
 
         
 if __name__ == "__main__":
     #map = BuildPatrol.build_map(origin_map_data)    # map
-    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     #map.list_land_postion()
-    #print(heros[1].dict())
+    print(heros[1].dict())
     print(monster[0].dict())
     #print(map.dict())
