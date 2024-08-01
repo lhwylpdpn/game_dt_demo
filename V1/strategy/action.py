@@ -63,12 +63,15 @@ class Action(object):
         hero_max_step = hero["max_step"]
         boss_position = enemies[0]["position"]   # TODO 假设BOSS
         hero_normal_attack_range = hero["normal_attack_range"]
+        enemies_within_range = DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies)
 
-        if DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies):
-            res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
-                hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
-            )
+        if enemies_within_range:
+            # res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
+            #     hero_position, hero_normal_attack_range, enemies, maps, hero_max_step
+            # )
+            move_queue = DistanceFunc().manhattan_path(hero_position, enemies[0]["position"], hero_max_step)
             print("警戒范围内有敌方单位: ", move_queue)
+
 
         else:
             # res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
