@@ -41,7 +41,9 @@ class Action(object):
             if res:
                 # print(f"移动步骤：{move_queue}, 技能攻击：{attack}")
                 move_step = [{"action_type": "MOVE", "steps": m} for m in move_queue]
-                move_step.append({"action_type": f"SKILL_{attack}", "steps": attack, "attack_enemies": attack_enemies})
+                atk_position = tuple(tuple(_["position"]) for _ in attack_enemies)
+                attack_enemies = [_["MonsterId"] for _ in attack_enemies]
+                move_step.append({"action_type": f"SKILL_{attack}", "steps": atk_position, "attack_enemies": attack_enemies})
                 return True, move_step
             else:
                 res, move_queue, attack, attack_enemies = SelfFunc().can_normal_attack_multiple_enemies(
@@ -50,7 +52,9 @@ class Action(object):
                 if res:
                     # print(f"移动步骤：{move_queue}, 普通攻击：{attack}")
                     move_step = [{"action_type": "MOVE", "steps": m} for m in move_queue]
-                    move_step.append({"action_type": "SKILL_NORMAL", "steps": attack, "attack_enemies": attack_enemies})
+                    atk_position = tuple(tuple(_["position"]) for _ in attack_enemies)
+                    attack_enemies = [_["MonsterId"] for _ in attack_enemies]
+                    move_step.append({"action_type": "SKILL_NORMAL", "steps": atk_position, "attack_enemies": attack_enemies})
                     return True, move_step
                     # return True, [{"action_type": "move", "steps": move_queue}, {"action_type": "normal_attack", "steps": attack, "attack_enemies": attack_enemies}]
 
@@ -113,21 +117,21 @@ class Action(object):
 
         if "SKILL_" in step["action_type"]:
             if step["action_type"] == "SKILL_NORMAL":
-                attack_enemies_ids = [_["MonsterId"] for _ in step["attack_enemies"]]
+                attack_enemies_ids = step["attack_enemies"]
                 hero = [h for h in hero if h.protagonist == 1][0]
                 skill = hero.skills[0]
                 attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
                 hero.func_attack(attack_enemies, skill)
                 print(f"使用普通攻击 攻击敌人{attack_enemies_ids}")
-                res["attack_range"] = [_["position"] for _ in step["attack_enemies"]]
+                res["attack_range"] = step["steps"]
             else:
-                attack_enemies_ids = [_["MonsterId"] for _ in step["attack_enemies"]]
+                attack_enemies_ids = step["attack_enemies"]
                 hero = [h for h in hero if h.protagonist == 1][0]
                 skill = [s for s in hero.skills if s.SkillId == step["steps"]][0]
                 attack_enemies = [e for e in monster if e.MonsterId in attack_enemies_ids]
                 print(f"使用技能[{skill}] 攻击敌人{attack_enemies_ids}")
                 hero.func_attack(attack_enemies, skill)
-                res["attack_range"] = [_["position"] for _ in step["attack_enemies"]]
+                res["attack_range"] = step["steps"]
         return res
 
     def run_action(self, steps, hero, monster):

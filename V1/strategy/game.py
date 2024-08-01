@@ -15,14 +15,22 @@ class Game(object):
         self.maps = maps
 
     def action(self, step):
-        return Action().run_action(step, self.hero, self.monster)
+        hero = [h for h in self.hero if h.protagonist == 1][0]
+        if hero.is_death():
+            return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
+        res = Action().run_action(step, self.hero, self.monster)
+        print(f">>行动结束返回:{res}")
+        return res
 
     def check_game_over(self):
         monster = [m for m in self.monster if not m.is_death()]
+        print("monster :", monster)
         if not monster:
             return True
 
         hero = [h for h in self.hero if not h.is_death()]
+        print("hero :", hero)
+
         if not hero:
             return True
 
