@@ -107,12 +107,12 @@ class schedule:
                 if hero.__class__.__name__.lower() == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state)
-                    #print('tick',self.tick,'调度获得的行动list: 英雄', hero.HeroID, actions)
+                    print('tick',self.tick,'调度获得的行动list: 英雄', hero.HeroID, actions)
                     self.performance.event_end('schedule_choose_action')
                 if hero.__class__.__name__.lower() == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state)
-                    #print('tick',self.tick,'调度获得的行动list: 怪兽', hero.MonsterId, actions)
+                    print('tick',self.tick,'调度获得的行动list: 怪兽', hero.MonsterId, actions)
                     self.performance.event_start('schedule_choose_action')
 
                 for action in actions:
@@ -208,8 +208,8 @@ def Deepdiff_modify(before,after):
             tmp=after
             for _ in path:
                 tmp=tmp[_]
-            print(tmp)
-    print('对比结果',jsondiff.diff(before,after))
+            #print(tmp)
+    #print('对比结果',jsondiff.diff(before,after))
     # print('对比结果2',list(dictdiffer.diff(before, after)))
     return list(dictdiffer.diff(before, after))
 
@@ -223,8 +223,13 @@ if __name__ == '__main__':
     heros[0].set_x(1)
     heros[0].set_y(1)
     heros[0].set_z(1)
-    heros[0].set_Atk(20)
-    heros[0].set_max_step(100)
+    heros[0].set_Atk(1)
+    heros[0].set_max_step(300)
+    heros[1].set_max_step(300)
+    monster[0].set_x(100)
+    monster[0].set_Atk(10000)
+    monster[0].set_max_step(10000)
+
     #heros[0].set_max_step(3)
 
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
