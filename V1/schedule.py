@@ -172,6 +172,7 @@ class schedule:
     def _record(self,action,before_state,after_state):
         #update_dict=jsondiff.diff(before_state,after_state)
         update_dict=Deepdiff_modify(before_state,after_state)
+
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
 
@@ -193,22 +194,22 @@ class schedule:
 
 def Deepdiff_modify(before,after):
     diff_types = [
-        "dictionary_item_added",
-        "dictionary_item_removed",
-        "values_changed",
-        "iterable_item_added",
-        "iterable_item_removed",
-        "attribute_added",
-        "attribute_removed",
-        "type_changes",
-        "set_item_added",
-        "set_item_removed",
+        "add",
+        "remove",
+        "change",
     ]
 
-    res=DeepDiff(before,after)
-    diff_type=res.keys()
-    res=res.to_dict()
-    # print('对比结果',jsondiff.diff(before,after))
+    res=list(dictdiffer.diff(before, after))
+    print('Deepdiff_modify',res)
+
+    for i in res:
+        if i[0]=='change':
+            path=i[1]
+            tmp=after
+            for _ in path:
+                tmp=tmp[_]
+            #print(tmp)
+    #print('对比结果',jsondiff.diff(before,after))
     # print('对比结果2',list(dictdiffer.diff(before, after)))
     return list(dictdiffer.diff(before, after))
 
@@ -218,12 +219,19 @@ if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
+
     heros[0].set_x(1)
     heros[0].set_y(1)
     heros[0].set_z(1)
-    heros[0].set_Atk(20)
-    heros[0].set_max_step(100)
+    heros[0].set_Atk(1)
+    heros[0].set_max_step(300)
+    heros[1].set_max_step(300)
+    monster[0].set_x(100)
+    monster[0].set_Atk(10000)
+    monster[0].set_max_step(10000)
+
     #heros[0].set_max_step(3)
+
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
     sch.run()
     update=sch.send_update()
