@@ -81,7 +81,7 @@ class SelfFunc(object):
             # 判断当前位置是否满足技能攻击范围内有多个敌方单位的条件
             for idx, count in enumerate(skill_counts):
                 if count >= 2:
-                    attack_enemies = DistanceFunc().is_within_attack_range(skills[idx]["range"], hero_position, enemies)
+                    attack_enemies = DistanceFunc().is_within_attack_range(2, hero_position, enemies)
                     return True, [], skills[idx]["SkillId"], attack_enemies
 
             possible_moves = SelfFunc().possible_moves(current_position)
