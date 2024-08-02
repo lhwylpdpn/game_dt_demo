@@ -13,7 +13,7 @@ class SkillDetail():
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
         self.__ActiveSkills	= kwargs.get("ActiveSkills", None)     # 0，1  1 主动技能，0被动技能
         self.__effects = []
-        self.__use_count = self.__use_count() # 使用次数限制
+        self.__use_count = 999999999
         self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects"]
 
     def dict(self, fields=[]):
@@ -27,7 +27,6 @@ class SkillDetail():
                 data["effects"][each.key] = each.dict()
         data.update({field:self.__getattribute__(field) for field in fields})
         return data
-    
     
     @property
     def SkillId(self):
@@ -63,17 +62,15 @@ class SkillDetail():
     
     def effects_add(self, new_effect):
         self.__effects.append(new_effect)
+        if new_effect.key == "USE_COUNT":
+            self.__use_count = new_effect.param[0]
         return self
-
-    def __use_count(self): # 加载使用次数限制，没有使用次数的时候，无限
-        self.__use_count = 999999999
-        for each in self.__effects:
-            if each.key == "USE_COUNT":
-                self.__use_count = each.param[0]
-                return
     
     def use_skill(self): # 技能使用一次
         self.__use_count = self.__use_count - 1
+        for each in self.__effects:
+            if each.key == "USE_COUNT":
+                each.param[0] = each.param[0] - 1
         return self
 
     def is_avaliable(self): # 判断技能是否可用
