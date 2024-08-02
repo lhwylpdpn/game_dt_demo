@@ -66,7 +66,7 @@ if __name__ == "__main__":
     #monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     #map.list_land_postion()
     #print(heros[1].dict())
-    #print(heros[1].is_death)
+    print(heros[1].is_death())
     #print(heros[1].is_alive)
     #print(monster[0].dict())
     #print(map.view_from_z())

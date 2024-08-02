@@ -308,6 +308,11 @@ class Hero():
     def is_alive(self):
         return not self.is_death
     
+    def use_skill(self, skill): # 使用技能
+        if not skill.use_skill().is_avaliable():
+            self.__AvailableSkills.remove(skill.skillId)
+        return self
+    
     def func_attack(self, enemys=[], skill=None): #技能攻击
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
@@ -322,4 +327,5 @@ class Hero():
             print("Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
             print("Hp <after>: ", each.Hp)
+        self.use_skill(skill)
         return self
