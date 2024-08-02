@@ -14,7 +14,8 @@ class SkillDetail():
         self.__ActiveSkills	= kwargs.get("ActiveSkills", None)     # 0，1  1 主动技能，0被动技能
         self.__effects = []
         self.__use_count = 999999999
-        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects"]
+        self.__max_use_count = self.__use_count
+        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "use_count", "max_use_count"]
 
     def dict(self, fields=[]):
         if not fields:
@@ -36,6 +37,14 @@ class SkillDetail():
             if each.key == key:
                 return each
         raise Exception(f"ERROR: {key} not exit in skill {self.skillId}")
+    
+    @property
+    def use_count(self):
+        return self.__use_count
+
+    @property
+    def max_use_count(self):
+        return self.__use_count
 
     @property
     def SkillId(self):
@@ -73,6 +82,7 @@ class SkillDetail():
         self.__effects.append(new_effect)
         if new_effect.key == "USE_COUNT":
             self.__use_count = new_effect.param[0]
+            self.__max_use_count = self.__use_count
         return self
     
     def use_skill(self): # 技能使用一次
