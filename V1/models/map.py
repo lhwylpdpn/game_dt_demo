@@ -19,7 +19,16 @@ class Map(): # 地图
 
     def view_from_z(self):
         return np.max(self.map, axis=2)
-    
+
+    def view_from_z_dict(self):
+        data = []
+        a = pd.DataFrame(self.view_from_z())
+        for each_coloum in np.array(a.values.tolist()).tolist():
+            for each in each_coloum:
+                if isinstance(each, Land):
+                    data.append(each.position)
+        return data
+
     def dict(self):
         data = []
         for each_postion in self.list_land_postion():
