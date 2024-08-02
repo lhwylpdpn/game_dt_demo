@@ -6,13 +6,17 @@ def damage(attacker,defender,skill):
     attacker_Atk=attacker.Atk #假设虎哥已经算完了
     attacker_Def=defender.Def
     attacker_Velocity=attacker.Velocity
-    attacker_skill_coefficient=1#先写死
     attacker_x=attacker.x
     attacker_y=attacker.y
     attacker_z=attacker.z
-    attacker_critBase=attacker.critBase
 
-    #对手的属性
+
+
+
+    attacker_skill_coefficient = 1.5  # 技能伤害系数
+
+
+#对手的属性
     defender_HP=defender.Hp
     defender_Atk=defender.Atk
     defender_Def=defender.Def

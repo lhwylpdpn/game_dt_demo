@@ -34,9 +34,9 @@ class performance:
 def Deepdiff_modify(before,after):
 
     res=list(dictdiffer.diff(before, after))
-    print('before',before['hero']['heroID'][5003])
-    print('after',after['hero']['heroID'][5003])
-    print('Deepdiff_modify_before',res)
+    # print('before',before['hero']['heroID'][5003])
+    # print('after',after['hero']['heroID'][5003])
+    # print('Deepdiff_modify_before',res)
     return_res={}
     for i in res:
         if i[0]=='change':
