@@ -1,68 +1,62 @@
-origin_monster_data = {
-    "sn": 1,
-    "MonsterId": 1173,
-    "MonsterClass": 1,
-    "Name": "骷髅怪",
-    "Rank": 1,
-    "clazz": 2,
-    "Features": 0,
-    "Level": 1,
-    "max_step":2,
-    "critBase":0.2,
-    "hateBase":{},
-    "normal_attack_range":2,
-    "natures": [
-
-    ],
-    "Hp": 1000,
-    "Atk": 10,
-    "Def": 0,
-    "AtkDistance": [
-        0,
-        1
-    ],
-    "dogBase":4,
-    "Velocity": 150,
-    "HateRange": 5,
-    "Counterattack": 0,
-    "ForwardShake": 0.5,
-    "HitForwardShake": 0.1,
-    "AttributetypeIcon": "texture/icon/Hero_Attributetype/1",
-    "Weapons": "Art_3d/Weapon/1173_Sword/Prefab_1173_Sword",
-    "WeaponsId": "10001",
-    "ApproachEffect": 0,
-    "Duration": 0,
-    "exp": 0,
-    "RoundAction": 6,
-    "JumpHeight": [
-        6,
-        6
-    ],
-    "SpecialItems": 4,
-    "position": [
-        5,
-        5,
-        7
-    ],
-    "skills": [
-        {
-            "sn": 170,
-            "SkillId": 30,
-            "SkillLev": 1,
-            "SkillSpine": "",
-            "range":2,
-            "skill_type": "Attack",
-            "coefficient": 20,
-            "effects": [
-                {
-                    "id": 1,
-                    "key": "",
-                    "param": [
-                        "0"
-                    ],
-                    "tag": ""
-                }
-            ]
-        }
-    ]
-}
+origin_monster_data = [
+    {
+        "position": [
+            5,
+            5,
+            7
+        ],
+        "skills": [
+            {
+                "SkillId": 200,
+                "SkillLev": 1,
+                "DefaultSkills": 1,
+                "ActiveSkills": 1,
+                "effects": [
+                    {
+                        "id": 57,
+                        "key": "ATK_DISTANCE",
+                        "param": [
+                            "0",
+                            "1"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 60,
+                        "key": "ATK",
+                        "param": [
+                            "100",
+                            "130"
+                        ],
+                        "tag": ""
+                    },
+                    {
+                        "id": 63,
+                        "key": "IS_PLOT_HEIGHT",
+                        "param": [
+                            "1"
+                        ],
+                        "tag": ""
+                    }
+                ]
+            }
+        ],
+        "DogBase": 6,
+        "HeroID": 6001,
+        "AvailableSkills": [
+            200
+        ],
+        "RoundAction": 3,
+        "JumpHeight": [
+            1
+        ],
+        "Hp": 398,
+        "Atk": 94,
+        "MagicalAtk": 69,
+        "Agile": 83,
+        "Def": 63,
+        "MagicalDef": 70,
+        "Velocity": 83,
+        "Luck": 80
+    }
+]

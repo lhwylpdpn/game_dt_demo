@@ -8,22 +8,16 @@ date: 2024-07-22
 class SkillDetail():
     
     def __init__(self, **kwargs):
-        self.__sn = kwargs.get("sn", None)	
         self.__SkillId = kwargs.get("SkillId", None)
         self.__SkillLev = kwargs.get("SkillLev", None)
-        self.__desc = kwargs.get("desc", None)
-        self.__SkillIcon = kwargs.get("SkillIcon", None)
-        self.__SkillSpine	= kwargs.get("SkillSpine", None)
-        self.__effecDescribe	= kwargs.get("effecDescribe", None)
-        self.__skill_type = kwargs.get("skill_type", None)
-        self.__range = kwargs.get("range", None)
-        self.__coefficient = kwargs.get("coefficient", None)
+        self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
+        self.__ActiveSkills	= kwargs.get("ActiveSkills", None)     # 0，1  1 主动技能，0被动技能
         self.__effects = []
-        self.init_data = kwargs
-    
+        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects"]
+
     def dict(self, fields=[]):
         if not fields:
-            fields = list(self.init_data.keys())
+            fields = self.fields
         data = {}
         if "effects" in fields:
             data["effects"] = []
@@ -33,13 +27,6 @@ class SkillDetail():
         data.update({field:self.__getattribute__(field) for field in fields})
         return data
     
-    @property
-    def sn(self):
-        return self.__sn
-    
-    def set_sn(self, v):
-        self.__sn = v
-        return self
     
     @property
     def SkillId(self):
@@ -58,60 +45,12 @@ class SkillDetail():
         return self
     
     @property
-    def desc(self):
-        return self.__desc
-    
-    def set_desc(self, v):
-        self.__desc = v
-        return self
-    
-    @property
-    def SkillIcon(self):
-        return self.__SkillIcon
-    
-    def set_SkillIcon(self, v):
-        self.__SkillIcon = v
-        return self
-    
-    @property
-    def SkillSpine(self):
-        return self.__SkillSpine
-    
-    def set_SkillSpine(self, v):
-        self.__SkillSpine = v
-        return self
-    
-    @property
-    def effecDescribe(self):
-        return self.__effecDescribe
-    
-    def set_effecDescribe(self, v):
-        self.__effecDescribe = v
-        return self
+    def DefaultSkills(self):
+        return self.__DefaultSkills
 
     @property
-    def skill_type(self):
-        return self.__skill_type
-    
-    def set_skill_type(self, v):
-        self.__skill_type = v
-        return self
-
-    @property
-    def range(self):
-        return self.__range
-    
-    def set_range(self, v):
-        self.__range = v
-        return self
-    
-    @property
-    def coefficient(self):
-        return self.__coefficient
-    
-    def set_coefficient(self, v):
-        self.__coefficient = v
-        return self
+    def ActiveSkills(self):
+        return self.__ActiveSkills
     
     @property
     def effects(self):
