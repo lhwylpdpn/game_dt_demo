@@ -123,25 +123,23 @@ class schedule:
         if type(monster)!=list:
             monster=[monster]
 
-        map_dict={}
-        hero_dict={}
-        monster_dict={}
+        map_dict={'mapID':{}}
+        hero_dict={'heroID':{}}
+        monster_dict={'monsterID':{}}
 
         for i in range(len(map)):
-            map_dict[i]=map[i].dict()
+            map_dict['mapID'][i]=map[i].dict()
         for h in hero:
-            hero_dict[h.HeroID]=h.dict()
+            hero_dict['heroID'][h.HeroID]=h.dict()
         for m in monster:
-            monster_dict[m.HeroID]=m.dict()
+            monster_dict['monsterID'][m.HeroID]=m.dict()
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
     def _record(self,action,before_state,after_state):
-        #update_dict=jsondiff.diff(before_state,after_state)
         update_dict=Deepdiff_modify(before_state,after_state)
 
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
-
         self.record_update_dict[self.tick]['action'].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
 
@@ -153,11 +151,11 @@ class schedule:
         #     print('第',key,'tick 行动')
         #     print('行动',self.record_update_dict[key]['action'])
         #     print('状态',self.record_update_dict[key]['state'])
+        result={'ticks':self.record_update_dict}
+        result=json.dumps(result)
+        print(result)
 
-        self.record_update_dict=json.dumps(self.record_update_dict)
-        print(self.record_update_dict)
-
-        return self.record_update_dict
+        return result
 
 
 if __name__ == '__main__':
@@ -169,7 +167,7 @@ if __name__ == '__main__':
     # heros[0].set_y(1)
     # heros[0].set_z(1)
     # heros[0].set_Atk(1)
-    # heros[0].set_max_step(300)
+    # heros[0].set_RoundAction(100)
     # heros[1].set_max_step(300)
     # heros[1].set_dogBase(10000)
     # heros[0].set_dogBase(10000)
@@ -178,9 +176,8 @@ if __name__ == '__main__':
     # monster[0].set_max_step(10000)
 
     #heros[0].set_max_step(3)
-
+    #
     sch = schedule(state={"map": map, "hero": heros, "monster": monster})
     sch.run()
     update=sch.send_update()
     sch.performance.static()
-

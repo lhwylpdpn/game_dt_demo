@@ -34,7 +34,9 @@ class performance:
 def Deepdiff_modify(before,after):
 
     res=list(dictdiffer.diff(before, after))
-    #print('Deepdiff_modify_before',res)
+    print('before',before['hero']['heroID'][5003])
+    print('after',after['hero']['heroID'][5003])
+    print('Deepdiff_modify_before',res)
     return_res={}
     for i in res:
         if i[0]=='change':
@@ -65,8 +67,20 @@ def Deepdiff_modify(before,after):
                 tmp[_]=res.copy()
                 res=tmp
 
-        merge_dicts(return_res,res)
+        if i[0]=='remove':
+            path=i[1]
+            res={'remove':i[2]}
+            tmp={}
+            path=path[::-1]
+            for _ in path:
 
+                tmp={}
+                tmp[_]=res.copy()
+                res=tmp
+
+
+        merge_dicts(return_res,res)
+    print('Deepdiff_modify_after',return_res)
 
 
     return return_res
@@ -84,3 +98,4 @@ def merge_dicts(dict_a, dict_b):
         else:
             # 如果在 A 中不存在，直接添加
             dict_a[key] = dict_b[key]
+
