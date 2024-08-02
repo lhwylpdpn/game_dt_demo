@@ -141,6 +141,7 @@ class schedule:
             self.record_update_dict[self.tick]={'action':{alive_hero_class+'ID':{alive_hero_id:[]}},'state':[]}#初始化
         self.record_update_dict[self.tick]['action'][alive_hero_class+'ID'][alive_hero_id].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
+        self.record_update_dict[self.tick]['tick']=self.tick
 
     def send_update(self):
 
@@ -150,8 +151,9 @@ class schedule:
         #     print('第',key,'tick 行动')
         #     print('行动',self.record_update_dict[key]['action'])
         #     print('状态',self.record_update_dict[key]['state'])
-        result={'ticks':self.record_update_dict}
-        result=json.dumps(result)
+        #self.record_update_dict=self.record_update_dict.values()
+        result=[json.dumps(i) for i in self.record_update_dict.values()]
+
         print('给强爷',result)
 
         return result
