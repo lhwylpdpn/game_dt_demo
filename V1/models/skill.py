@@ -4,6 +4,10 @@ author : HU
 date: 2024-07-22
 """
 
+SKILL_DIC = {
+    
+} 
+
 
 class Skill():
 

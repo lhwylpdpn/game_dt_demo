@@ -66,11 +66,11 @@ class SkillDetail():
         return self
 
     def __use_count(self): # 加载使用次数限制，没有使用次数的时候，无限
+        self.__use_count = 999999999
         for each in self.__effects:
             if each.key == "USE_COUNT":
-                c = each.param[0]
+                self.__use_count = each.param[0]
                 return
-        self.__use_count = 999999999
     
     def use_skill(self): # 技能使用一次
         self.__use_count = self.__use_count - 1
