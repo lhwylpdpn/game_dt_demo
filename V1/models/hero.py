@@ -318,14 +318,16 @@ class Hero():
         # self 自己属性的改表
         # 敌人属性的改变
         # 地块的改变
+        result = {}
         if not isinstance(enemys, list):
             enemys = [enemys, ]
         for each in enemys:
             result = damage(attacker=self, defender=each, skill=skill)
-            _t_hp = each.Hp - result
+            result[each] = copy.deepcopy(result)
+            _t_hp = each.Hp - result.get("damage")
             print("Hp <before>: ", each.Hp)
             print("Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
             print("Hp <after>: ", each.Hp)
         self.use_skill(skill)
-        return self
+        return result

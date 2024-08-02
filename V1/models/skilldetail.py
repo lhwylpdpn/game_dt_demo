@@ -28,6 +28,15 @@ class SkillDetail():
         data.update({field:self.__getattribute__(field) for field in fields})
         return data
     
+    def avaliable_effects(self): # 当前skill有哪些效果
+        return [each.key for each in self.__effects]
+    
+    def get_effect_by_key(self, key):
+        for each in self.__effects:
+            if each.key == key:
+                return each
+        raise Exception(f"ERROR: {key} not exit in skill {self.skillId}")
+
     @property
     def SkillId(self):
         return self.__SkillId
