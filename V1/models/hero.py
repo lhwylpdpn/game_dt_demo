@@ -4,7 +4,9 @@ author : HU
 date: 2024-08-01
 """
 import json
+import copy
 from utils.damage import damage
+from utils.transposition import trans_postion
 
 class Hero():
     
@@ -52,13 +54,13 @@ class Hero():
 
         
         # position 位置
-        self.__position = kwargs.get("position")                               #  坐标
+        self.__position = list(trans_postion(*kwargs.get("position")))         #  坐标
         self.__avali_move_p_list = kwargs.get("avali_move_p_list", [])         #  可移动范围
         self.__shoot_p_list = kwargs.get("shoot_p_list", [])                   #  可攻击范围
         self.__atk_effect_p_list = kwargs.get("atk_effect_p_list", [])         #  攻击效果范围
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "DogBase",  "Hp", "Atk",  "Def", "MagicalAtk",
+            "DogBase",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", 
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
@@ -69,18 +71,23 @@ class Hero():
                    "RoundAction", "DogBase"]
         return self.dict(fields)
     
+    def dict_to_view(self, fields=[]):
+        data = self.dict(fields)
+        if "position" in data.keys():
+            data["position"] = list(trans_postion(*data["position"]))
+        return data
+
     def dict(self, fields=[]):
         if not fields:
-            fields = self.fields
+            fields = copy.deepcopy(self.fields)
         data = {}
         if "skills" in fields:
             data["skills"] = []
             fields.remove("skills")
-            for each in self.skills:
+            for each in self.__skills:
                 data["skills"].append(each.dict())
         data.update({field: self.__getattribute__(field) for field in fields})
-        return data
-             
+        return data         
     
     @property
     def HeroID(self): # 
@@ -292,6 +299,14 @@ class Hero():
     
     def move_position(self,x,y,z):
         return self.set_x(x).set_y(y).set_z(z)
+
+    @property
+    def is_death(self):
+        return self.Hp <= 0
+    
+    @property
+    def is_alive(self):
+        return not self.is_death
     
     def func_attack(self, enemys=[], skill=None): #技能攻击
         # TODO 调用攻击伤害函数

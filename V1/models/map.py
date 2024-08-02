@@ -6,21 +6,19 @@ date: 2024-07-18
 
 import pandas as pd
 import numpy as np
+from utils.transposition import trans_postion
 
 
 class Map(): # 地图
-    def __init__(self, x, y, z):
-        self.size = [x, y, z]
-        self.map = np.zeros((x, y, z), dtype=np.object)
-        # self.map[0,0,0] = Land()
-        # self.map[0,1,0] = Land()
-        # self.map[0,2,0] = Land()
-        # self.map[0,0,1] = Land()
-        # print(self.map)
-        # print("****************")
+    """
     
-    def view_from_y(self):
-        return np.max(self.map, axis=1)
+    """
+    def __init__(self, x, y, z): # 进来的参数是 地图的xyz，世界坐标的xzy
+        self.size = trans_postion(x, y, z)
+        self.map = np.zeros(self.size, dtype=np.object)
+
+    def view_from_z(self):
+        return np.max(self.map, axis=2)
     
     def dict(self):
         data = []
@@ -32,6 +30,7 @@ class Map(): # 地图
         return data
     
     def load_land(self,x,y,z, land): # 加载地块
+        x,y,z = trans_postion(x,y,z)
         self.map[x,y,z] = land
         return self
     
@@ -42,7 +41,7 @@ class Map(): # 地图
             postion_list.append(each.get('position'))
         df = pd.DataFrame(postion_list)
         x, y, z = list(df.max())
-        print("map size:", x+1, y+1, z+1)
+        print("map size:", x+1, z+1, y+1)
         return x+1, y+1, z+1 
     
     def list_land_postion(self):
@@ -54,7 +53,7 @@ class Map(): # 地图
 class Land(): # 地块
     
     def __init__(self, **kwargs):
-        self.__position = kwargs.get("position", None)
+        self.__position = list(trans_postion(*kwargs.get("position", None)))
         self.__sn = kwargs.get("sn", None)
         self.__PlotDescription = kwargs.get("PlotDescription", None)
         self.__Ap = kwargs.get("Ap", None)

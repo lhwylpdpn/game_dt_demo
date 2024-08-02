@@ -20,10 +20,10 @@ class SkillDetail():
             fields = self.fields
         data = {}
         if "effects" in fields:
-            data["effects"] = []
+            data["effects"] = {}
             fields.remove("effects")
             for each in self.__effects:
-                data["effects"].append(each.dict())
+                data["effects"][each.key] = each.dict()
         data.update({field:self.__getattribute__(field) for field in fields})
         return data
     

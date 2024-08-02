@@ -30,8 +30,6 @@ class BuildPatrol():
                     skill_detail.effects_add(skill_effect)
                 skills.append(skill_detail)
             _hero.set_skills(skills)
-                # getattr(_hero, f"set_skid{i}")(skill_detail)
-            # pprint(_hero.dict_short())
             heros.append(_hero)
         return heros
 
@@ -64,9 +62,11 @@ class BuildPatrol():
         
 if __name__ == "__main__":
     map = BuildPatrol.build_map(origin_map_data)    # map
-    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     #monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     #map.list_land_postion()
     #print(heros[1].dict())
+    #print(heros[1].is_death)
+    #print(heros[1].is_alive)
     #print(monster[0].dict())
-    print(map.view_from_y())
+    #print(map.view_from_z())
