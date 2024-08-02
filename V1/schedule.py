@@ -132,7 +132,7 @@ class schedule:
         for h in hero:
             hero_dict[h.HeroID]=h.dict()
         for m in monster:
-            monster_dict[m.MonsterId]=m.dict()
+            monster_dict[m.HeroID]=m.dict()
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
     def _record(self,action,before_state,after_state):
@@ -154,7 +154,9 @@ class schedule:
         #     print('行动',self.record_update_dict[key]['action'])
         #     print('状态',self.record_update_dict[key]['state'])
 
+        self.record_update_dict=json.dumps(self.record_update_dict)
         print(self.record_update_dict)
+
         return self.record_update_dict
 
 
@@ -182,9 +184,3 @@ if __name__ == '__main__':
     update=sch.send_update()
     sch.performance.static()
 
-
-    # s="['monster'][1173]['hateBase'][1173]"
-    # #针对字符串转抽取其中的monster，1173，hateBase，1173,不带括号
-    # import re
-    # res=re.findall(r'\[(.*?)\]',s)
-    # print(len(res),type(res))
