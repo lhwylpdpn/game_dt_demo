@@ -16,7 +16,7 @@ class Game(object):
 
     def hero_action(self, hero, step):
         # hero = [h for h in self.hero if h.protagonist == 1][0]
-        if hero.is_death():
+        if hero.is_death:
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
         res = Action().run_action(step, hero, self.monster)
         print(f"HERO >> 行动结束返回:{res}")
@@ -25,7 +25,7 @@ class Game(object):
     def monster_action(self, hero, step):
         # print(self.monster)
         # hero = [h for h in self.monster if h.protagonist == 1][0]
-        if hero.is_death():
+        if hero.is_death:
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
         res = Action().run_action(step, hero, self.hero)
         print(f"MONSTER >> 行动结束返回:{res}")
@@ -44,7 +44,7 @@ class Game(object):
         return False
 
     def get_current_alive_hero(self):
-        return [h for h in self.hero if not h.is_death()] + [m for m in self.monster if not m.is_death()]
+        return [h for h in self.hero if not h.is_death] + [m for m in self.monster if not m.is_death]
 
     def get_current_state(self):
         return {"hero": self.hero, "monster": self.monster, "map": self.maps}

@@ -64,7 +64,7 @@ class SelfFunc(object):
         skill_counts = []
         attack_enemies = []
         for skill in skills:
-            skill_range = skill["range"]
+            skill_range = 3
             attack_enemies = DistanceFunc().is_within_attack_range(skill_range, hero_position, enemies)
             skill_counts.append(len(attack_enemies))
 

@@ -25,7 +25,7 @@ class Action(object):
         hero_base_hp = hero["HpBase"]
         hero_skills = hero["skills"]
         hero_position = hero["position"]
-        hero_max_step = hero["max_step"]
+        hero_max_step = hero["RoundAction"]
 
         if len(DistanceFunc().is_within_enemy_range(hero_position, enemies)) > 1:
             if SelfFunc().is_health_sub_half(hero_hp, hero_base_hp):
@@ -43,8 +43,8 @@ class Action(object):
     def attack(self, hero, enemies, maps):
         hero_skills = hero["skills"]
         hero_position = tuple(hero["position"])
-        hero_max_step = hero["max_step"]
-        hero_normal_attack_range = hero["normal_attack_range"]
+        hero_max_step = hero["RoundAction"]
+        hero_normal_attack_range = 2
 
         if SkillFunc().has_attack_skill_available(hero_skills):
             res, move_queue, attack, attack_enemies = SelfFunc().can_skill_attack_multiple_enemies(
@@ -88,11 +88,11 @@ class Action(object):
 
     def move(self, hero, enemies, maps):
         hero_skills = hero["skills"]
-        hero_dog_base = hero["dogBase"]
+        hero_dog_base = hero["DogBase"]
         hero_position = hero["position"]
-        hero_max_step = hero["max_step"]
+        hero_max_step = hero["RoundAction"]
         boss_position = enemies[0]["position"]  # TODO 假设BOSS
-        hero_normal_attack_range = hero["normal_attack_range"]
+        hero_normal_attack_range = 2
         enemies_within_range = DistanceFunc().is_within_attack_range(hero_dog_base, hero_position, enemies)
 
         if enemies_within_range:
@@ -169,9 +169,17 @@ class Action(object):
                 res["atk_position"] = step["atk_position"]
         return res
 
+
+
     def run_action(self, steps, hero, monster):
         # print(f"本次行动步骤：{steps}")
         return self.choose_action(steps, hero, monster)
+
+    def choose_action_v2(self):
+        pass
+
+    def select_action_v2(self, hero, enemies, maps):
+        pass
 
 
 if __name__ == '__main__':
@@ -181,7 +189,3 @@ if __name__ == '__main__':
     maps = MAPS
     enemies = [ENEMY_A, ENEMY_B]
 
-    f = Action()
-    s = f.hero_action(hero, enemies, maps)
-    print('-->', s)
-    f.run_action(s, "", "")

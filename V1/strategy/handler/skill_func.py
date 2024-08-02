@@ -17,7 +17,7 @@ class SkillFunc(object):
         # 是否有可用攻击技能
         for s in skills:
             # if s["skill_type"] == "Attack" and s["remainingUses"] > 0:
-            if s["skill_type"] == "Attack":
+            # if s["skill_type"] == "Attack":
                 return True
         return False
 
