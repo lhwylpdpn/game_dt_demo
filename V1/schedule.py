@@ -63,22 +63,23 @@ class schedule:
 
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
-            alive_hero_name = hero.__class__.__name__.lower()
+            alive_hero_class = hero.__class__.__name__.lower()
+            alive_hero_id=hero.HeroID
             #向上取整
 
             once_tick=math.ceil(self.ap_limit/(hero.Velocity/self.ap_parm))
             #print('once_tick',self.tick,once_tick)
             if self.tick % once_tick == 0:
                 # 查看hero的队列
-                if hero.__class__.__name__.lower() == 'hero':
+                if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state)
-                    #print('tick',self.tick,'调度获得的行动list: 英雄', hero.HeroID, actions)
+                    #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id, actions)
                     self.performance.event_end('schedule_choose_action')
-                if hero.__class__.__name__.lower() == 'monster':
+                if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state)
-                    #print('tick',self.tick,'调度获得的行动list: 怪兽', hero.MonsterId, actions)
+                    #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id, actions)
                     self.performance.event_start('schedule_choose_action')
 
                 for action in actions:
@@ -94,7 +95,7 @@ class schedule:
                     self.performance.event_end('get_current_state')
 
                     self.performance.event_start('record')
-                    self._record(action, state_dict, new_state_dict)
+                    self._record(alive_hero_class,alive_hero_id,action, state_dict, new_state_dict)
                     self.performance.event_end('record')
                     self.performance.event_start('get_current_state')
                     state = new_state
@@ -113,8 +114,6 @@ class schedule:
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
-
-
 
         if type(map)!=list:
             map=[map]
@@ -135,12 +134,12 @@ class schedule:
             monster_dict['monsterID'][m.HeroID]=m.dict()
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
-    def _record(self,action,before_state,after_state):
+    def _record(self,alive_hero_class,alive_hero_id,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
 
         if self.record_update_dict.get(self.tick) is None:
-            self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
-        self.record_update_dict[self.tick]['action'].append(action)
+            self.record_update_dict[self.tick]={'action':{alive_hero_class+'ID':{alive_hero_id:[]}},'state':[]}#初始化
+        self.record_update_dict[self.tick]['action'][alive_hero_class+'ID'][alive_hero_id].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
 
     def send_update(self):
@@ -153,7 +152,7 @@ class schedule:
         #     print('状态',self.record_update_dict[key]['state'])
         result={'ticks':self.record_update_dict}
         result=json.dumps(result)
-        print(result)
+        print('给强爷',result)
 
         return result
 
@@ -162,12 +161,12 @@ if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
-    #
-    # heros[0].set_x(1)
-    # heros[0].set_y(1)
-    # heros[0].set_z(1)
-    # heros[0].set_Atk(1)
-    # heros[0].set_RoundAction(100)
+    #print(heros[0].Agile,heros[0].Agile,monster[0].Agile)
+    heros[0].set_x(1)
+    heros[0].set_y(1)
+    heros[0].set_z(1)
+    heros[0].set_Atk(1)
+    #heros[0].set_RoundAction(100)
     # heros[1].set_max_step(300)
     # heros[1].set_dogBase(10000)
     # heros[0].set_dogBase(10000)
@@ -181,3 +180,5 @@ if __name__ == '__main__':
     sch.run()
     update=sch.send_update()
     sch.performance.static()
+
+
