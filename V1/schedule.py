@@ -39,6 +39,7 @@ class schedule:
         self.ap_parm=20 # 特定设置，代表一个tick增加速度/20 个ap
         self.ap_limit=100 # 游戏设置，代表每满足100个ap就动一次
         self.game_over=False
+        self.init_state=None# 特定用于给强爷传输初始状态
         ##统计
         self.performance=performance()
 
@@ -46,6 +47,12 @@ class schedule:
         self.game.start()
 
     def run(self):
+        self.performance.event_start('get_current_state')
+
+        state = self.game.get_current_state()
+        state_dict = self.state_to_dict(state)
+        self.init_state=state_dict
+        self.performance.event_end('get_current_state')
 
         while self.tick < self.timeout_tick and not self.game_over:
             self.tick += 1
@@ -112,7 +119,7 @@ class schedule:
 
 
     #增加一个state静态化的方法
-    def state_to_dict_old(self,state):
+    def state_to_dict(self,state):
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
@@ -139,7 +146,7 @@ class schedule:
 
 
 
-    def state_to_dict(self,state):
+    def state_to_dict_back(self,state):
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
@@ -166,8 +173,8 @@ class schedule:
 
     def _record(self,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
-        print('before',json.dumps(before_state))
-        print('after',json.dumps(after_state))
+        # print('before',before_state['hero'])
+        # print('after',after_state['hero'])
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
         self.record_update_dict[self.tick]['action'].append(action)
@@ -183,23 +190,29 @@ class schedule:
         #     print('行动',self.record_update_dict[key]['action'])
         #     print('状态',self.record_update_dict[key]['state'])
         #self.record_update_dict=self.record_update_dict.values()
-        result=[json.dumps(i) for i in self.record_update_dict.values()]
-
+        result=[i for i in self.record_update_dict.values()]
+        result={'init_state':self.init_state,'update':result}
+        result=json.dumps(result)
         print('给强爷',result)
-
         return result
 
+
+def main(state):
+    sch = schedule(state)
+    sch.run()
+    update = sch.send_update()
+    sch.performance.static()
 
 if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
     #print(heros[0].Agile,heros[0].Agile,monster[0].Agile)
-    # heros[0].set_x(1)
-    # heros[0].set_y(1)
-    # heros[0].set_z(1)
-    # heros[0].set_Atk(1)
-    #heros[0].set_RoundAction(100)
+    heros[0].set_x(1)
+    heros[0].set_y(1)
+    heros[0].set_z(1)
+    heros[0].set_Atk(1)
+    # heros[0].set_RoundAction(100)
     # heros[1].set_max_step(300)
     # heros[1].set_dogBase(10000)
     # heros[0].set_dogBase(10000)
@@ -209,9 +222,7 @@ if __name__ == '__main__':
 
     #heros[0].set_max_step(3)
     #
-    sch = schedule(state={"map": map, "hero": heros, "monster": monster})
-    sch.run()
-    update=sch.send_update()
-    sch.performance.static()
+    state={"map": map, "hero": heros, "monster": monster}
+    main(state)
 
 
