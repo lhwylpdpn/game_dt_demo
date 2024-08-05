@@ -66,6 +66,9 @@ class Hero():
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
             ]
     
+    def get_fields(self):
+        return self.fields
+    
     def dict_short(self):
         fields = ["HeroID",  "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills",
                    "RoundAction", "DogBase"]

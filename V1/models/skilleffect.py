@@ -5,29 +5,29 @@ date: 2024-07-23
 """
 
 EFFECT_DETAIL = {
-    "PLOT_DESTROY": {"type":"hit_plant", "rate": "", }, # 伤害地块 造成们{0}%伤害，hp小于0后消失
-    "ATK_DISTANCE": {},                                 # 攻击范围 将攻击范围扩大{0|0}格
-    "PLOT_CHANGE": {},                                  # 转换地块 将{0}地块转换为{0}地块
-    "USE_COUNT": {},                                    # 使用次数 技能可使用{0}次
-    "ATK": {},                                          # 物理伤害 {0}%机率造成{0}%物理伤害
-    "HIT_LINE": {},                                     # 生效范围(线) 以怪物为原点，据据朝向线性延伸{0|0}
-    "REPEL_TARGET":{},                                  # 击退目标 将敌人击退们{0}格
-    "IS_PLOT_HEIGHT": {},                               # 生效高度范围触发 攻击范围限制高度，高低差{0}内生效
-    "ADD_HP":{}, 
-    "ADD_DEF":{},
+    "PLOT_DESTROY":   {"type":"hit_plant", "rate": "", }, # 伤害地块 造成们{0}%伤害，hp小于0后消失
+    "ATK_DISTANCE":   {},                                 # 攻击范围 将攻击范围扩大{0|0}格
+    "PLOT_CHANGE":    {},                                 # 转换地块 将{0}地块转换为{0}地块
+    "USE_COUNT":      {},                                 # 使用次数 技能可使用{0}次
+    "ATK":            {},                                 # 物理伤害 {0}%机率造成{0}%物理伤害
+    "HIT_LINE":       {},                                 # 生效范围(线) 以怪物为原点，据据朝向线性延伸{0|0}
+    "REPEL_TARGET":   {},                                 # 击退目标 将敌人击退们{0}格
+    "IS_PLOT_HEIGHT": {},                                 # 生效高度范围触发 攻击范围限制高度，高低差{0}内生效
+    "ADD_HP":         {}, 
+    "ADD_DEF":         {},
     "ADD_MAGICAL_DEF": {},
-    "ADD_ATK": {},
-    "IS_HIT":{},
-    "IS_DEFAULT_HIT":{},
-    "IS_WAIT": {},
-    "IS_NEAR_HERO": {},
-    "ATK_FORMULA_1": {},
+    "ADD_ATK":         {},
+    "IS_HIT":             {},
+    "IS_DEFAULT_HIT":     {},
+    "IS_WAIT":            {},
+    "IS_NEAR_HERO":       {},
+    "ATK_FORMULA_1":      {},
     "UPDATE_ATK_DISTANCE":{},
-    "HIT_RANGE":{},
-    "MOVE_SELF2TARGET":{},
-    "MOVE_TARGET2SELF":{},
+    "HIT_RANGE":          {},
+    "MOVE_SELF2TARGET":   {},
+    "MOVE_TARGET2SELF":   {},
     "DEBUFF_ROUND_ACTION":{},
-    "BUFF_MISS_HIT":{},
+    "BUFF_MISS_HIT":      {},
     "BUFF_HIT_RATE":{},
     "BUFF_MAX_ATK_DISTANCE":{},
     "BUFF_ROUND_ACTION":{},
@@ -48,7 +48,7 @@ class SkillEffect():
         self.__tag = kwargs.get("tag", "")
         # self.__name = kwargs.get("name", None) 	                  # 名称
         # self.__fanction = kwargs.get("fanction", None)	          # 效果描述 格式为 数值+持续时间 数值在前 持续时间在后
-        # self.__priority = kwargs.get("priority", None)	          # 优先级 数字越大优先级越高
+        self.__Priority = kwargs.get("Priority", None)	          # 优先级 数字越大优先级越高
         # self.__triggerTime = kwargs.get("triggerTime", None)	      # DEMO: 1、经过该地块 2、回合结束 3、停留在该地块 4、地块被摧毁 5、立刻触发 6，被攻击N次 
         #                               # 7，被攻击 8，走一步 9，使用技能时 对自己生效 10，使用技能时 对敌人生效 11，升级技能时 12.使用投掷技能时
         # self.__target = kwargs.get("target", None)	              # DEMO: 1.敌方单位 2.自身 3：所有地格 4：友方单位（包括自己） 5：友方目标（不包括自己） 6：敌我单位 7：进入该地格的目标 8：范围内所有地
@@ -116,13 +116,9 @@ class SkillEffect():
     #     self.__fanction = v
     #     return self
     
-    # @property
-    # def priority(self):
-    #     return self.__priority
-    
-    # def set_priority(self, v):
-    #     self.__priority = v
-    #     return self
+    @property
+    def Priority(self):
+        return self.__Priority
     
     # @property
     # def triggerTime(self):
