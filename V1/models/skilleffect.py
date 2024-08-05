@@ -4,6 +4,39 @@ author : HU
 date: 2024-07-23
 """
 
+EFFECT_DETAIL = {
+    "PLOT_DESTROY": {"type":"hit_plant", "rate": "", }, # 伤害地块 造成们{0}%伤害，hp小于0后消失
+    "ATK_DISTANCE": {},                                 # 攻击范围 将攻击范围扩大{0|0}格
+    "PLOT_CHANGE": {},                                  # 转换地块 将{0}地块转换为{0}地块
+    "USE_COUNT": {},                                    # 使用次数 技能可使用{0}次
+    "ATK": {},                                          # 物理伤害 {0}%机率造成{0}%物理伤害
+    "HIT_LINE": {},                                     # 生效范围(线) 以怪物为原点，据据朝向线性延伸{0|0}
+    "REPEL_TARGET":{},                                  # 击退目标 将敌人击退们{0}格
+    "IS_PLOT_HEIGHT": {},                               # 生效高度范围触发 攻击范围限制高度，高低差{0}内生效
+    "ADD_HP":{}, 
+    "ADD_DEF":{},
+    "ADD_MAGICAL_DEF": {},
+    "ADD_ATK": {},
+    "IS_HIT":{},
+    "IS_DEFAULT_HIT":{},
+    "IS_WAIT": {},
+    "IS_NEAR_HERO": {},
+    "ATK_FORMULA_1": {},
+    "UPDATE_ATK_DISTANCE":{},
+    "HIT_RANGE":{},
+    "MOVE_SELF2TARGET":{},
+    "MOVE_TARGET2SELF":{},
+    "DEBUFF_ROUND_ACTION":{},
+    "BUFF_MISS_HIT":{},
+    "BUFF_HIT_RATE":{},
+    "BUFF_MAX_ATK_DISTANCE":{},
+    "BUFF_ROUND_ACTION":{},
+    "BUFF_JUMP_HEIGHT":{},
+    "ATK_BACK":{},
+    "BUFF_DEF":{},
+    "BUFF_ATK":{},
+    "BUFE_HP":{}
+}
 
 
 class SkillEffect():
