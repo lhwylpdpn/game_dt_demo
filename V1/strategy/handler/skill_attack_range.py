@@ -4,7 +4,6 @@
 import time
 from functools import lru_cache
 
-from V1.strategy.handler.constant_2 import HERO, ENEMY_A, ENEMY_B
 from functools import lru_cache
 from itertools import product
 
