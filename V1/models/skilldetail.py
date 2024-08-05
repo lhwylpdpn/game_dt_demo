@@ -93,7 +93,10 @@ class SkillDetail():
         return self
 
     def is_avaliable(self): # 判断技能是否可用
-        return self.__use_count > 0 or self.__use_count is None
+        if self.__use_count is None:
+            return True
+        else:
+            return self.__use_count > 0 
 
     
         
