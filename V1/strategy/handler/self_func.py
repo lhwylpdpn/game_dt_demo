@@ -94,7 +94,7 @@ class SelfFunc(object):
                     # 检查移动后是否能够攻击到两个敌人
                     can_attack_two_enemies = False
                     for idx, skill in enumerate(skills):
-                        skill_range = skill["range"]
+                        skill_range = 2
                         attack_enemies = DistanceFunc().is_within_attack_range(skill_range, move, enemies)
                         # if len(DistanceFunc().is_within_attack_range(skill_range, move, enemies)) >= 2:
                         if len(attack_enemies):

@@ -95,7 +95,9 @@ class schedule:
                     self.performance.event_end('get_current_state')
 
                     self.performance.event_start('record')
-                    self._record(alive_hero_class,alive_hero_id,action, state_dict, new_state_dict)
+                    action['id']=alive_hero_id
+                    action['class']=alive_hero_class
+                    self._record(action, state_dict, new_state_dict)
                     self.performance.event_end('record')
                     self.performance.event_start('get_current_state')
                     state = new_state
@@ -110,6 +112,33 @@ class schedule:
 
 
     #增加一个state静态化的方法
+    def state_to_dict_old(self,state):
+        map=copy.deepcopy(state['map'])
+        hero=copy.deepcopy(state['hero'])
+        monster=copy.deepcopy(state['monster'])
+
+        if type(map)!=list:
+            map=[map]
+        if type(hero)!=list:
+            hero=[hero]
+        if type(monster)!=list:
+            monster=[monster]
+
+        map_dict={}
+        hero_dict={}
+        monster_dict={}
+
+        for i in range(len(map)):
+            map_dict[i]=map[i].dict()
+        for h in hero:
+            hero_dict[h.HeroID]=h.dict()
+        for m in monster:
+            monster_dict[m.HeroID]=m.dict()
+        return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
+
+
+
+
     def state_to_dict(self,state):
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
@@ -122,24 +151,26 @@ class schedule:
         if type(monster)!=list:
             monster=[monster]
 
-        map_dict={'mapID':{}}
-        hero_dict={'heroID':{}}
-        monster_dict={'monsterID':{}}
+        map_dict=[]
+        hero_dict=[]
+        monster_dict=[]
 
         for i in range(len(map)):
-            map_dict['mapID'][i]=map[i].dict()
+            map_dict.append(map[i].dict())
         for h in hero:
-            hero_dict['heroID'][h.HeroID]=h.dict()
+            hero_dict.append(h.dict())
         for m in monster:
-            monster_dict['monsterID'][m.HeroID]=m.dict()
+            monster_dict.append(m.dict())
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
-    def _record(self,alive_hero_class,alive_hero_id,action,before_state,after_state):
-        update_dict=Deepdiff_modify(before_state,after_state)
 
+    def _record(self,action,before_state,after_state):
+        update_dict=Deepdiff_modify(before_state,after_state)
+        print('before',json.dumps(before_state))
+        print('after',json.dumps(after_state))
         if self.record_update_dict.get(self.tick) is None:
-            self.record_update_dict[self.tick]={'action':{alive_hero_class+'ID':{alive_hero_id:[]}},'state':[]}#初始化
-        self.record_update_dict[self.tick]['action'][alive_hero_class+'ID'][alive_hero_id].append(action)
+            self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
+        self.record_update_dict[self.tick]['action'].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick']=self.tick
 
@@ -164,10 +195,10 @@ if __name__ == '__main__':
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
     #print(heros[0].Agile,heros[0].Agile,monster[0].Agile)
-    heros[0].set_x(1)
-    heros[0].set_y(1)
-    heros[0].set_z(1)
-    heros[0].set_Atk(1)
+    # heros[0].set_x(1)
+    # heros[0].set_y(1)
+    # heros[0].set_z(1)
+    # heros[0].set_Atk(1)
     #heros[0].set_RoundAction(100)
     # heros[1].set_max_step(300)
     # heros[1].set_dogBase(10000)

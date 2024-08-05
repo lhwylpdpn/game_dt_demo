@@ -19,6 +19,20 @@ class DistanceFunc(object):
         return count
 
     @staticmethod
+    def find_closest_enemy(hero_position, enemy_positions):
+        # 获取距离最近的敌人
+        closest_enemy = None
+        min_distance = float('inf')
+
+        for enemy in enemy_positions:
+            distance = BasicFunc().manhattan_distance(hero_position, enemy)
+            if distance < min_distance:
+                min_distance = distance
+                closest_enemy = enemy
+
+        return closest_enemy
+
+    @staticmethod
     def is_within_attack_range(range, hero_position, enemies):
         # 当前攻击(普攻 OR 技能 OR 警戒)范围内的敌人列表
         count = []
@@ -51,3 +65,9 @@ class DistanceFunc(object):
             steps -= 1
 
         return path
+
+if __name__ == '__main__':
+    hero_position = (1, 1, 1)
+    enemy_positions = (5, 7, 5)
+    f = DistanceFunc()
+    print(f.manhattan_path(hero_position, enemy_positions, 6))

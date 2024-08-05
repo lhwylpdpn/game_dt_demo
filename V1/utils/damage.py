@@ -117,6 +117,7 @@ def damage(attacker,defender,skill):
     #回避率高于100%则是100%
     avoidance=100 if avoidance>100 else avoidance
     miss=random.choices([0,1],[1-avoidance/100,avoidance/100])[0] #0 回避失败，所以命中 1 回避成功，所以没命中
+    #miss=0
     if miss==1:
         damage=0
     res={'damage':damage,'miss':miss}

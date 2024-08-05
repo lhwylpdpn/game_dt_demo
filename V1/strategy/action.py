@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:25
+from V1.strategy.handler.attack import Attack
 from V1.strategy.handler.self_func import SelfFunc
 from V1.strategy.handler.skill_func import SkillFunc
 from V1.strategy.handler.distance_func import DistanceFunc
@@ -168,6 +169,21 @@ class Action(object):
                 res["atk_range"] = step["atk_range"]
                 res["atk_position"] = step["atk_position"]
         return res
+
+    def attack_v2(self, hero, enemies, maps):
+        action_step = []
+        hero_position = hero["position"]
+        atk_pick = Attack().find_targets_within_atk_range(hero, enemies, maps)
+        if atk_pick:
+            if atk_pick["hero_pos"] != hero_position:
+                action_step += self.move_step_handler(atk_pick["route"])
+            action_step.append(
+                {"action_type": f"SKILL_{atk_pick['skill']['SkillId']}", "atk_range": atk_pick["atk_range"],
+                 "atk_position": atk_pick["skill_pos"], "attack_enemies": atk_pick["enemies_in_range"]})
+        print('action_step: ----->', action_step)
+
+    def move_v2(self, hero, enemies, maps):
+        pass
 
 
 
