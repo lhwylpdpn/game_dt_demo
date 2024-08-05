@@ -21,12 +21,14 @@ class Map(): # 地图
         return np.max(self.map, axis=2)
 
     def view_from_z_dict(self):
-        data = []
+        data = {}
         a = pd.DataFrame(self.view_from_z())
         for each_coloum in np.array(a.values.tolist()).tolist():
             for each in each_coloum:
                 if isinstance(each, Land):
-                    data.append(each.position)
+                    x,y,z = each.position
+                    land = self.map[x,y,z]
+                    data[(x,y,z)] = land.dict()
         return data
 
     def dict(self):
@@ -62,14 +64,14 @@ class Map(): # 地图
 class Land(): # 地块
     
     def __init__(self, **kwargs):
-        self.__position = list(trans_postion(*kwargs.get("position", None)))
-        self.__sn = kwargs.get("sn", None)
-        self.__PlotDescription = kwargs.get("PlotDescription", None)
-        self.__Ap = kwargs.get("Ap", None)
-        self.__Block = kwargs.get("Block", None)
-        self.__DestroyEffectsId = kwargs.get("DestroyEffectsId", [])
-        self.__DestroyState = kwargs.get("DestroyState", [])
-        self.__DestroyHp = kwargs.get("DestroyHp", None)
+        self.__position = list(trans_postion(*kwargs.get("position", None)))  # 坐标
+        self.__sn = kwargs.get("sn", None)                                    # sn
+        self.__PlotDescription = kwargs.get("PlotDescription", None)          # 地块描述
+        self.__Ap = kwargs.get("Ap", None)                                    # 通过地块的消耗
+        self.__Block = kwargs.get("Block", None)                              # 收否可以通过 1可以，0不可以
+        self.__DestroyEffectsId = kwargs.get("DestroyEffectsId", [])          # 破坏地块效果
+        self.__DestroyState = kwargs.get("DestroyState", [])                  # 地块状态
+        self.__DestroyHp = kwargs.get("DestroyHp", None)                      # 血量
         self.__effects = kwargs.get("effects", [])
     
     def dict(self, fields=[]):
