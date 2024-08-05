@@ -13,8 +13,9 @@ class SkillDetail():
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
         self.__ActiveSkills	= kwargs.get("ActiveSkills", None)     # 0，1  1 主动技能，0被动技能
         self.__effects = []
-        self.__use_count = 999999999
-        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects"]
+        self.__use_count = None
+        self.__max_use_count = self.__use_count
+        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "use_count", "max_use_count"]
 
     def dict(self, fields=[]):
         if not fields:
@@ -36,6 +37,14 @@ class SkillDetail():
             if each.key == key:
                 return each
         raise Exception(f"ERROR: {key} not exit in skill {self.skillId}")
+    
+    @property
+    def use_count(self):
+        return self.__use_count
+
+    @property
+    def max_use_count(self):
+        return self.__max_use_count
 
     @property
     def SkillId(self):
@@ -73,17 +82,18 @@ class SkillDetail():
         self.__effects.append(new_effect)
         if new_effect.key == "USE_COUNT":
             self.__use_count = new_effect.param[0]
+            self.__max_use_count = self.__use_count
         return self
     
     def use_skill(self): # 技能使用一次
-        self.__use_count = self.__use_count - 1
         for each in self.__effects:
             if each.key == "USE_COUNT":
+                self.__use_count = self.__use_count - 1
                 each.param[0] = each.param[0] - 1
         return self
 
     def is_avaliable(self): # 判断技能是否可用
-        return self.__use_count > 0
+        return self.__use_count > 0 or self.__use_count is None
 
     
         
