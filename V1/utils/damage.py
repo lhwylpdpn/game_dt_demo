@@ -176,5 +176,5 @@ def damage(attacker,defender,skill):
 if __name__ == '__main__':
 
     #产生一个30% 概率 出现0.3 ,70%出现0 的随机数
-    print(random.choices([0,1],[0.5,0.5])[0])
+    print(random_choices({0:0.5,1:0.5}))
 
