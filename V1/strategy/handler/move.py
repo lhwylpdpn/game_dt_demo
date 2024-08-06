@@ -12,6 +12,8 @@ class Move(object):
         hp = hero["Hp"]
         hp_base = hero["HpBase"]
         hero_position = tuple(hero["position"])
+        enemies = [e for e in enemies if e["Hp"] > 0]
+
         atk_count = 0
         if SelfFunc().is_health_sub_half(hp, hp_base):
             for enemy in enemies:
@@ -27,6 +29,7 @@ class Move(object):
         round_action = hero["RoundAction"]
         doge_base = hero["DogBase"]
         jump_height = int(hero["JumpHeight"][0])
+        enemies = [e for e in enemies if e["Hp"] > 0]
 
         enemy_positions = [tuple(e["position"]) for e in enemies]
 
