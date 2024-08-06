@@ -18,17 +18,18 @@ class Agent(object):
         hero = hero.dict()
         enemies = [_.dict() for _ in state["monster"]]
         used_points = [tuple(_.position) for _ in state["hero"]] + [tuple(_.position) for _ in state["monster"]]
-        print('----->', used_points)
         maps = state["map"].view_from_z_dict()
         maps = Attack().convert_maps(maps, used_points)
         res = Action().get_action_steps(hero, enemies, maps)
         return res
 
     def choice_monster_act(self, hero, state):
-        return []
         state = self.swap_specific_keys(state, "hero", "monster")
-        hero = hero.dict_short()
-        enemies = [_.dict_short() for _ in state["monster"]]
-        maps = state["map"].list_land_postion()
+        hero = hero.dict()
+        enemies = [_.dict() for _ in state["monster"]]
+        used_points = [tuple(_.position) for _ in state["hero"]] + [tuple(_.position) for _ in state["monster"]]
+
+        maps = state["map"].view_from_z_dict()
+        maps = Attack().convert_maps(maps, used_points)
         res = Action().get_action_steps(hero, enemies, maps)
         return res
