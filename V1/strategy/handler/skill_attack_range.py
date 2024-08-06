@@ -174,7 +174,7 @@ class SkillRange:
         results = []
         for point in release_range:
             attack_range = SkillRange.skill_effect_range(point, skill, maps)
-            enemies_in_range = [enemy for enemy in enemies if tuple(enemy["position"]) in attack_range]
+            enemies_in_range = [enemy for enemy in enemies if tuple(enemy["position"]) in attack_range and int(enemy["Hp"]) > 0]
             if len(enemies_in_range) > 0:  # 技能范围内>0的敌人才返回
                 results.append(
                     {
