@@ -37,13 +37,13 @@ class SelfFunc(object):
         x1, y1, z1 = pos1
         x2, y2, z2 = pos2
 
-        if x2 == x1 + 1 and y2 == y1 and z2 == z1:
+        if x2 == x1 + 1 and y2 == y1:
             return "RIGHT"
-        elif x2 == x1 - 1 and y2 == y1 and z2 == z1:
+        elif x2 == x1 - 1 and y2 == y1:
             return "LEFT"
-        elif y2 == y1 + 1 and x2 == x1 and z2 == z1:
+        elif y2 == y1 + 1 and x2 == x1:
             return "BOTTOM"
-        elif y2 == y1 - 1 and x2 == x1 and z2 == z1:
+        elif y2 == y1 - 1 and x2 == x1:
             return "TOP"
         else:
             raise Exception("invalid move")

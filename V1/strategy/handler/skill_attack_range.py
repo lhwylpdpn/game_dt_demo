@@ -226,6 +226,5 @@ class SkillRange:
 
 if __name__ == '__main__':
     f = SkillRange()
-    print(f.get_all_possible_attacks())
 
 
