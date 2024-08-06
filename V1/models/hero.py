@@ -392,7 +392,7 @@ class Hero():
                 skill.append(_)
         return skill
     
-    def load_skill(skill): # 记载技能
+    def load_skill(self, skill): # 记载技能
         for each in skill.__effects:
             if each.ky in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK', 'ADD_ATK_DISTANCE']:
                 if random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}): # 几率判断
