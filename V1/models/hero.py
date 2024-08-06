@@ -394,7 +394,7 @@ class Hero():
     
     def load_skill(self, skill): # 记载技能
         for each in skill.effects:
-            if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK', 'ADD_ATK_DISTANCE']:
+            if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
                 if random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}): # 几率判断
                     if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
                         hp = self.Hp +  self.HpBase * int(each.param[1])/100.0
@@ -405,8 +405,6 @@ class Hero():
                         self.set_MagicalDef(self.MagicalDef * (1 + int(each.param[1])/100.0))
                     elif each.key == "ADD_ATK": #
                         self.set_Atk(self.Atk * (1 + int(each.param[1])/100.0))
-                    elif each.key == "ADD_ATK_DISTANCE": 
-                        print("ADD_ATK_DISTANCE unpack!!")
                     else:
                         pass
             else:
