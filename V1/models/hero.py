@@ -334,9 +334,6 @@ class Hero():
     def reduce_buff(self): # 回合结束后，减少buff的加成
         for each in self.__buff:
             if not each.is_avaliable:
-                self.__buff.remove(each)
-                continue
-            else:
                 if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
                     self.set_RoundAction(self.RoundAction - int(param[0]))
                 if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
@@ -350,6 +347,7 @@ class Hero():
                     self.set_Hp(hp if hp >= 1 else 1)
                 if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
                     self.set_MagicalDef(self.MagicalDef * (1 - int(param[0])/100.0))
+                self.__buff.remove(each)
         return self
 
     @property
