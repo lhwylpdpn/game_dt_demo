@@ -1,5 +1,5 @@
-import random
 
+from tools import random_choices
 #准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage(attacker,defender,skill):
 
@@ -16,7 +16,7 @@ def damage(attacker,defender,skill):
     demo_skill['箭雨']=309
 
     if skill.SkillId == demo_skill['反击斩']:
-        res=random.choices([0,1],[0.5,0.5])[0] #0 反击生效  1 反击不生效
+        res=random_choices({0:0.5,1:0.5}) #0 反击生效  1 反击不生效
         if res==1:
             return {'damage':0,'miss':0}
     #####-------------------------------------------------------------------
@@ -161,8 +161,7 @@ def damage(attacker,defender,skill):
     #回避率高于100%则是100%
     avoidance=100 if avoidance>100 else avoidance
     avoidance=0 if avoidance<0 else avoidance
-
-    miss=random.choices([0,1],[1-avoidance/100,avoidance/100])[0] #0 回避失败，所以命中 1 回避成功，所以没命中
+    miss=random_choices({0:1-avoidance/100,1:avoidance/100}) #0 回避失败，所以命中 1 回避成功，所以没命中
     # if skill.get_effect_by_key('TAG_HIT') is not None: # 有必中效果的技能,miss=0 #todo 等虎哥更新
     #     miss=0
 
@@ -177,4 +176,5 @@ def damage(attacker,defender,skill):
 if __name__ == '__main__':
 
     #产生一个30% 概率 出现0.3 ,70%出现0 的随机数
-    print(random.choices([0,1],[0.5,0.5])[0])
+    print(random_choices({0:0.5,1:0.5}))
+

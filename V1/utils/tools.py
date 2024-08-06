@@ -1,7 +1,7 @@
 import dictdiffer
 import time
 import pandas as pd
-
+import random
 
 
 class performance:
@@ -105,3 +105,25 @@ def merge_dicts(dict_a, dict_b):
             # 如果在 A 中不存在，直接添加
             dict_a[key] = dict_b[key]
 
+
+def random_choices(dict_):
+    if type(dict_)!=dict:
+        raise ValueError('input must be dict')
+    choice_res=[k for k in dict_.keys()]
+    choice_p=[float(v) for v in dict_.values()]
+    if sum(choice_p)!=1:
+        raise ValueError('sum of choice_p must be 1')
+    if len(choice_res)!=len(choice_p):
+        raise ValueError('len of choice_res must be equal to len of choice_p')
+    if len(choice_res)==0:
+        raise ValueError('len of choice_res must be greater than 0')
+
+    res=random.choices(choice_res,choice_p)[0]
+    return res
+
+if __name__ == '__main__':
+    dict_= {0: 0.6, 1: 0.4}
+    res=0
+    for i in range(100):
+        res+=random_choices(dict_)
+    print(res)
