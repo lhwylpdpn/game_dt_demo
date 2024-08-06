@@ -143,6 +143,8 @@ class SkillRange:
         :param maps: 地图
         """
         atk_range = []
+        position = tuple(position)
+
         hit_line = skill["effects"].get("HIT_LINE", {}).get("param")
         hit_range = skill["effects"].get("HIT_RANGE", {}).get("param")
         # print(hit_line)
@@ -150,6 +152,8 @@ class SkillRange:
             atk_range += SkillRange().hit_line_range(position, maps, hit_line)
         if hit_range:
             atk_range += SkillRange().range_mht_hollow_circle(*position, hit_range[1], hit_range[0], maps)
+        if not atk_range and not hit_range:  # 单体攻击
+            atk_range = [position]
         return atk_range
 
     def get_attack_range(self, attacker, maps):
