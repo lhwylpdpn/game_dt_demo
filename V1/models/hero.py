@@ -285,11 +285,11 @@ class Hero():
     def BUFF_HIT_RATE(self): # 增加{0}的命中率
         value = None
         for each in self.__buff:
-            if each.__buff_key == "BUFF_HIT_RATE":
+            if each.buff_key == "BUFF_HIT_RATE":
                 if value is not None:
-                    value += int(each.__buff_value)
+                    value += int(each.buff_value)
                 else:
-                    value = int(each.__buff_value)
+                    value = int(each.buff_value)
         return value
 
     @property
@@ -298,9 +298,9 @@ class Hero():
         for each in self.__buff:
             if each.__buff_key == "BUFF_MISS_HIT":
                 if value is not None:
-                    value += int(each.__buff_value)
+                    value += int(each.buff_value)
                 else:
-                    value = int(each.__buff_value)
+                    value = int(each.buff_value)
         return value
 
     @property
@@ -309,9 +309,9 @@ class Hero():
         for each in self.__buff:
             if each.__buff_key == "BUFF_MAX_ATK_DISTANCE":
                 if value is not None:
-                    value += int(each.__buff_value)
+                    value += int(each.buff_value)
                 else:
-                    value = int(each.__buff_value)
+                    value = int(each.buff_value)
         return value
 
     def add_buff(self, buff_key, param): # 增加buff
