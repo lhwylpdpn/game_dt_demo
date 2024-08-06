@@ -173,8 +173,8 @@ class schedule:
 
     def _record(self,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
-        # print('before',before_state['hero'])
-        # print('after',after_state['hero'])
+        print('before_state',before_state['hero'])
+        print('after_state',after_state['hero'])
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
         self.record_update_dict[self.tick]['action'].append(action)
