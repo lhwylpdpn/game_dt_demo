@@ -432,6 +432,7 @@ class Hero():
     def use_skill(self, enemys=[], skill=None, attack_point=[]): # 使用技能后
         if not skill.use_skill().is_avaliable(): # 使用次数减少
             self.__AvailableSkills.remove(skill.skillId)
+        return self
         # 判断自己是否向敌人移动 #TODO
         if "MOVE_SELF2TARGET" in skill.avaliable_effects():
             move_value = skill.get_effect_by_key("MOVE_SELF2TARGET")[0] # 移动距离
