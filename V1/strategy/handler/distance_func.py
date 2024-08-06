@@ -82,11 +82,11 @@ class DistanceFunc(object):
         max_distance_sum = -1
         best_position = None
 
-        for position in positions_within_range:
+        for position, routes in positions_within_range.items():
             distance_sum = sum(BasicFunc().manhattan_distance(position, enemy) for enemy in enemy_positions)
             if distance_sum > max_distance_sum:
                 max_distance_sum = distance_sum
-                best_position = position
+                best_position = routes
 
         return best_position
 
