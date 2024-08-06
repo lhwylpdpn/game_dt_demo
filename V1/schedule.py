@@ -90,6 +90,7 @@ class schedule:
                     self.performance.event_start('schedule_choose_action')
 
                 for action in actions:
+                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,'action',action)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         self.game.hero_action(hero, action)
@@ -120,9 +121,10 @@ class schedule:
 
     #增加一个state静态化的方法
     def state_to_dict(self,state):
-        map=copy.deepcopy(state['map'])
-        hero=copy.deepcopy(state['hero'])
-        monster=copy.deepcopy(state['monster'])
+        #self.performance.event_start('get_current_state_to_dict')
+        map=state['map']
+        hero=state['hero']
+        monster=state['monster']
 
         if type(map)!=list:
             map=[map]
@@ -141,6 +143,7 @@ class schedule:
             hero_dict[h.HeroID]=h.dict()
         for m in monster:
             monster_dict[m.HeroID]=m.dict()
+        #self.performance.event_end('get_current_state_to_dict')
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
 
@@ -175,6 +178,7 @@ class schedule:
         update_dict=Deepdiff_modify(before_state,after_state)
         print('before_state',before_state['hero'])
         print('after_state',after_state['hero'])
+        print('update_dict',update_dict)
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
         self.record_update_dict[self.tick]['action'].append(action)
@@ -204,25 +208,12 @@ def main(state):
     sch.performance.static()
 
 if __name__ == '__main__':
+    a=time.time()
     map = BuildPatrol.build_map(origin_map_data)  # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
-    #print(heros[0].Agile,heros[0].Agile,monster[0].Agile)
-    heros[0].set_x(1)
-    heros[0].set_y(1)
-    heros[0].set_z(1)
-    heros[0].set_Atk(1)
-    # heros[0].set_RoundAction(100)
-    # heros[1].set_max_step(300)
-    # heros[1].set_dogBase(10000)
-    # heros[0].set_dogBase(10000)
-    # monster[0].set_x(100)
-    # monster[0].set_Atk(10000)
-    # monster[0].set_max_step(10000)
-
-    #heros[0].set_max_step(3)
-    #
     state={"map": map, "hero": heros, "monster": monster}
     main(state)
+    print('总时间',time.time()-a)
 
 
