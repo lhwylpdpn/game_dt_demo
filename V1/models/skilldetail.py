@@ -36,7 +36,7 @@ class SkillDetail():
         for each in self.__effects:
             if each.key == key:
                 return each
-        print(f"Warn: {key} not exit in skill {self.skillId}, so return None")
+        print(f"Warn: {key} not exit in skill {self.SkillId}, so return None")
         return None
     
     @property

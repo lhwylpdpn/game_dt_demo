@@ -406,7 +406,7 @@ class Hero():
                     elif each.key == "ADD_ATK": #
                         self.set_Atk(self.Atk * (1 + int(each.param[1])/100.0))
                     elif each.key == "ADD_ATK_DISTANCE": 
-                        raise Exception("ADD_ATK_DISTANCE unpack!!")
+                        print("ADD_ATK_DISTANCE unpack!!")
                     else:
                         pass
             else:
