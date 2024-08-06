@@ -316,10 +316,21 @@ class Hero():
             self.__AvailableSkills.remove(skill.skillId)
         return self
     
-    def load_init_unActiveSkill(self):
+    def load_init_unActiveSkill(self): # 初始的时候，增加非主动，非被动触发的技能
         pass
 
-    def func_attack(self, enemys=[], skill=None): #技能攻击
+    def before_attack(self):           # 被攻击之前，加载被动技能
+        pass
+
+    def after_attack(self):            # 被攻击后，卸载已经加载的技能
+        pass
+
+    def func_attack(self, enemys=[], skill=None, attack_point=[]): #技能攻击
+        """
+            @enemys       被攻击敌人对象列表
+            @skill        使用的技能对象
+            @attack_point 技能释放点位
+        """
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
         # 敌人属性的改变
