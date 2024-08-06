@@ -394,7 +394,7 @@ class Hero():
     
     def load_skill(self, skill): # 记载技能
         for each in skill.effects:
-            if each.ky in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK', 'ADD_ATK_DISTANCE']:
+            if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK', 'ADD_ATK_DISTANCE']:
                 if random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}): # 几率判断
                     if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
                         hp = self.Hp +  self.HpBase * int(each.param[1])/100.0
@@ -495,6 +495,6 @@ class Hero():
             print("Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
             print("Hp <after>: ", each.Hp)
-        self.use_skill(enemys=[], skill=None, attack_point=[])
+        self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point)
         self.reduce_buff_round_action() # 减少buff的round action
         return result
