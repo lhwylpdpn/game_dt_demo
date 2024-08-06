@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/8/5 11:14
-from V1.strategy.handler.attack import Attack
-from V1.strategy.handler.distance_func import DistanceFunc
-from V1.strategy.handler.self_func import SelfFunc
-from V1.strategy.handler.skill_attack_range import SkillRange
-from V1.strategy.handler.weight import Weight
+from strategy.handler.distance_func import DistanceFunc
+from strategy.handler.self_func import SelfFunc
+from strategy.handler.skill_attack_range import SkillRange
 
 
 class Move(object):

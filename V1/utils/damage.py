@@ -1,5 +1,5 @@
+from utils.tools import random_choices
 
-from .tools import random_choices
 #准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage(attacker,defender,skill):
 

@@ -3,12 +3,8 @@
 # @Time    : 2024/8/1 15:51
 from pprint import pprint
 
-from V1.buildpatrol import BuildPatrol
-from V1.strategy.handler.skill_attack_range import SkillRange
-from V1.strategy.handler.weight import Weight
-from V1.test_hero_data import origin_hero_data
-from V1.test_map_data import origin_map_data
-from V1.test_monster_data import origin_monster_data
+from strategy.handler.skill_attack_range import SkillRange
+from strategy.handler.weight import Weight
 
 
 class Attack(object):
