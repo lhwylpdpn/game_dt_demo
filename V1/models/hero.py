@@ -331,7 +331,7 @@ class Hero():
             self.set_MagicalDef(self.MagicalDef * (1 + int(param[0])/100.0))
         return self
     
-    def reduce_buff(self): # 回合结束后，减少buff的加成
+    def check_buff(self): # 回合结束后，检查buff的加成
         for each in self.__buff:
             if not each.is_avaliable:
                 if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
@@ -483,9 +483,9 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        if not isinstance(enemys, list):
-            enemys = [enemys, ]
-        self.reduce_buff()          # 减少buff
+        # if not isinstance(enemys, list):
+        #     enemys = [enemys, ]
+        self.check_buff()          # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             result = damage(attacker=self, defender=each, skill=skill)
