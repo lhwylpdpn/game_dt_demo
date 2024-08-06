@@ -28,6 +28,7 @@ class Action(object):
     def choose_action(self, step, hero, monster):
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
+            # print("=====>", step, hero.HeroID)
             hero.move_position(*step["move_position"])
 
         if "SKILL_" in step["action_type"]:
@@ -81,7 +82,7 @@ class Action(object):
 
 
 if __name__ == '__main__':
-    from V1.strategy.handler.constant import HERO, ENEMY_A, ENEMY_B, MAPS
+    from strategy.handler.constant import HERO, ENEMY_A, ENEMY_B, MAPS
 
     hero = HERO
     maps = MAPS
