@@ -31,10 +31,9 @@ class Action(object):
             hero.move_position(*step["move_position"])
 
         if "SKILL_" in step["action_type"]:
-            attack_enemies_ids = step["attack_enemies"]
+            attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
             attack_enemies = [e for e in monster if e.HeroID in attack_enemies_ids]
-            # print(f"使用技能[{skill}] 攻击敌人{attack_enemies_ids}")
             hero.func_attack(attack_enemies, skill)
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
