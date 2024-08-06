@@ -26,11 +26,12 @@ class Attack(object):
         for skill in hero["skills"]:
             if skill["SkillId"] in available_skills:
                 if skill["ActiveSkills"] == 1:
-                    if skill["DefaultSkills"] == 1:
-                        s.append(skill)
-                    else:
-                        if int(skill["effects"]["USE_COUNT"]["param"][0]) > 1:
+                    if "ATK_DISTANCE" in skill["effects"]:
+                        if skill["DefaultSkills"] == 1:
                             s.append(skill)
+                        else:
+                            if int(skill["effects"]["USE_COUNT"]["param"][0]) > 1:
+                                s.append(skill)
         return s
 
     def find_targets_within_atk_range(self, hero, enemies, maps):
