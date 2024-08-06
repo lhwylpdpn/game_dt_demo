@@ -23,13 +23,11 @@ class Game(object):
         return res
 
     def monster_action(self, hero, step):
-        # print(self.monster)
-        # hero = [h for h in self.monster if h.protagonist == 1][0]
-        if hero.is_death:
-            return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
-        res = Action().run_action(step, hero, self.hero)
-        print(f"MONSTER >> 行动结束返回:{res}")
-        return res
+        # if hero.is_death:
+        #     return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
+        # res = Action().run_action(step, hero, self.hero)
+        # return res
+        pass
 
     def check_game_over(self):
         monster = [m for m in self.monster if not m.is_death]
