@@ -122,9 +122,9 @@ class schedule:
     #增加一个state静态化的方法
     def state_to_dict(self,state):
         #self.performance.event_start('get_current_state_to_dict')
-        map=state['map']
-        hero=state['hero']
-        monster=state['monster']
+        map=copy.deepcopy(state['map'])
+        hero=copy.deepcopy(state['hero'])
+        monster=copy.deepcopy(state['monster'])
 
         if type(map)!=list:
             map=[map]
@@ -147,37 +147,10 @@ class schedule:
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
 
-
-
-    def state_to_dict_back(self,state):
-        map=copy.deepcopy(state['map'])
-        hero=copy.deepcopy(state['hero'])
-        monster=copy.deepcopy(state['monster'])
-
-        if type(map)!=list:
-            map=[map]
-        if type(hero)!=list:
-            hero=[hero]
-        if type(monster)!=list:
-            monster=[monster]
-
-        map_dict=[]
-        hero_dict=[]
-        monster_dict=[]
-
-        for i in range(len(map)):
-            map_dict.append(map[i].dict())
-        for h in hero:
-            hero_dict.append(h.dict())
-        for m in monster:
-            monster_dict.append(m.dict())
-        return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
-
-
     def _record(self,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
-        print('before_state',before_state['hero'])
-        print('after_state',after_state['hero'])
+        print('before_state',before_state['monster'][6002])
+        print('after_state',after_state['monster'][6001])
         print('update_dict',update_dict)
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
@@ -197,7 +170,7 @@ class schedule:
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
-        print('给强爷',result)
+        #print('给强爷',result)
         return result
 
 
