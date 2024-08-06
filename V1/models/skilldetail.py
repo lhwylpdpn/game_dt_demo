@@ -11,7 +11,7 @@ class SkillDetail():
         self.__SkillId = kwargs.get("SkillId", None)
         self.__SkillLev = kwargs.get("SkillLev", None)
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
-        self.__ActiveSkills	= kwargs.get("ActiveSkills", None)     # 0，1  1 主动技能，0被动技能
+        self.__ActiveSkills	= kwargs.get("ActiveSkills", 0)     # 0，1  1 主动技能，0被动技能
         self.__effects = []
         self.__use_count = None
         self.__max_use_count = self.__use_count
@@ -36,7 +36,8 @@ class SkillDetail():
         for each in self.__effects:
             if each.key == key:
                 return each
-        raise Exception(f"ERROR: {key} not exit in skill {self.skillId}")
+        print(f"Warn: {key} not exit in skill {self.skillId}, so return None")
+        return None
     
     @property
     def use_count(self):
@@ -80,6 +81,8 @@ class SkillDetail():
     
     def effects_add(self, new_effect):
         self.__effects.append(new_effect)
+        # 技能按照优先级排序
+        self.__effects = sorted(self.__effects, key=lambda x:x.Priority, reverse=True) 
         if new_effect.key == "USE_COUNT":
             self.__use_count = int(new_effect.param[0])
             self.__max_use_count = self.__use_count
