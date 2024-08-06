@@ -153,15 +153,20 @@ def damage(attacker,defender,skill):
     #回避率
     attacker_hitratebonus=0#todo 根据技能调整
     if attacker_hitrate is not None:
-        attacker_hitratebonus+=attacker_hitrate/100
-    defender_avoidancebonus=0#todo 根据技能调整
+        attacker_hitratebonus+=attacker_hitrate
 
+    defender_avoidancebonus=0#todo 根据技能调整
     avoidance=4+(defender_Velocity-attacker_Agile)*0.5*12+(defender_level-attacker_level)**0.5+defender_avoidancebonus-attacker_hitratebonus
     #最终伤害
     #回避率高于100%则是100%
+
     avoidance=100 if avoidance>100 else avoidance
     avoidance=0 if avoidance<0 else avoidance
     miss=random_choices({0:1-avoidance/100,1:avoidance/100}) #0 回避失败，所以命中 1 回避成功，所以没命中
+    #测试用
+    miss=0
+
+
     if skill.get_effect_by_key('TAG_HIT') is not None: # 有必中效果的技能,miss=0 #
         miss=0
 
@@ -170,6 +175,7 @@ def damage(attacker,defender,skill):
 
     if miss==1:
         damage=0
+    print('miss',miss)
     res={'damage':damage,'miss':miss}
     return res
 
