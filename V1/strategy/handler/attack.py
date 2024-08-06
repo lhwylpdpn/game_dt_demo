@@ -39,6 +39,8 @@ class Attack(object):
         max_step = hero["RoundAction"]
         position = tuple(hero["position"])
         jump_height = int(hero["JumpHeight"][0])
+        enemies = [e for e in enemies if e["Hp"] > 0]
+
         move_positions = SkillRange.get_manhattan_path(*position, max_step, maps, jump_height)  # 英雄可移动到的点位
 
         for move, paths in move_positions.items():
