@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:44
-import math
-from collections import deque
-
-from V1.strategy.handler.distance_func import DistanceFunc
-from V1.strategy.handler.func import BasicFunc
-
 
 class SelfFunc(object):
     @staticmethod

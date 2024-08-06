@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:25
-from V1.strategy.handler.attack import Attack
-from V1.strategy.handler.move import Move
-from V1.strategy.handler.self_func import SelfFunc
-from V1.strategy.handler.skill_func import SkillFunc
-from V1.strategy.handler.distance_func import DistanceFunc
+from strategy.handler.attack import Attack
+from strategy.handler.move import Move
+from strategy.handler.self_func import SelfFunc
+from strategy.handler.skill_func import SkillFunc
+from strategy.handler.distance_func import DistanceFunc
 
 
 class Action(object):

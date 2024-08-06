@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/26 14:20
-from V1.strategy.action import Action
-from V1.strategy.handler.attack import Attack
+from strategy.action import Action
+from strategy.handler.attack import Attack
 
 
 class Agent(object):

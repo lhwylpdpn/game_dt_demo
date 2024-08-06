@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:41
-from V1.strategy.handler.func import BasicFunc
-from V1.strategy.handler.skill_attack_range import SkillRange
+from strategy.handler.func import BasicFunc
+from strategy.handler.skill_attack_range import SkillRange
 
 
 class DistanceFunc(object):

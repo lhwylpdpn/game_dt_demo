@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/22 10:59
-from V1.buildpatrol import BuildPatrol
-from V1.strategy.action import Action
-from V1.test_hero_data import origin_hero_data
-from V1.test_map_data import origin_map_data
-from V1.test_monster_data import origin_monster_data
+from buildpatrol import BuildPatrol
+from strategy.action import Action
+from test_hero_data import origin_hero_data
+from test_map_data import origin_map_data
+from test_monster_data import origin_monster_data
 
 
 class Game(object):

@@ -3,8 +3,6 @@
 # @Time    : 2024/8/1 15:59
 import math
 
-from V1.strategy.handler.func import BasicFunc
-
 
 class Weight(object):
 
