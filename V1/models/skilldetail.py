@@ -81,7 +81,7 @@ class SkillDetail():
     def effects_add(self, new_effect):
         self.__effects.append(new_effect)
         if new_effect.key == "USE_COUNT":
-            self.__use_count = new_effect.param[0]
+            self.__use_count = int(new_effect.param[0])
             self.__max_use_count = self.__use_count
         return self
     
@@ -89,7 +89,7 @@ class SkillDetail():
         for each in self.__effects:
             if each.key == "USE_COUNT":
                 self.__use_count = self.__use_count - 1
-                each.param[0] = each.param[0] - 1
+                each.param[0] = str(int(each.param[0]) - 1)
         return self
 
     def is_avaliable(self): # 判断技能是否可用

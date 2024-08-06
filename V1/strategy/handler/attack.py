@@ -13,13 +13,20 @@ from V1.test_monster_data import origin_monster_data
 
 class Attack(object):
 
-    def convert_maps(self, maps):
-        return {(x, y): {"z": z} for x, y, z in maps}
+    def convert_maps(self, maps, used_points):
+        # return {(x, y): {"z": z} for x, y, z in maps}
+        xy_dict = {}
+        for k, v in maps.items():
+            if k in used_points:
+                v["used"] = 1
+            v["z"] = k[2]
+            xy_dict[(k[0], k[1])] = v
+        return xy_dict
 
     def get_damage_skills(self, hero):
         """ 获取主动的可用技能 """
         s = []
-        available_skills = hero["AvailableSkills"]
+        available_skills = hero.get("AvailableSkills", [])
         for skill in hero["skills"]:
             if skill["SkillId"] in available_skills:
                 if skill["ActiveSkills"] == 1:
@@ -31,31 +38,31 @@ class Attack(object):
         return s
 
     def find_targets_within_atk_range(self, hero, enemies, maps):
-        pick = {}
+        pick_list = []
         skills = self.get_damage_skills(hero)
         max_step = hero["RoundAction"]
         position = tuple(hero["position"])
         jump_height = int(hero["JumpHeight"][0])
         move_positions = SkillRange.get_manhattan_path(*position, max_step, maps, jump_height)  # 英雄可移动到的点位
-        print('----->', len(move_positions))
+        print(f"{hero['HeroID']}当前可施放技能数量:{len(skills)}, {position}")
 
         for move, paths in move_positions.items():
-            for skill in [skills[1]]:  # TODO test
-                pick_list = SkillRange().get_all_possible_attacks(move, enemies, skill, maps, paths)
-                for each in pick_list:
-                    _weight = Weight().clac_skill_weight(each)
-                    if not pick:
-                        pick = {"weight": _weight, "data": each}
-                        continue
-                    if pick["weight"] < _weight:
-                        pick = {"weight": _weight, "data": each}
+            for skill in skills:
+                pick_list += SkillRange().get_all_possible_attacks(move, enemies, skill, maps, paths)
+        return pick_list
 
+    def select_atk(self, pick_list):
+        pick = {}
+
+        for each in pick_list:
+            _weight = Weight().clac_skill_weight(each)
+            if not pick:
+                pick = {"weight": _weight, "data": each}
+                continue
+            if pick["weight"] < _weight:
+                pick = {"weight": _weight, "data": each}
         return pick["data"]
 
-    def select_atk_target(self, pick_list):
-        pass
 
 if __name__ == '__main__':
-
     f = Attack()
-

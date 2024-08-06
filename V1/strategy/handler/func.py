@@ -11,6 +11,14 @@ class BasicFunc(object):
         return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
 
     @staticmethod
+    def is_reach(start, end, jump_height):
+        # 是否可到达
+        if abs(start[2] - end["position"][2]) < jump_height:
+            if end["Block"] == 1:
+                return True
+        return False
+
+    @staticmethod
     def find_closest_enemy(start, targets, z_diff):
         """ 查找距离start 高低差内 最近的点位 """
         filtered_enemies = [enemy for enemy in targets if abs(enemy[2] - start[2]) <= z_diff]
