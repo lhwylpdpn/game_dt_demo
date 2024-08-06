@@ -81,7 +81,7 @@ class SkillDetail():
     def effects_add(self, new_effect):
         self.__effects.append(new_effect)
         if new_effect.key == "USE_COUNT":
-            self.__use_count = new_effect.param[0]
+            self.__use_count = int(new_effect.param[0])
             self.__max_use_count = self.__use_count
         return self
     

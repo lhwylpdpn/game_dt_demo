@@ -316,6 +316,9 @@ class Hero():
             self.__AvailableSkills.remove(skill.skillId)
         return self
     
+    def load_init_unActiveSkill(self):
+        pass
+
     def func_attack(self, enemys=[], skill=None): #技能攻击
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
