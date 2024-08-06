@@ -81,12 +81,12 @@ class schedule:
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state)
-                    #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id, actions)
+                    print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id, actions)
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state)
-                    #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id, actions)
+                    print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id, actions)
                     self.performance.event_start('schedule_choose_action')
 
                 for action in actions:
