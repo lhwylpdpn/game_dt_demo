@@ -31,7 +31,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 100
+        self.timeout_tick = 1000
         self.tick = 0
         self.record_update_dict = {}
         self.record_error_dict = {}
@@ -114,6 +114,7 @@ class schedule:
                 self.performance.event_start('check_game_over')
                 if self.game.check_game_over():
                     self.performance.event_end('check_game_over')
+                    print('战斗结束了！！！！')
                     self.game_over=True
                     return
                 self.performance.event_end('check_game_over')
@@ -176,6 +177,7 @@ class schedule:
 
 def main(state):
     sch = schedule(state)
+    sch.start()
     sch.run()
     update = sch.send_update()
     sch.performance.static()

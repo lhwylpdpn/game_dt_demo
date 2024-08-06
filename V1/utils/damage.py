@@ -40,7 +40,7 @@ def damage(attacker,defender,skill):
     attacker_level=1
     attacker_hitrate=100
 
-    #attacker_hitrate=attacker.BUFF_HIT_RATE # todo 等虎哥更新
+    attacker_hitrate=attacker.BUFF_HIT_RATE #
 
 
 
@@ -124,8 +124,8 @@ def damage(attacker,defender,skill):
     #暴击系数
     attacker_critBase=attacker_Luck**0.5*2-defender_Luck**0.5*0.5+attacker_critBase_bonus
 
-    # if skill.get_effect_by_key('TAG_CRIT') is None:#todo 等虎哥更新
-    #     attacker_critBase=1 # 没有暴击效果的技能 暴击系数都是1
+    if skill.get_effect_by_key('TAG_CRIT') is None:
+        attacker_critBase=1 # 没有暴击效果的技能 暴击系数都是1
 
     #伤害控制系数
     damageControlCoefficient=1 #todo 分技能,暂时没有
@@ -162,8 +162,8 @@ def damage(attacker,defender,skill):
     avoidance=100 if avoidance>100 else avoidance
     avoidance=0 if avoidance<0 else avoidance
     miss=random_choices({0:1-avoidance/100,1:avoidance/100}) #0 回避失败，所以命中 1 回避成功，所以没命中
-    # if skill.get_effect_by_key('TAG_HIT') is not None: # 有必中效果的技能,miss=0 #todo 等虎哥更新
-    #     miss=0
+    if skill.get_effect_by_key('TAG_HIT') is not None: # 有必中效果的技能,miss=0 #
+        miss=0
 
     if damage<0: #伤害小于0，伤害为0
         damage=0
