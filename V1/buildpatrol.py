@@ -30,6 +30,7 @@ class BuildPatrol():
                     skill_detail.effects_add(skill_effect)
                 skills.append(skill_detail)
             _hero.set_skills(skills)
+            _hero.load_init_unActiveSkill()
             heros.append(_hero)
         return heros
 
@@ -56,13 +57,14 @@ class BuildPatrol():
                     skill_detail.effects_add(skill_effect)
                 skills.append(skill_detail)
             monster.set_skills(skills)
+            monster.load_init_unActiveSkill()
             monsters.append(monster)
         return monsters
 
         
 if __name__ == "__main__":
     #map = BuildPatrol.build_map(origin_map_data)    # map
-    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     #map.list_land_postion()
     #print(heros[0].dict())
