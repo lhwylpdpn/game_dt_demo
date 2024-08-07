@@ -26,7 +26,7 @@ class Map(): # 地图
     def land_can_pass(self, x, y, z): # 判断地图是否可以通过
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            return int(land.Block) == 0
+            return int(land.Block) == 1
         return False
 
     def view_from_z_dict(self):
@@ -57,13 +57,13 @@ class Map(): # 地图
     def set_land_pass(self, x, y, z): # 设置地块可以通过
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(0)       
+            land.set_Block(1)       
         return self
 
     def set_land_no_pass(self, x, y, z): # 设置地块不可以通过
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(1)
+            land.set_Block(0)
         return self
     
     @staticmethod
