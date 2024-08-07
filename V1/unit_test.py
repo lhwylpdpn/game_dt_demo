@@ -11,10 +11,28 @@ class test_process:
         monster = BuildPatrol.build_monster(origin_monster_data)
         self.state = {"map": map, "hero": heros, "monster": monster}
 
-    def random(self):
-        for k in self.state['hero'][0].dict().keys():
-            print(k)
+
+
+    def test(self):
+        for i in range(len(self.state['hero'])):
+            #print(self.state['hero'][i].dict().keys())
+            #print(self.state['hero'][i].dict()['DogBase'])
+            self.state['hero'][i].set_DogBase(1000)
+            self.state['hero'][i].set_JumpHeight([100])
+        for i in range(len(self.state['monster'])):
+            #print(self.state['monster'][i].dict().keys())
+           # print(self.state['monster'][i].dict()['DogBase'])
+            self.state['monster'][i].set_DogBase(1000)
+            self.state['monster'][i].set_JumpHeight([100])
+    def run(self):
+        sch = schedule.schedule(self.state)
+        sch.start()
+        sch.run()
+        update = sch.send_update()
+        sch.performance.static()
+
 
 if __name__ == '__main__':
     a = test_process()
-    a.random()
+    a.test()
+    a.run()
