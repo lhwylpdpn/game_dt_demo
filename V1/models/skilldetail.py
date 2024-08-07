@@ -15,7 +15,7 @@ class SkillDetail():
         self.__effects = []
         self.__use_count = None
         self.__max_use_count = self.__use_count
-        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count"]
+        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count", "use_count"]
 
     def dict(self, fields=[]):
         if not fields:

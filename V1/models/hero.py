@@ -72,6 +72,8 @@ class Hero():
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
             ]
+        ### unit_hero
+        self.__unit_hero = []                                                 # 连携攻击的队友(每行动一次，重新组织一次此数据)
     
     def get_fields(self):
         return self.fields
@@ -318,38 +320,45 @@ class Hero():
 
     def add_buff(self, buff_key, param): # 增加buff
         self.__buff.append(Buff(buff_key, param[0], param[1]))
+        return self.__add_buf(buff_key, param[0])
+    
+    def __add_buf(self, buff_key, value): # 增加buff数值
         if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
-            self.set_RoundAction(self.RoundAction + int(param[0]))
+            self.set_RoundAction(self.RoundAction + int(value))
         if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
-            self.set_JumpHeight([self.JumpHeight[0] + int(param[0])])
+            self.set_JumpHeight([self.JumpHeight[0] + int(value)])
         if buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            self.set_Def(self.Def * (1 + int(param[0])/100.0))
+            self.set_Def(self.Def * (1 + int(value)/100.0))
         if buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            self.set_Atk(self.Atk * (1 + int(param[0])/100.0))
+            self.set_Atk(self.Atk * (1 + int(value)/100.0))
         if buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
-            hp = self.Hp +  self.HpBase * int(param[0])/100.0
+            hp = self.Hp +  self.HpBase * int(value)/100.0
             self.set_Hp(self.HpBase if hp >= self.HpBase else hp)
         if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            self.set_MagicalDef(self.MagicalDef * (1 + int(param[0])/100.0))
+            self.set_MagicalDef(self.MagicalDef * (1 + int(value)/100.0))
         return self
     
     def check_buff(self): # 回合结束后，检查buff的加成
         for each in self.__buff:
             if not each.is_avaliable:
-                if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
-                    self.set_RoundAction(self.RoundAction - int(param[0]))
-                if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
-                    self.set_JumpHeight([self.JumpHeight[0] - int(param[0])])
-                if buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-                    self.set_Def(self.Def * (1 - int(param[0])/100.0))
-                if buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-                    self.set_Atk(self.Atk * (1 - int(param[0])/100.0))
-                if buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
-                    hp = self.Hp -  self.HpBase * int(param[0])/100.0
-                    self.set_Hp(hp if hp >= 1 else 1)
-                if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-                    self.set_MagicalDef(self.MagicalDef * (1 - int(param[0])/100.0))
+                self.__remove_buf(each.buff_key, each.buff_value)
                 self.__buff.remove(each)
+        return self
+    
+    def __remove_buf(self, buff_key, value):
+        if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
+            self.set_RoundAction(self.RoundAction - int(value))
+        if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
+            self.set_JumpHeight([self.JumpHeight[0] - int(value)])
+        if buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
+            self.set_Def(self.Def * (1 - int(value)/100.0))
+        if buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
+            self.set_Atk(self.Atk * (1 - int(value)/100.0))
+        if buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
+            hp = self.Hp -  self.HpBase * int(value)/100.0
+            self.set_Hp(hp if hp >= 1 else 1)
+        if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
+            self.set_MagicalDef(self.MagicalDef * (1 - int(value)/100.0))
         return self
 
     @property
@@ -377,6 +386,8 @@ class Hero():
         return self 
     
     def move_position(self, x, y, z, map_obj):
+        if isinstance(map_obj, dict):
+            map_obj = map_obj['maps']
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
         map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
@@ -419,34 +430,52 @@ class Hero():
         return self
 
     def load_init_unActiveSkill(self): # load  buff
-        # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 
+        # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 , 不是连携
         for each_skill in self.get_Skills(active=0):
             if "IS_HIT" not in each_skill.avaliable_effects() and\
                "IS_WAIT" not in each_skill.avaliable_effects() and\
+               "IS_NEAR_HERO" not in each_skill.avaliable_effects() and\
                "IS_DEFAULT_HIT" not in each_skill.avaliable_effects(): 
-                    for each in each_skill.effects:
-                        self.add_buff(buff_key=each.key, param=each.param)
+                for each in each_skill.effects:
+                    self.add_buff(buff_key=each.key, param=each.param)
         return self
+    
+    def load_unit_buff(self):
+        # 增加非主动，非被动触发的技能, 不是被普通攻击 , 是连携
+        for each_skill in self.get_Skills(active=0):
+            if "IS_HIT" not in each_skill.avaliable_effects() and\
+               "IS_WAIT" not in each_skill.avaliable_effects() and\
+               "IS_NEAR_HERO" in each_skill.avaliable_effects() and\
+               "IS_DEFAULT_HIT" not in each_skill.avaliable_effects(): 
+                for each in each_skill.effects:
+                    self.__add_buf(buff_key=each.key, value=each.param[0])
 
+    def search_near_friends(self, value, map_obj, state): # 寻找我身边的队友
+        # 我身边的位置
+        pass     
+        
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
         return self.load_skill(skill)
 
     def skill_move_to_position(self, target, value, map_obj): # 自己走向 target 点 
-        move_value = int(move_value[0])
+        move_value = int(value[0])
         move_x, move_y, move_z = self.position
         while move_value:
             try:
-                if target.p_x == self.p_x: # x 轴相等
-                    if target.p_y > self.p_y: # 在上面
+                print(move_value, target.position, self.position)
+                if target.x == self.x: # x 轴相等
+                    if target.y > self.y: # 在上面
                         move_y = move_y + move_value # 我的y减小
                     else: # 在上面
                         move_y = move_y - move_value
-                if target.p_y == self.p_y: # y 轴相等
-                    if target.p_x > self.p_x: # 在右侧
+                if target.y == self.y: # y 轴相等
+                    if target.x > self.x: # 在右侧
                         move_x = move_x + move_value
                     else: # 在左侧
                         move_x = move_x - move_value
-                self.move_position(move_x, move_y, move_z, map_obj)
+                print(move_x, move_y, move_z)
+                if tuple([move_x, move_y, move_z]) != tuple(self.position):
+                    self.move_position(move_x, move_y, move_z, map_obj)
                 return self
             except Exception:
                 print(traceback.format_exc())
@@ -458,17 +487,18 @@ class Hero():
         move_x, move_y, move_z = self.position
         while move_value:
             try:
-                if enemy.p_x == self.p_x: # x 轴相等
-                    if enemy.p_y > self.p_y: # 敌人在上面
+                if enemy.x == self.x: # x 轴相等
+                    if enemy.y > self.y: # 敌人在上面
                         move_y = move_y - move_value # 我的y减小
                     else: # 敌人在上面
                         move_y = move_y + move_value
-                if enemy.p_y == self.p_y: # y 轴相等
-                    if enemy.p_x > self.p_x: # 敌人在右侧
+                if enemy.y == self.y: # y 轴相等
+                    if enemy.x > self.x: # 敌人在右侧
                         move_x = move_x - move_value
                     else: # 敌人在左侧
                         move_x = move_x + move_value
-                self.move_position(move_x, move_y, move_z, map_obj)
+                if tuple([move_x, move_y, move_z]) != tuple(self.position):
+                    self.move_position(move_x, move_y, move_z, map_obj)
                 return self
             except Exception:
                 print(traceback.format_exc())
@@ -480,11 +510,12 @@ class Hero():
             self.__AvailableSkills.remove(skill.skillId)
         enemy = None
         for each_e in enemys: # 只有技能落点的敌人移动
-            if each_e.position.p_x == attack_point[0] and\
-                each_e.position.p_y == attack_point[1] and\
-                each_e.position.p_y == attack_point[2]:
+            if tuple(each_e.position) == tuple(attack_point):
+                print(tuple(each_e.position), tuple(attack_point))
                 enemy = each_e
                 continue
+        if enemy is None:
+            return self
         # 判断自己是否向敌人移动 #TODO
         if "MOVE_SELF2TARGET" in skill.avaliable_effects():
             move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
@@ -522,7 +553,7 @@ class Hero():
             each.reduce_round_action()
         return self
 
-    def func_attack(self, enemys=[], skill=None, attack_point=[], map_obj=None): #技能攻击
+    def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
         """
             @enemys       被攻击敌人对象列表
             @skill        使用的技能对象
@@ -546,6 +577,6 @@ class Hero():
             print("Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
             print("Hp <after>: ", each.Hp)
-        self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point)
+        self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point, map_obj=state['maps'])
         self.reduce_buff_round_action() # 减少buff的round action
         return result
