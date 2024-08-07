@@ -462,7 +462,6 @@ class Hero():
         move_x, move_y, move_z = self.position
         while move_value:
             try:
-                print(move_value, target.position, self.position)
                 if target.x == self.x: # x 轴相等
                     if target.y > self.y: # 在上面
                         move_y = move_y + move_value # 我的y减小
@@ -473,8 +472,8 @@ class Hero():
                         move_x = move_x + move_value
                     else: # 在左侧
                         move_x = move_x - move_value
-                print(move_x, move_y, move_z)
                 if tuple([move_x, move_y, move_z]) != tuple(self.position):
+                    move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
                     self.move_position(move_x, move_y, move_z, map_obj)
                 return self
             except Exception:
@@ -498,6 +497,7 @@ class Hero():
                     else: # 敌人在左侧
                         move_x = move_x + move_value
                 if tuple([move_x, move_y, move_z]) != tuple(self.position):
+                    move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
                     self.move_position(move_x, move_y, move_z, map_obj)
                 return self
             except Exception:
@@ -511,7 +511,6 @@ class Hero():
         enemy = None
         for each_e in enemys: # 只有技能落点的敌人移动
             if tuple(each_e.position) == tuple(attack_point):
-                print(tuple(each_e.position), tuple(attack_point))
                 enemy = each_e
                 continue
         if enemy is None:

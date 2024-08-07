@@ -1,6 +1,6 @@
 origin_hero_data = [
   {
-    "position": [3, 5, 7],
+    "position": [6, 5, 9],
     "skills": [
       {
         "SkillId": 200,
@@ -16,7 +16,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 60,
@@ -35,11 +35,11 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 89,
-            "key": "CRIT",
+            "key": "TAG_CRIT",
             "param": [],
             "tag": "",
             "Priority": 8
@@ -60,7 +60,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 60,
@@ -80,7 +80,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 5
           },
           {
             "id": 62,
@@ -89,7 +89,7 @@ origin_hero_data = [
               "2"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 1
           },
           {
             "id": 59,
@@ -116,7 +116,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 64,
@@ -126,7 +126,7 @@ origin_hero_data = [
               "30"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 3
           },
           {
             "id": 85,
@@ -136,7 +136,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 88,
@@ -146,7 +146,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 59,
@@ -170,7 +170,7 @@ origin_hero_data = [
             "key": "IS_HIT",
             "param": [],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 65,
@@ -180,7 +180,7 @@ origin_hero_data = [
               "25"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 3
           }
         ]
       },
@@ -195,7 +195,7 @@ origin_hero_data = [
             "key": "IS_DEFAULT_HIT",
             "param": [],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 84,
@@ -205,7 +205,7 @@ origin_hero_data = [
               "100"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 2
           },
           {
             "id": 63,
@@ -214,7 +214,7 @@ origin_hero_data = [
               "2"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           }
         ]
       },
@@ -232,7 +232,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 87,
@@ -242,7 +242,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       },
@@ -260,7 +260,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 87,
@@ -270,7 +270,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       },
@@ -285,7 +285,7 @@ origin_hero_data = [
             "key": "IS_WAIT",
             "param": [],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 64,
@@ -295,7 +295,7 @@ origin_hero_data = [
               "5"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 3
           }
         ]
       },
@@ -313,7 +313,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 86,
@@ -323,7 +323,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 85,
@@ -333,17 +333,24 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
-            "id": 66,
-            "key": "ADD_MAGICAL_DEF",
+            "id": 88,
+            "key": "BUFF_MAGICAL_DEF",
             "param": [
-              "100",
-              "35"
+              "35",
+              "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
+          },
+          {
+            "id": 91,
+            "key": "ADD_BUFF_RANGE",
+            "param": [],
+            "tag": "",
+            "Priority": 9
           }
         ]
       }
@@ -364,7 +371,7 @@ origin_hero_data = [
     "Quality": 1
   },
   {
-    "position": [3, 5, 6],
+    "position": [6, 5, 8],
     "skills": [
       {
         "SkillId": 300,
@@ -380,7 +387,7 @@ origin_hero_data = [
               "3"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 72,
@@ -390,7 +397,7 @@ origin_hero_data = [
               "65"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 2
           },
           {
             "id": 63,
@@ -399,7 +406,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 73,
@@ -409,11 +416,11 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 2
           },
           {
             "id": 89,
-            "key": "CRIT",
+            "key": "TAG_CRIT",
             "param": [],
             "tag": "",
             "Priority": 8
@@ -434,7 +441,7 @@ origin_hero_data = [
               "4"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 60,
@@ -454,7 +461,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 6
           },
           {
             "id": 73,
@@ -464,7 +471,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 2
           },
           {
             "id": 59,
@@ -474,6 +481,13 @@ origin_hero_data = [
             ],
             "tag": "",
             "Priority": 10
+          },
+          {
+            "id": 90,
+            "key": "TAG_HIT",
+            "param": [],
+            "tag": "",
+            "Priority": 8
           }
         ]
       },
@@ -491,7 +505,7 @@ origin_hero_data = [
               "5"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 75,
@@ -500,7 +514,7 @@ origin_hero_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 4
           },
           {
             "id": 76,
@@ -509,7 +523,7 @@ origin_hero_data = [
               "4"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 3
           },
           {
             "id": 60,
@@ -543,7 +557,7 @@ origin_hero_data = [
             "key": "IS_HIT",
             "param": [],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 77,
@@ -554,7 +568,7 @@ origin_hero_data = [
               "3"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 2
           }
         ]
       },
@@ -569,7 +583,7 @@ origin_hero_data = [
             "key": "IS_DEFAULT_HIT",
             "param": [],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           },
           {
             "id": 78,
@@ -579,7 +593,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       },
@@ -597,13 +611,15 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       },
       {
         "SkillId": 306,
         "SkillLev": 1,
+        "DefaultSkills": 0,
+        "ActiveSkills": 0,
         "effects": [
           {
             "id": 81,
@@ -613,13 +629,15 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       },
       {
         "SkillId": 307,
         "SkillLev": 1,
+        "DefaultSkills": 0,
+        "ActiveSkills": 0,
         "effects": [
           {
             "id": 82,
@@ -629,7 +647,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 83,
@@ -639,13 +657,15 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       },
       {
         "SkillId": 308,
         "SkillLev": 1,
+        "DefaultSkills": 0,
+        "ActiveSkills": 0,
         "effects": [
           {
             "id": 82,
@@ -655,7 +675,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           },
           {
             "id": 81,
@@ -665,7 +685,7 @@ origin_hero_data = [
               "-1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 7
           }
         ]
       }

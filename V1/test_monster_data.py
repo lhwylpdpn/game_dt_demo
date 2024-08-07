@@ -1,6 +1,6 @@
 origin_monster_data = [
   {
-    "position": [5, 5, 7],
+    "position": [11, 11, 7],
     "skills": [
       {
         "SkillId": 200,
@@ -16,7 +16,7 @@ origin_monster_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 60,
@@ -35,13 +35,13 @@ origin_monster_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           }
         ]
       }
     ],
+    "HeroID": 1087763862030,
     "DogBase": 6,
-    "HeroID": 6001,
     "AvailableSkills": [200],
     "RoundAction": 3,
     "JumpHeight": [1],
@@ -56,7 +56,7 @@ origin_monster_data = [
     "Quality": 1
   },
   {
-    "position": [5, 6, 7],
+    "position": [11, 11, 12],
     "skills": [
       {
         "SkillId": 200,
@@ -72,7 +72,7 @@ origin_monster_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 8
+            "Priority": 1
           },
           {
             "id": 60,
@@ -91,13 +91,13 @@ origin_monster_data = [
               "1"
             ],
             "tag": "",
-            "Priority": 0
+            "Priority": 10
           }
         ]
       }
     ],
+    "HeroID": 1005799529489,
     "DogBase": 6,
-    "HeroID": 6002,
     "AvailableSkills": [200],
     "RoundAction": 3,
     "JumpHeight": [3],
