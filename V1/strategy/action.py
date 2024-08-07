@@ -35,6 +35,8 @@ class Action(object):
             hero.func_attack(attack_enemies, skill, step["atk_position"], state)
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
+        if step["action_type"] == "WAIT":
+            return step
         return res
 
     def attack(self, hero, atk_pick):
@@ -74,8 +76,11 @@ class Action(object):
 
         # 选择移动
         move_steps = Move().choose_move_steps(hero, enemies, maps)
-        # print('--?', move_steps)
-        return self.move_step_handler(move_steps)
+        steps = self.move_step_handler(move_steps)
+        if steps:
+            return steps
+        else:
+            return [{"action_type": "WAIT"}]
 
 
 if __name__ == '__main__':
