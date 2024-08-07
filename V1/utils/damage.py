@@ -121,12 +121,14 @@ def damage(attacker,defender,skill):
     defender_DefenseCoefficient=1
 
     attacker_critBase_bonus=0.05 if attacker_y>defender_y else -0.05
-    #暴击系数
-    attacker_critBase=attacker_Luck**0.5*2-defender_Luck**0.5*0.5+attacker_critBase_bonus
-
+    #暴击率
+    #attacker_critBase=attacker_Luck**0.5*2-defender_Luck**0.5*0.5+attacker_critBase_bonus
     if skill.get_effect_by_key('TAG_CRIT') is None:
-        attacker_critBase=1 # 没有暴击效果的技能 暴击系数都是1
-
+        attacker_critBase=0 # 没有暴击效果的技能 暴击加成等于0 ，最终计算伤害的时候维持*100%
+    else:
+        attacker_critBase = 0.25 + attacker_critBase_bonus
+        #随机一个0.1到0.5的加成,也就按暴击率计算一个要不0加成要不随机10%到50%的加成
+        attacker_critBase=random_choices({0:1-attacker_critBase,random.randint(10,50)/100:attacker_critBase}) #0 未暴击 1 暴击
     #伤害控制系数
     damageControlCoefficient=1 #todo 分技能,暂时没有
     #护盾伤害减免
@@ -139,7 +141,8 @@ def damage(attacker,defender,skill):
     ##这里负责封装三阶变量
     basedamage=attacker_ATK*attacker_skill_coefficient
     #print('basedamage',basedamage)
-    level2damage=(basedamage*(1+attacker_Atk_bonusCoefficient)-defender_Def)*defender_DefenseCoefficient*attacker_critBase
+    level2damage=(basedamage*(1+attacker_Atk_bonusCoefficient)-defender_Def)*defender_DefenseCoefficient*(1+attacker_critBase)
+    #print('basedamage',basedamage,'attacker_Atk_bonusCoefficient',attacker_Atk_bonusCoefficient,'defender_Def',defender_Def,'defender_DefenseCoefficient',defender_DefenseCoefficient,'attacker_critBase',attacker_critBase)
     #print('level2damage',level2damage)
     damage=level2damage*damageControlCoefficient-shieldDamageReduction
     #print('damage',damage)
@@ -156,15 +159,14 @@ def damage(attacker,defender,skill):
         attacker_hitratebonus+=attacker_hitrate
 
     defender_avoidancebonus=0#todo 根据技能调整
-    avoidance=4+(defender_Velocity-attacker_Agile)*0.5*12+(defender_level-attacker_level)**0.5+defender_avoidancebonus-attacker_hitratebonus
+    #avoidance=4+(defender_Velocity-attacker_Agile)*0.5*12+(defender_level-attacker_level)**0.5+defender_avoidancebonus-attacker_hitratebonus
+    avoidance=0.1+defender_avoidancebonus-attacker_hitratebonus #2024-08-07 修改
     #最终伤害
     #回避率高于100%则是100%
 
     avoidance=100 if avoidance>100 else avoidance
     avoidance=0 if avoidance<0 else avoidance
     miss=random_choices({0:1-avoidance/100,1:avoidance/100}) #0 回避失败，所以命中 1 回避成功，所以没命中
-    #测试用
-    miss=0
 
 
     if skill.get_effect_by_key('TAG_HIT') is not None: # 有必中效果的技能,miss=0 #
