@@ -25,16 +25,16 @@ class Action(object):
     def monster_action(self):
         print("敌人在原地发呆！")
 
-    def choose_action(self, step, hero, monster, maps):
+    def choose_action(self, step, hero, state):
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
-            hero.move_position(*step["move_position"], maps)
+            hero.move_position(*step["move_position"], state)
 
         if "SKILL_" in step["action_type"]:
             attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
-            attack_enemies = [e for e in monster if e.HeroID in attack_enemies_ids]
-            hero.func_attack(attack_enemies, skill, step["atk_position"], maps)
+            attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
+            hero.func_attack(attack_enemies, skill, step["atk_position"], state)
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
         return res

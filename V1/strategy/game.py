@@ -17,6 +17,7 @@ class Game(object):
         maps = self.maps.view_from_z_dict()
         for each in self.monster + self.hero:
             if tuple(each.position) not in maps:
+                print(f"{each.position}不在地块表面！")
                 return False
         return True
 
@@ -24,17 +25,18 @@ class Game(object):
         # 检查敌我双方 血量>0
         for each in self.monster + self.hero:
             if each.Hp < 0:
+                print(f"存在血量为0的对象在场上")
                 return False
         return True
 
     def _check_position_duplicate(self):
-        # 检查敌我双方位置是否在表面上
+        # 检查敌我双方位置是否重复
         maps = self.maps.view_from_z_dict()
         for each in self.monster + self.hero:
             if tuple(each.position) not in maps:
+                print(f"{each.position} 人物位置重复")
                 return False
         return True
-
 
     def hero_action(self, hero, step):
         if hero.is_death:

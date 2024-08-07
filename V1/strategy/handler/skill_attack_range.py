@@ -5,6 +5,8 @@
 from functools import lru_cache
 from itertools import product
 
+from strategy.handler.func import BasicFunc
+
 SKILL_TYPE = {
     "1": {"out_range": 2, "in_range": 1, "cross_range": None},
     "2": {"out_range": None, "in_range": None, "cross_range": 5}
@@ -12,20 +14,7 @@ SKILL_TYPE = {
 
 
 class SkillRange:
-    def get_damage_skills(self, hero):
-        """ 获取主动的可用技能 """
-        s = []
-        available_skills = hero.get("AvailableSkills", [])
-        for skill in hero["skills"]:
-            if skill["SkillId"] in available_skills:
-                if skill["ActiveSkills"] == 1:
-                    if "ATK_DISTANCE" in skill["effects"]:
-                        if skill["DefaultSkills"] == 1:
-                            s.append(skill)
-                        else:
-                            if int(skill["effects"]["USE_COUNT"]["param"][0]) > 1:
-                                s.append(skill)
-        return s
+
     @staticmethod
     # @lru_cache(maxsize=None)
     def get_maps_point(xy, maps):
@@ -55,7 +44,7 @@ class SkillRange:
                     p = (current_x + dx, current_y + dy)
                     if p not in maps:
                         continue
-                    if maps[p].get("used") == 1:
+                    if maps[p].get("used") == 1 or  maps[p].get("Block") == 0:
                         continue
                     point = SkillRange.get_maps_point(p, maps)
                     if jump_height is not None:
@@ -172,7 +161,7 @@ class SkillRange:
         # 获取攻击者 目前点位所有可释放范围内所有技能的攻击范围并集
         attack_range = []
         # skills = attacker["skills"]
-        skills = self.get_damage_skills(attacker)
+        skills = BasicFunc().get_damage_skills(attacker)
         attacker_position = tuple(attacker["position"])
         for skill in skills:
             release_range = SkillRange.skill_release_range(attacker_position, skill, maps)
@@ -243,5 +232,3 @@ class SkillRange:
 
 if __name__ == '__main__':
     f = SkillRange()
-
-
