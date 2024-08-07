@@ -19,6 +19,15 @@ class Map(): # 地图
 
     def view_from_z(self):
         return np.max(self.map, axis=2)
+    
+    def get_land_from_xy(self, x, y): # 从z俯视图中，根据 x,y 来确定 地块
+        return np.max(self.map[x,y,], axis=0)
+
+    def land_can_pass(self, x, y, z): # 判断地图是否可以通过
+        land = self.map[x,y,z]
+        if isinstance(land, Land):
+            return int(land.Block) == 0
+        return False
 
     def view_from_z_dict(self):
         data = {}
@@ -43,6 +52,18 @@ class Map(): # 地图
     def load_land(self,x,y,z, land): # 加载地块
         x,y,z = trans_postion(x,y,z)
         self.map[x,y,z] = land
+        return self
+
+    def set_land_pass(self, x, y, z): # 设置地块可以通过
+        land = self.map[x,y,z]
+        if isinstance(land, Land):
+            land.set_Block(0)       
+        return self
+
+    def set_land_no_pass(self, x, y, z): # 设置地块不可以通过
+        land = self.map[x,y,z]
+        if isinstance(land, Land):
+            land.set_Block(1)
         return self
     
     @staticmethod

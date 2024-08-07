@@ -5,9 +5,11 @@ date: 2024-08-01
 """
 import json
 import copy
+import traceback
 from utils.damage import damage
 from utils.transposition import trans_postion
 from utils.tools import random_choices
+from .map import Map, Land
 from .buff import Buff
 
 class Hero():
@@ -374,8 +376,13 @@ class Hero():
         self.__atk_effect_p_list = v
         return self 
     
-    def move_position(self,x,y,z):
-        return self.set_x(x).set_y(y).set_z(z)
+    def move_position(self, x, y, z, map_obj):
+        if not map_obj.land_can_pass(x, y, z):
+            raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
+        map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
+        map_obj.set_land_no_pass(x,y,z)       # 抵达地块设置为不可通过
+        self.set_x(x).set_y(y).set_z(z)      #设置新位置
+        return self
 
     @property
     def is_death(self):
@@ -411,7 +418,6 @@ class Hero():
                 continue
         return self
 
-
     def load_init_unActiveSkill(self): # load  buff
         # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 
         for each_skill in self.get_Skills(active=0):
@@ -425,27 +431,72 @@ class Hero():
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
         return self.load_skill(skill)
 
-    def skill_move_to_position(self, point, value):
-        print("TODO:技能移动", self.position, "move to ", point, "步数：", value)
+    def skill_move_to_position(self, target, value, map_obj): # 自己走向 target 点 
+        move_value = int(move_value[0])
+        move_x, move_y, move_z = self.position
+        while move_value:
+            try:
+                if target.p_x == self.p_x: # x 轴相等
+                    if target.p_y > self.p_y: # 在上面
+                        move_y = move_y + move_value # 我的y减小
+                    else: # 在上面
+                        move_y = move_y - move_value
+                if target.p_y == self.p_y: # y 轴相等
+                    if target.p_x > self.p_x: # 在右侧
+                        move_x = move_x + move_value
+                    else: # 在左侧
+                        move_x = move_x - move_value
+                self.move_position(move_x, move_y, move_z, map_obj)
+                return self
+            except Exception:
+                print(traceback.format_exc())
+                move_value = move_value - 1
         return self
     
-    def use_skill(self, enemys=[], skill=None, attack_point=[]): # 使用技能后
-        if not skill.use_skill().is_avaliable(): # 使用次数减少
-            self.__AvailableSkills.remove(skill.skillId)
+    def move_back(self, enemy, move_value, map_obj): # 敌人的攻击使我后退x格
+        move_value = int(move_value[0])
+        move_x, move_y, move_z = self.position
+        while move_value:
+            try:
+                if enemy.p_x == self.p_x: # x 轴相等
+                    if enemy.p_y > self.p_y: # 敌人在上面
+                        move_y = move_y - move_value # 我的y减小
+                    else: # 敌人在上面
+                        move_y = move_y + move_value
+                if enemy.p_y == self.p_y: # y 轴相等
+                    if enemy.p_x > self.p_x: # 敌人在右侧
+                        move_x = move_x - move_value
+                    else: # 敌人在左侧
+                        move_x = move_x + move_value
+                self.move_position(move_x, move_y, move_z, map_obj)
+                return self
+            except Exception:
+                print(traceback.format_exc())
+                move_value = move_value - 1
         return self
+    
+    def use_skill(self, enemys=[], skill=None, attack_point=[], map_obj=None): # 使用技能后
+        if not skill.use_skill().is_avaliable(): # 使用次数减少 后 判断技能是否还是可用的
+            self.__AvailableSkills.remove(skill.skillId)
+        enemy = None
+        for each_e in enemys: # 只有技能落点的敌人移动
+            if each_e.position.p_x == attack_point[0] and\
+                each_e.position.p_y == attack_point[1] and\
+                each_e.position.p_y == attack_point[2]:
+                enemy = each_e
+                continue
         # 判断自己是否向敌人移动 #TODO
         if "MOVE_SELF2TARGET" in skill.avaliable_effects():
-            move_value = skill.get_effect_by_key("MOVE_SELF2TARGET")[0] # 移动距离
-            self.skill_move_to_position(attack_point, move_value)
+            move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
+            self.skill_move_to_position(enemy, move_value, map_obj)
         # 判断敌人是否向自己移动 
         if "MOVE_TARGET2SELF" in skill.avaliable_effects():
-            move_value = skill.get_effect_by_key("MOVE_TARGET2SELF")[0] # 移动距离
-            for each_e in enemys:
-                if each_e.position.p_x == attack_point[0] and\
-                   each_e.position.p_y == attack_point[1] and\
-                   each_e.position.p_y == attack_point[2]:
-                   each_e.skill_move_to_position(self.position, move_value)
-                   continue
+            move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
+            enemy.skill_move_to_position(self, move_value, map_obj)
+        # 击退几格
+        if "REPEL_TARGET" in skill.avaliable_effects():
+            move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
+            enemy.move_back(self, move_value, map_obj)
         return self
 
     def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
@@ -471,11 +522,12 @@ class Hero():
             each.reduce_round_action()
         return self
 
-    def func_attack(self, enemys=[], skill=None, attack_point=[]): #技能攻击
+    def func_attack(self, enemys=[], skill=None, attack_point=[], map_obj=None): #技能攻击
         """
             @enemys       被攻击敌人对象列表
             @skill        使用的技能对象
             @attack_point 技能释放点位
+            @map_obj map_obj
         """
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
