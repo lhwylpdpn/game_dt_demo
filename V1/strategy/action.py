@@ -4,8 +4,6 @@
 from strategy.handler.attack import Attack
 from strategy.handler.move import Move
 from strategy.handler.self_func import SelfFunc
-from strategy.handler.skill_func import SkillFunc
-from strategy.handler.distance_func import DistanceFunc
 
 
 class Action(object):
@@ -56,9 +54,9 @@ class Action(object):
         action_step = self.move_step_handler(move_steps)
         return action_step
 
-    def run_action(self, steps, hero, monster, maps):
+    def run_action(self, steps, hero, state):
         # print(f"本次行动步骤：{steps}")
-        return self.choose_action(steps, hero, monster, maps)
+        return self.choose_action(steps, hero, state)
 
     def get_action_steps(self, hero, enemies, maps):
         # 判断是否逃跑
