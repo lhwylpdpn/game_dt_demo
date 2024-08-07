@@ -14,6 +14,13 @@ class Agent(object):
         d[key1], d[key2] = d[key2], d[key1]
         return d
 
+    def add_maps_block(self, state):
+        maps = state["maps"]
+        for m in [state["hero"] + state["monster"]]:
+            m.move_position(m.position, state["maps"])
+
+
+
     def choice_hero_act(self, hero, state):
         hero = hero.dict()
         enemies = [_.dict() for _ in state["monster"]]

@@ -20,13 +20,13 @@ class DistanceFunc(object):
         return count
 
     @staticmethod
-    def find_closest_enemy(hero_position, enemy_positions):
+    def find_closest_enemy(hero_position, enemies):
         # 获取距离最近的敌人
         closest_enemy = None
         min_distance = float('inf')
 
-        for enemy in enemy_positions:
-            distance = BasicFunc().manhattan_distance(hero_position, enemy)
+        for enemy in enemies:
+            distance = BasicFunc().manhattan_distance(hero_position, enemy["position"])
             if distance < min_distance:
                 min_distance = distance
                 closest_enemy = enemy
@@ -52,7 +52,7 @@ class DistanceFunc(object):
         path = [start]
         x, y, z = x1, y1, z1
 
-        while (x != x2 or y != y2) and steps > 0:
+        while x != x2 and y != y2 and steps > 0:
             if x < x2:
                 x += 1
             elif x > x2:
@@ -68,10 +68,9 @@ class DistanceFunc(object):
                     continue
                 is_reach = BasicFunc().is_reach(start, _point, jump_height)
                 if is_reach:
-                    if tuple(_point["position"]) != end:
-
-                        path.append(tuple(_point["position"]))
-                        steps -= 1
+                    # if tuple(_point["position"]) != end:
+                    path.append(tuple(_point["position"]))
+                    steps -= 1
 
         return path
 

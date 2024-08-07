@@ -39,14 +39,14 @@ class Game(object):
     def hero_action(self, hero, step):
         if hero.is_death:
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
-        res = Action().run_action(step, hero, self.monster)
+        res = Action().run_action(step, hero, self.monster, self.maps)
         print(f"HERO >> 行动结束返回:{res}")
         return res
 
     def monster_action(self, hero, step):
         if hero.is_death:
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
-        res = Action().run_action(step, hero, self.hero)
+        res = Action().run_action(step, hero, self.hero, self.maps)
         print(f"MONSTER >> 行动结束返回:{res}")
 
         return res

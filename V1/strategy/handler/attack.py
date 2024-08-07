@@ -3,6 +3,7 @@
 # @Time    : 2024/8/1 15:51
 from pprint import pprint
 
+from strategy.handler.func import BasicFunc
 from strategy.handler.skill_attack_range import SkillRange
 from strategy.handler.weight import Weight
 
@@ -19,24 +20,9 @@ class Attack(object):
             xy_dict[(k[0], k[1])] = v
         return xy_dict
 
-    def get_damage_skills(self, hero):
-        """ 获取主动的可用技能 """
-        s = []
-        available_skills = hero.get("AvailableSkills", [])
-        for skill in hero["skills"]:
-            if skill["SkillId"] in available_skills:
-                if skill["ActiveSkills"] == 1:
-                    if "ATK_DISTANCE" in skill["effects"]:
-                        if skill["DefaultSkills"] == 1:
-                            s.append(skill)
-                        else:
-                            if int(skill["effects"]["USE_COUNT"]["param"][0]) > 1:
-                                s.append(skill)
-        return s
-
     def find_targets_within_atk_range(self, hero, enemies, maps):
         pick_list = []
-        skills = self.get_damage_skills(hero)
+        skills = BasicFunc().get_damage_skills(hero)
         max_step = hero["RoundAction"]
         position = tuple(hero["position"])
         jump_height = int(hero["JumpHeight"][0])
