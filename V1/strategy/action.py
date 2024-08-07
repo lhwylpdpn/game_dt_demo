@@ -25,17 +25,16 @@ class Action(object):
     def monster_action(self):
         print("敌人在原地发呆！")
 
-    def choose_action(self, step, hero, monster):
+    def choose_action(self, step, hero, monster, maps):
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
-            # print("=====>", step, hero.HeroID)
-            hero.move_position(*step["move_position"])
+            hero.move_position(*step["move_position"], maps)
 
         if "SKILL_" in step["action_type"]:
             attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
             attack_enemies = [e for e in monster if e.HeroID in attack_enemies_ids]
-            hero.func_attack(attack_enemies, skill)
+            hero.func_attack(attack_enemies, skill, step["atk_position"], maps)
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
         return res
@@ -57,9 +56,9 @@ class Action(object):
         action_step = self.move_step_handler(move_steps)
         return action_step
 
-    def run_action(self, steps, hero, monster):
+    def run_action(self, steps, hero, monster, maps):
         # print(f"本次行动步骤：{steps}")
-        return self.choose_action(steps, hero, monster)
+        return self.choose_action(steps, hero, monster, maps)
 
     def get_action_steps(self, hero, enemies, maps):
         # 判断是否逃跑

@@ -8,6 +8,7 @@ class BasicFunc(object):
     @staticmethod
     def manhattan_distance(point1, point2):
         # 曼哈顿距离计算
+        point1, point2 = tuple(point1), tuple(point2)
         return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
 
     @staticmethod
@@ -26,6 +27,22 @@ class BasicFunc(object):
             return None
         closest_enemy = min(filtered_enemies, key=lambda enemy: BasicFunc().manhattan_distance(enemy, start))
         return closest_enemy
+
+    @staticmethod
+    def get_damage_skills(hero):
+        #  获取主动的可用的攻击技能
+        s = []
+        available_skills = hero.get("AvailableSkills", [])
+        for skill in hero["skills"]:
+            if skill["SkillId"] in available_skills:
+                if skill["ActiveSkills"] == 1:
+                    if "ATK_DISTANCE" in skill["effects"]:
+                        if skill["DefaultSkills"] == 1:
+                            s.append(skill)
+                        else:
+                            if int(skill["effects"]["USE_COUNT"]["param"][0]) > 1:
+                                s.append(skill)
+        return s
 
 
 if __name__ == '__main__':
