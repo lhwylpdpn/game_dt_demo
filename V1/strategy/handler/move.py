@@ -70,12 +70,12 @@ class Move(object):
                 closest_enemy_position = closest_enemy_position[0]
             else:
                 return []
-            print(f"{hero['HeroID']}向BOSS移动:{position} >>> {closest_enemy_position}")
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
         if atk_position:
             move_steps = DistanceFunc().manhattan_path(position, atk_position, round_action, maps, jump_height)
         else:
             return []
+        print(f"{hero['HeroID']}:{position}向敌人{closest_enemy_position['position']}移动, 移动目标 >>> {atk_position}")
 
         # move_steps = DistanceFunc().manhattan_path(position, closest_enemy_position, round_action, maps, jump_height)
         return move_steps
@@ -89,6 +89,6 @@ class Move(object):
 
         enemies_position = [tuple(e["position"]) for e in enemies]
         move_steps = DistanceFunc().get_furthest_position(position, enemies_position, round_action, maps, jump_height)
-        print('逃跑')
+        print(f'{hero["HeroID"]}向{move_steps}逃跑')
         return move_steps
 

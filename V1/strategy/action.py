@@ -63,14 +63,12 @@ class Action(object):
     def get_action_steps(self, hero, enemies, maps):
         # 判断是否逃跑
         if Move().is_escape(hero, enemies, maps):
-            print("逃跑！")
             move_steps = Move().escape(hero, enemies, maps)
             return self.move_step_handler(move_steps)
 
         # 判断能否攻击
         atk_pick = Attack().find_targets_within_atk_range(hero, enemies, maps)
         if atk_pick:
-            print("攻击！")
             pick_data = Attack().select_atk(atk_pick)
             return self.attack(hero, pick_data)
 
