@@ -102,35 +102,35 @@ class Land(): # 地块
     
     def __gt__(self, other):
         if isinstance(other, Land):
-            other = other.position[1]
-        if self.position[1] > other:
+            other = other.position[2]
+        if self.position[2] > other:
             return True
         return False
     
     def __lt__(self, other):
         if isinstance(other, Land):
-            other = other.position[1]
-        if self.position[1] < other:
+            other = other.position[2]
+        if self.position[2] < other:
             return True
         return False
     
     def __le__(self, other):
         if isinstance(other, Land):
-            other = other.position[1]
-        if self.position[1] <= other:
+            other = other.position[2]
+        if self.position[2] <= other:
             return True
         return False
     
     def __ge__(self, other):
         if isinstance(other, Land):
-            other = other.position[1]
-        if self.position[1] >= other:
+            other = other.position[2]
+        if self.position[2] >= other:
             return True
         return False
     
     def __eq__(self, other):
         if isinstance(other, Land):
-            other = other.position[1]
+            other = other.position[2]
         if self.position[2] == other:
             return True
         return False
