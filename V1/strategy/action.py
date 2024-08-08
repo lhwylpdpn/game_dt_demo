@@ -61,6 +61,7 @@ class Action(object):
         return self.choose_action(steps, hero, state)
 
     def get_action_steps(self, hero, enemies, maps):
+        print('-----------------------------------------')
         # 判断是否逃跑
         if Move().is_escape(hero, enemies, maps):
             move_steps = Move().escape(hero, enemies, maps)

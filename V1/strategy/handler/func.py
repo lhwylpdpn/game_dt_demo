@@ -14,7 +14,7 @@ class BasicFunc(object):
     @staticmethod
     def is_reach(start, end, jump_height):
         # 是否可到达
-        if abs(start[2] - end["position"][2]) < jump_height:
+        if abs(start["position"][2] - end["position"][2]) < jump_height:
             if end["Block"] == 1:
                 return True
         return False

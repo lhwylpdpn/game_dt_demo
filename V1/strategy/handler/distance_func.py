@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:41
+import heapq
 from strategy.handler.func import BasicFunc
 from strategy.handler.skill_attack_range import SkillRange
 
 
 class DistanceFunc(object):
+    @staticmethod
+    def heuristic(a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
     @staticmethod
     def is_within_enemy_range(hero_position, enemies):
@@ -45,6 +49,47 @@ class DistanceFunc(object):
         return count
 
     @staticmethod
+    def find_shortest_path(start, end, jump_height, maps):
+        """ 查找点与点之间的最近路径 """
+        start_pos = maps[(start[0], start[1])]
+        end_pos = maps[(end[0], end[1])]
+
+        open_set = []
+        heapq.heappush(open_set, (0, start_pos['position']))
+
+        came_from = {}
+        g_score = {start_pos['position']: 0}
+        f_score = {start_pos['position']: DistanceFunc.heuristic(start_pos['position'], end)}
+
+        while open_set:
+            _, current_position = heapq.heappop(open_set)
+
+            if current_position == end:
+                path = []
+                while current_position in came_from:
+                    path.append(current_position)
+                    current_position = came_from[current_position]
+                path.append(start)
+                path.reverse()
+                return path
+
+            x, y, z = current_position
+            current = maps[(x, y)]
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                next_coord = (x + dx, y + dy)
+                if next_coord in maps:
+                    next_pos = maps[next_coord]
+                    tentative_g_score = g_score[current_position] + 1
+                    if BasicFunc().is_reach(current, next_pos, jump_height):
+                    # if is_reachable(current, next_pos, jump_height):
+                        if next_pos['position'] not in g_score or tentative_g_score < g_score[next_pos['position']]:
+                            came_from[next_pos['position']] = current_position
+                            g_score[next_pos['position']] = tentative_g_score
+                            f_score[next_pos['position']] = tentative_g_score + DistanceFunc.heuristic(next_pos['position'], end)
+                            heapq.heappush(open_set, (f_score[next_pos['position']], next_pos['position']))
+        return []
+
+    @staticmethod
     def manhattan_path(start, end, steps, maps, jump_height):
         x1, y1, z1 = start
         x2, y2, z2 = end
@@ -66,7 +111,10 @@ class DistanceFunc(object):
                 _point = maps[(x, y)]
                 if _point.get("used") == 1:
                     continue
+                print('--------->', start, _point["position"], jump_height)
+
                 is_reach = BasicFunc().is_reach(start, _point, jump_height)
+                # is_reach = BasicFunc().is_reach(start, _point, jump_height)
                 if is_reach:
                     # if tuple(_point["position"]) != end:
                     path.append(tuple(_point["position"]))
