@@ -88,6 +88,10 @@ class Hero():
         if "position" in data.keys():
             data["position"] = list(trans_postion(*data["position"]))
         return data
+    
+    def join_game(self, state): # 进入战局
+        self.move_position(*self.position, state)
+        return self
 
     def dict(self, fields=[]):
         if not fields:
@@ -573,10 +577,10 @@ class Hero():
         for each_skill in self.get_Skills(active=0):
             if "IS_HIT" in each_skill.avaliable_effects() : # 被动触发的技能
                 if "IS_DEFAULT_HIT" in each_skill.avaliable_effects(): # 被默认技能攻击
-                    if int(skill.defaultSkills) == 1: # 技能是默认技能
+                    if int(skill.DefaultSkills) == 1: # 技能是默认技能
                         self.load_skill(each_skill)
                 else: # 不是被默认攻击时候出发
-                    if int(skill.defaultSkills) == 0: # 技能不是默认技能
+                    if int(skill.DefaultSkills) == 0: # 技能不是默认技能
                         self.load_skill(each_skill)
         return self
     
