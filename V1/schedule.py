@@ -81,16 +81,16 @@ class schedule:
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state)
-                    print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id, actions)
+                    print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state)
-                    print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id, actions)
+                    print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
                     self.performance.event_start('schedule_choose_action')
 
                 for action in actions:
-                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,'action',action)
+                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         self.game.hero_action(hero, action)
@@ -150,8 +150,7 @@ class schedule:
 
     def _record(self,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
-        # print('before_state',before_state['monster'][6002])
-        # print('after_state',after_state['monster'][6001])
+
         print('update_dict',update_dict)
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
@@ -171,7 +170,7 @@ class schedule:
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
-        #print('给强爷',result)
+        print('给强爷',result)
         return result
 
 
@@ -187,6 +186,13 @@ if __name__ == '__main__':
     map = BuildPatrol.build_map(origin_map_data)  # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)
+    # heros[0].set_x(1)
+    # heros[0].set_y(1)
+    # heros[0].set_z(1)
+    # heros[0].set_Atk(1000)
+    # heros[0].set_RoundAction(1)
+
+
     state={"map": map, "hero": heros, "monster": monster}
     main(state)
     print('总时间',time.time()-a)
