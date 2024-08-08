@@ -348,7 +348,7 @@ origin_hero_data = [
           {
             "id": 91,
             "key": "ADD_BUFF_RANGE",
-            "param": [],
+            "param": [0,1],
             "tag": "",
             "Priority": 9
           }
