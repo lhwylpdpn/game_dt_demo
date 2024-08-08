@@ -2,6 +2,7 @@
 """
 author : HU
 date: 2024-08-01
+
 """
 import json
 import copy
@@ -323,14 +324,16 @@ class Hero():
         return value
 
     def add_buff(self, buff_key, param): # 增加普通buff
-        self.__buff.append(Buff(buff_key, param[0], param[1]))
-        return self.__add_buf(buff_key, param[0])
+        buff = Buff(buff_key, param[0], param[1])
+        self.__buff.append(buff)
+        return self.__add_buf(buff_key, param[0], buff)
     
     def add_unit_buff(self, buff_key, param): # 增加连携buff
-        self.__unit_skill_buff.append(Buff(buff_key, param[0], param[1]))
-        return self.__add_buf(buff_key, param[0])
+        buff = Buff(buff_key, param[0], param[1])
+        self.__unit_skill_buff.append(buff)
+        return self.__add_buf(buff_key, param[0], buff)
     
-    def __add_buf(self, buff_key, value): # 增加buff数值
+    def __add_buf(self, buff_key, value, buff_object): # 增加buff数值
         if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
             self.set_RoundAction(self.RoundAction + int(value))
         if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
@@ -344,22 +347,25 @@ class Hero():
             self.set_Hp(self.HpBase if hp >= self.HpBase else hp)
         if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
             self.set_MagicalDef(self.MagicalDef * (1 + int(value)/100.0))
+        if buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
+            buff_object.set_buff_back = self.RoundAction
+            self.set_RoundAction(value)
         return self
     
     def check_buff(self): # 回合结束后，检查buff的加成
         for each in self.__buff:
             if not each.is_avaliable:
-                self.__remove_buf(each.buff_key, each.buff_value)
+                self.__remove_buf(each.buff_key, each.buff_value, each)
                 self.__buff.remove(each)
         return self
     
     def remove_unit_buff(self): # 去除连携buff
         for each in self.__unit_skill_buff:
-            self.__remove_buf(each.buff_key, each.buff_value)
+            self.__remove_buf(each.buff_key, each.buff_value, each)
         self.__unit_skill_buff = []
         return self 
     
-    def __remove_buf(self, buff_key, value):
+    def __remove_buf(self, buff_key, value, buff_object):
         if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
             self.set_RoundAction(self.RoundAction - int(value))
         if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
@@ -373,6 +379,8 @@ class Hero():
             self.set_Hp(hp if hp >= 1 else 1)
         if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
             self.set_MagicalDef(self.MagicalDef * (1 - int(value)/100.0))
+        if buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
+            self.set_RoundAction(buff_object.buff_back)
         return self
 
     @property
@@ -425,6 +433,20 @@ class Hero():
                 skill.append(_)
         return skill
     
+    def get_back_skills(self, enemy): # 获取反击技能
+        skill = []
+        for _ in self.__skills:
+            if int(_.ActiveSkills) == 0 :
+                if "ATK_BACK" in _.avaliable_effects() and\
+                   "IS_HIT" in _.avaliable_effects():
+                    skill.append(_)
+                if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and\
+                   "IS_HIT" in _.avaliable_effects():
+                   param = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
+                   if random_choices({True:int(param[0])/100.0, False:1 - int(param[0])/100.0}): # 几率判断
+                       enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=param[1:2])
+        return skill
+
     def load_skill(self, skill): # 记载技能
         for each in skill.effects:
             if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
@@ -596,12 +618,13 @@ class Hero():
             each.reduce_round_action()
         return self
 
-    def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
+    def func_attack(self, enemys=[], skill=None, attack_point=[], state={}, is_back_atk=False): #技能攻击
         """
             @enemys       被攻击敌人对象列表
             @skill        使用的技能对象
             @attack_point 技能释放点位
             @map_obj map_obj
+            is_back_atk 是不是反击
         """
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
@@ -617,10 +640,13 @@ class Hero():
             result = damage(attacker=self, defender=each, skill=skill)
             result[each] = copy.deepcopy(result)
             _t_hp = each.Hp - result.get("damage")
-            print("Hp <before>: ", each.Hp)
-            print("Hp <damaeg>: ", result)
+            print(each.HeroID ,"Hp <before>: ", each.Hp)
+            print(each.HeroID ,"Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
-            print("Hp <after>: ", each.Hp)
+            print(each.HeroID ,"Hp <after>: ", each.Hp)
+            if not is_back_atk: # 不是反击
+                for each_back_skill in each.get_back_skills(self): # 发动反击
+                    each.func_attack(enemys=[self], skill=each_back_skill, attack_point=self.position, state=state, is_back_atk=True)
         self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         self.reduce_buff_round_action() # 减少buff的round action
         return result

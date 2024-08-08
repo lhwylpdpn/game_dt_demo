@@ -10,10 +10,11 @@ from utils.transposition import trans_postion
 
 class Buff():
     
-    def __init__(self, buff_key, buff_value, buff_round_action):
+    def __init__(self, buff_key, buff_value, buff_round_action, buff_back=None):
         self.__buff_key = buff_key
         self.__buff_value = buff_value
         self.__buff_round_action = int(buff_round_action)
+        self.__buff_back = buff_back
         # self.__BUFF_HIT_RATE = None                                            # 增加{0}的命中率
         # self.__BUFF_HIT_RATE_BASE = None                                       # 增加{0}%的命中率，并持续{0}行动回合
         # # 攻击失效
@@ -46,6 +47,14 @@ class Buff():
             self.__buff_round_action = self.__buff_round_action - 1
         return self 
     
+    @property
+    def buff_back(self):
+        return self.__buff_back
+
+    def set_buff_back(self, v):
+        self.self.__buff_back = v
+        return self
+
     @property
     def buff_value(self):
         return self.__buff_value
