@@ -145,7 +145,8 @@ def damage(attacker,defender,skill):
     #print('basedamage',basedamage,'attacker_Atk_bonusCoefficient',attacker_Atk_bonusCoefficient,'defender_Def',defender_Def,'defender_DefenseCoefficient',defender_DefenseCoefficient,'attacker_critBase',attacker_critBase)
     #print('level2damage',level2damage)
     damage=level2damage*damageControlCoefficient-shieldDamageReduction
-    #print('damage',damage)
+    damage=round(damage,2)
+    print('damage',damage)
 
 
     #####-------------------------------------------------------------------
