@@ -19,8 +19,6 @@ class Agent(object):
         for m in [state["hero"] + state["monster"]]:
             m.move_position(m.position, state["maps"])
 
-
-
     def choice_hero_act(self, hero, state):
         hero = hero.dict()
         enemies = [_.dict() for _ in state["monster"]]

@@ -9,9 +9,14 @@ class Game(object):
         self.hero = hero
         self.monster = monster
         self.map = maps
-        self.state = {
+        self.hero_state = {
             "hero": self.hero,
             "monster": self.monster,
+            "maps": self.map,
+        }
+        self.monster_state = {
+            "hero": self.monster,
+            "monster": self.hero,
             "maps": self.map,
         }
 
@@ -44,18 +49,17 @@ class Game(object):
     def hero_action(self, hero, step):
         if hero.is_death:
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
-        res = Action().run_action(step, hero, self.state)
+        res = Action().run_action(step, hero, self.hero_state)
         print(f"HERO >> 行动结束返回:{res}")
         return res
 
     def monster_action(self, hero, step):
         if hero.is_death:
             return {"action_type": "HERO_DIED", "steps": "英雄死亡, 当前无行动"}
-        res = Action().run_action(step, hero, self.state)
+        res = Action().run_action(step, hero, self.monster_state)
         print(f"MONSTER >> 行动结束返回:{res}")
 
         return res
-        # pass
 
     def check_game_over(self):
         monster = [m for m in self.monster if not m.is_death]
