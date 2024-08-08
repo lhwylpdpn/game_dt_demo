@@ -44,7 +44,7 @@ class SkillRange:
                     p = (current_x + dx, current_y + dy)
                     if p not in maps:
                         continue
-                    if maps[p].get("used") == 1 or  maps[p].get("Block") == 0:
+                    if maps[p].get("used") == 1 or maps[p].get("Block") == 0:
                         continue
                     point = SkillRange.get_maps_point(p, maps)
                     if jump_height is not None:

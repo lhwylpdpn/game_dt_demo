@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/8/5 11:14
+from copy import deepcopy
 from itertools import product
 from collections import deque
+
+from strategy.handler.attack import Attack
 from strategy.handler.distance_func import DistanceFunc
+from strategy.handler.func import BasicFunc
 from strategy.handler.self_func import SelfFunc
 from strategy.handler.skill_attack_range import SkillRange
 
@@ -29,6 +33,7 @@ class Move(object):
     def find_closest_attack_position(self, hero, enemy_position, maps):
         enemy_position = tuple(enemy_position)
         hero_position = tuple(hero["position"])
+        jump_height = int(hero["JumpHeight"][0])
         queue = deque([(hero_position, 0)])  # (current_position, current_distance)
         visited = set(hero_position)
 
@@ -38,18 +43,19 @@ class Move(object):
             for dx, dy in product([-1, 1, 0, 0], [0, 0, -1, 1]):
                 new_position = (current_position[0] + dx, current_position[1] + dy)
                 if new_position in maps:
-                    point = tuple(maps[new_position]["position"])
+                    if BasicFunc().is_reach(hero, maps[new_position], jump_height):
+                        point = tuple(maps[new_position]["position"])
 
-                    _hero = hero
-                    _hero["position"] = point
+                        _hero = deepcopy(hero)
+                        _hero["position"] = point
 
-                    stk_range = SkillRange().get_attack_range(_hero, maps)
-                    if enemy_position in stk_range:
-                        return current_position
+                        stk_range = SkillRange().get_attack_range(_hero, maps)
+                        if enemy_position in stk_range:
+                            return point
 
-                    if point not in visited:
-                        visited.add(point)
-                        queue.append((point, current_distance + 1))
+                        if point not in visited:
+                            visited.add(point)
+                            queue.append((point, current_distance + 1))
 
         return None
 
@@ -59,10 +65,8 @@ class Move(object):
         doge_base = int(hero["DogBase"])
         jump_height = int(hero["JumpHeight"][0])
         enemies = [e for e in enemies if e["Hp"] > 0]
-
         if DistanceFunc().is_within_range(doge_base, position, enemies):
             closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
-            print(f"{hero['HeroID']}向最近的敌人移动：{position} >>> {closest_enemy_position}")
 
         else:
             closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
@@ -70,12 +74,14 @@ class Move(object):
                 closest_enemy_position = closest_enemy_position[0]
             else:
                 return []
+
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
+
         if atk_position:
-            move_steps = DistanceFunc().manhattan_path(position, atk_position, round_action, maps, jump_height)
+            move_steps = DistanceFunc().find_shortest_path(position, atk_position, jump_height, maps)[: round_action+1]
         else:
             return []
-        print(f"{hero['HeroID']}:{position}向敌人{closest_enemy_position['position']}移动, 移动目标 >>> {atk_position}")
+        print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
 
         # move_steps = DistanceFunc().manhattan_path(position, closest_enemy_position, round_action, maps, jump_height)
         return move_steps
