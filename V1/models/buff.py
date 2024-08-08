@@ -58,6 +58,10 @@ class Buff():
     @property
     def buff_value(self):
         return self.__buff_value
+
+    def set_buff_value(self, v):
+        self.__buff_value = v
+        return self
     
     @property
     def buff_key(self):
@@ -66,6 +70,10 @@ class Buff():
     @property
     def buff_round_action(self):
         return self.__buff_round_action
+
+    def set_buff_round_action(self, v):
+        self.__buff_round_action = v
+        return self
 
     def is_avaliable(self):
         return self.__buff_round_action > 0 or self.__buff_round_action == -1

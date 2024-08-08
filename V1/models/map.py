@@ -46,7 +46,9 @@ class Map(): # 地图
             x,y,z = each_postion
             land = self.map[x,y,z]
             if isinstance(land, Land):
-                data.append(land.dict())
+                land_data = land.dict()
+                land_data['position'] = trans_postion(*land_data['position'])
+                data.append(land_data)
         return data
     
     def load_land(self,x,y,z, land): # 加载地块

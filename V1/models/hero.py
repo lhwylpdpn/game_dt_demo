@@ -322,14 +322,30 @@ class Hero():
                 else:
                     value = int(each.buff_value)
         return value
+    
+    def __create_buff(self, buff_key, param):
+        buff = None
+        if buff_key == "DEBUFF_ROUND_ACTION_BACK": # 这个同类别的，后一个覆盖前一个效果
+            for each in self.__buff:
+                if each.buff_key == "DEBUFF_ROUND_ACTION_BACK":
+                    buff = each
+                    each.set_buff_value(param[0]).set_buff_round_action(param[1])
+                    continue
+            else:
+                buff = Buff(buff_key, param[0], param[1])
+                buff.set_buff_back(self.RoundAction)
+        if buff is None:
+            buff = Buff(buff_key, param[0], param[1])
+        
+        return buff
 
     def add_buff(self, buff_key, param): # 增加普通buff
-        buff = Buff(buff_key, param[0], param[1])
+        buff = self.__create_buff(buff_key, param)
         self.__buff.append(buff)
         return self.__add_buf(buff_key, param[0], buff)
     
     def add_unit_buff(self, buff_key, param): # 增加连携buff
-        buff = Buff(buff_key, param[0], param[1])
+        buff = self.__create_buff(buff_key, param)
         self.__unit_skill_buff.append(buff)
         return self.__add_buf(buff_key, param[0], buff)
     
@@ -348,7 +364,6 @@ class Hero():
         if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
             self.set_MagicalDef(self.MagicalDef * (1 + int(value)/100.0))
         if buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
-            buff_object.set_buff_back = self.RoundAction
             self.set_RoundAction(value)
         return self
     
@@ -433,13 +448,18 @@ class Hero():
                 skill.append(_)
         return skill
     
-    def get_back_skills(self, enemy): # 获取反击技能
+    def get_back_skills(self, enemy, skill): # 获取反击技能
         skill = []
         for _ in self.__skills:
             if int(_.ActiveSkills) == 0 :
                 if "ATK_BACK" in _.avaliable_effects() and\
                    "IS_HIT" in _.avaliable_effects():
-                    skill.append(_)
+                   # 是默认技能， 默认技能攻击时候触发
+                    if int(skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
+                        skill.append(_)
+                    # 不是默认技能，其他技能攻击时候触发
+                    if int(skill.DefaultSkills) == 0 and "IS_DEFAULT_HIT"  not in _.avaliable_effects():
+                        skill.append(_)
                 if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and\
                    "IS_HIT" in _.avaliable_effects():
                    param = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
@@ -640,12 +660,13 @@ class Hero():
             result = damage(attacker=self, defender=each, skill=skill)
             result[each] = copy.deepcopy(result)
             _t_hp = each.Hp - result.get("damage")
+            print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
             print(each.HeroID ,"Hp <before>: ", each.Hp)
             print(each.HeroID ,"Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
             print(each.HeroID ,"Hp <after>: ", each.Hp)
             if not is_back_atk: # 不是反击
-                for each_back_skill in each.get_back_skills(self): # 发动反击
+                for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     each.func_attack(enemys=[self], skill=each_back_skill, attack_point=self.position, state=state, is_back_atk=True)
         self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         self.reduce_buff_round_action() # 减少buff的round action

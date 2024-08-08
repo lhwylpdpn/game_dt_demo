@@ -75,7 +75,7 @@ if __name__ == "__main__":
     #print(heros[1].is_alive)
     #print(monster[0].dict())
     #print(monster[1].dict())
-    #print(map.view_from_z())
-    print(map.view_from_z_dict())
+    print(map.dict())
+    #print(map.view_from_z_dict())
     #print(map.get_land_from_xy(8,1))
     
