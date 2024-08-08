@@ -462,8 +462,8 @@ class Hero():
                         skill.append(_)
                 if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and\
                    "IS_HIT" in _.avaliable_effects():
-                   param = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
-                   if random_choices({True:int(param[0])/100.0, False:1 - int(param[0])/100.0}): # 几率判断
+                   effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
+                   if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
                        enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=param[1:2])
         return skill
 
