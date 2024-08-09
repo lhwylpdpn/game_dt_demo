@@ -31,7 +31,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 1000
+        self.timeout_tick = 50
         self.tick = 0
         self.record_update_dict = {}
         self.record_error_dict = {}
@@ -139,11 +139,11 @@ class schedule:
         monster_dict={}
 
         for i in range(len(map)):
-            map_dict[i]=map[i].dict()
+            map_dict[i]=map[i].dict(for_view=True)
         for h in hero:
-            hero_dict[h.HeroID]=h.dict()
+            hero_dict[h.HeroID]=h.dict(for_view=True)
         for m in monster:
-            monster_dict[m.HeroID]=m.dict()
+            monster_dict[m.HeroID]=m.dict(for_view=True)
         #self.performance.event_end('get_current_state_to_dict')
         return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
 
