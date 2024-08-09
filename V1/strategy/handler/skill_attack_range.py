@@ -18,7 +18,7 @@ class SkillRange:
     @staticmethod
     # @lru_cache(maxsize=None)
     def get_maps_point(xy, maps):
-        z = maps[xy]["z"]
+        z = maps[xy]["y"]
         return xy[0], xy[1], z
 
     @staticmethod
@@ -40,16 +40,16 @@ class SkillRange:
                 continue
             visited.add((current_x, current_y, current_z))
 
-            for dx, dy in product(range(-1, 2), repeat=2):
-                if abs(dx) + abs(dy) <= 1 and (dx != 0 or dy != 0):
-                    p = (current_x + dx, current_y + dy)
+            for dx, dz in product(range(-1, 2), repeat=2):
+                if abs(dx) + abs(dz) <= 1 and (dx != 0 or dz != 0):
+                    p = (current_x + dx, current_y + dz)
                     if p not in maps:
                         continue
                     if maps[p].get("used") == 1 or maps[p].get("Block") == 0:
                         continue
                     point = SkillRange.get_maps_point(p, maps)
                     if jump_height is not None:
-                        if abs(current_z - point[2]) > jump_height:
+                        if abs(current_y - point[1]) > jump_height:
                             continue
                     if (point[0], point[1], point[2]) not in visited:
                         points.append(point)
@@ -64,15 +64,15 @@ class SkillRange:
     def get_manhattan_range(x, y, z, max_distance, maps, jump_height=None):
         # 获取曼哈顿范围
         points = []
-        for dx, dy in product(range(-max_distance, max_distance + 1), repeat=2):
-            if abs(dx) + abs(dy) <= max_distance:
-                p = (x + dx, y + dy)
+        for dx, dz in product(range(-max_distance, max_distance + 1), repeat=2):
+            if abs(dx) + abs(dz) <= max_distance:
+                p = (x + dx, z + dz)
 
                 if p not in maps:
                     continue
                 point = SkillRange().get_maps_point(p, maps)
                 if jump_height:
-                    if abs(z - point[2]) > jump_height:
+                    if abs(z - point[1]) > jump_height:
                         continue
 
                 points.append(point)
@@ -86,10 +86,10 @@ class SkillRange:
 
         # 左上的距离
         for i in range(1, param[0] + 1):
-            if (x - i, y) in maps:
-                attack_range.append(SkillRange().get_maps_point((x - i, y), maps))
-            if (x, y - i) in maps:
-                attack_range.append(SkillRange().get_maps_point((x, y - i), maps))
+            if (x - i, z) in maps:
+                attack_range.append(SkillRange().get_maps_point((x - i, z), maps))
+            if (x, z - i) in maps:
+                attack_range.append(SkillRange().get_maps_point((x, z - i), maps))
 
         # 右下的距离
         for i in range(1, param[1] + 1):
@@ -207,27 +207,27 @@ class SkillRange:
     def adjust_shooting_range(base_positions, hero_position, maps):
         # 根据高低差计算实际射程的影响
         adjusted_positions = set(base_positions)
-        hero_z = hero_position[2]
+        hero_y = hero_position[1]
 
         for position in base_positions:
             x, y, z = position
-            height_diff = abs(hero_z - z)
+            height_diff = abs(hero_y - y)
             range_adjustment = height_diff // 2
 
             if height_diff >= 2:
                 for i in range(1, range_adjustment + 1):
                     if x > hero_position[0]:  # 右
-                        xy = (x + i, y)
-                        if xy in maps: adjusted_positions.add(tuple(maps[xy]["position"]))
+                        xz = (x + i, z)
+                        if xz in maps: adjusted_positions.add(tuple(maps[xz]["position"]))
                     if x < hero_position[0]:  # 左
-                        xy = (x - i, y)
-                        if xy in maps: adjusted_positions.add(tuple(maps[xy]["position"]))
-                    if y > hero_position[1]:  # 上
-                        xy = (x, y + i)
-                        if xy in maps: adjusted_positions.add(tuple(maps[xy]["position"]))
-                    if y < hero_position[1]:  # 下
-                        xy = (x, y - i)
-                        if xy in maps: adjusted_positions.add(tuple(maps[xy]["position"]))
+                        xz = (x - i, z)
+                        if xz in maps: adjusted_positions.add(tuple(maps[xz]["position"]))
+                    if z > hero_position[2]:  # 上
+                        xz = (x, z + i)
+                        if xz in maps: adjusted_positions.add(tuple(maps[xz]["position"]))
+                    if z < hero_position[2]:  # 下
+                        xz = (x, z - i)
+                        if xz in maps: adjusted_positions.add(tuple(maps[xz]["position"]))
 
         return list(adjusted_positions)
 

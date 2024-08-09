@@ -23,7 +23,7 @@ class Agent(object):
         hero = hero.dict()
         enemies = [_.dict() for _ in state["monster"]]
         used_points = [tuple(_.position) for _ in state["hero"]] + [tuple(_.position) for _ in state["monster"]]
-        maps = state["map"].view_from_z_dict()
+        maps = state["map"].view_from_y_dict()
         maps = Attack().convert_maps(maps, used_points)
         res = Action().get_action_steps(hero, enemies, maps)
         return res
@@ -34,7 +34,7 @@ class Agent(object):
         enemies = [_.dict() for _ in state["monster"]]
         used_points = [tuple(_.position) for _ in state["hero"]] + [tuple(_.position) for _ in state["monster"]]
 
-        maps = state["map"].view_from_z_dict()
+        maps = state["map"].view_from_y_dict()
         maps = Attack().convert_maps(maps, used_points)
         res = Action().get_action_steps(hero, enemies, maps)
         return res

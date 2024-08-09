@@ -15,9 +15,9 @@ class Attack(object):
         for k, v in maps.items():
             if k in used_points:
                 v["used"] = 1
-            v["z"] = k[2]
+            v["y"] = k[1]
             v["position"] = tuple(v["position"])
-            xy_dict[(k[0], k[1])] = v
+            xy_dict[(k[0], k[2])] = v
         return xy_dict
 
     def find_targets_within_atk_range(self, hero, enemies, maps):
@@ -27,7 +27,7 @@ class Attack(object):
         position = tuple(hero["position"])
         jump_height = int(hero["JumpHeight"][0])
         enemies = [e for e in enemies if e["Hp"] > 0]
-        # print(f"[进入ATK判断]攻击者{hero['HeroID']}{position}, 本回合可移动{max_step}, 跳跃高度:{jump_height},  ")
+        print(f"[进入ATK判断]攻击者{hero['HeroID']}{position}, 本回合可移动{max_step}, 跳跃高度:{jump_height},  ")
         move_positions = SkillRange.get_manhattan_path(*position, max_step, maps, jump_height)  # 英雄可移动到的点位
 
         for move, paths in move_positions.items():

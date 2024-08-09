@@ -22,7 +22,7 @@ class Game(object):
 
     def _check_position(self):
         # 检查敌我双方位置是否在表面上
-        maps = self.map.view_from_z_dict()
+        maps = self.map.view_from_y_dict()
         for each in self.monster + self.hero:
             if tuple(each.position) not in maps:
                 print(f"{each.position}不在地块表面！")
@@ -39,7 +39,7 @@ class Game(object):
 
     def _check_position_duplicate(self):
         # 检查敌我双方位置是否重复
-        maps = self.map.view_from_z_dict()
+        maps = self.map.view_from_y_dict()
         for each in self.monster + self.hero:
             if tuple(each.position) not in maps:
                 print(f"{each.position} 人物位置重复")
@@ -80,6 +80,10 @@ class Game(object):
         return {"hero": self.hero, "monster": self.monster, "map": self.map}
 
     def start(self):
+        for each in self.hero:
+            each.join_game(self.hero_state)
+        for each in self.monster:
+            each.join_game(self.monster_state)
         if not self._check_position():
             return False
         if not self._check_position_duplicate():
