@@ -25,6 +25,7 @@ class SkillRange:
     def get_manhattan_path(x, y, z, max_distance, maps, jump_height=None):
         #  获取曼哈顿范围路径
         points = []
+        max_distance = int(max_distance)
         paths = {(x, y, z): [(x, y, z)]}
         initial_point = (x, y, z)
 

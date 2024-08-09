@@ -5,8 +5,7 @@ from test_map_data import origin_map_data  # 后续通过api获取前端传递�
 from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
 from buildpatrol import BuildPatrol
 import schedule
-from V1.test.demo_show import generate_state
-from V1.test.demo_show import generate_state
+from V1.test.demo_show import game
 
 class test_process:
     def __init__(self):
@@ -14,9 +13,8 @@ class test_process:
         heros = BuildPatrol.build_heros(origin_hero_data)  # heros
         monster = BuildPatrol.build_monster(origin_monster_data)
         self.state = {"map": map, "hero": heros, "monster": monster}
-        generate_state(self.state)
-
-
+        self.game_obj=game(self.state)
+        self.game_obj.game_init()
     def test(self):
         for i in range(len(self.state['hero'])):
             #print(self.state['hero'][i].dict().keys())
@@ -40,11 +38,16 @@ class test_process:
         sch = schedule.schedule(self.state)
         sch.start()
         sch.run()
-        update = sch.send_update()
+        self.return_data = sch.send_update()
         sch.performance.static()
 
+    def game_run(self):
+        self.game_obj.run(self.return_data)
 
 
 
 if __name__ == '__main__':
-    a=test_process()
+    obj_=test_process()
+    obj_.test()
+    obj_.run()
+    #obj.game_run()
