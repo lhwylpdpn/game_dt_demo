@@ -40,14 +40,15 @@ class Map(): # 地图
                     data[(x,y,z)] = land.dict()
         return data
 
-    def dict(self):
+    def dict(self, for_view=False):
         data = []
         for each_postion in self.list_land_postion():
             x,y,z = each_postion
             land = self.map[x,y,z]
             if isinstance(land, Land):
                 land_data = land.dict()
-                land_data['position'] = trans_postion(*land_data['position'])
+                if for_view:
+                    land_data['position'] = trans_postion(*land_data['position'])
                 data.append(land_data)
         return data
     
