@@ -48,9 +48,9 @@ class Map(): # 地图
             if isinstance(land, Land):
                 land_data = land.dict()
                 if for_view:
-                    land_data['position'] = trans_postion(*land_data['position'])
+                    land_data['position'] = list(trans_postion(*land_data['position']))
                 else:
-                    land_data['position'] = tuple(land_data['position'])
+                    land_data['position'] = list(land_data['position'])
                 data.append(land_data)
         return data
     
