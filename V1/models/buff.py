@@ -52,7 +52,7 @@ class Buff():
         return self.__buff_back
 
     def set_buff_back(self, v):
-        self.self.__buff_back = v
+        self.__buff_back = v
         return self
 
     @property
