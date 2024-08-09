@@ -84,17 +84,17 @@ class Hero():
     #                "RoundAction", "DogBase"]
     #     return self.dict(fields)
     
-    def dict_to_view(self, fields=[]):
-        data = self.dict(fields)
-        if "position" in data.keys():
-            data["position"] = list(trans_postion(*data["position"]))
-        return data
+    # def dict_to_view(self, fields=[]):
+    #     data = self.dict(fields)
+    #     if "position" in data.keys():
+    #         data["position"] = list(trans_postion(*data["position"]))
+    #     return data
     
     def join_game(self, state): # 进入战局
         self.move_position(*self.position, state)
         return self
 
-    def dict(self, fields=[]):
+    def dict(self, fields=[], for_view=False):
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
@@ -104,6 +104,8 @@ class Hero():
             for each in self.__skills:
                 data["skills"].append(each.dict())
         data.update({field: self.__getattribute__(field) for field in fields})
+        if for_view:
+            data['position'] = list(trans_postion(*data["position"]))
         return data         
     
     @property
@@ -461,7 +463,7 @@ class Hero():
                 if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
                    effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
                    if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
-                       enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:2])
+                       enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:])
         return skill
 
     def load_skill(self, skill): # 记载技能
