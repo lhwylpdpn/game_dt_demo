@@ -66,6 +66,11 @@ if __name__ == "__main__":
     map = BuildPatrol.build_map(origin_map_data)    # map
     heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     monster = BuildPatrol.build_monster(origin_monster_data)# monster 
+    each_back_skill = heros[0].get_back_skills(monster[0], SkillDetail(**{"DefaultSkills":1}))
+    print(each_back_skill)
+    if each_back_skill:
+        state = {"hero": heros, "monster":monster, "maps": map}
+        heros[0].func_attack(enemys=[monster[0]], skill=each_back_skill[0], attack_point=monster[0].position, state=state, is_back_atk=True)
     #map.list_land_postion()
     #map.set_land_pass(8,1,5)
     #print(heros[0].dict())
@@ -75,7 +80,7 @@ if __name__ == "__main__":
     #print(heros[1].is_alive)
     #print(monster[0].dict())
     #print(monster[1].dict())
-    print(map.dict())
+    #print(map.dict())
     #print(map.view_from_z_dict())
     #print(map.get_land_from_xy(8,1))
     

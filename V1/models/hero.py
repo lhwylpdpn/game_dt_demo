@@ -329,12 +329,11 @@ class Hero():
             for each in self.__buff:
                 if each.buff_key == "DEBUFF_ROUND_ACTION_BACK":
                     buff = each
-                    each.set_buff_value(param[0]).set_buff_round_action(param[1])
+                    buff.set_buff_value(param[0]).set_buff_round_action(param[1])
                     continue
-            else:
-                buff = Buff(buff_key, param[0], param[1])
-                buff.set_buff_back(self.RoundAction)
-        if buff is None:
+            if buff is None: 
+                buff = Buff(buff_key, param[0], param[1]).set_buff_back(self.RoundAction)
+        else:
             buff = Buff(buff_key, param[0], param[1])
         
         return buff
@@ -342,59 +341,59 @@ class Hero():
     def add_buff(self, buff_key, param): # 增加普通buff
         buff = self.__create_buff(buff_key, param)
         self.__buff.append(buff)
-        return self.__add_buf(buff_key, param[0], buff)
+        return self.__add_buf(buff)
     
     def add_unit_buff(self, buff_key, param): # 增加连携buff
         buff = self.__create_buff(buff_key, param)
         self.__unit_skill_buff.append(buff)
-        return self.__add_buf(buff_key, param[0], buff)
+        return self.__add_buf(buff)
     
-    def __add_buf(self, buff_key, value, buff_object): # 增加buff数值
-        if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
-            self.set_RoundAction(self.RoundAction + int(value))
-        if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
-            self.set_JumpHeight([self.JumpHeight[0] + int(value)])
-        if buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            self.set_Def(self.Def * (1 + int(value)/100.0))
-        if buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            self.set_Atk(self.Atk * (1 + int(value)/100.0))
-        if buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
-            hp = self.Hp +  self.HpBase * int(value)/100.0
+    def __add_buf(self, buff_object): # 增加buff数值
+        if buff_object.buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
+            self.set_RoundAction(self.RoundAction + int(buff_object.buff_value))
+        if buff_object.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
+            self.set_JumpHeight([self.JumpHeight[0] + int(buff_object.buff_value)])
+        if buff_object.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
+            self.set_Def(self.Def * (1 + int(buff_object.buff_value)/100.0))
+        if buff_object.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
+            self.set_Atk(self.Atk * (1 + int(buff_object.buff_value)/100.0))
+        if buff_object.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
+            hp = self.Hp +  self.HpBase * int(buff_object.buff_value)/100.0
             self.set_Hp(self.HpBase if hp >= self.HpBase else hp)
-        if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            self.set_MagicalDef(self.MagicalDef * (1 + int(value)/100.0))
-        if buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
-            self.set_RoundAction(value)
+        if buff_object.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
+            self.set_MagicalDef(self.MagicalDef * (1 + int(buff_object.buff_value)/100.0))
+        if buff_object.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
+            self.set_RoundAction(buff_object.buff_value)
         return self
     
     def check_buff(self): # 回合结束后，检查buff的加成
         for each in self.__buff:
             if not each.is_avaliable:
-                self.__remove_buf(each.buff_key, each.buff_value, each)
+                self.__remove_buf(each)
                 self.__buff.remove(each)
         return self
     
     def remove_unit_buff(self): # 去除连携buff
         for each in self.__unit_skill_buff:
-            self.__remove_buf(each.buff_key, each.buff_value, each)
+            self.__remove_buf(each)
         self.__unit_skill_buff = []
         return self 
     
-    def __remove_buf(self, buff_key, value, buff_object):
-        if buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
-            self.set_RoundAction(self.RoundAction - int(value))
-        if buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
-            self.set_JumpHeight([self.JumpHeight[0] - int(value)])
-        if buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            self.set_Def(self.Def * (1 - int(value)/100.0))
-        if buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            self.set_Atk(self.Atk * (1 - int(value)/100.0))
-        if buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
-            hp = self.Hp -  self.HpBase * int(value)/100.0
+    def __remove_buf(self, buff_object):
+        if buff_object.buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
+            self.set_RoundAction(self.RoundAction - int(buff_object.buff_value))
+        if buff_object.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
+            self.set_JumpHeight([self.JumpHeight[0] - int(buff_object.buff_value)])
+        if buff_object.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
+            self.set_Def(self.Def * (1 - int(buff_object.buff_value)/100.0))
+        if buff_object.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
+            self.set_Atk(self.Atk * (1 - int(buff_object.buff_value)/100.0))
+        if buff_object.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
+            hp = self.Hp -  self.HpBase * int(buff_object.buff_value)/100.0
             self.set_Hp(hp if hp >= 1 else 1)
-        if buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            self.set_MagicalDef(self.MagicalDef * (1 - int(value)/100.0))
-        if buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
+        if buff_object.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
+            self.set_MagicalDef(self.MagicalDef * (1 - int(buff_object.buff_value)/100.0))
+        if buff_object.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             self.set_RoundAction(buff_object.buff_back)
         return self
 
@@ -448,20 +447,18 @@ class Hero():
                 skill.append(_)
         return skill
     
-    def get_back_skills(self, enemy, skill): # 获取反击技能
+    def get_back_skills(self, enemy, attach_skill): # 获取反击技能
         skill = []
         for _ in self.__skills:
             if int(_.ActiveSkills) == 0 :
-                if "ATK_BACK" in _.avaliable_effects() and\
-                   "IS_HIT" in _.avaliable_effects():
+                if "ATK_BACK" in _.avaliable_effects() and ("IS_HIT" in _.avaliable_effects() or "IS_DEFAULT_HIT" in _.avaliable_effects()):
                    # 是默认技能， 默认技能攻击时候触发
-                    if int(skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
+                    if int(attach_skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
                         skill.append(_)
                     # 不是默认技能，其他技能攻击时候触发
-                    if int(skill.DefaultSkills) == 0 and "IS_DEFAULT_HIT"  not in _.avaliable_effects():
+                    if int(attach_skill.DefaultSkills) == 0 and "IS_DEFAULT_HIT"  not in _.avaliable_effects():
                         skill.append(_)
-                if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and\
-                   "IS_HIT" in _.avaliable_effects():
+                if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
                    effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
                    if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
                        enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:2])
