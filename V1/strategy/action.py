@@ -62,6 +62,7 @@ class Action(object):
 
     def get_action_steps(self, hero, enemies, maps):
         print('-----------------------------------------')
+        print(f"攻击者位置{hero['position']}, 跳跃高度为{hero['JumpHeight']}, 敌人们的位置为: {[_['position'] for _ in enemies]}")
         # 判断是否逃跑
         if Move().is_escape(hero, enemies, maps):
             move_steps = Move().escape(hero, enemies, maps)

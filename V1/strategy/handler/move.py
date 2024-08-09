@@ -74,7 +74,6 @@ class Move(object):
                 closest_enemy_position = closest_enemy_position[0]
             else:
                 return []
-
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
 
         if atk_position:
