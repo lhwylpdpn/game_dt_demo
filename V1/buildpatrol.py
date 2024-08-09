@@ -64,7 +64,7 @@ class BuildPatrol():
         
 if __name__ == "__main__":
     map = BuildPatrol.build_map(origin_map_data)    # map
-    # heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     # monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     # each_back_skill = heros[0].get_back_skills(monster[0], SkillDetail(**{"DefaultSkills":1}))
     # print(each_back_skill)
@@ -75,12 +75,12 @@ if __name__ == "__main__":
     #map.set_land_pass(8,1,5)
     #print(heros[0].dict())
     #heros[0].move_position(8,1,5,map)
-    #print(heros[1].dict())
+    print(heros[1].dict(for_view=True))
     #print(heros[1].is_death)
     #print(heros[1].is_alive)
     #print(monster[0].dict())
     #print(monster[1].dict())
     #print(map.dict())
-    print(map.view_from_z_dict())
+    #print(map.dict(for_view=True))
     #print(map.get_land_from_xy(8,1))
     
