@@ -80,7 +80,8 @@ if __name__ == "__main__":
     #print(heros[1].is_alive)
     #print(monster[0].dict())
     #print(monster[1].dict())
-    print(map.dict())
-    print(map.dict(for_view=True))
-    #print(map.get_land_from_xy(8,1))
+    #print(map.dict())
+    #print(map.dict(for_view=True))
+    #print(map.get_land_from_xz(11, 11).position)
+    print(map.view_from_y_dict())
     

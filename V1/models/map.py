@@ -8,20 +8,29 @@ import pandas as pd
 import numpy as np
 from utils.transposition import trans_postion
 
+HEIGHT = 1     # 1 y轴， 2 Z轴
 
 class Map(): # 地图
     """
     
     """
     def __init__(self, x, y, z): # 进来的参数是 地图的xyz，世界坐标的xzy
-        self.size = trans_postion(x, y, z)
+        self.size = x, y, z
         self.map = np.zeros(self.size, dtype=np.object)
 
-    def view_from_z(self):
-        return np.max(self.map, axis=2)
+    # def view_from_z(self):
+    #     return np.max(self.map, axis=2)
     
-    def get_land_from_xy(self, x, y): # 从z俯视图中，根据 x,y 来确定 地块
-        return np.max(self.map[x,y,], axis=0)
+    def view_from_y(self):
+        return np.max(self.map, axis=1)
+    
+    def get_land_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
+        for each in self.map[x, :, z]:
+            print(each, each.position if isinstance(each, Land) else "")
+        return np.max(self.map[x, :, z], axis=0)
+    
+    # def get_land_from_xy(self, x, y): # 从z俯视图中，根据 x,y 来确定 地块
+    #     return np.max(self.map[x,y,], axis=0)
 
     def land_can_pass(self, x, y, z): # 判断地图是否可以通过
         land = self.map[x,y,z]
@@ -29,9 +38,20 @@ class Map(): # 地图
             return int(land.Block) == 1
         return False
 
-    def view_from_z_dict(self):
+    # def view_from_z_dict(self):
+    #     data = {}
+    #     a = pd.DataFrame(self.view_from_z())
+    #     for each_coloum in np.array(a.values.tolist()).tolist():
+    #         for each in each_coloum:
+    #             if isinstance(each, Land):
+    #                 x,y,z = each.position
+    #                 land = self.map[x,y,z]
+    #                 data[(x,y,z)] = land.dict()
+    #     return data
+    
+    def view_from_y_dict(self):
         data = {}
-        a = pd.DataFrame(self.view_from_z())
+        a = pd.DataFrame(self.view_from_y())
         for each_coloum in np.array(a.values.tolist()).tolist():
             for each in each_coloum:
                 if isinstance(each, Land):
@@ -47,15 +67,15 @@ class Map(): # 地图
             land = self.map[x,y,z]
             if isinstance(land, Land):
                 land_data = land.dict()
-                if for_view:
-                    land_data['position'] = list(trans_postion(*land_data['position']))
-                else:
-                    land_data['position'] = list(land_data['position'])
+                # if for_view:
+                #     land_data['position'] = list(trans_postion(*land_data['position']))
+                # else:
+                #     land_data['position'] = list(land_data['position'])
                 data.append(land_data)
         return data
     
     def load_land(self,x,y,z, land): # 加载地块
-        x,y,z = trans_postion(x,y,z)
+        # x,y,z = trans_postion(x,y,z)
         self.map[x,y,z] = land
         return self
 
@@ -90,7 +110,8 @@ class Map(): # 地图
 class Land(): # 地块
     
     def __init__(self, **kwargs):
-        self.__position = list(trans_postion(*kwargs.get("position", None)))  # 坐标
+        # self.__position = list(trans_postion(*kwargs.get("position", None)))  # 坐标
+        self.__position = kwargs.get("position", None)                        # 坐标
         self.__sn = kwargs.get("sn", None)                                    # sn
         self.__PlotDescription = kwargs.get("PlotDescription", None)          # 地块描述
         self.__Ap = kwargs.get("Ap", None)                                    # 通过地块的消耗
@@ -107,36 +128,36 @@ class Land(): # 地块
     
     def __gt__(self, other):
         if isinstance(other, Land):
-            other = other.position[2]
-        if self.position[2] > other:
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] > other:
             return True
         return False
     
     def __lt__(self, other):
         if isinstance(other, Land):
-            other = other.position[2]
-        if self.position[2] < other:
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] < other:
             return True
         return False
     
     def __le__(self, other):
         if isinstance(other, Land):
-            other = other.position[2]
-        if self.position[2] <= other:
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] <= other:
             return True
         return False
     
     def __ge__(self, other):
         if isinstance(other, Land):
-            other = other.position[2]
-        if self.position[2] >= other:
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] >= other:
             return True
         return False
     
     def __eq__(self, other):
         if isinstance(other, Land):
-            other = other.position[2]
-        if self.position[2] == other:
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] == other:
             return True
         return False
         
@@ -212,7 +233,18 @@ class Land(): # 地块
     def set_effects(self, v):
         self.__effects = v
         return self
-            
+    
+    @property
+    def x(self):
+        return self.__position[0]
+    
+    @property
+    def y(self):
+        return self.__position[1]
+    
+    @property
+    def z(self):
+        return self.__position[2]
 
 if __name__ == "__main__":
    print(Map(4,4,4).view_from_y())

@@ -8,7 +8,7 @@ import json
 import copy
 import traceback
 from utils.damage import damage
-from utils.transposition import trans_postion
+# from utils.transposition import trans_postion
 from utils.tools import random_choices
 from .map import Map, Land
 from .buff import Buff
@@ -59,7 +59,8 @@ class Hero():
 
         
         # position 位置
-        self.__position = list(trans_postion(*kwargs.get("position")))         #  坐标
+        # self.__position = list(trans_postion(*kwargs.get("position")))       #  坐标
+        self.__position = kwargs.get("position")                               #  坐标
         self.__avali_move_p_list = kwargs.get("avali_move_p_list", [])         #  可移动范围
         self.__shoot_p_list = kwargs.get("shoot_p_list", [])                   #  可攻击范围
         self.__atk_effect_p_list = kwargs.get("atk_effect_p_list", [])         #  攻击效果范围
@@ -79,17 +80,6 @@ class Hero():
     def get_fields(self):
         return self.fields
     
-    # def dict_short(self):
-    #     fields = ["HeroID",  "protagonist", "Hp", "HpBase", "position", "JumpHeight", "skills",
-    #                "RoundAction", "DogBase"]
-    #     return self.dict(fields)
-    
-    # def dict_to_view(self, fields=[]):
-    #     data = self.dict(fields)
-    #     if "position" in data.keys():
-    #         data["position"] = list(trans_postion(*data["position"]))
-    #     return data
-    
     def join_game(self, state): # 进入战局
         self.move_position(*self.position, state)
         return self
@@ -104,8 +94,8 @@ class Hero():
             for each in self.__skills:
                 data["skills"].append(each.dict())
         data.update({field: self.__getattribute__(field) for field in fields})
-        if for_view:
-            data['position'] = list(trans_postion(*data["position"]))
+        # if for_view:
+        #     data['position'] = list(trans_postion(*data["position"]))
         return data         
     
     @property
@@ -343,14 +333,14 @@ class Hero():
     def add_buff(self, buff_key, param): # 增加普通buff
         buff = self.__create_buff(buff_key, param)
         self.__buff.append(buff)
-        return self.__add_buf(buff)
+        return self.add_buf(buff)
     
     def add_unit_buff(self, buff_key, param): # 增加连携buff
         buff = self.__create_buff(buff_key, param)
         self.__unit_skill_buff.append(buff)
-        return self.__add_buf(buff)
+        return self.add_buf(buff)
     
-    def __add_buf(self, buff_object): # 增加buff数值
+    def add_buf(self, buff_object): # 增加buff数值
         if buff_object.buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
             self.set_RoundAction(self.RoundAction + int(buff_object.buff_value))
         if buff_object.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
@@ -371,17 +361,19 @@ class Hero():
     def check_buff(self): # 回合结束后，检查buff的加成
         for each in self.__buff:
             if not each.is_avaliable:
-                self.__remove_buf(each)
+                self.remove_buf(each)
                 self.__buff.remove(each)
         return self
     
-    def remove_unit_buff(self): # 去除连携buff
-        for each in self.__unit_skill_buff:
-            self.__remove_buf(each)
-        self.__unit_skill_buff = []
-        return self 
+    def remove_unit_buff(self, state): # 去除连携buff
+        friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人
+        for each_f in friends:
+            for each in each_f.__unit_skill_buff:
+                each_f.remove_buf(each)
+            each_f.__unit_skill_buff = []
+        return 
     
-    def __remove_buf(self, buff_object):
+    def remove_buf(self, buff_object):
         if buff_object.buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
             self.set_RoundAction(self.RoundAction - int(buff_object.buff_value))
         if buff_object.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
@@ -430,7 +422,7 @@ class Hero():
         map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
         map_obj.set_land_no_pass(x,y,z)       # 抵达地块设置为不可通过
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
-        self.remove_unit_buff()               # 先卸载连携buff
+        self.remove_unit_buff(state)          # 先卸载连携buff
         self.load_unit_buff(state)            # 加载新的连携buff
         return self
 
@@ -451,19 +443,18 @@ class Hero():
     
     def get_back_skills(self, enemy, attach_skill): # 获取反击技能
         skill = []
-        for _ in self.__skills:
-            if int(_.ActiveSkills) == 0 :
-                if "ATK_BACK" in _.avaliable_effects() and ("IS_HIT" in _.avaliable_effects() or "IS_DEFAULT_HIT" in _.avaliable_effects()):
-                   # 是默认技能， 默认技能攻击时候触发
-                    if int(attach_skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
-                        skill.append(_)
-                    # 不是默认技能，其他技能攻击时候触发
-                    if int(attach_skill.DefaultSkills) == 0 and "IS_DEFAULT_HIT"  not in _.avaliable_effects():
-                        skill.append(_)
-                if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
-                   effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
-                   if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
-                       enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:])
+        for _ in self.get_Skills(active=0):
+            if "ATK_BACK" in _.avaliable_effects() and ("IS_HIT" in _.avaliable_effects() or "IS_DEFAULT_HIT" in _.avaliable_effects()):
+                # 是默认技能， 默认技能攻击时候触发
+                if int(attach_skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
+                    skill.append(_)
+                # 不是默认技能，其他技能攻击时候触发
+                if int(attach_skill.DefaultSkills) == 0 and "IS_DEFAULT_HIT"  not in _.avaliable_effects():
+                    skill.append(_)
+            if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
+                effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
+                if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
+                    enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:])
         return skill
 
     def load_skill(self, skill): # 记载技能
@@ -482,8 +473,6 @@ class Hero():
                     else:
                         pass
             else:
-                if each.key in ["DEBUFF_ROUND_ACTION_BACK"]:
-                    pass
                 continue
         return self
 
@@ -498,7 +487,7 @@ class Hero():
                     self.add_buff(buff_key=each.key, param=each.param)
         return self
 
-    def __get_unit_skill(self): # 获取连携攻击
+    def get_unit_skill(self): # 获取连携攻击
         unit_skills = []
         for each_skill in self.get_Skills(active=0):
             if "IS_HIT" not in each_skill.avaliable_effects() and\
@@ -516,29 +505,54 @@ class Hero():
         """
         friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人
         for each in friends:
-            unit_skill = each.__get_unit_skill() # 获取连携攻击
+            unit_skill = each.get_unit_skill() # 获取连携攻击
             for each_skill in unit_skill:
                 # 确定连携的范围
                 buff_range = each_skill.get_effect_by_key("ADD_BUFF_RANGE")
                 if buff_range is None: buff_range = 0
                 else: buff_range = buff_range.param[1]
                 near_friends = self.__search_near_friends(buff_range, friends)
-                if len(near_friends) >1: # 多于一个人才可以连携
+                if len(near_friends) >1: # 多于一个人才可以连携 (自己一个人不算哈)
                     for friend in near_friends:
                         for e_skill in each_skill.effects:
                             friend.add_unit_buff(buff_key=e_skill.key, param=e_skill.param)
-                
+        return                
                     
     def __search_near_friends(self, range, friends):
         near_friends = []
         for each in friends:
-            if abs(self.x - each.x) + abs(self.y - each.y) <= int(range): # 在范围内
+            if abs(self.x - each.x) + abs(self.z - each.z) <= int(range): # 在范围内
                 near_friends.append(each)
         return near_friends                 
         
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
         return self.load_skill(skill)
 
+    # def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
+    #     map_obj = state.get("maps")
+    #     move_value = int(value[0])
+    #     move_x, move_y, move_z = self.position
+    #     while move_value:
+    #         try:
+    #             if target.x == self.x: # x 轴相等
+    #                 if target.y > self.y: # 在上面
+    #                     move_y = move_y + move_value # 我的y减小
+    #                 else: # 在上面
+    #                     move_y = move_y - move_value
+    #             if target.y == self.y: # y 轴相等
+    #                 if target.x > self.x: # 在右侧
+    #                     move_x = move_x + move_value
+    #                 else: # 在左侧
+    #                     move_x = move_x - move_value
+    #             if tuple([move_x, move_y, move_z]) != tuple(self.position):
+    #                 move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
+    #                 self.move_position(move_x, move_y, move_z, state)
+    #             return self
+    #         except Exception:
+    #             print(traceback.format_exc())
+    #             move_value = move_value - 1
+    #     return self
+    
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
         move_value = int(value[0])
@@ -546,23 +560,48 @@ class Hero():
         while move_value:
             try:
                 if target.x == self.x: # x 轴相等
-                    if target.y > self.y: # 在上面
-                        move_y = move_y + move_value # 我的y减小
+                    if target.z > self.z: # 在上面
+                        move_z = move_z + move_value # 我的y减小
                     else: # 在上面
-                        move_y = move_y - move_value
-                if target.y == self.y: # y 轴相等
+                        move_z = move_z - move_value
+                if target.z == self.z: # y 轴相等
                     if target.x > self.x: # 在右侧
                         move_x = move_x + move_value
                     else: # 在左侧
                         move_x = move_x - move_value
                 if tuple([move_x, move_y, move_z]) != tuple(self.position):
-                    move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
+                    move_y = map_obj.get_land_from_xz(move_x, move_z).y
                     self.move_position(move_x, move_y, move_z, state)
                 return self
             except Exception:
                 print(traceback.format_exc())
                 move_value = move_value - 1
         return self
+    
+    # def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
+    #     map_obj = state.get('maps')
+    #     move_value = int(move_value[0])
+    #     move_x, move_y, move_z = self.position
+    #     while move_value:
+    #         try:
+    #             if enemy.x == self.x: # x 轴相等
+    #                 if enemy.y > self.y: # 敌人在上面
+    #                     move_y = move_y - move_value # 我的y减小
+    #                 else: # 敌人在上面
+    #                     move_y = move_y + move_value
+    #             if enemy.y == self.y: # y 轴相等
+    #                 if enemy.x > self.x: # 敌人在右侧
+    #                     move_x = move_x - move_value
+    #                 else: # 敌人在左侧
+    #                     move_x = move_x + move_value
+    #             if tuple([move_x, move_y, move_z]) != tuple(self.position):
+    #                 move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
+    #                 self.move_position(move_x, move_y, move_z, state)
+    #             return self
+    #         except Exception:
+    #             print(traceback.format_exc())
+    #             move_value = move_value - 1
+    #     return self
     
     def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
         map_obj = state.get('maps')
@@ -571,8 +610,8 @@ class Hero():
         while move_value:
             try:
                 if enemy.x == self.x: # x 轴相等
-                    if enemy.y > self.y: # 敌人在上面
-                        move_y = move_y - move_value # 我的y减小
+                    if enemy.z > self.z: # 敌人在上面
+                        move_z = move_z - move_value # 我的y减小
                     else: # 敌人在上面
                         move_y = move_y + move_value
                 if enemy.y == self.y: # y 轴相等
@@ -581,7 +620,7 @@ class Hero():
                     else: # 敌人在左侧
                         move_x = move_x + move_value
                 if tuple([move_x, move_y, move_z]) != tuple(self.position):
-                    move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
+                    move_y = map_obj.get_land_from_xz(move_x, move_z).y
                     self.move_position(move_x, move_y, move_z, state)
                 return self
             except Exception:
@@ -589,7 +628,7 @@ class Hero():
                 move_value = move_value - 1
         return self
     
-    def use_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用技能后
+    def __use_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用技能后
         if not skill.use_skill().is_avaliable(): # 使用次数减少 后 判断技能是否还是可用的
             self.__AvailableSkills.remove(skill.skillId)
         enemy = None
@@ -603,11 +642,11 @@ class Hero():
         # 判断自己是否向敌人移动 #TODO
         if "MOVE_SELF2TARGET" in skill.avaliable_effects():
             move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
-            self.skill_move_to_position(enemy, move_value, state)
+            self.skill_move_to_position(target=enemy, value=move_value, state=state)
         # 判断敌人是否向自己移动 
         if "MOVE_TARGET2SELF" in skill.avaliable_effects():
             move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
-            enemy.skill_move_to_position(self, move_value, state)
+            enemy.skill_move_to_position(target=self, value=move_value, state=state)
         # 击退几格
         if "REPEL_TARGET" in skill.avaliable_effects():
             move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
@@ -625,16 +664,18 @@ class Hero():
                         self.load_skill(each_skill)
         return self
     
+    def __reduce_buff_round_action(self): # 每次行动后，减少buff中的round_action
+        for each in self.__buff:
+            each.reduce_round_action()
+        return self
+
     def dont_move(self): # 移动不移动
+        self.check_buff()                                       # 减少buff
         for each_skill in self.get_Skills(active=0):
             if "IS_HIT" not in each_skill.avaliable_effects():  # 非被动触发的技能
                 if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
                     self.load_skill(each_skill)
-        return self
-    
-    def reduce_buff_round_action(self): # 每次行动后，减少buff中的round_action
-        for each in self.__buff:
-            each.reduce_round_action()
+        self.__reduce_buff_round_action()
         return self
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}, is_back_atk=False): #技能攻击
@@ -650,11 +691,11 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        # if not isinstance(enemys, list):
-        #     enemys = [enemys, ]
         self.check_buff()          # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
+            if self.is_death: # 死亡了
+                return
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             result = damage(attacker=self, defender=each, skill=skill)
             result[each] = copy.deepcopy(result)
@@ -664,9 +705,9 @@ class Hero():
             print(each.HeroID ,"Hp <damaeg>: ", result)
             each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
             print(each.HeroID ,"Hp <after>: ", each.Hp)
-            if not is_back_atk: # 不是反击
+            if not is_back_atk and each.is_alive: # 不是反击攻击， 并且没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     each.func_attack(enemys=[self], skill=each_back_skill, attack_point=self.position, state=state, is_back_atk=True)
-        self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
-        self.reduce_buff_round_action() # 减少buff的round action
+        self.__use_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
+        self.__reduce_buff_round_action() # 减少buff的round action
         return result
