@@ -69,18 +69,22 @@ class Move(object):
             closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
 
         else:
+            print(f"警戒范围{doge_base}没有敌人, 检查BOSS位置")
             closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
             if closest_enemy_position:
                 closest_enemy_position = closest_enemy_position[0]
             else:
+                print(f"警戒范围{doge_base}外没有BOSS")
+
                 return []
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
 
         if atk_position:
+            print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
+
             move_steps = DistanceFunc().find_shortest_path(position, atk_position, jump_height, maps)[: round_action+1]
         else:
             return []
-        print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
 
         # move_steps = DistanceFunc().manhattan_path(position, closest_enemy_position, round_action, maps, jump_height)
         return move_steps
