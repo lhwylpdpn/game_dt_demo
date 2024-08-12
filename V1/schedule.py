@@ -31,7 +31,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 50
+        self.timeout_tick = 1000
         self.tick = 0
         self.record_update_dict = {}
         self.record_error_dict = {}
@@ -112,10 +112,11 @@ class schedule:
                     state_dict=self.state_to_dict(state)
                     self.performance.event_end('get_current_state')
                 self.performance.event_start('check_game_over')
-                if self.game.check_game_over():
+                if self.game.check_game_over()[0]:
                     self.performance.event_end('check_game_over')
-                    print('战斗结束了！！！！')
+                    print('战斗结束了！！！！',self.game.check_game_over()[1])
                     self.game_over=True
+
                     return
                 self.performance.event_end('check_game_over')
 
@@ -151,7 +152,7 @@ class schedule:
     def _record(self,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
 
-        print('update_dict',update_dict)
+        #print('update_dict',update_dict)
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
         self.record_update_dict[self.tick]['action'].append(action)
@@ -170,7 +171,7 @@ class schedule:
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
-        print('给强爷',result)
+        #print('给强爷',result)
         return result
 
 

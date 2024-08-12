@@ -6,13 +6,17 @@ import random
 from PIL import Image, ImageDraw, ImageFont
 # 初始化 Pygame
 
+import textwrap
+
 
 
 # 棋子类
 class Piece:
-    def __init__(self, image_path, position):
+    def __init__(self, image_path, position,piece_type,piece_id):
         self.image = pygame.image.load(image_path)
         self.position = position
+        self.piece_type=piece_type
+        self.piece_id=piece_id
 
     def move(self, new_position):
         self.position = new_position
@@ -20,17 +24,15 @@ class Piece:
     def draw(self, screen):
         screen.blit(self.image, self.position)
 
-
 class game:
     def __init__(self,state):
         pygame.init()
 
         # 设置屏幕尺寸
         self.WIDTH, self.HEIGHT = 1000, 1000
+        self.SCREEN_WIDTH=self.WIDTH+500
         pygame.display.set_caption("彬哥的棋盘游戏")
         self.WHITE = (255, 255, 255)
-        self.BOARD_WIDTH = 0
-        self.BOARD_HEIGHT = 0
         self.state=state
 
     def position_change_to_pygame(self,x, y):
@@ -46,9 +48,90 @@ class game:
 
         print('开始游戏')
         all_data=json.loads(json_data)
-        print(all_data['update'].keys())
+        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.HEIGHT))
+        self.screen.fill(self.WHITE)
+        self.screen.blit(self.broad, (0, 0))
 
-        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        for h in self.hero_piece:
+            h.draw(self.screen)
+        for m in self.monster_piece:
+            m.draw(self.screen)
+        pygame.display.flip()
+        action_dict = {'LEFT', 'RIGHT', 'TOP', 'BOTTOM', 'SKILL'}
+        skillid=[]
+        for i in all_data['init_state']['hero']:
+            for skill in all_data['init_state']['hero'][i]['skills']:
+                if skill['SkillId'] not in skillid:
+                    skillid.append(skill['SkillId'])
+        for skill in skillid:
+            action_dict.add('SKILL_'+str(skill))
+
+        for i in all_data['update']:
+            for action in i['action']:
+                #print('action',action['action_type'],action['class'],action['id'],i['state'])
+
+                #todo 每个动作 做三件事：1、更新棋盘看效果 2、检查动作决策是否正确 3、检查动作带来状态变化合理性
+                if action['action_type'] in action_dict:
+                    self.screen.fill(self.WHITE)
+                    self.screen.blit(self.broad, (0, 0))
+
+                    for h in self.hero_piece:
+                        if h.piece_id==action['id']:
+
+                            if action['action_type'] == 'LEFT':
+                                h.move((h.position[0] - self.WIDTH // self.BOARD_WIDTH, h.position[1]))
+                            if action['action_type'] == 'RIGHT':
+                                h.move((h.position[0] + self.WIDTH // self.BOARD_WIDTH, h.position[1]))
+                            if action['action_type'] == 'TOP':
+                                h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                            if action['action_type'] == 'BOTTOM':
+                                h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
+
+                    for m in self.monster_piece:
+                        if m.piece_id==action['id']:
+                            if action['action_type'] == 'LEFT':
+                                m.move((m.position[0] - self.WIDTH // self.BOARD_WIDTH, m.position[1]))
+                            if action['action_type'] == 'RIGHT':
+                                m.move((m.position[0] + self.WIDTH // self.BOARD_WIDTH, m.position[1]))
+                            if action['action_type'] == 'TOP':
+                                m.move((m.position[0], m.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                            if action['action_type'] == 'BOTTOM':
+                                m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
+
+                    for h in self.hero_piece:
+                        h.draw(self.screen)
+                    for m in self.monster_piece:
+                        m.draw(self.screen)
+
+
+
+
+
+                    # font = pygame.font.Font(None, 15)
+                    # text=font.render('内容区域:',True,(0,0,0))
+                    # self.screen.blit(text,(self.WIDTH+10,10))
+                    # text=font.render('动作:'+action['action_type'],True,(0,0,0))
+                    # self.screen.blit(text,(self.WIDTH+10,40))
+                    #
+                    # wrapped_text = textwrap.wrap('状态变化:'+str(i['state']), width=30)  # 每行最多30个字符
+                    # for j, line in enumerate(wrapped_text):
+                    #     text = font.render(line, True, (0, 0, 0))
+                    #     self.screen.blit(text, (self.WIDTH+10, 70 + j * 20))
+
+                    pygame.display.flip()
+                    pygame.time.delay(1000)
+
+                # #2 不好处理  3 todo 先打印状态到棋盘旁边看看
+                # for state in i['state']:
+                #     for change in state:
+                #             print('change',change[1],change[2])
+
+
+
+
+
+
+
 
         # running = True
         # while running:
@@ -65,9 +148,8 @@ class game:
         #
         #     pygame.display.flip()
         #     # 随机移动棋子
-        #     directions = [(-1, 0), (1, 0), (0, -1), (0, 1),(2,2)]  # 上、下、左、右
+        #     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # 上、下、左、右
         #     dx, dy = random.choice(directions)
-        #     time.sleep(100)
         #     #每次移动一个格子
         #     new_x, new_y = self.hero0.position[0] + dx * self.WIDTH // self.BOARD_WIDTH, self.hero0.position[1] + dy * self.HEIGHT // self.BOARD_HEIGHT
         #
@@ -95,23 +177,23 @@ class game:
         for h in self.hero:
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0, 0, 0))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 35)
-            d.text((0, 0), "H"+str(i), font=fnt, fill=(0, 0, 0))
+            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 17)
+            d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(0, 0, 0))
             # 保存图片
             img.save('hero'+str(i)+'.png')
-            self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2])))
+            self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2]),'hero',h['HeroID']))
             i += 1
         i=0
         for m in self.monster:
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0, 0, 0))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 35)
-            d.text((0, 0), "M"+str(i), font=fnt, fill=(0, 0, 0))
+            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 17)
+            d.text((0, 0), "M"+str(m['HeroID']), font=fnt, fill=(0, 0, 0))
             # 保存图片
             img.save('monster'+str(i)+'.png')
-            self.monster_piece.append(Piece('monster'+str(i)+'.png', self.position_change_to_pygame(m['position'][0], m['position'][2])))
+            self.monster_piece.append(Piece('monster'+str(i)+'.png', self.position_change_to_pygame(m['position'][0], m['position'][2]),'monster',m['HeroID']))
     def generate_state(self):
-        self.map=self.state['map'].view_from_z_dict()
+        self.map=self.state['map'].view_from_y_dict()
 
         x, y, z = 0, 0, 0
 
@@ -119,10 +201,10 @@ class game:
 
             if p[0] > x:
                 x = p[0]
-            if p[1] > y:
-                y = p[1]
-            if p[2] > z:
-                z = p[2]
+            if p[2] > y:
+                y = p[2]
+            if p[1] > z:
+                z = p[1]
         self.BOARD_WIDTH = x+1
         self.BOARD_HEIGHT = y+1
 
@@ -147,9 +229,9 @@ class game:
 
                     block=self.map[p]['Block']
 
-                    if i==p[0] and j==p[1] and block==1:
+                    if i==p[0] and j==p[2] and block==1:
 
-                        text = font.render(f'{p[2]}', True, (0, 0, 0))
+                        text = font.render(f'{p[1]}', True, (0, 0, 0))
                         text_rect = text.get_rect(center=rect.center)
                         broad_picture.blit(text, text_rect)
 
@@ -159,5 +241,8 @@ class game:
 
 
 if __name__ == '__main__':
-    generate_state()
+    #generate_state()
     #test_main()
+
+    t={'0':{'t':3}}
+    print(t[str(0)])
