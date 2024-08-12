@@ -16,8 +16,9 @@ class SkillDetail():
         self.__use_count = None
         self.__max_use_count = self.__use_count
         self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count", "use_count"]
+        #self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count"]
 
-    def dict(self, fields=[]):
+    def dict(self, fields=[], for_view=False):
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
@@ -27,6 +28,9 @@ class SkillDetail():
             for each in self.__effects:
                 data["effects"][each.key] = each.dict()
         data.update({field:self.__getattribute__(field) for field in fields})
+        if for_view:
+            data.pop("max_use_count")
+            data.pop("use_count")
         return data
     
     def avaliable_effects(self): # 当前skill有哪些效果

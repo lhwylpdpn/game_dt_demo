@@ -92,7 +92,7 @@ class Hero():
             data["skills"] = []
             fields.remove("skills")
             for each in self.__skills:
-                data["skills"].append(each.dict())
+                data["skills"].append(each.dict(for_view=for_view))
         data.update({field: self.__getattribute__(field) for field in fields})
         # if for_view:
         #     data['position'] = list(trans_postion(*data["position"]))
@@ -423,7 +423,7 @@ class Hero():
         map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
         map_obj.set_land_no_pass(x,y,z)       # 抵达地块设置为不可通过
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
-        print("MOVE>>: ", self.HeroID, f"移动到<{self.position}>")
+        print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff
         self.load_unit_buff(state)            # 加载新的连携buff
         return self

@@ -142,7 +142,8 @@ def damage(attacker,defender,skill):
     basedamage=attacker_ATK*attacker_skill_coefficient
     #print('basedamage',basedamage)
     level2damage=(basedamage*(1+attacker_Atk_bonusCoefficient)-defender_Def)*defender_DefenseCoefficient*(1+attacker_critBase)
-    #print('basedamage',basedamage,'attacker_Atk_bonusCoefficient',attacker_Atk_bonusCoefficient,'defender_Def',defender_Def,'defender_DefenseCoefficient',defender_DefenseCoefficient,'attacker_critBase',attacker_critBase)
+    if skill.SkillId == demo_skill['反击斩']:
+        print('反2击','basedamage',basedamage,'attacker_Atk_bonusCoefficient',attacker_Atk_bonusCoefficient,'defender_Def',defender_Def,'defender_DefenseCoefficient',defender_DefenseCoefficient,'attacker_critBase',attacker_critBase)
     #print('level2damage',level2damage)
     damage=level2damage*damageControlCoefficient-shieldDamageReduction
     damage=round(damage,2)
