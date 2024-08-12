@@ -19,7 +19,7 @@ class SkillRange:
     # @lru_cache(maxsize=None)
     def get_maps_point(xy, maps):
         z = maps[xy]["y"]
-        return xy[0], xy[1], z
+        return xy[0], z, xy[1]
 
     @staticmethod
     def get_manhattan_path(x, y, z, max_distance, maps, jump_height=None):
@@ -42,7 +42,7 @@ class SkillRange:
 
             for dx, dz in product(range(-1, 2), repeat=2):
                 if abs(dx) + abs(dz) <= 1 and (dx != 0 or dz != 0):
-                    p = (current_x + dx, current_y + dz)
+                    p = (current_x + dx, current_z + dz)
                     if p not in maps:
                         continue
                     if maps[p].get("used") == 1 or maps[p].get("Block") == 0:
