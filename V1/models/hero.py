@@ -416,12 +416,14 @@ class Hero():
         return self 
     
     def move_position(self, x, y, z, state):
+        print("MOVE>>:", self.HeroID, f"from <{self.position}>计划移动到<[{x}, {y}, {z}]>")
         map_obj = state['maps']
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
         map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
         map_obj.set_land_no_pass(x,y,z)       # 抵达地块设置为不可通过
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
+        print("MOVE>>: ", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff
         self.load_unit_buff(state)            # 加载新的连携buff
         return self
