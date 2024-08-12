@@ -111,10 +111,8 @@ class DistanceFunc(object):
                 _point = maps[(x, y)]
                 if _point.get("used") == 1:
                     continue
-                print('--------->', start, _point["position"], jump_height)
 
                 is_reach = BasicFunc().is_reach(start, _point, jump_height)
-                # is_reach = BasicFunc().is_reach(start, _point, jump_height)
                 if is_reach:
                     # if tuple(_point["position"]) != end:
                     path.append(tuple(_point["position"]))
