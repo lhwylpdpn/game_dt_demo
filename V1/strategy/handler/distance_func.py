@@ -51,8 +51,8 @@ class DistanceFunc(object):
     @staticmethod
     def find_shortest_path(start, end, jump_height, maps):
         """ 查找点与点之间的最近路径 """
-        start_pos = maps[(start[0], start[1])]
-        end_pos = maps[(end[0], end[1])]
+        start_pos = maps[(start[0], start[2])]
+        end_pos = maps[(end[0], end[2])]
 
         open_set = []
         heapq.heappush(open_set, (0, start_pos['position']))
@@ -75,8 +75,8 @@ class DistanceFunc(object):
 
             x, y, z = current_position
             current = maps[(x, y)]
-            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-                next_coord = (x + dx, y + dy)
+            for dx, dz in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                next_coord = (x + dx, z + dz)
                 if next_coord in maps:
                     next_pos = maps[next_coord]
                     tentative_g_score = g_score[current_position] + 1
