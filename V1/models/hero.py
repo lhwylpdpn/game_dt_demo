@@ -281,6 +281,9 @@ class Hero():
     @property
     def position(self):
         return self.__position
+
+    def set_position(self,x,y,z):
+        return self.set_x(x).set_y(y).set_z(z)
     
     @property
     def BUFF_HIT_RATE(self): # 增加{0}的命中率

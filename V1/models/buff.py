@@ -17,7 +17,7 @@ class Buff():
         self.__buff_back = buff_back
     
     def reduce_round_action(self):
-        if self.__buff_round_action > 0:
+        if int(self.__buff_round_action) > 0:
             self.__buff_round_action = self.__buff_round_action - 1
         return self 
     
