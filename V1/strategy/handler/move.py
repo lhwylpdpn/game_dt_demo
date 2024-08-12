@@ -80,11 +80,11 @@ class Move(object):
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
 
         if atk_position:
-            print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
-
             move_steps = DistanceFunc().find_shortest_path(position, atk_position, jump_height, maps)[: round_action+1]
         else:
+            print(f"ERROR！ {position}找不到前往敌人附近的step， 敌人位置{atk_position}")
             return []
+        print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
 
         # move_steps = DistanceFunc().manhattan_path(position, closest_enemy_position, round_action, maps, jump_height)
         return move_steps
