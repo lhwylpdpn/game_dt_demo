@@ -64,14 +64,14 @@ class Game(object):
     def check_game_over(self):
         monster = [m for m in self.monster if not m.is_death]
         if not monster:
-            return True
+            return True, "HERO WIN！"
 
         hero = [h for h in self.hero if not h.is_death]
 
         if not hero:
-            return True
+            return True, "MONSTER WIN！"
 
-        return False
+        return False, "对局被终止！"
 
     def get_current_alive_hero(self):
         return [h for h in self.hero if not h.is_death] + [m for m in self.monster if not m.is_death]
