@@ -40,8 +40,8 @@ class Move(object):
         while queue:
             current_position, current_distance = queue.popleft()
 
-            for dx, dy in product([-1, 1, 0, 0], [0, 0, -1, 1]):
-                new_position = (current_position[0] + dx, current_position[1] + dy)
+            for dx, dz in product([-1, 1, 0, 0], [0, 0, -1, 1]):
+                new_position = (current_position[0] + dx, current_position[2] + dz)
                 if new_position in maps:
                     if BasicFunc().is_reach(hero, maps[new_position], jump_height):
                         point = tuple(maps[new_position]["position"])
@@ -67,6 +67,7 @@ class Move(object):
         enemies = [e for e in enemies if e["Hp"] > 0]
         if DistanceFunc().is_within_range(doge_base, position, enemies):
             closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
+            print(f"警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
 
         else:
             print(f"警戒范围{doge_base}没有敌人, 检查BOSS位置")
@@ -78,6 +79,7 @@ class Move(object):
 
                 return []
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
+        print(f"攻击位置: {atk_position}")
 
         if atk_position:
             move_steps = DistanceFunc().find_shortest_path(position, atk_position, jump_height, maps)[: round_action+1]
