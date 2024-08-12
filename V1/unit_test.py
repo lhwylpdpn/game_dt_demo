@@ -17,22 +17,24 @@ class test_process:
         #self.game_obj=game(self.state)
         #self.game_obj.game_init()
     def data_init(self):
+        p_all = self.state['map'].view_from_y_dict().keys()
+        p_all = list(p_all)
+        for p in self.state['map'].view_from_y_dict().keys():
+            if self.state['map'].view_from_y_dict()[p]['Block'] != 1:
+                p_all.remove(p)
 
 
         for i in range(len(self.state['hero'])):
 
 
-            hero_random_RoundAction = random.randint(1, 100)
-            hero_random_JumpHeight = [random.randint(0, 100)]
-            hero_random_DogBase = random.randint(0, 100)
+            hero_random_RoundAction = random.randint(2, 2)
+            hero_random_JumpHeight = [random.randint(0, 0)]
+            hero_random_DogBase = random.randint(0, 0)
             hero_random_HP = random.randint(0, 1000)
             hero_random_Atk = random.randint(0, 1000)
-            p_all = self.state['map'].view_from_y_dict().keys()
-            p_all = list(p_all)
-            for p in self.state['map'].view_from_y_dict().keys():
-                if self.state['map'].view_from_y_dict()[p]['Block'] != 1:
-                    p_all.remove(p)
+
             p = random.choice(p_all)
+            p_all.remove(p)
             tmp_skills=copy.deepcopy(self.state['hero'][i].dict()['AvailableSkills'])
             for j in self.state['hero'][i].dict()['AvailableSkills']:
                 if random.random()>0.5:
@@ -59,17 +61,13 @@ class test_process:
             self.state['hero'][i].set_z(p[2])
         for i in range(len(self.state['monster'])):
 
-            monster_random_RoundAction = random.randint(1, 100)
-            monster_random_JumpHeight = [random.randint(0, 100)]
-            monster_random_DogBase = random.randint(0, 100)
+            monster_random_RoundAction = random.randint(1, 1)
+            monster_random_JumpHeight = [random.randint(8, 8)]
+            monster_random_DogBase = random.randint(70, 80)
             monster_random_HP = random.randint(0, 1000)
             monster_random_Atk = random.randint(0, 1000)
-            p_all = self.state['map'].view_from_y_dict().keys()
-            p_all = list(p_all)
-            for p in self.state['map'].view_from_y_dict().keys():
-                if self.state['map'].view_from_y_dict()[p]['Block'] != 1:
-                    p_all.remove(p)
             p = random.choice(p_all)
+            p_all.remove(p)
             tmp_skills = copy.deepcopy(self.state['monster'][i].dict()['AvailableSkills'])
             print('tmp_skills',tmp_skills)
             for j in self.state['monster'][i].dict()['AvailableSkills']:
@@ -90,14 +88,6 @@ class test_process:
             self.state['monster'][i].set_DogBase(monster_random_DogBase)
             self.state['monster'][i].set_Hp(monster_random_HP)
             self.state['monster'][i].set_Atk(monster_random_Atk)
-
-            # 随机选地图的一个位置给到英雄
-            p_all = self.state['map'].view_from_y_dict().keys()
-            p_all = list(p_all)
-            for p in self.state['map'].view_from_y_dict().keys():
-                if self.state['map'].view_from_y_dict()[p]['Block']!=1:
-                    p_all.remove(p)
-            p = random.choice(p_all)
 
             self.state['monster'][i].set_x(p[0])
             self.state['monster'][i].set_y(p[1])
@@ -129,9 +119,11 @@ class test_process:
 
 
 if __name__ == '__main__':
-    obj_=test_process()
-    obj_.data_init()
-    obj_.run()
-    obj_.over_state()
+    res=[]
+    for i in range(1):
+        obj_=test_process()
+        obj_.data_init()
+        res.append(obj_.run())
+        obj_.over_state()
     # obj_.game_run()
-
+    print(res)

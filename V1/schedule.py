@@ -59,6 +59,7 @@ class schedule:
             self.next()
 
         self.performance.end()
+        return self.game.check_game_over()[1]
     def next(self):
         self.performance.event_start('get_current_state')
         state=self.game.get_current_state()
