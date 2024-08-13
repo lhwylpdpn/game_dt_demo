@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/22 17:32
+import math
 import random
 
 
@@ -12,9 +13,22 @@ class BasicFunc(object):
         return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
 
     @staticmethod
+    def h_manhattan_distance(point1, point2, gap, h_effect):
+
+        base_distance = abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
+        height_difference = point1[1] - point2[1]
+
+        if height_difference > 0:
+            adjusted_distance = base_distance + (height_difference // 1)
+        else:
+            adjusted_distance = base_distance + math.ceil(height_difference / 1)
+
+        return adjusted_distance
+
+    @staticmethod
     def is_reach(start, end, jump_height):
         # 是否可到达
-        if abs(start["position"][1] - end["position"][1]) < jump_height:
+        if abs(start["position"][1] - end["position"][1]) <= jump_height:
             if end["Block"] == 1:
                 return True
         return False
