@@ -8,6 +8,7 @@ import schedule
 from V1.test.demo_show import game
 import random
 import copy
+
 class test_process:
     def __init__(self):
         map = BuildPatrol.build_map(origin_map_data)  # map
@@ -25,11 +26,11 @@ class test_process:
         for i in range(len(self.state['hero'])):
 
 
-            hero_random_RoundAction = random.randint(0, 3)
-            hero_random_JumpHeight = [random.randint(1,1)]
-            hero_random_DogBase = random.randint(0, 2)
-            hero_random_HP = random.randint(0, 10000)
-            hero_random_Atk = random.randint(0, 1000)
+            hero_random_RoundAction = random.randint(3,3)
+            hero_random_JumpHeight = [random.randint(3,3)]
+            hero_random_DogBase = random.randint(3,3)
+            hero_random_HP = random.randint(1000,1000)
+            hero_random_Atk = random.randint(100,1000)
 
             p = random.choice(p_all)
             p_all.remove(p)
@@ -45,8 +46,11 @@ class test_process:
             print('hero_random_DogBase', hero_random_DogBase)
             print('hero_random_HP', hero_random_HP)
             print('hero_random_Atk', hero_random_Atk)
-            print('p', p)
 
+            if i == 0:
+                p=(2,1,6)
+            if i==1:
+                p=(3,1,16)
             self.state['hero'][i].set_AvailableSkills(tmp_skills)
             self.state['hero'][i].set_RoundAction(hero_random_RoundAction)
             self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
@@ -54,16 +58,17 @@ class test_process:
             self.state['hero'][i].set_Hp(hero_random_HP)
             self.state['hero'][i].set_Atk(hero_random_Atk)
             #随机选地图的一个位置给到英雄
+            print('p', p)
             self.state['hero'][i].set_x(p[0])
             self.state['hero'][i].set_y(p[1])
             self.state['hero'][i].set_z(p[2])
         for i in range(len(self.state['monster'])):
 
-            monster_random_RoundAction = random.randint(0, 3)
-            monster_random_JumpHeight = [random.randint(5, 10)]
-            monster_random_DogBase = random.randint(0,100 )
-            monster_random_HP = random.randint(0, 10000)
-            monster_random_Atk = random.randint(0, 1000)
+            monster_random_RoundAction = random.randint(3,3)
+            monster_random_JumpHeight = [random.randint(10,10)]
+            monster_random_DogBase = random.randint(10,10 )
+            monster_random_HP = random.randint(1000, 1000)
+            monster_random_Atk = random.randint(100, 100)
             p = random.choice(p_all)
             p_all.remove(p)
             tmp_skills = copy.deepcopy(self.state['monster'][i].dict()['AvailableSkills'])
@@ -79,14 +84,18 @@ class test_process:
             print('monster_random_DogBase', monster_random_DogBase)
             print('monster_random_HP', monster_random_HP)
             print('monster_random_Atk', monster_random_Atk)
-            print('p', p)
+
             self.state['monster'][i].set_AvailableSkills(tmp_skills)
             self.state['monster'][i].set_RoundAction(monster_random_RoundAction)
             self.state['monster'][i].set_JumpHeight(monster_random_JumpHeight)
             self.state['monster'][i].set_DogBase(monster_random_DogBase)
             self.state['monster'][i].set_Hp(monster_random_HP)
             self.state['monster'][i].set_Atk(monster_random_Atk)
-
+            if i==0:
+                p=(19,5,18)
+            if i==1:
+                p=(12,7,8)
+            print('p', p)
             self.state['monster'][i].set_x(p[0])
             self.state['monster'][i].set_y(p[1])
             self.state['monster'][i].set_z(p[2])
