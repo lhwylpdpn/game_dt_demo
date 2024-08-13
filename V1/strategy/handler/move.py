@@ -70,12 +70,14 @@ class Move(object):
             print(f"警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
 
         else:
-            print(f"警戒范围{doge_base}没有敌人, 检查BOSS位置")
+            print(f"警戒范围{doge_base}内没有敌人, 检查BOSS位置")
             closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
             if closest_enemy_position:
                 closest_enemy_position = closest_enemy_position[0]
+                print(f"BOSS位置为{closest_enemy_position['position']}")
+
             else:
-                print(f"警戒范围{doge_base}外没有BOSS")
+                print(f"警戒范围{doge_base}外也没有BOSS")
 
                 return []
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
