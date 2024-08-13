@@ -74,14 +74,13 @@ class DistanceFunc(object):
                 return path
 
             x, y, z = current_position
-            current = maps[(x, y)]
+            current = maps[(x, z)]
             for dx, dz in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
                 next_coord = (x + dx, z + dz)
                 if next_coord in maps:
                     next_pos = maps[next_coord]
                     tentative_g_score = g_score[current_position] + 1
                     if BasicFunc().is_reach(current, next_pos, jump_height):
-                    # if is_reachable(current, next_pos, jump_height):
                         if next_pos['position'] not in g_score or tentative_g_score < g_score[next_pos['position']]:
                             came_from[next_pos['position']] = current_position
                             g_score[next_pos['position']] = tentative_g_score
