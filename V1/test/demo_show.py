@@ -15,6 +15,7 @@ class Piece:
     def __init__(self, image_path, position,piece_type,piece_id):
         self.image = pygame.image.load(image_path)
         self.position = position
+        print('棋子初始化',position)
         self.piece_type=piece_type
         self.piece_id=piece_id
 
@@ -36,8 +37,10 @@ class game:
         self.state=state
 
     def position_change_to_pygame(self,x, y):
+        print('棋子初始化翻译前', x, y)
         x = x * self.WIDTH // self.BOARD_WIDTH
         y = y * self.HEIGHT // self.BOARD_HEIGHT
+        print('棋子初始化翻译后',x,y)
         return (x, y)
     def game_init(self):
         self.generate_state()
@@ -51,6 +54,7 @@ class game:
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.HEIGHT))
         self.screen.fill(self.WHITE)
         self.screen.blit(self.broad, (0, 0))
+        font = pygame.font.Font(None, 15)
 
         for h in self.hero_piece:
             h.draw(self.screen)
@@ -86,7 +90,10 @@ class game:
                                 h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'BOTTOM':
                                 h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
-
+                            text = font.render('state info :', True, (0, 0, 0))
+                            self.screen.blit(text, (self.WIDTH + 10, 10))
+                            text=font.render('hero'+str(h.piece_id)+'action:'+str(action), True, (0, 0, 0))
+                            self.screen.blit(text, (self.WIDTH + 10, 40))
                     for m in self.monster_piece:
                         if m.piece_id==action['id']:
                             if action['action_type'] == 'LEFT':
@@ -97,6 +104,10 @@ class game:
                                 m.move((m.position[0], m.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'BOTTOM':
                                 m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
+                            text = font.render('state info :', True, (0, 0, 0))
+                            self.screen.blit(text, (self.WIDTH + 10, 10))
+                            text=font.render('monster'+str(m.piece_id)+'action:'+str(action), True, (0, 0, 0))
+                            self.screen.blit(text, (self.WIDTH + 10, 40))
 
                     for h in self.hero_piece:
                         h.draw(self.screen)
@@ -105,21 +116,8 @@ class game:
 
 
 
-
-
-                    # font = pygame.font.Font(None, 15)
-                    # text=font.render('内容区域:',True,(0,0,0))
-                    # self.screen.blit(text,(self.WIDTH+10,10))
-                    # text=font.render('动作:'+action['action_type'],True,(0,0,0))
-                    # self.screen.blit(text,(self.WIDTH+10,40))
-                    #
-                    # wrapped_text = textwrap.wrap('状态变化:'+str(i['state']), width=30)  # 每行最多30个字符
-                    # for j, line in enumerate(wrapped_text):
-                    #     text = font.render(line, True, (0, 0, 0))
-                    #     self.screen.blit(text, (self.WIDTH+10, 70 + j * 20))
-
                     pygame.display.flip()
-                    pygame.time.delay(1000)
+                    pygame.time.delay(1500)
 
                 # #2 不好处理  3 todo 先打印状态到棋盘旁边看看
                 # for state in i['state']:
@@ -215,7 +213,7 @@ class game:
         # 生成一张按照宽高格子生成的棋盘地图，类似国际象棋，不需要颜色直接是网格图就行
         broad_picture = pygame.Surface((self.WIDTH, self.HEIGHT))
         broad_picture.fill(self.WHITE)
-        font = pygame.font.Font(None, 26)
+        font = pygame.font.Font(None, 18)
         for i in range(self.BOARD_WIDTH):
             for j in range(self.BOARD_HEIGHT):
                 # 我希望棋盘上有BOARD_WIDTH*BOARD_HEIGHT个格子，每个格子的宽度和高度都是WIDTH/BOARD_WIDTH和HEIGHT/BOARD_HEIGHT
@@ -231,7 +229,9 @@ class game:
 
                     if i==p[0] and j==p[2] and block==1:
 
-                        text = font.render(f'{p[1]}', True, (0, 0, 0))
+                        # text = font.render(f'{p[1]}', True, (0, 0, 0))
+                        # text_rect = text.get_rect(center=rect.center)
+                        text = font.render(f'({p[0]},{p[1]},{p[2]})', True, (0, 0, 0))
                         text_rect = text.get_rect(center=rect.center)
                         broad_picture.blit(text, text_rect)
 

@@ -1,5 +1,6 @@
 name: game_work
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - blas=1.0=mkl
