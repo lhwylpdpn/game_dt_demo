@@ -35,6 +35,7 @@ class Action(object):
             hero.func_attack(attack_enemies, skill, step["atk_position"], state)
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
+            res["release_range"] = step["release_range"]
         if step["action_type"] == "WAIT":
             return step
         return res
@@ -47,7 +48,7 @@ class Action(object):
             action_step += self.move_step_handler(atk_pick["route"])
         action_step.append(
             {"action_type": f"SKILL_{atk_pick['skill']['SkillId']}", "atk_range": atk_pick["atk_range"],
-             "atk_position": atk_pick["skill_pos"], "attack_enemies": atk_pick["enemies_in_range"]})
+             "atk_position": atk_pick["skill_pos"], "attack_enemies": atk_pick["enemies_in_range"], "release_range": atk_pick["release_range"]})
         # print('action_step: ----->', action_step)
         return action_step
 
