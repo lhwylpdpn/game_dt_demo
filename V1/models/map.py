@@ -24,15 +24,15 @@ class Map(): # 地图
     #     return np.max(self.map, axis=2)
     @property
     def x(self):
-        return self._x
+        return self._x - 1
     
     @property
     def y(self):
-        return self._y
+        return self._y - 1
     
     @property
     def z(self):
-        return self._z
+        return self._z - 1
     
     def view_from_y(self):
         return np.max(self.map, axis=1)
