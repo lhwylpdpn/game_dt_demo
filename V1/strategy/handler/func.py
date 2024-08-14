@@ -62,7 +62,7 @@ class BasicFunc(object):
                         if skill["DefaultSkills"] == 1:
                             s.append(skill)
                         else:
-                            if int(skill["effects"]["USE_COUNT"]["param"][0]) > 1:
+                            if int(skill["use_count"]) > 1:
                                 s.append(skill)
         return s
 
