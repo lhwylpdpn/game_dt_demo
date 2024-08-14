@@ -1,8 +1,8 @@
 import time
 
-from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
-from test_map_data import origin_map_data  # 后续通过api获取前端传递的数据
-from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
+# from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
+# from test_map_data import origin_map_data  # 后续通过api获取前端传递的数据
+# from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
 from buildpatrol import BuildPatrol
 import schedule
 from V1.test.demo_show import game
@@ -11,10 +11,12 @@ import copy
 
 class test_process:
     def __init__(self):
-        map = BuildPatrol.build_map(origin_map_data)  # map
-        heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-        monster = BuildPatrol.build_monster(origin_monster_data)
-        self.state = {"map": map, "hero": heros, "monster": monster}
+        # map = BuildPatrol.build_map(origin_map_data)  # map
+        # heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+        # monster = BuildPatrol.build_monster(origin_monster_data)
+        # self.state = {"map": map, "hero": heros, "monster": monster}
+        self.state = BuildPatrol("data.json").load_data() 
+
     def data_init(self):
         p_all = self.state['map'].view_from_y_dict().keys()
         p_all = list(p_all)
