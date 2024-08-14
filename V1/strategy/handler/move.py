@@ -65,6 +65,9 @@ class Move(object):
         doge_base = int(hero["DogBase"])
         jump_height = int(hero["JumpHeight"][0])
         enemies = [e for e in enemies if e["Hp"] > 0]
+        hero["skills"] = BasicFunc().get_damage_skills(hero)
+        if not hero["skills"]:
+            print("当前英雄无可用技能！")
         if DistanceFunc().is_within_range(doge_base, position, enemies):
             closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
             print(f"警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
@@ -99,8 +102,4 @@ class Move(object):
         print(f'{hero["HeroID"]}向{move_steps}逃跑')
         return move_steps
 
-if __name__ == '__main__':
 
-    f = Move()
-
-    # print(SkillRange().get_attack_range(hero, maps))
