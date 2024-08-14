@@ -179,10 +179,10 @@ class game:
                                         print('英雄'+str(action['atk_position'])+'血量变化:',change)
                                         for m in self.monster_piece:
                                             if m.piece_id==change[1][1]:
-                                                m.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
+                                                m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
                                         for h in self.hero_piece:#可能带有反击导致自己受伤
                                             if h.piece_id==change[1][1]:
-                                                h.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
+                                                h.draw_hp_bar(self.screen,change[2][0]-change[2][1])
 
 
                     for m in self.monster_piece:
@@ -230,10 +230,10 @@ class game:
                                         print('怪物'+str(action['atk_position'])+'血量变化:',change)
                                         for h in self.hero_piece:
                                             if h.piece_id==change[1][1]:
-                                                h.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
+                                                h.draw_hp_bar(self.screen,change[2][0]-change[2][1])
                                         for m in self.monster_piece:#可能带有反击导致自己受伤
                                             if m.piece_id==change[1][1]:
-                                                m.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
+                                                m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
 
 
                     for h in self.hero_piece:

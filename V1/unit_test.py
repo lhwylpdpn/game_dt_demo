@@ -31,8 +31,8 @@ class test_process:
             hero_random_RoundAction = random.randint(3,3)
             hero_random_JumpHeight = [random.randint(3,3)]
             hero_random_DogBase = random.randint(3,3)
-            hero_random_HP = random.randint(1000,10000)
-            hero_random_Atk = random.randint(100,1000)
+            hero_random_HP = random.randint(1000,1000)
+            hero_random_Atk = random.randint(100,500)
 
             p = random.choice(p_all)
             p_all.remove(p)
@@ -43,7 +43,7 @@ class test_process:
             #         tmp_skills.remove(j)
             # if 200 not in tmp_skills:
             #     tmp_skills.append(200)
-            tmp_skills=[78,88]
+            tmp_skills=[88]
             print('hero',self.state['hero'][i].dict()['HeroID'])
             print('hero_random_RoundAction', hero_random_RoundAction)
             print('hero_random_JumpHeight', hero_random_JumpHeight)
@@ -71,8 +71,8 @@ class test_process:
             monster_random_RoundAction = random.randint(3,3)
             monster_random_JumpHeight = [random.randint(3,3)]
             monster_random_DogBase = random.randint(3,3 )
-            monster_random_HP = random.randint(1000, 10000)
-            monster_random_Atk = random.randint(100, 100)
+            monster_random_HP = random.randint(1000, 1000)
+            monster_random_Atk = random.randint(100, 500)
             p = random.choice(p_all)
             p_all.remove(p)
             tmp_skills = copy.deepcopy(self.state['monster'][i].dict()['AvailableSkills'])
@@ -82,6 +82,7 @@ class test_process:
             #         tmp_skills.remove(j)
             # if 200 not in tmp_skills:
             #     tmp_skills.append(200)
+            #tmp_skills = [77, 78, 88]
             print('monster',self.state['monster'][i].dict()['HeroID'])
             print('monster_random_RoundAction', monster_random_RoundAction)
             print('monster_random_JumpHeight', monster_random_JumpHeight)
@@ -140,4 +141,4 @@ if __name__ == '__main__':
         obj_.over_state()
         obj_.game_run()
     print(res)
-    time.sleep(100)
+    #time.sleep(100)
