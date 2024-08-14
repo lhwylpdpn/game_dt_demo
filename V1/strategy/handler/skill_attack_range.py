@@ -114,7 +114,7 @@ class SkillRange:
         :param i: 内圆范围
         """
         o = int(o) + 1
-        i = int(i)-1
+        i = int(i)
         atk_limit = range(i, o)
         atk_range = []
 
