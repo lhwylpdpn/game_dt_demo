@@ -75,7 +75,7 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(1000)
+        pygame.time.delay(500)
 
     def game_init(self):
         self.generate_state()
@@ -142,14 +142,41 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
-                                print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
+                                print(str(action['id'])+"在位置"+str(action.keys())+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
+                                print('完整的state变化',i['state'])
+                                w=0
+                                for _ in i['state']:
+                                    print('逐步的变化',w,_)
+                                    w+=1
                                 for change in i['state'][action_num]:
+                                    print('完整change',change)
                                     if change[1][2]=='Hp':
                                         print('英雄'+str(action['atk_position'])+'血量变化:',change)
-
                                         for m in self.monster_piece:
                                             if m.piece_id==change[1][1]:
                                                 m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
+                                    if change[1][2]=='position' and change[1][0]=='monster': # 特殊 带有击退怪兽效果的内容
+                                        print('怪物位置变化',change)
+                                        for m in self.monster_piece:
+                                            if m.piece_id==change[1][1]:
+                                                if str(change[1][3])=='0': #代表x变化，代表左右
+                                                    p_change=change[2][0]-change[2][1]
+                                                    if p_change>0:#向右移动
+                                                        m.move((m.position[0] + self.WIDTH // self.BOARD_WIDTH, m.position[1]))
+                                                        p_change-=1
+                                                    if p_change<0:#向左移动
+                                                        m.move((m.position[0] - self.WIDTH // self.BOARD_WIDTH, m.position[1]))
+                                                        p_change+=1
+                                                if str(change[1][3])=='2':#代表y变化，代表上下
+                                                    p_change=change[2][0]-change[2][1]
+                                                    if p_change>0:#向下移动
+                                                        m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
+                                                        p_change-=1
+                                                    if p_change<0:#向上移动
+                                                        m.move((m.position[0], m.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                                                        p_change+=1
+
+
                     for m in self.monster_piece:
                         if m.piece_id==action['id']:
                             if action['action_type'] == 'LEFT':
@@ -169,7 +196,7 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
-                                print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
+                                print(str(action['id'])+"在位置"+str(action.keys())+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 for change in i['state'][action_num]:
                                     if change[1][2]=='Hp':
                                         print('怪物'+str(action['atk_position'])+'血量变化:',change)
@@ -187,6 +214,7 @@ class game:
 
 
                     self.update_display()
+
 
                 # #2 不好处理  3 todo 先打印状态到棋盘旁边看看
                 # for state in i['state']:
