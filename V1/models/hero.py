@@ -622,8 +622,8 @@ class Hero():
                     if enemy.z > self.z: # 敌人在上面
                         move_z = move_z - move_value # 我的y减小
                     else: # 敌人在上面
-                        move_y = move_y + move_value
-                if enemy.y == self.y: # y 轴相等
+                        move_z = move_z + move_value
+                if enemy.z == self.z: # z 轴相等
                     if enemy.x > self.x: # 敌人在右侧
                         move_x = move_x - move_value
                     else: # 敌人在左侧
