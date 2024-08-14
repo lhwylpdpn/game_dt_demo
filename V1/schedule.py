@@ -1,11 +1,12 @@
+import sys
 import json
 import time
 from strategy.game import Game as game_broad
 from strategy.agent import Agent as agent
 from buildpatrol import BuildPatrol
-from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
-from test_map_data import origin_map_data  # 后续通过api获取前端传递的数据
-from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
+# from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
+# from test_map_data import origin_map_data  # 后续通过api获取前端传递的数据
+# from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
 import copy
 import math
 from utils.tools import Deepdiff_modify
@@ -184,18 +185,24 @@ def main(state):
     sch.performance.static()
 
 if __name__ == '__main__':
+    ### python schedule.py src_path result_path
     a=time.time()
-    map = BuildPatrol.build_map(origin_map_data)  # map
-    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    monster = BuildPatrol.build_monster(origin_monster_data)
-    # heros[0].set_x(1)
-    # heros[0].set_y(1)
-    # heros[0].set_z(1)
-    # heros[0].set_Atk(1000)
-    # heros[0].set_RoundAction(1)
+    src_path = sys.argv[1] if len(sys.argv) > 2 else "data.json"        # 源文件地址
+    result_file = sys.argv[2] if len(sys.argv) > 3 else "result.json"   # result地址
+    
+    state = BuildPatrol(src_path).load_data()                          # 初始化对象   
+
+    # map = BuildPatrol.build_map(origin_map_data)  # map
+    # heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    # monster = BuildPatrol.build_monster(origin_monster_data)
+    # # heros[0].set_x(1)
+    # # heros[0].set_y(1)
+    # # heros[0].set_z(1)
+    # # heros[0].set_Atk(1000)
+    # # heros[0].set_RoundAction(1)
 
 
-    state={"map": map, "hero": heros, "monster": monster}
+    # state={"map": map, "hero": heros, "monster": monster}
     main(state)
     print('总时间',time.time()-a)
 

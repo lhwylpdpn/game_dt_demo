@@ -3,6 +3,7 @@
 @author HU
 @date 20245-07-23
 """
+import json
 from pprint import pprint
 from models.hero import Hero
 from models.monster import Monster
@@ -10,13 +11,25 @@ from models.skill import Skill
 from models.skilldetail import SkillDetail
 from models.skilleffect import SkillEffect
 from models.map import Map, Land
-from test_hero_data import origin_hero_data
-from test_map_data import origin_map_data
-from test_monster_data import origin_monster_data
+# from test_hero_data import origin_hero_data
+# from test_map_data import origin_map_data
+# from test_monster_data import origin_monster_data
 
 
 class BuildPatrol():
+
+    def __init__(self, src_data_path):
+        self.src_data_path = src_data_path
     
+    def load_data(self):
+        with open(self.src_data_path, 'r') as file:
+            data = json.load(file)
+
+        return {"map": self.build_map(data.get("map")), 
+                "hero": self.build_heros(data.get("hero")),
+                "monster": self.build_monster(data.get("monster"))
+                }
+
     @staticmethod
     def build_heros(origin_hero_data):  # 返回英雄的对象
         heros = []
@@ -63,8 +76,10 @@ class BuildPatrol():
 
         
 if __name__ == "__main__":
-    map = BuildPatrol.build_map(origin_map_data)    # map
-    heros = BuildPatrol.build_heros(origin_hero_data)  # heros
+    state = BuildPatrol("data.json").load_data()
+    print(state)
+    #map = BuildPatrol.build_map(origin_map_data)    # map
+    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     # monster = BuildPatrol.build_monster(origin_monster_data)# monster 
     # each_back_skill = heros[0].get_back_skills(monster[0], SkillDetail(**{"DefaultSkills":1}))
     # print(each_back_skill)
@@ -83,5 +98,5 @@ if __name__ == "__main__":
     #print(map.dict())
     #print(map.dict(for_view=True))
     #print(map.get_land_from_xz(11, 11).position)
-    print(map.view_from_y_dict())
+    #print(map.view_from_y_dict())
     
