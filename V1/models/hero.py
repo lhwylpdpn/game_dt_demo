@@ -545,8 +545,8 @@ class Hero():
             move_x, move_y, move_z = self.position
             if target.x == self.x: # x 轴相等
                 if target.z > self.z: # 在上面
-                    move_z = move_z + move_value # 我的y减小
-                else: # 在上面
+                    move_z = move_z + move_value # 我的z减小
+                else: # 在下面
                     move_z = move_z - move_value
             if target.z == self.z: # z 轴相等
                 if target.x > self.x: # 在右侧
