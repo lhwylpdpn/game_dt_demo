@@ -185,6 +185,13 @@ def main(state):
     sch.performance.static()
     return update
 
+def save_result_to_view(data, path):
+    with open(path, 'w') as file:
+        #json.dump(data, file)
+        file.write(data)
+    return
+
+
 if __name__ == '__main__':
     ### python schedule.py src_path result_path
     a=time.time()
@@ -204,7 +211,8 @@ if __name__ == '__main__':
 
 
     # state={"map": map, "hero": heros, "monster": monster}
-    main(state)
+    result = main(state)
+    save_result_to_view(result, result_file)
     print('总时间',time.time()-a)
 
 

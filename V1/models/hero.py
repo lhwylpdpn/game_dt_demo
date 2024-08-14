@@ -716,7 +716,7 @@ class Hero():
             print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
             print(each.HeroID ,"Hp <before>: ", each.Hp)
             print(each.HeroID ,"Hp <damaeg>: ", result)
-            each.set_Hp(_t_hp if _t_hp >= 0 else 0) # 血量
+            each.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
             print(each.HeroID ,"Hp <after>: ", each.Hp)
             if not is_back_atk and each.is_alive: # 不是反击攻击， 并且没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
