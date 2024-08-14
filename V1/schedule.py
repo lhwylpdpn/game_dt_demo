@@ -183,6 +183,7 @@ def main(state):
     sch.run()
     update = sch.send_update()
     sch.performance.static()
+    return update
 
 if __name__ == '__main__':
     ### python schedule.py src_path result_path

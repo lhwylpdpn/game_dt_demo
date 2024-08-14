@@ -53,7 +53,7 @@ origin_monster_data = [
     "MagicalDef": 70,
     "Velocity": 83,
     "Luck": 80,
-    "Quality": 1
+    "Quality": 2
   },
   {
     "position": [11, 11, 12],
