@@ -17,10 +17,12 @@ class BasicFunc(object):
         base_distance = abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
         height_difference = point1[1] - point2[1]
 
-        if height_difference > 0:
-            adjusted_distance = base_distance + (height_difference // 1)
-        else:
-            adjusted_distance = base_distance + math.ceil(height_difference / 1)
+        adjusted_distance = base_distance
+
+        # if height_difference > 0:
+        #     adjusted_distance = base_distance + (height_difference // 1)
+        # else:
+        #     adjusted_distance = base_distance + math.ceil(height_difference / 1)
 
         # 计算高度差异对距离的额外影响
         if gap and h_effect:
