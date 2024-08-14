@@ -15,11 +15,24 @@ class Map(): # 地图
     
     """
     def __init__(self, x, y, z): # 进来的参数是 地图的xyz，世界坐标的xzy
-        self.size = x, y, z
-        self.map = np.zeros(self.size, dtype=np.object)
+        self._x = x
+        self._y = y
+        self._z = z
+        self.map = np.zeros((self._x, self._y, self._z), dtype=np.object)
 
     # def view_from_z(self):
     #     return np.max(self.map, axis=2)
+    @property
+    def x(self):
+        return self._x
+    
+    @property
+    def y(self):
+        return self._y
+    
+    @property
+    def z(self):
+        return self._z
     
     def view_from_y(self):
         return np.max(self.map, axis=1)
