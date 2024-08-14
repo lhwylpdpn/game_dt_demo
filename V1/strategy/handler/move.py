@@ -56,9 +56,6 @@ class Move(object):
             steps = attack_pos_dict[closest_pos]
             return closest_pos, steps
         else:
-            print('--->', hero)
-            print('--->', enemy_position, )
-            print('--->', maps, )
             print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤")
             return None, None
 
