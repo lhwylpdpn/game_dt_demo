@@ -154,7 +154,7 @@ class schedule:
     def _record(self,action,before_state,after_state):
         update_dict=Deepdiff_modify(before_state,after_state)
 
-        #print('update_dict',update_dict)
+        print('调度显示的变化',update_dict)
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
         self.record_update_dict[self.tick]['action'].append(action)
