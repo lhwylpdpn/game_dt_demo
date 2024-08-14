@@ -72,11 +72,15 @@ class SkillRange:
                     continue
                 point = SkillRange().get_maps_point(p, maps)
                 if jump_height:
-                    if abs(z - point[1]) > jump_height:
+                    if abs(y - point[1]) > jump_height:
                         continue
 
                 points.append(point)
         return points
+
+    @staticmethod
+    def get_h_manhattan_range():
+        pass
 
     @staticmethod
     def hit_line_range(point, maps, param):
@@ -92,16 +96,16 @@ class SkillRange:
                 attack_range.append(SkillRange().get_maps_point((x, z - i), maps))
 
         # 右下的距离
-        for i in range(1, param[1] + 1):
-            if (x + i, y) in maps:
-                attack_range.append(SkillRange().get_maps_point((x + i, y), maps))
-            if (x, y + i) in maps:
-                attack_range.append(SkillRange().get_maps_point((x, y + i), maps))
+        for i in range(1, param[2] + 1):
+            if (x + i, z) in maps:
+                attack_range.append(SkillRange().get_maps_point((x + i, z), maps))
+            if (x, z + i) in maps:
+                attack_range.append(SkillRange().get_maps_point((x, z + i), maps))
 
         return attack_range
 
     @staticmethod
-    def range_mht_hollow_circle(x, y, z, o, i, maps):
+    def range_mht_hollow_circle(point, o, i, gap, effect, maps):
         """
         获取曼哈顿 空心圆范围
         :param x: x坐标
@@ -109,11 +113,19 @@ class SkillRange:
         :param o: 外圆范围
         :param i: 内圆范围
         """
-        o = int(o)
+        o = int(o) + 1
         i = int(i)-1
-        outer_range = set(SkillRange.get_manhattan_range(x, y, z, o, maps))
-        inner_range = set(SkillRange.get_manhattan_range(x, y, z, i, maps))
-        return list(outer_range - inner_range)
+        atk_limit = range(i, o)
+        atk_range = []
+
+        for m in maps:
+            m_pos = maps[m]["position"]
+            if BasicFunc().h_manhattan_distance(point, m_pos, gap, effect) in atk_limit:
+                atk_range.append(m_pos)
+        # outer_range = set(SkillRange.get_manhattan_range(x, y, z, o, maps))
+        # inner_range = set(SkillRange.get_manhattan_range(x, y, z, i, maps))
+        # return list(outer_range - inner_range)
+        return atk_range
 
     @staticmethod
     @lru_cache(maxsize=None)
@@ -132,8 +144,11 @@ class SkillRange:
         :param maps: 地图
         """
         range = skill["effects"]["ATK_DISTANCE"]["param"]
-        points = SkillRange.range_mht_hollow_circle(*position, int(range[1]), int(range[0]), maps)
-        points = SkillRange.adjust_shooting_range(points, position, maps)
+        if "ADD_ATK_DISTANCE" in skill["effects"]:
+            gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
+        else:
+            gap, effect = 0, 0
+        points = SkillRange.range_mht_hollow_circle(position, int(range[1]), int(range[0]), gap, effect, maps)
         return points
 
     @staticmethod
@@ -153,7 +168,11 @@ class SkillRange:
         if hit_line:
             atk_range += SkillRange().hit_line_range(position, maps, hit_line)
         if hit_range:
-            atk_range += SkillRange().range_mht_hollow_circle(*position, hit_range[1], hit_range[0], maps)
+            if "ADD_ATK_DISTANCE" in skill["effects"]:
+                gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
+            else:
+                gap, effect = 0, 0
+            atk_range += SkillRange().range_mht_hollow_circle(position, hit_range[1], hit_range[0], gap, effect, maps)
         if not atk_range and not hit_range:  # 单体攻击
             atk_range = [position]
         return atk_range
@@ -161,7 +180,6 @@ class SkillRange:
     def get_attack_range(self, attacker, maps):
         # 获取攻击者 目前点位所有可释放范围内所有技能的攻击范围并集
         attack_range = []
-        # skills = attacker["skills"]
         skills = BasicFunc().get_damage_skills(attacker)
         attacker_position = tuple(attacker["position"])
         for skill in skills:

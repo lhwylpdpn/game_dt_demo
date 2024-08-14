@@ -62,7 +62,7 @@ class Game(object):
         return res
 
     def check_game_over(self):
-        monster = [m for m in self.monster if not m.is_death]
+        monster = [m for m in self.monster if m.Quality == 2 and not m.is_death]
         if not monster:
             return True, "HERO WIN！"
 

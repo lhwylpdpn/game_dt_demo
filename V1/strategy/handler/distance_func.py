@@ -38,6 +38,20 @@ class DistanceFunc(object):
         return closest_enemy
 
     @staticmethod
+    def find_closest_position(point1, point_list):
+        # 获取距离最近的敌人
+        closest_enemy = None
+        min_distance = float('inf')
+
+        for p in point_list:
+            distance = BasicFunc().manhattan_distance(point1, p)
+            if distance < min_distance:
+                min_distance = distance
+                closest_enemy = p
+
+        return closest_enemy
+
+    @staticmethod
     def is_within_range(range, hero_position, enemies):
         # 在范围内的敌人列表
         count = []

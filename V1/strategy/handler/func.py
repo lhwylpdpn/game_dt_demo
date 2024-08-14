@@ -10,11 +10,10 @@ class BasicFunc(object):
     def manhattan_distance(point1, point2):
         # 曼哈顿距离计算
         point1, point2 = tuple(point1), tuple(point2)
-        return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
+        return abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
 
     @staticmethod
     def h_manhattan_distance(point1, point2, gap, h_effect):
-
         base_distance = abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
         height_difference = point1[1] - point2[1]
 
@@ -22,6 +21,13 @@ class BasicFunc(object):
             adjusted_distance = base_distance + (height_difference // 1)
         else:
             adjusted_distance = base_distance + math.ceil(height_difference / 1)
+
+        # 计算高度差异对距离的额外影响
+        if gap and h_effect:
+            gap, h_effect = int(gap), int(h_effect)
+            if abs(height_difference) >= gap:
+                extra_effects = (abs(height_difference) // gap) * h_effect
+                adjusted_distance += extra_effects
 
         return adjusted_distance
 

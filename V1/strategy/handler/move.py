@@ -31,33 +31,36 @@ class Move(object):
         return False
 
     def find_closest_attack_position(self, hero, enemy_position, maps):
+        """
+        获取对于攻击者来说能攻击到敌人最近的位置，并得到前往这个位置的在round_action行动内的前进列表
+        """
         enemy_position = tuple(enemy_position)
         hero_position = tuple(hero["position"])
         jump_height = int(hero["JumpHeight"][0])
-        queue = deque([(hero_position, 0)])  # (current_position, current_distance)
-        visited = set(hero_position)
+        round_action = int(hero["RoundAction"])
+        attack_pos_dict = {}
 
-        while queue:
-            current_position, current_distance = queue.popleft()
+        for xz in maps:
+            point = tuple(maps[xz]["position"])
+            _hero = deepcopy(hero)
+            _hero["position"] = point
 
-            for dx, dz in product([-1, 1, 0, 0], [0, 0, -1, 1]):
-                new_position = (current_position[0] + dx, current_position[2] + dz)
-                if new_position in maps:
-                    if BasicFunc().is_reach(hero, maps[new_position], jump_height):
-                        point = tuple(maps[new_position]["position"])
+            stk_range = SkillRange().get_attack_range(_hero, maps)
+            if enemy_position in stk_range:
+                move_steps = DistanceFunc().find_shortest_path(hero_position, point, jump_height, maps)[: round_action + 1]
+                if move_steps:
+                    attack_pos_dict[point] = move_steps
 
-                        _hero = deepcopy(hero)
-                        _hero["position"] = point
-
-                        stk_range = SkillRange().get_attack_range(_hero, maps)
-                        if enemy_position in stk_range:
-                            return point
-
-                        if point not in visited:
-                            visited.add(point)
-                            queue.append((point, current_distance + 1))
-
-        return None
+        if attack_pos_dict:
+            closest_pos = min(attack_pos_dict.keys(), key=lambda k: BasicFunc().manhattan_distance(k, hero_position))
+            steps = attack_pos_dict[closest_pos]
+            return closest_pos, steps
+        else:
+            print('--->', hero)
+            print('--->', enemy_position, )
+            print('--->', maps, )
+            print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤")
+            return None, None
 
     def choose_move_steps(self, hero, enemies, maps):
         position = tuple(hero["position"])
@@ -80,18 +83,12 @@ class Move(object):
                 print(f"警戒范围{doge_base}外也没有BOSS")
 
                 return []
-        atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
-        print(f"攻击位置: {atk_position}")
+        atk_position, move_steps = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
 
         if atk_position:
-            move_steps = DistanceFunc().find_shortest_path(position, atk_position, jump_height, maps)[: round_action+1]
-        else:
-            print(f"ERROR！ {position}找不到前往敌人附近的step， 敌人位置{atk_position}")
-            return []
-        print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
-
-        # move_steps = DistanceFunc().manhattan_path(position, closest_enemy_position, round_action, maps, jump_height)
-        return move_steps
+            print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
+            return move_steps
+        else: return []
 
     def escape(self, hero, enemies, maps):
         # 逃跑：当次可移动范围内，距离所有人敌人的距离平均值最远的位置
@@ -105,3 +102,8 @@ class Move(object):
         print(f'{hero["HeroID"]}向{move_steps}逃跑')
         return move_steps
 
+if __name__ == '__main__':
+
+    f = Move()
+
+    # print(SkillRange().get_attack_range(hero, maps))
