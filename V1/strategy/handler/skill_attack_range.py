@@ -96,7 +96,7 @@ class SkillRange:
                 attack_range.append(SkillRange().get_maps_point((x, z - i), maps))
 
         # 右下的距离
-        for i in range(1, param[2] + 1):
+        for i in range(1, param[1] + 1):
             if (x + i, z) in maps:
                 attack_range.append(SkillRange().get_maps_point((x + i, z), maps))
             if (x, z + i) in maps:
@@ -203,6 +203,7 @@ class SkillRange:
                             "hero_pos": hero_pos,
                             "skill_pos": point,
                             "atk_range": attack_range,
+                            "release_range": release_range,
                             "enemies_in_range": enemies_in_range,
                             "route": paths,
                             "skill": skill
