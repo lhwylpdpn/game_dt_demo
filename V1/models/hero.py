@@ -417,6 +417,10 @@ class Hero():
     def set_atk_effect_p_list(self, v):
         self.__atk_effect_p_list = v
         return self 
+
+    def is_position_ok(self, x, y, z, state):
+        map_obj = state['maps']
+        return not map_obj.land_can_pass(x, y, z)
     
     def move_position(self, x, y, z, state):
         print("MOVE>>:", self.HeroID, f"from <{self.position}>计划移动到<[{x}, {y}, {z}]>")
@@ -532,113 +536,66 @@ class Hero():
         
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
         return self.load_skill(skill)
-
-    # def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
-    #     map_obj = state.get("maps")
-    #     move_value = int(value[0])
-    #     move_x, move_y, move_z = self.position
-    #     while move_value:
-    #         try:
-    #             if target.x == self.x: # x 轴相等
-    #                 if target.y > self.y: # 在上面
-    #                     move_y = move_y + move_value # 我的y减小
-    #                 else: # 在上面
-    #                     move_y = move_y - move_value
-    #             if target.y == self.y: # y 轴相等
-    #                 if target.x > self.x: # 在右侧
-    #                     move_x = move_x + move_value
-    #                 else: # 在左侧
-    #                     move_x = move_x - move_value
-    #             if tuple([move_x, move_y, move_z]) != tuple(self.position):
-    #                 move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
-    #                 self.move_position(move_x, move_y, move_z, state)
-    #             return self
-    #         except Exception:
-    #             print(traceback.format_exc())
-    #             move_value = move_value - 1
-    #     return self
     
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
         move_value = int(value[0])
+        position_ok = None
         while move_value:
             move_x, move_y, move_z = self.position
-            try:
-                if target.x == self.x: # x 轴相等
-                    if target.z > self.z: # 在上面
-                        move_z = move_z + move_value # 我的y减小
-                    else: # 在上面
-                        move_z = move_z - move_value
-                if target.z == self.z: # y 轴相等
-                    if target.x > self.x: # 在右侧
-                        move_x = move_x + move_value
-                    else: # 在左侧
-                        move_x = move_x - move_value
-                if tuple([move_x, move_y, move_z]) != tuple(self.position):
-                    move_x = move_x if map_obj.x > move_x else  map_obj.x
-                    move_x = 0 if move_x < 0 else  move_x
-                    move_z = move_z if map_obj.z > move_z  else  map_obj.z
-                    move_z = 0 if move_z < 0 else move_z
-                    move_y = map_obj.get_land_from_xz(move_x, move_z).y
-                    self.move_position(move_x, move_y, move_z, state)
-                return self
-            except Exception:
-                print(traceback.format_exc())
-                move_value = move_value - 1
+            if target.x == self.x: # x 轴相等
+                if target.z > self.z: # 在上面
+                    move_z = move_z + move_value # 我的y减小
+                else: # 在上面
+                    move_z = move_z - move_value
+            if target.z == self.z: # z 轴相等
+                if target.x > self.x: # 在右侧
+                    move_x = move_x + move_value
+                else: # 在左侧
+                    move_x = move_x - move_value
+            move_x = move_x if map_obj.x > move_x else  map_obj.x
+            move_x = 0 if move_x < 0 else  move_x
+            move_z = move_z if map_obj.z > move_z  else  map_obj.z
+            move_z = 0 if move_z < 0 else move_z
+            move_y = map_obj.get_land_from_xz(move_x, move_z).y
+
+            if self.is_position_ok(move_x, move_y, move_z, state):
+                position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
+            else:
+                position_ok = None
+            move_value = move_value - 1
+        if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
+            self.move_position(*position_ok, state)
         return self
-    
-    # def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
-    #     map_obj = state.get('maps')
-    #     move_value = int(move_value[0])
-    #     move_x, move_y, move_z = self.position
-    #     while move_value:
-    #         try:
-    #             if enemy.x == self.x: # x 轴相等
-    #                 if enemy.y > self.y: # 敌人在上面
-    #                     move_y = move_y - move_value # 我的y减小
-    #                 else: # 敌人在上面
-    #                     move_y = move_y + move_value
-    #             if enemy.y == self.y: # y 轴相等
-    #                 if enemy.x > self.x: # 敌人在右侧
-    #                     move_x = move_x - move_value
-    #                 else: # 敌人在左侧
-    #                     move_x = move_x + move_value
-    #             if tuple([move_x, move_y, move_z]) != tuple(self.position):
-    #                 move_z = map_obj.get_land_from_xy(move_x, move_y).position[2]
-    #                 self.move_position(move_x, move_y, move_z, state)
-    #             return self
-    #         except Exception:
-    #             print(traceback.format_exc())
-    #             move_value = move_value - 1
-    #     return self
     
     def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
         map_obj = state.get('maps')
         move_value = int(move_value[0])
+        position_ok = None
         while move_value:
             move_x, move_y, move_z = self.position
-            try:
-                if enemy.x == self.x: # x 轴相等
-                    if enemy.z > self.z: # 敌人在上面
-                        move_z = move_z - move_value # 我的y减小
-                    else: # 敌人在上面
-                        move_z = move_z + move_value
-                if enemy.z == self.z: # z 轴相等
-                    if enemy.x > self.x: # 敌人在右侧
-                        move_x = move_x - move_value
-                    else: # 敌人在左侧
-                        move_x = move_x + move_value
-                if tuple([move_x, move_y, move_z]) != tuple(self.position):
-                    move_x = move_x if map_obj.x > move_x else  map_obj.x
-                    move_x = 0 if move_x < 0 else  move_x
-                    move_z = move_z if map_obj.z > move_z  else  map_obj.z
-                    move_z = 0 if move_z < 0 else move_z
-                    move_y = map_obj.get_land_from_xz(move_x, move_z).y
-                    self.move_position(move_x, move_y, move_z, state)
-                return self
-            except Exception:
-                print(traceback.format_exc())
-                move_value = move_value - 1
+            if enemy.x == self.x: # x 轴相等
+                if enemy.z > self.z: # 敌人在上面
+                    move_z = move_z - move_value # 我的y减小
+                else: # 敌人在上面
+                    move_z = move_z + move_value
+            if enemy.z == self.z: # z 轴相等
+                if enemy.x > self.x: # 敌人在右侧
+                    move_x = move_x - move_value
+                else: # 敌人在左侧
+                    move_x = move_x + move_value
+            move_x = move_x if map_obj.x > move_x else  map_obj.x
+            move_x = 0 if move_x < 0 else  move_x
+            move_z = move_z if map_obj.z > move_z  else  map_obj.z
+            move_z = 0 if move_z < 0 else move_z
+            move_y = map_obj.get_land_from_xz(move_x, move_z).y
+            if self.is_position_ok(move_x, move_y, move_z, state):
+                position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
+            else:
+                position_ok = None
+            move_value = move_value - 1
+        if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
+            self.move_position(*position_ok, state)
         return self
     
     def __use_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用技能后

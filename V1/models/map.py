@@ -38,8 +38,8 @@ class Map(): # 地图
         return np.max(self.map, axis=1)
     
     def get_land_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
-        for each in self.map[x, :, z]:
-            print(each, each.position if isinstance(each, Land) else "")
+        # for each in self.map[x, :, z]:
+        #     print(each, each.position if isinstance(each, Land) else "")
         return np.max(self.map[x, :, z], axis=0)
     
     # def get_land_from_xy(self, x, y): # 从z俯视图中，根据 x,y 来确定 地块
