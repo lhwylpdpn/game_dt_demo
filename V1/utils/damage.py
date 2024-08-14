@@ -6,14 +6,14 @@ def damage(attacker,defender,skill):
 
 
     demo_skill={}
-    demo_skill['劈砍'] = 201
-    demo_skill['战士普攻'] = 200
-    demo_skill['弓箭手普攻'] = 300
-    demo_skill['穿杨'] = 301
-    demo_skill['上前一步'] = 302
-    demo_skill['集中'] = 305
-    demo_skill['反击斩']=204
-    demo_skill['箭雨']=309
+    demo_skill['劈砍'] = 78
+    demo_skill['战士普攻'] = 77
+    demo_skill['弓箭手普攻'] = 86
+    demo_skill['穿杨'] = 87
+    demo_skill['上前一步'] = 88
+    demo_skill['集中'] = 92
+    demo_skill['反击斩']=81
+    demo_skill['箭雨']=89
 
     if skill.SkillId == demo_skill['反击斩']:
         res=random_choices({0:0.5,1:0.5}) #0 反击生效  1 反击不生效
