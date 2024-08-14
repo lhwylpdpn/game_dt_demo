@@ -23,11 +23,13 @@ class Attack(object):
     def find_targets_within_atk_range(self, hero, enemies, maps):
         pick_list = []
         skills = BasicFunc().get_damage_skills(hero)
+        doge_base = int(hero["DogBase"])
+
         max_step = hero["RoundAction"]
         position = tuple(hero["position"])
         jump_height = int(hero["JumpHeight"][0])
         enemies = [e for e in enemies if e["Hp"] > 0]
-        print(f"[进入ATK判断]攻击者{hero['HeroID']}{position}, 本回合可移动{max_step}, 跳跃高度:{jump_height},  本次可用技能:{len(skills)}")
+        print(f"[进入ATK判断]攻击者{hero['HeroID']}{position},警戒范围{doge_base}, 本回合可移动{max_step}, 跳跃高度:{jump_height},  本次可用技能:{len(skills)}")
         move_positions = SkillRange.get_manhattan_path(*position, max_step, maps, jump_height)  # 英雄可移动到的点位
 
         for move, paths in move_positions.items():

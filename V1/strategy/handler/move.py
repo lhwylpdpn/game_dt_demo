@@ -40,8 +40,8 @@ class Move(object):
         while queue:
             current_position, current_distance = queue.popleft()
 
-            for dx, dy in product([-1, 1, 0, 0], [0, 0, -1, 1]):
-                new_position = (current_position[0] + dx, current_position[1] + dy)
+            for dx, dz in product([-1, 1, 0, 0], [0, 0, -1, 1]):
+                new_position = (current_position[0] + dx, current_position[2] + dz)
                 if new_position in maps:
                     if BasicFunc().is_reach(hero, maps[new_position], jump_height):
                         point = tuple(maps[new_position]["position"])
@@ -67,18 +67,26 @@ class Move(object):
         enemies = [e for e in enemies if e["Hp"] > 0]
         if DistanceFunc().is_within_range(doge_base, position, enemies):
             closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
+            print(f"警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
 
         else:
+            print(f"警戒范围{doge_base}内没有敌人, 检查BOSS位置")
             closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
             if closest_enemy_position:
                 closest_enemy_position = closest_enemy_position[0]
+                print(f"BOSS位置为{closest_enemy_position['position']}")
+
             else:
+                print(f"警戒范围{doge_base}外也没有BOSS")
+
                 return []
         atk_position = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
+        print(f"攻击位置: {atk_position}")
 
         if atk_position:
             move_steps = DistanceFunc().find_shortest_path(position, atk_position, jump_height, maps)[: round_action+1]
         else:
+            print(f"ERROR！ {position}找不到前往敌人附近的step， 敌人位置{atk_position}")
             return []
         print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position}, 本次移动{move_steps}")
 

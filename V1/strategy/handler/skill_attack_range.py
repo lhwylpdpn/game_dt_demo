@@ -17,9 +17,9 @@ class SkillRange:
 
     @staticmethod
     # @lru_cache(maxsize=None)
-    def get_maps_point(xy, maps):
-        z = maps[xy]["y"]
-        return xy[0], z, xy[1]
+    def get_maps_point(xz, maps):
+        y = maps[xz]["y"]
+        return xz[0], y, xz[1]
 
     @staticmethod
     def get_manhattan_path(x, y, z, max_distance, maps, jump_height=None):
