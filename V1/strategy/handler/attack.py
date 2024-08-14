@@ -47,7 +47,7 @@ class Attack(object):
                 continue
             if pick["weight"] < _weight:
                 pick = {"weight": _weight, "data": each}
-        print(f"攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}]")
+        print(f"攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
         return pick["data"]
 
 
