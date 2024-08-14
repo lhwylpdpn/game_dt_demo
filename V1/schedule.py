@@ -196,7 +196,7 @@ if __name__ == '__main__':
     ### python schedule.py src_path result_path
     a=time.time()
     src_path = sys.argv[1] if len(sys.argv) > 2 else "data.json"        # 源文件地址
-    result_file = sys.argv[2] if len(sys.argv) > 3 else "result.json"   # result地址
+    result_file = sys.argv[2] if len(sys.argv) >= 3 else "result.json"   # result地址
     
     state = BuildPatrol(src_path).load_data()                          # 初始化对象   
 
