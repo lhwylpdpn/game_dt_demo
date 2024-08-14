@@ -561,8 +561,8 @@ class Hero():
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
         move_value = int(value[0])
-        move_x, move_y, move_z = self.position
         while move_value:
+            move_x, move_y, move_z = self.position
             try:
                 if target.x == self.x: # x 轴相等
                     if target.z > self.z: # 在上面
@@ -615,8 +615,8 @@ class Hero():
     def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
         map_obj = state.get('maps')
         move_value = int(move_value[0])
-        move_x, move_y, move_z = self.position
         while move_value:
+            move_x, move_y, move_z = self.position
             try:
                 if enemy.x == self.x: # x 轴相等
                     if enemy.z > self.z: # 敌人在上面

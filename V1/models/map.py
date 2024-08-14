@@ -48,6 +48,8 @@ class Map(): # 地图
     def land_can_pass(self, x, y, z): # 判断地图是否可以通过
         land = self.map[x,y,z]
         if isinstance(land, Land):
+            if land.Block is None:
+                return False
             return int(land.Block) == 1
         return False
 

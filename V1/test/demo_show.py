@@ -75,7 +75,7 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(1000)
+        pygame.time.delay(500)
 
     def game_init(self):
         self.generate_state()
@@ -157,21 +157,21 @@ class game:
                                             if m.piece_id==change[1][1]:
                                                 if str(change[1][3])=='0': #代表x变化，代表左右
                                                     p_change=change[2][1]-change[2][0]
-                                                    if p_change>0:#向右移动
+                                                    while p_change>0:#向右移动
                                                         print('应该right',change[2])
                                                         m.move((m.position[0] + self.WIDTH // self.BOARD_WIDTH, m.position[1]))
                                                         p_change-=1
-                                                    if p_change<0:#向左移动
+                                                    while p_change<0:#向左移动
                                                         print('应该left',change[2])
                                                         m.move((m.position[0] - self.WIDTH // self.BOARD_WIDTH, m.position[1]))
                                                         p_change+=1
                                                 if str(change[1][3])=='2':#代表y变化，代表上下
                                                     p_change=change[2][1]-change[2][0]
-                                                    if p_change>0:#向下移动
+                                                    while p_change>0:#向下移动
                                                         print('应该down',change[2])
                                                         m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change-=1
-                                                    if p_change<0:#向上移动
+                                                    while p_change<0:#向上移动
                                                         print('应该top',change[2])
                                                         m.move((m.position[0], m.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change+=1
@@ -179,7 +179,10 @@ class game:
                                         print('英雄'+str(action['atk_position'])+'血量变化:',change)
                                         for m in self.monster_piece:
                                             if m.piece_id==change[1][1]:
-                                                m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
+                                                m.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
+                                        for h in self.hero_piece:#可能带有反击导致自己受伤
+                                            if h.piece_id==change[1][1]:
+                                                h.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
 
 
                     for m in self.monster_piece:
@@ -208,26 +211,29 @@ class game:
                                         for h in self.hero_piece:
                                             if h.piece_id == change[1][1]:
                                                 if str(change[1][3]) == '0':
-                                                    p_change = change[2][0] - change[2][1]
-                                                    if p_change > 0:
+                                                    p_change = change[2][1] - change[2][0]
+                                                    while p_change > 0:
                                                         h.move((h.position[0] + self.WIDTH // self.BOARD_WIDTH, h.position[1]))
                                                         p_change -= 1
-                                                    if p_change < 0:
+                                                    while p_change < 0:
                                                         h.move((h.position[0] - self.WIDTH // self.BOARD_WIDTH, h.position[1]))
                                                         p_change += 1
                                                 if str(change[1][3]) == '2':
-                                                    p_change = change[2][0] - change[2][1]
-                                                    if p_change > 0:
+                                                    p_change = change[2][1] - change[2][0]
+                                                    while p_change > 0:
                                                         h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change -= 1
-                                                    if p_change < 0:
+                                                    while p_change < 0:
                                                         h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change += 1
                                     if change[1][2]=='Hp':
                                         print('怪物'+str(action['atk_position'])+'血量变化:',change)
                                         for h in self.hero_piece:
                                             if h.piece_id==change[1][1]:
-                                                h.draw_hp_bar(self.screen,change[2][0]-change[2][1])
+                                                h.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
+                                        for m in self.monster_piece:#可能带有反击导致自己受伤
+                                            if m.piece_id==change[1][1]:
+                                                m.draw_hp_bar(self.screen,round(change[2][0]-change[2][1],2))
 
 
                     for h in self.hero_piece:
@@ -240,8 +246,10 @@ class game:
 
 
                     self.update_display()
-
-
+        font = pygame.font.Font(None, 300)
+        text = font.render('game over', True, (255, 0, 0))
+        self.screen.blit(text, ( 10, 200))
+        self.update_display()
                 # #2 不好处理  3 todo 先打印状态到棋盘旁边看看
                 # for state in i['state']:
                 #     for change in state:

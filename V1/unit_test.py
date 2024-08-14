@@ -28,10 +28,10 @@ class test_process:
         for i in range(len(self.state['hero'])):
 
 
-            hero_random_RoundAction = random.randint(3,100)
-            hero_random_JumpHeight = [random.randint(3,100)]
-            hero_random_DogBase = random.randint(3,100)
-            hero_random_HP = random.randint(1000,1000)
+            hero_random_RoundAction = random.randint(3,3)
+            hero_random_JumpHeight = [random.randint(3,3)]
+            hero_random_DogBase = random.randint(3,3)
+            hero_random_HP = random.randint(1000,10000)
             hero_random_Atk = random.randint(100,1000)
 
             p = random.choice(p_all)
@@ -43,7 +43,7 @@ class test_process:
             #         tmp_skills.remove(j)
             # if 200 not in tmp_skills:
             #     tmp_skills.append(200)
-            tmp_skills=[78]
+            tmp_skills=[78,88]
             print('hero',self.state['hero'][i].dict()['HeroID'])
             print('hero_random_RoundAction', hero_random_RoundAction)
             print('hero_random_JumpHeight', hero_random_JumpHeight)
@@ -68,10 +68,10 @@ class test_process:
             self.state['hero'][i].set_z(p[2])
         for i in range(len(self.state['monster'])):
 
-            monster_random_RoundAction = random.randint(3,100)
-            monster_random_JumpHeight = [random.randint(10,100)]
-            monster_random_DogBase = random.randint(10,100 )
-            monster_random_HP = random.randint(1000, 1000)
+            monster_random_RoundAction = random.randint(3,3)
+            monster_random_JumpHeight = [random.randint(3,3)]
+            monster_random_DogBase = random.randint(3,3 )
+            monster_random_HP = random.randint(1000, 10000)
             monster_random_Atk = random.randint(100, 100)
             p = random.choice(p_all)
             p_all.remove(p)
