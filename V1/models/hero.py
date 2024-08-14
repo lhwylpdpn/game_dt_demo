@@ -541,6 +541,7 @@ class Hero():
         map_obj = state.get("maps")
         move_value = int(value[0])
         position_ok = None
+        move_x, move_y, move_z = None, None, None
         while move_value:
             move_x, move_y, move_z = self.position
             if target.x == self.x: # x 轴相等
@@ -548,17 +549,19 @@ class Hero():
                     move_z = move_z + move_value # 我的z减小
                 else: # 在下面
                     move_z = move_z - move_value
-            if target.z == self.z: # z 轴相等
+            elif target.z == self.z: # z 轴相等
                 if target.x > self.x: # 在右侧
                     move_x = move_x + move_value
                 else: # 在左侧
                     move_x = move_x - move_value
+            else:
+                print("不在十字交叉位置，不移动")
+                break
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
             move_z = move_z if map_obj.z > move_z  else  map_obj.z
             move_z = 0 if move_z < 0 else move_z
             move_y = map_obj.get_land_from_xz(move_x, move_z).y
-            print(move_x, move_y, move_z, self.is_position_ok(move_x, move_y, move_z, state)) 
             if self.is_position_ok(move_x, move_y, move_z, state):
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
             else:
@@ -572,6 +575,7 @@ class Hero():
         map_obj = state.get('maps')
         move_value = int(move_value[0])
         position_ok = None
+        move_x, move_y, move_z = None, None, None
         while move_value:
             move_x, move_y, move_z = self.position
             if enemy.x == self.x: # x 轴相等
@@ -579,11 +583,14 @@ class Hero():
                     move_z = move_z - move_value # 我的y减小
                 else: # 敌人在上面
                     move_z = move_z + move_value
-            if enemy.z == self.z: # z 轴相等
+            elif enemy.z == self.z: # z 轴相等
                 if enemy.x > self.x: # 敌人在右侧
                     move_x = move_x - move_value
                 else: # 敌人在左侧
                     move_x = move_x + move_value
+            else:
+                print("不在十字交叉位置，不移动")
+                break
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
             move_z = move_z if map_obj.z > move_z  else  map_obj.z
