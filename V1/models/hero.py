@@ -575,9 +575,9 @@ class Hero():
                     else: # 在左侧
                         move_x = move_x - move_value
                 if tuple([move_x, move_y, move_z]) != tuple(self.position):
-                    move_x = move_x if move_x > map_obj.x else  map_obj.x
+                    move_x = move_x if map_obj.x > move_x else  map_obj.x
                     move_x = 0 if move_x < 0 else  move_x
-                    move_z = move_z if move_z > map_obj.z else  map_obj.z
+                    move_z = move_z if map_obj.z > move_z  else  map_obj.z
                     move_z = 0 if move_z < 0 else move_z
                     move_y = map_obj.get_land_from_xz(move_x, move_z).y
                     self.move_position(move_x, move_y, move_z, state)
@@ -629,9 +629,9 @@ class Hero():
                     else: # 敌人在左侧
                         move_x = move_x + move_value
                 if tuple([move_x, move_y, move_z]) != tuple(self.position):
-                    move_x = move_x if move_x > map_obj.x else  map_obj.x
+                    move_x = move_x if map_obj.x > move_x else  map_obj.x
                     move_x = 0 if move_x < 0 else  move_x
-                    move_z = move_z if move_z > map_obj.z else  map_obj.z
+                    move_z = move_z if map_obj.z > move_z  else  map_obj.z
                     move_z = 0 if move_z < 0 else move_z
                     move_y = map_obj.get_land_from_xz(move_x, move_z).y
                     self.move_position(move_x, move_y, move_z, state)
