@@ -558,7 +558,7 @@ class Hero():
             move_z = move_z if map_obj.z > move_z  else  map_obj.z
             move_z = 0 if move_z < 0 else move_z
             move_y = map_obj.get_land_from_xz(move_x, move_z).y
-
+            print(move_x, move_y, move_z, self.is_position_ok(move_x, move_y, move_z, state)) 
             if self.is_position_ok(move_x, move_y, move_z, state):
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
             else:
