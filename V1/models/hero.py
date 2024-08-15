@@ -84,6 +84,12 @@ class Hero():
         self.move_position(*self.position, state)
         return self
 
+    def leve_game(self, state): # 退出战局
+        map_obj = state.get('maps')
+        map_obj.set_land_pass(*self.position)
+        print(f"{self.HeroID} is Killed, leve game.")
+        return self
+
     def dict(self, fields=[], for_view=False):
         if not fields:
             fields = copy.deepcopy(self.fields)
@@ -611,7 +617,7 @@ class Hero():
                 move_z = move_z + move_value
             elif direction == "RIGHT": # 敌人在右侧, 我向左侧走
                 move_x = move_x - move_value
-            elif direction == "LEFT": # 敌人在左侧, 我向右侧走
+            elif direction == "LEFT":  # 敌人在左侧, 我向右侧走
                 move_x = move_x + move_value
             else:
                 pass
@@ -769,6 +775,7 @@ class Hero():
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
+                self.leve_game(state)
                 return
             if not is_back_atk:
                 if each.is_miss_hit():
@@ -783,6 +790,9 @@ class Hero():
             print(each.HeroID ,"Hp <damaeg>: ", result)
             each.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
             print(each.HeroID ,"Hp <after>: ", each.Hp)
+            if each.is_death:
+                each.leve_game(state)
+                continue
             if not is_back_atk and each.is_alive: # 不是反击攻击， 并且没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     if self.is_in_backskill_range(each_back_skill, self, state):
