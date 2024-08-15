@@ -107,14 +107,12 @@ class SkillRange:
     @staticmethod
     def range_mht_hollow_circle(point, o, i, gap, effect, maps):
         """
-        获取曼哈顿 空心圆范围
-        :param x: x坐标
-        :param y: y左右
+        获取曼哈顿 空心菱形范围
         :param o: 外圆范围
         :param i: 内圆范围
         """
         o = int(o) + 1
-        i = int(i)
+        i = int(i) + 1
         atk_limit = range(i, o)
         atk_range = []
 
