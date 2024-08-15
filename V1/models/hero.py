@@ -558,7 +558,7 @@ class Hero():
                     move_x = move_x - move_value
             else:
                 print("不在十字位置，不移动")
-                break
+                return self
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
             move_z = move_z if map_obj.z > move_z  else  map_obj.z
@@ -596,7 +596,7 @@ class Hero():
                     move_x = move_x + move_value
             else:
                 print("不在十字位置，不移动")
-                break
+                return self
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
             move_z = move_z if map_obj.z > move_z  else  map_obj.z

@@ -56,7 +56,7 @@ class Move(object):
             steps = attack_pos_dict[closest_pos]
             return closest_pos, steps
         else:
-            print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤")
+            print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤, 可用技能为{len(hero['skills'])}")
             return None, None
 
     def choose_move_steps(self, hero, enemies, maps):
@@ -103,3 +103,5 @@ class Move(object):
         return move_steps
 
 
+if __name__ == '__main__':
+    pass
