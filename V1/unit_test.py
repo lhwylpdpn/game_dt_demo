@@ -43,7 +43,7 @@ class test_process:
             #         tmp_skills.remove(j)
             # if 200 not in tmp_skills:
             #     tmp_skills.append(200)
-            tmp_skills=[88]
+            #tmp_skills=[88]
             print('hero',self.state['hero'][i].dict()['HeroID'])
             print('hero_random_RoundAction', hero_random_RoundAction)
             print('hero_random_JumpHeight', hero_random_JumpHeight)
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     res=[]
     for i in range(1):
         obj_=test_process()
-        obj_.data_init()
+        #obj_.data_init()
         obj_.pygame_init()
         res.append(obj_.run())
         obj_.over_state()
