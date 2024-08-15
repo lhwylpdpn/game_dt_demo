@@ -28,11 +28,11 @@ class test_process:
         for i in range(len(self.state['hero'])):
 
 
-            hero_random_RoundAction = random.randint(3,6)
-            hero_random_JumpHeight = [random.randint(3,6)]
-            hero_random_DogBase = random.randint(3,6)
+            hero_random_RoundAction = random.randint(20,20)
+            hero_random_JumpHeight = [random.randint(20,20)]
+            hero_random_DogBase = random.randint(100,100)
             hero_random_HP = random.randint(1000,10000)
-            hero_random_Atk = random.randint(100,500)
+            hero_random_Atk = random.randint(100,10000)
 
             p = random.choice(p_all)
             p_all.remove(p)
@@ -69,11 +69,11 @@ class test_process:
             self.state['hero'][i].set_z(p[2])
         for i in range(len(self.state['monster'])):
 
-            monster_random_RoundAction = random.randint(3,3)
-            monster_random_JumpHeight = [random.randint(3,3)]
-            monster_random_DogBase = random.randint(3,3 )
-            monster_random_HP = random.randint(1000, 10000)
-            monster_random_Atk = random.randint(100, 500)
+            monster_random_RoundAction = random.randint(20,30)
+            monster_random_JumpHeight = [random.randint(20,20)]
+            monster_random_DogBase = random.randint(10,10 )
+            monster_random_HP = random.randint(500, 500)
+            monster_random_Atk = random.randint(100, 200)
             p = random.choice(p_all)
             p_all.remove(p)
             tmp_skills = copy.deepcopy(self.state['monster'][i].dict()['AvailableSkills'])
@@ -136,10 +136,10 @@ if __name__ == '__main__':
     res=[]
     for i in range(1):
         obj_=test_process()
-        #obj_.data_init()
-        obj_.pygame_init()
+        obj_.data_init()
+        #obj_.pygame_init()
         res.append(obj_.run())
         obj_.over_state()
-        obj_.game_run()
+        #obj_.game_run()
     print(res)
-    time.sleep(100)
+    #time.sleep(100)
