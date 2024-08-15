@@ -277,10 +277,10 @@ class game:
                         text = font.render(info_list[ii], True, (0, 0, 0))
                         self.screen.blit(text, (self.WIDTH + 10, 40+30*ii))
                     for h in self.hero_piece:
-                        if h.hp>0:
+                        if int(h.hp)>0:
                             h.draw(self.screen)
                     for m in self.monster_piece:
-                        if m.hp>0:
+                        if int(m.hp)>0:
                             m.draw(self.screen)
 
 
