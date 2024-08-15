@@ -630,6 +630,8 @@ class Hero():
         if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
             print(f"{self.HeroID} 实际从 {self.position} 后退 {total_step} 步,后退 {position_ok} 点")
             self.move_position(*position_ok, state)
+        else:
+            print(f"{self.HeroID} 实际从{self.position} 后退 0 步")
         return self
     
     def __use_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用技能后
