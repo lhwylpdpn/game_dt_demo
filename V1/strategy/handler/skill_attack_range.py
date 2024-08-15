@@ -14,6 +14,13 @@ SKILL_TYPE = {
 
 
 class SkillRange:
+    @staticmethod
+    def is_atk_distance(point1, point2, distance):
+        if abs(point1[1] - point2[1]) <= int(distance):
+            return True
+        return False
+
+
 
     @staticmethod
     # @lru_cache(maxsize=None)
@@ -83,7 +90,7 @@ class SkillRange:
         pass
 
     @staticmethod
-    def hit_line_range(point, maps, param):
+    def hit_line_range(point, maps, param, is_atk_distance=0):
         x, y, z = point
         attack_range = [point]  # 包含该点位自身
         param = [int(_) for _ in param]
@@ -162,9 +169,10 @@ class SkillRange:
 
         hit_line = skill["effects"].get("HIT_LINE", {}).get("param")
         hit_range = skill["effects"].get("HIT_RANGE", {}).get("param")
-        # print(hit_line)
+        is_atk_distance = skill["effects"].get("IS_ATK_DISTANCE", {}).get("param", [0])[0]
+
         if hit_line:
-            atk_range += SkillRange().hit_line_range(position, maps, hit_line)
+            atk_range += SkillRange().hit_line_range(position, maps, hit_line, is_atk_distance)
         if hit_range:
             if "ADD_ATK_DISTANCE" in skill["effects"]:
                 gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
@@ -173,6 +181,9 @@ class SkillRange:
             atk_range += SkillRange().range_mht_hollow_circle(position, hit_range[1], hit_range[0], gap, effect, maps)
         if not atk_range and not hit_range:  # 单体攻击
             atk_range = [position]
+
+        if is_atk_distance:  # 判断高低差影响
+            atk_range = [_ for _ in atk_range if SkillRange.is_atk_distance(position, _, is_atk_distance)]
         return atk_range
 
     def get_attack_range(self, attacker, maps):

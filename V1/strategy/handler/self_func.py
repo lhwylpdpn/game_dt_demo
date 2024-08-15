@@ -36,9 +36,9 @@ class SelfFunc(object):
         elif x2 == x1 - 1 and z2 == z1:
             return "LEFT"
         elif z2 == z1 + 1 and x2 == x1:
-            return "BOTTOM"
-        elif z2 == z1 - 1 and x2 == x1:
             return "TOP"
+        elif z2 == z1 - 1 and x2 == x1:
+            return "BOTTOM"
         else:
             raise Exception("invalid move")
 
