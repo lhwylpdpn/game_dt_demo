@@ -8,6 +8,28 @@ from PIL import Image, ImageDraw, ImageFont
 
 import textwrap
 
+demo_skill = {}
+demo_skill['劈砍'] = 78
+demo_skill['战士普攻'] = 77
+demo_skill['迎击姿态']=79
+demo_skill['守护之甲']=80
+demo_skill['反击斩'] = 81
+demo_skill['坚韧之力']=82
+demo_skill['战士的斗志']=83
+demo_skill['不动如山']=84
+demo_skill['连携']=85
+
+demo_skill['弓箭手普攻'] = 86
+demo_skill['穿杨'] = 87
+demo_skill['上前一步'] = 88
+demo_skill['箭雨'] = 89
+demo_skill['束足']=90
+demo_skill['陷阱']=91
+demo_skill['集中'] = 92
+demo_skill['雄鹰之眼']=93
+demo_skill['快脚']=94
+demo_skill['协调']=95
+
 
 
 # 棋子类
@@ -18,6 +40,9 @@ class Piece:
         print('棋子初始化',position)
         self.piece_type=piece_type
         self.piece_id=piece_id
+
+
+
 
     def move(self, new_position):
         self.position = new_position
@@ -47,8 +72,18 @@ class Piece:
         pygame.draw.rect(screen, (255, 0, 0), (hp_bar_x, hp_bar_y, bar_width, bar_height))  # 背景
         pygame.draw.rect(screen, (0, 255, 0), (hp_bar_x, hp_bar_y, bar_width * hp_ratio, bar_height))
         font = pygame.font.Font(None, 24)
-        damage_text = font.render(f"-{damage}", True, (255, 0, 0))  # 红色字体
+        damage_text = font.render(f"-{round(damage,2)}", True, (255, 0, 0))  # 红色字体
         screen.blit(damage_text, (hp_bar_x + bar_width + 5, hp_bar_y - 5))  # 在 HP 条旁边显示
+
+    def draw_action(self, screen, action):
+        font = pygame.font.Font("/Users/lhwylp/Desktop/publicwork/fireflysung.ttf", 20)
+
+        if int(action.replace('SKILL_','')) in demo_skill.values():
+            action = list(demo_skill.keys())[list(demo_skill.values()).index(int(action.replace('SKILL_','')))]
+        action_text = font.render(action, True, (255, 0, 0))
+        #action_text居中显示
+
+        screen.blit(action_text, (self.position[0], self.position[1]-35))
 class game:
     def __init__(self,state):
         pygame.init()
@@ -67,7 +102,7 @@ class game:
     def position_change_to_pygame(self,x, y):
         print('棋子初始化翻译前', x, y)
         x = x * self.WIDTH // self.BOARD_WIDTH
-        y = y * self.HEIGHT // self.BOARD_HEIGHT
+        y = (self.BOARD_HEIGHT-1-y) * self.HEIGHT // self.BOARD_HEIGHT
         print('棋子初始化翻译后',x,y)
         return (x, y)
 
@@ -103,21 +138,25 @@ class game:
         for m in self.monster_piece:
             m.draw(self.screen)
         pygame.display.flip()
-        action_dict = {'LEFT', 'RIGHT', 'TOP', 'BOTTOM','WAIT'}
+        action_dict = {'LEFT':'向左移动', 'RIGHT':'向右移动', 'TOP':'向上移动', 'BOTTOM':'向下移动','WAIT':'待机'}
         skillid=[]
         for i in all_data['init_state']['hero']:
             for skill in all_data['init_state']['hero'][i]['skills']:
                 if skill['SkillId'] not in skillid:
                     skillid.append(skill['SkillId'])
         for skill in skillid:
-            action_dict.add('SKILL_'+str(skill))
+            action='SKILL_'+str(skill)
+            action_dict[action]=list(demo_skill.keys())[list(demo_skill.values()).index(int(skill))]
+
+        info_list=[]
+
 
         for i in all_data['update']:
+
             for action_num in range(len(i['action'])):
-                #print('action',action['action_type'],action['class'],action['id'],i['state'])
                 action=i['action'][action_num]
                 #todo 每个动作 做三件事：1、更新棋盘看效果 2、检查动作决策是否正确 3、检查动作带来状态变化合理性
-                if action['action_type'] in action_dict:
+                if action['action_type'] in action_dict.keys():
                     self.screen.fill(self.WHITE)
                     self.screen.blit(self.broad, (0, 0))
                     self.overlay.fill((0, 0, 0, 0))
@@ -134,13 +173,11 @@ class game:
                                 h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'WAIT':
                                 h.move((h.position[0], h.position[1]))
-                            text = font.render('state info :', True, (0, 0, 0))
-                            self.screen.blit(text, (self.WIDTH + 10, 10))
-                            text=font.render('hero'+str(h.piece_id)+'action:'+str(action), True, (0, 0, 0))
-                            self.screen.blit(text, (self.WIDTH + 10, 40))
+
 
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
+                                h.draw_action(self.screen, action['action_type'])
                                 self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 print('完整的state变化',i['state'])
@@ -183,10 +220,11 @@ class game:
                                         for h in self.hero_piece:#可能带有反击导致自己受伤
                                             if h.piece_id==change[1][1]:
                                                 h.draw_hp_bar(self.screen,change[2][0]-change[2][1])
-
+                            info_list.append('第'+str(i['tick'])+'tick:英雄'+str(h.piece_id)+'选择的行动:'+str(action_dict.get(action['action_type'],action['action_type'])))
 
                     for m in self.monster_piece:
                         if m.piece_id==action['id']:
+
                             if action['action_type'] == 'LEFT':
                                 m.move((m.position[0] - self.WIDTH // self.BOARD_WIDTH, m.position[1]))
                             if action['action_type'] == 'RIGHT':
@@ -197,12 +235,10 @@ class game:
                                 m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'WAIT':
                                 m.move((m.position[0], m.position[1]))
-                            text = font.render('state info :', True, (0, 0, 0))
-                            self.screen.blit(text, (self.WIDTH + 10, 10))
-                            text=font.render('monster'+str(m.piece_id)+'action:'+str(action), True, (0, 0, 0))
-                            self.screen.blit(text, (self.WIDTH + 10, 40))
+
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
+                                m.draw_action(self.screen, action['action_type'])
                                 self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 for change in i['state'][action_num]:
@@ -234,8 +270,12 @@ class game:
                                         for m in self.monster_piece:#可能带有反击导致自己受伤
                                             if m.piece_id==change[1][1]:
                                                 m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
-
-
+                            info_list.append('第'+str(i['tick'])+'tick:怪物'+str(m.piece_id)+'选择的行动:'+str(action_dict.get(action['action_type'],action['action_type'])))
+                    font = pygame.font.Font("/Users/lhwylp/Desktop/publicwork/fireflysung.ttf", 20)
+                    info_list=info_list[-15:]
+                    for ii in range(len(info_list)):
+                        text = font.render(info_list[ii], True, (0, 0, 0))
+                        self.screen.blit(text, (self.WIDTH + 10, 40+30*ii))
                     for h in self.hero_piece:
                         if h.hp>0:
                             h.draw(self.screen)
@@ -304,10 +344,10 @@ class game:
         self.hero_piece=[]
         self.monster_piece=[]
         for h in self.hero:
-            img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0, 0, 0))
+            img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0,255, 200))
             d = ImageDraw.Draw(img)
             fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 17)
-            d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(0, 0, 0))
+            d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(255, 255, 255))
             # 保存图片
             img.save('hero'+str(i)+'.png')
             self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2]),'hero',h['HeroID']))
@@ -315,7 +355,7 @@ class game:
             i += 1
         i=0
         for m in self.monster:
-            img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0, 0, 0))
+            img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
             d = ImageDraw.Draw(img)
             fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 17)
             d.text((0, 0), "M"+str(m['HeroID']), font=fnt, fill=(0, 0, 0))
@@ -343,6 +383,9 @@ class game:
         print(self.BOARD_WIDTH,self.BOARD_HEIGHT)
         # 创建一个新的白色图片,创建个透明底色的图片
 
+        color_map = {}
+        for i in range(21):
+            color_map[i] = ( 255 - i * 10, 255 - i * 10, 255 - i * 10)
 
         # 生成一张按照宽高格子生成的棋盘地图，类似国际象棋，不需要颜色直接是网格图就行
         broad_picture = pygame.Surface((self.WIDTH, self.HEIGHT))
@@ -351,18 +394,19 @@ class game:
         for i in range(self.BOARD_WIDTH):
             for j in range(self.BOARD_HEIGHT):
                 # 我希望棋盘上有BOARD_WIDTH*BOARD_HEIGHT个格子，每个格子的宽度和高度都是WIDTH/BOARD_WIDTH和HEIGHT/BOARD_HEIGHT
-                color = (0, 0, 0)
-                rect = pygame.Rect(i * self.WIDTH // self.BOARD_WIDTH, j * self.HEIGHT // self.BOARD_HEIGHT, self.WIDTH // self.BOARD_WIDTH,
-                                   self.HEIGHT // self.BOARD_HEIGHT)
 
-                pygame.draw.rect(broad_picture, color, rect, 1)
 
                 for p in self.map:
 
                     block=self.map[p]['Block']
 
                     if i==p[0] and j==p[2] and block==1:
+                        color = color_map.get(p[1], (0, 0, 0))  # 如果 p[1] 的值不在 color_map 中，使用黑色
+                        rect = pygame.Rect(i * self.WIDTH // self.BOARD_WIDTH, (self.BOARD_HEIGHT-1-j) * self.HEIGHT // self.BOARD_HEIGHT,
+                                           self.WIDTH // self.BOARD_WIDTH,
+                                           self.HEIGHT // self.BOARD_HEIGHT)
 
+                        pygame.draw.rect(broad_picture, color, rect)
                         # text = font.render(f'{p[1]}', True, (0, 0, 0))
                         # text_rect = text.get_rect(center=rect.center)
                         text = font.render(f'({p[0]},{p[1]},{p[2]})', True, (0, 0, 0))
