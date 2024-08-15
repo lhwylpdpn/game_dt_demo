@@ -657,9 +657,9 @@ class Hero():
             enemy.skill_move_to_position(target=self, value=move_value, state=state)
         # 击退几格
         if "REPEL_TARGET" in skill.avaliable_effects():
+            print("use: REPEL_TARGET 被击退几格")
             move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
             enemy.move_back(self, move_value, state)
-            print("use: REPEL_TARGET 敌人被击退几格")
         return self
 
     def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
