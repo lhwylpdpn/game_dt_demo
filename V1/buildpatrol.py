@@ -77,7 +77,11 @@ class BuildPatrol():
         
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
-    print(state)
+    hero = state.get("hero")[0]
+    monster = state.get("monster")[0]
+    state["maps"] = state["map"]
+    #monster.move_back(hero, [3], state)
+    monster.skill_move_to_position(hero, [3], state)
     #map = BuildPatrol.build_map(origin_map_data)    # map
     #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     # monster = BuildPatrol.build_monster(origin_monster_data)# monster 
