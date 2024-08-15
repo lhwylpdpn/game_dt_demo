@@ -723,23 +723,26 @@ class Hero():
             return True
         else: #有攻击距离 
             map_obj = state.get("maps")
-            atk_distance = back_skill.get_effect_by_key("ATK_DISTANCE")[1]
+            effect = back_skill.get_effect_by_key("ATK_DISTANCE")
+            atk_distance = effect.param[1]
             l_in_range,r_in_range = False, False
             # 高度影响攻击范围, 高低差每{0}格，最大攻击范围加{0}格, 暂时不处理
             # if "ADD_ATK_DISTANCE" in back_skill.avaliable_effects():
             #     pass
             if "HIT_LINE" in back_skill.avaliable_effects():
-                range_line_value =  back_skill.get_effect_by_key("HIT_LINE")[1] + 1
+                _eff = back_skill.get_effect_by_key("HIT_LINE")
+                range_line_value =  _eff.param[1] + 1
                 l_in_range = self.is_in_hitline_range(range_line_value,  enemy, state)
             if "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
-                gap, radis = back_skill.get_effect_by_key("HIT_RANGE")[0], back_skill.get_effect_by_key("HIT_RANGE")[1] 
+                _eff = back_skill.get_effect_by_key("HIT_LINE")
+                gap, radis = _eff.param[0], _eff.param[1] 
                 r_in_range = self.is_hit_range(gap, radis, enemy, state)
             if not l_in_range and not r_in_range: # 没有在范围内
                 return False
             else:
                 if "IS_ATK_DISTANCE" in back_skill.avaliable_effects(): # 攻击范围限制高度，高低差{0}内生效
-                    y_dis = back_skill.get_effect_by_key("IS_ATK_DISTANCE")[0]
-                    if abs(enemy.y - self.y) <= y_dis:
+                    _eff = back_skill.get_effect_by_key("IS_ATK_DISTANCE")
+                    if abs(enemy.y - self.y) <= _eff.param[0]:
                         return True
                     else:
                         return False
