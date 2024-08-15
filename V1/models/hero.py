@@ -540,8 +540,10 @@ class Hero():
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
         move_value = int(value[0])
+        print(f"{self.HeroID} 计划从{self.position} 走向 {target.position} 方向 {move_value} 步")
         position_ok = None
         move_x, move_y, move_z = None, None, None
+        total_step = move_value
         while move_value:
             move_x, move_y, move_z = self.position
             if target.x == self.x: # x 轴相等
@@ -555,7 +557,7 @@ class Hero():
                 else: # 在左侧
                     move_x = move_x - move_value
             else:
-                print("不在十字交叉位置，不移动")
+                print("不在十字位置，不移动")
                 break
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
@@ -563,19 +565,23 @@ class Hero():
             move_z = 0 if move_z < 0 else move_z
             move_y = map_obj.get_land_from_xz(move_x, move_z).y
             if self.is_position_ok(move_x, move_y, move_z, state):
+                total_step = move_value if position_ok is None else total_step
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
             else:
                 position_ok = None
             move_value = move_value - 1
         if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
+            print(f"{self.HeroID} 实际从{self.position} 走向 {target.position} 方向 {total_step} 步, 到达 {position_ok} 点")
             self.move_position(*position_ok, state)
         return self
     
     def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
         map_obj = state.get('maps')
         move_value = int(move_value[0])
+        print(f"{self.HeroID} 计划从{self.position}后退 {move_value} 步, 此时敌人位置{enemy.position}")
         position_ok = None
         move_x, move_y, move_z = None, None, None
+        total_step = move_value
         while move_value:
             move_x, move_y, move_z = self.position
             if enemy.x == self.x: # x 轴相等
@@ -589,7 +595,7 @@ class Hero():
                 else: # 敌人在左侧
                     move_x = move_x + move_value
             else:
-                print("不在十字交叉位置，不移动")
+                print("不在十字位置，不移动")
                 break
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
@@ -597,11 +603,13 @@ class Hero():
             move_z = 0 if move_z < 0 else move_z
             move_y = map_obj.get_land_from_xz(move_x, move_z).y
             if self.is_position_ok(move_x, move_y, move_z, state):
+                total_step = move_value if position_ok is None else total_step
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
             else:
                 position_ok = None
             move_value = move_value - 1
         if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
+            print(f"{self.HeroID} 实际从 {self.position} 后退 {total_step} 步,后退 {position_ok} 点")
             self.move_position(*position_ok, state)
         return self
     
