@@ -536,7 +536,20 @@ class Hero():
         
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
         return self.load_skill(skill)
-    
+
+    def judge_direction(self, enemy): # 判断敌人在 上下左右，一级斜
+        if enemy.x == self.x: # x 轴相等
+            if enemy.z > self.z: # 敌人在上面
+                return "UP"
+            else: # 敌人在上面
+                return "DOWN"
+        elif enemy.z == self.z: # z 轴相等
+            if enemy.x > self.x: # 敌人在右侧
+                return "RIGHT"
+            else: # 敌人在左侧
+                return "LEFT"
+        return "OTHER"
+
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
         move_value = int(value[0])
@@ -544,21 +557,22 @@ class Hero():
         position_ok = None
         move_x, move_y, move_z = None, None, None
         total_step = move_value
+        direction = self.judge_direction(target)
+        if direction == "OTHER":
+            print("不在十字位置，不移动")
+            return self
         while move_value:
             move_x, move_y, move_z = self.position
-            if target.x == self.x: # x 轴相等
-                if target.z > self.z: # 在上面
-                    move_z = move_z + move_value # 我的z减小
-                else: # 在下面
-                    move_z = move_z - move_value
-            elif target.z == self.z: # z 轴相等
-                if target.x > self.x: # 在右侧
-                    move_x = move_x + move_value
-                else: # 在左侧
-                    move_x = move_x - move_value
+            if direction == "UP":
+                move_z = move_z + move_value # 我的z减小
+            elif direction == "DOWN":
+                move_z = move_z - move_value
+            elif direction == "RIGHT":
+                move_x = move_x + move_value
+            elif direction == "LEFT":
+                move_x = move_x - move_value
             else:
-                print("不在十字位置，不移动")
-                return self
+                pass
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
             move_z = move_z if map_obj.z > move_z  else  map_obj.z
@@ -569,10 +583,13 @@ class Hero():
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
             else:
                 position_ok = None
+            print(f" >>移动 {move_value}步数 , 落点[{move_x, move_y, move_z}]", self.is_position_ok(move_x, move_y, move_z, state))
             move_value = move_value - 1
         if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
             print(f"{self.HeroID} 实际从{self.position} 走向 {target.position} 方向 {total_step} 步, 到达 {position_ok} 点")
             self.move_position(*position_ok, state)
+        else:
+            print(f"{self.HeroID} 实际从{self.position} 走向 {target.position} 方向 0 步")
         return self
     
     def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
@@ -582,21 +599,22 @@ class Hero():
         position_ok = None
         move_x, move_y, move_z = None, None, None
         total_step = move_value
+        direction = self.judge_direction(enemy)
+        if direction == "OTHER":
+            print("不在十字位置，不移动")
+            return self
         while move_value:
             move_x, move_y, move_z = self.position
-            if enemy.x == self.x: # x 轴相等
-                if enemy.z > self.z: # 敌人在上面
-                    move_z = move_z - move_value # 我的y减小
-                else: # 敌人在上面
-                    move_z = move_z + move_value
-            elif enemy.z == self.z: # z 轴相等
-                if enemy.x > self.x: # 敌人在右侧
-                    move_x = move_x - move_value
-                else: # 敌人在左侧
-                    move_x = move_x + move_value
+            if direction == "UP":
+                move_z = move_z - move_value 
+            elif direction == "DOWN":
+                move_z = move_z + move_value
+            elif direction == "RIGHT": # 敌人在右侧, 我向左侧走
+                move_x = move_x - move_value
+            elif direction == "LEFT": # 敌人在左侧, 我向右侧走
+                move_x = move_x + move_value
             else:
-                print("不在十字位置，不移动")
-                return self
+                pass
             move_x = move_x if map_obj.x > move_x else  map_obj.x
             move_x = 0 if move_x < 0 else  move_x
             move_z = move_z if map_obj.z > move_z  else  map_obj.z
@@ -607,6 +625,7 @@ class Hero():
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
             else:
                 position_ok = None
+            print(f" >>移动 {move_value}步数 , 落点[{move_x, move_y, move_z}]", self.is_position_ok(move_x, move_y, move_z, state))
             move_value = move_value - 1
         if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
             print(f"{self.HeroID} 实际从 {self.position} 后退 {total_step} 步,后退 {position_ok} 点")
@@ -626,16 +645,19 @@ class Hero():
         map_obj = state.get("maps")
         # 判断自己是否向敌人移动 #TODO
         if "MOVE_SELF2TARGET" in skill.avaliable_effects():
+            print("use: MOVE_SELF2TARGET 自己向敌人移动")
             move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
             self.skill_move_to_position(target=enemy, value=move_value, state=state)
         # 判断敌人是否向自己移动 
         if "MOVE_TARGET2SELF" in skill.avaliable_effects():
+            print("use: MOVE_TARGET2SELF 敌人向自己移动")
             move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
             enemy.skill_move_to_position(target=self, value=move_value, state=state)
         # 击退几格
         if "REPEL_TARGET" in skill.avaliable_effects():
             move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
             enemy.move_back(self, move_value, state)
+            print("use: REPEL_TARGET 敌人被击退几格")
         return self
 
     def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
@@ -643,7 +665,7 @@ class Hero():
             if "IS_HIT" in each_skill.avaliable_effects() : # 被动触发的技能
                 if "IS_DEFAULT_HIT" in each_skill.avaliable_effects(): # 被默认技能攻击
                     if int(skill.DefaultSkills) == 1: # 技能是默认技能
-                        self.load_skill(each_skill)
+                        self.load_skill(each_skill)   
                 else: # 不是被默认攻击时候出发
                     if int(skill.DefaultSkills) == 0: # 技能不是默认技能
                         self.load_skill(each_skill)
@@ -662,6 +684,68 @@ class Hero():
                     self.load_skill(each_skill)
         self.__reduce_buff_round_action()
         return self
+    
+    # 被动技能使攻击失效
+    def is_miss_hit(self):
+        for each_skill in self.get_Skills(active=0):
+            if "IS_DEFAULT_HIT" in each_skill.avaliable_effects() and\
+               "BUFF_MISS_HIT" in each_skill.avaliable_effects():
+               effect = each_skill.get_effect_by_key("BUFF_MISS_HIT")
+               return random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0})
+        return False
+    
+    def is_in_hitline_range(self, range_line_value,  enemy, state): # 
+        """
+        range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
+        enemy 目标敌人，即方向
+        """
+        map_obj = state.get("maps")
+        if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
+            if abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(range_line_value): # 在范围内
+                return True
+        return False
+ 
+    def is_hit_range(self, gap, radis, enemy, state):
+        map_obj = state.get("maps")
+        huff_dis = abs(self.x - enemy.x) + abs(self.z - enemy.z)
+        if huff_dis <= int(radis) and huff_dis > gap:
+            return True
+        else:
+            return False
+
+    # 反击敌人， 以我为原点，否在反击的技能范围之内
+    def is_in_backskill_range(self, back_skill, enemy, state):
+        # "ATK_DISTANCE" 攻击距离
+        # "HIT_LINE",    生效范围(线),    以我为原点,朝向敌人线性延伸{0｜0}
+        # "HIT_RANGE",   生效范围(菱形),  以我为原点延伸{0｜0}
+        
+        if "ATK_DISTANCE" not in back_skill.avaliable_effects(): # 没有攻击距离
+            return True
+        else: #有攻击距离 
+            map_obj = state.get("maps")
+            atk_distance = back_skill.get_effect_by_key("ATK_DISTANCE")[1]
+            l_in_range,r_in_range = False, False
+            # 高度影响攻击范围, 高低差每{0}格，最大攻击范围加{0}格, 暂时不处理
+            # if "ADD_ATK_DISTANCE" in back_skill.avaliable_effects():
+            #     pass
+            if "HIT_LINE" in back_skill.avaliable_effects():
+                range_line_value =  back_skill.get_effect_by_key("HIT_LINE")[1] + 1
+                l_in_range = self.is_in_hitline_range(range_line_value,  enemy, state)
+            if "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
+                gap, radis = back_skill.get_effect_by_key("HIT_RANGE")[0], back_skill.get_effect_by_key("HIT_RANGE")[1] 
+                r_in_range = self.is_hit_range(gap, radis, enemy, state)
+            if not l_in_range and not r_in_range: # 没有在范围内
+                return False
+            else:
+                if "IS_ATK_DISTANCE" in back_skill.avaliable_effects(): # 攻击范围限制高度，高低差{0}内生效
+                    y_dis = back_skill.get_effect_by_key("IS_ATK_DISTANCE")[0]
+                    if abs(enemy.y - self.y) <= y_dis:
+                        return True
+                    else:
+                        return False
+                else: # 没有高度影响范围
+                    return True
+        return True
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}, is_back_atk=False): #技能攻击
         """
@@ -681,6 +765,10 @@ class Hero():
         for each in enemys:
             if self.is_death: # 死亡了
                 return
+            if not is_back_atk:
+                if each.is_miss_hit():
+                    print(f"** {each.HeroID} 的被动技能使攻击无效～")
+                    continue
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             result = damage(attacker=self, defender=each, skill=skill)
             result[each] = copy.deepcopy(result)
@@ -692,7 +780,9 @@ class Hero():
             print(each.HeroID ,"Hp <after>: ", each.Hp)
             if not is_back_atk and each.is_alive: # 不是反击攻击， 并且没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
-                    each.func_attack(enemys=[self], skill=each_back_skill, attack_point=self.position, state=state, is_back_atk=True)
+                    if self.is_in_backskill_range(each_back_skill, self, state):
+                        each.func_attack(enemys=[self], skill=each_back_skill, 
+                                         attack_point=self.position, state=state, is_back_atk=True)
         self.__use_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         self.__reduce_buff_round_action() # 减少buff的round action
         return result
