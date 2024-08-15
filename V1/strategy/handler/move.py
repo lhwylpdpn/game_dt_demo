@@ -2,14 +2,17 @@
 # @Author  : Bin
 # @Time    : 2024/8/5 11:14
 from copy import deepcopy
+from datetime import datetime
 from itertools import product
 from collections import deque
 
+from log.log import LogManager
 from strategy.handler.attack import Attack
 from strategy.handler.distance_func import DistanceFunc
 from strategy.handler.func import BasicFunc
 from strategy.handler.self_func import SelfFunc
 from strategy.handler.skill_attack_range import SkillRange
+log_manager = LogManager()
 
 
 class Move(object):
@@ -47,6 +50,8 @@ class Move(object):
 
             stk_range = SkillRange().get_attack_range(_hero, maps)
             if enemy_position in stk_range:
+                print('--->', point, stk_range)
+
                 move_steps = DistanceFunc().find_shortest_path(hero_position, point, jump_height, maps)[: round_action + 1]
                 if move_steps:
                     attack_pos_dict[point] = move_steps
@@ -56,7 +61,9 @@ class Move(object):
             steps = attack_pos_dict[closest_pos]
             return closest_pos, steps
         else:
-            print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤, 可用技能为{len(hero['skills'])}")
+            tmp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            log_manager.add_log(timestamp=tmp, log_data=str({"hero": hero, "map": maps, "enemy_position": enemy_position}), )
+            print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
             return None, None
 
     def choose_move_steps(self, hero, enemies, maps):

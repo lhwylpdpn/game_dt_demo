@@ -5,7 +5,7 @@ import time
 # from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
 from buildpatrol import BuildPatrol
 import schedule
-from V1.test.demo_show import game
+from test.demo_show import game
 import random
 import copy
 
