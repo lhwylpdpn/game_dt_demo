@@ -103,7 +103,7 @@ class Move(object):
                 move_steps.append(s)
             if len(move_steps) > 1:
                 return move_steps
-            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemy_position": closest_enemy_position["position"]}), )
+            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemies": enemies}), )
             print(f"攻击者位置{position} 对于{closest_enemy_position['position']}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
             return []
 
