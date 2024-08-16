@@ -32,7 +32,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 1000
+        self.timeout_tick = 100
         self.tick = 0
         self.record_update_dict = {}
         self.record_error_dict = {}
@@ -173,7 +173,7 @@ class schedule:
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
-        #print('给强爷',result)
+        print('给强爷',result)
         return result
 
 

@@ -34,12 +34,13 @@ demo_skill['协调']=95
 
 # 棋子类
 class Piece:
-    def __init__(self, image_path, position,piece_type,piece_id):
+    def __init__(self, image_path, position,piece_type,piece_id,isboss):
         self.image = pygame.image.load(image_path)
         self.position = position
         print('棋子初始化',position)
         self.piece_type=piece_type
         self.piece_id=piece_id
+        self.isboss=isboss
 
 
 
@@ -52,7 +53,28 @@ class Piece:
         self.max_hp = hp
 
     def draw(self, screen):
-        screen.blit(self.image, self.position)
+        if int(self.isboss)==111:
+            print('boss',self.piece_id,int(self.isboss))
+            self.draw_boss(screen)
+        else:
+            screen.blit(self.image, self.position)
+
+    def draw_boss(self,screen):
+    # 创建一个新的 Surface 对象，大小和原图像一样，启用透明度
+        circle_image = pygame.Surface(self.image.get_size(), pygame.SRCALPHA)
+
+        # 在新的 Surface 对象上绘制一个纯色的圆形
+        pygame.draw.circle(circle_image, (255, 0, 0), (self.image.get_width() // 2, self.image.get_height() // 2), min(self.image.get_width(), self.image.get_height()) // 2)
+
+        # 使用源图像和圆形 Surface 对象创建一个新的 Surface 对象，这个新的 Surface 对象只包含源图像中的圆形部分
+        final_image = pygame.Surface(self.image.get_size(), pygame.SRCALPHA)
+        final_image.blit(self.image, (0, 0), special_flags=pygame.BLEND_RGBA_MIN)
+        final_image.blit(circle_image, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        print(self.position)
+    # 将最终的图像绘制到屏幕上
+        screen.blit(final_image, self.position)
+
+
 
     def draw_hp_bar(self, screen,damage):
         # 计算 HP 条的宽度
@@ -344,24 +366,29 @@ class game:
         self.hero_piece=[]
         self.monster_piece=[]
         for h in self.hero:
+
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0,255, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 17)
+            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+
             d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(255, 255, 255))
             # 保存图片
             img.save('hero'+str(i)+'.png')
-            self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2]),'hero',h['HeroID']))
+            self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2]),'hero',h['HeroID'],1))#1代表不是boss
             self.hero_piece[-1].set_hp(h['Hp'])
             i += 1
         i=0
         for m in self.monster:
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 17)
+            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+            if m['Quality']==1:
+                d.ellipse([(0, 0), img.size], fill=(255, 0,0 ,200))
+
             d.text((0, 0), "M"+str(m['HeroID']), font=fnt, fill=(0, 0, 0))
             # 保存图片
             img.save('monster'+str(i)+'.png')
-            self.monster_piece.append(Piece('monster'+str(i)+'.png', self.position_change_to_pygame(m['position'][0], m['position'][2]),'monster',m['HeroID']))
+            self.monster_piece.append(Piece('monster'+str(i)+'.png', self.position_change_to_pygame(m['position'][0], m['position'][2]),'monster',m['HeroID'],m['Quality']))
             self.monster_piece[-1].set_hp(m['Hp'])
             i += 1
     def generate_state(self):
