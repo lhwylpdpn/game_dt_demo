@@ -41,6 +41,7 @@ class Piece:
         self.piece_type=piece_type
         self.piece_id=piece_id
         self.isboss=isboss
+        self.avg_damage={}
 
 
 
@@ -53,11 +54,7 @@ class Piece:
         self.max_hp = hp
 
     def draw(self, screen):
-        if int(self.isboss)==111:
-            print('boss',self.piece_id,int(self.isboss))
-            self.draw_boss(screen)
-        else:
-            screen.blit(self.image, self.position)
+        screen.blit(self.image, self.position)
 
     def draw_boss(self,screen):
     # 创建一个新的 Surface 对象，大小和原图像一样，启用透明度
@@ -98,7 +95,7 @@ class Piece:
         screen.blit(damage_text, (hp_bar_x + bar_width + 5, hp_bar_y - 5))  # 在 HP 条旁边显示
 
     def draw_action(self, screen, action):
-        font = pygame.font.Font("/Users/lhwylp/Desktop/publicwork/fireflysung.ttf", 20)
+        font = pygame.font.Font("utils/fireflysung.ttf", 20)
 
         if int(action.replace('SKILL_','')) in demo_skill.values():
             action = list(demo_skill.keys())[list(demo_skill.values()).index(int(action.replace('SKILL_','')))]
@@ -132,13 +129,27 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(500)
+        pygame.time.delay(200)
 
     def game_init(self):
         self.generate_state()
         self.broad=pygame.image.load('broad.png')
         self.generate_piece()
         self.overlay = pygame.Surface(self.broad.get_size(), pygame.SRCALPHA)
+
+    def over_state(self):
+        print('游戏结束')
+        for h in self.hero_piece:
+            if len(h.avg_damage)>0:
+                print('英雄平均伤害',h.piece_id,h.avg_damage)
+            else:
+                print('英雄平均伤害',h.piece_id,0,0)
+        for m in self.monster_piece:
+            if len(m.avg_damage)>0:
+                print('怪兽平均伤害',m.piece_id,m.avg_damage)
+            else:
+                print('怪兽平均伤害',h.piece_id,0,0)
+
 
     def attack(self, position):
         # 假设 position 是攻击的地块的坐标
@@ -239,6 +250,7 @@ class game:
                                         for m in self.monster_piece:
                                             if m.piece_id==change[1][1]:
                                                 m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
+                                        h.avg_damage[action['action_type']]=h.avg_damage.get(action['action_type'],[])+[change[2][0]-change[2][1]]
                                         for h in self.hero_piece:#可能带有反击导致自己受伤
                                             if h.piece_id==change[1][1]:
                                                 h.draw_hp_bar(self.screen,change[2][0]-change[2][1])
@@ -289,11 +301,12 @@ class game:
                                         for h in self.hero_piece:
                                             if h.piece_id==change[1][1]:
                                                 h.draw_hp_bar(self.screen,change[2][0]-change[2][1])
+                                        m.avg_damage[action['action_type']]=m.avg_damage.get(action['action_type'],[])+[change[2][0]-change[2][1]]
                                         for m in self.monster_piece:#可能带有反击导致自己受伤
                                             if m.piece_id==change[1][1]:
                                                 m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
                             info_list.append('第'+str(i['tick'])+'tick:怪物'+str(m.piece_id)+'选择的行动:'+str(action_dict.get(action['action_type'],action['action_type'])))
-                    font = pygame.font.Font("/Users/lhwylp/Desktop/publicwork/fireflysung.ttf", 20)
+                    font = pygame.font.Font("utils/fireflysung.ttf", 20)
                     info_list=info_list[-15:]
                     for ii in range(len(info_list)):
                         text = font.render(info_list[ii], True, (0, 0, 0))
@@ -379,10 +392,14 @@ class game:
             i += 1
         i=0
         for m in self.monster:
-            img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
+            if m['Quality']==2:
+                img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),
+                                color=(255, 255, 255, 0))
+            else:
+                img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
             d = ImageDraw.Draw(img)
             fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
-            if m['Quality']==1:
+            if m['Quality']==2:
                 d.ellipse([(0, 0), img.size], fill=(255, 0,0 ,200))
 
             d.text((0, 0), "M"+str(m['HeroID']), font=fnt, fill=(0, 0, 0))
