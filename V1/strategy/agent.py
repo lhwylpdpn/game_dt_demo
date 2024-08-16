@@ -22,9 +22,8 @@ class Agent(object):
     def choice_hero_act(self, hero, state):
         hero = hero.dict()
         enemies = [_.dict() for _ in state["monster"]]
-        used_points = [tuple(_.position) for _ in state["hero"]] + [tuple(_.position) for _ in state["monster"]]
         maps = state["map"].view_from_y_dict()
-        maps = Attack().convert_maps(maps, used_points)
+        maps = Attack().convert_maps(maps)
         res = Action().get_action_steps(hero, enemies, maps)
         return res
 
@@ -32,9 +31,7 @@ class Agent(object):
         state = self.swap_specific_keys(state, "hero", "monster")
         hero = hero.dict()
         enemies = [_.dict() for _ in state["monster"]]
-        used_points = [tuple(_.position) for _ in state["hero"]] + [tuple(_.position) for _ in state["monster"]]
-
         maps = state["map"].view_from_y_dict()
-        maps = Attack().convert_maps(maps, used_points)
+        maps = Attack().convert_maps(maps)
         res = Action().get_action_steps(hero, enemies, maps)
         return res

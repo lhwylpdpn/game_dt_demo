@@ -5,12 +5,7 @@
 from functools import lru_cache
 from itertools import product
 
-from strategy.handler.func import BasicFunc
-
-SKILL_TYPE = {
-    "1": {"out_range": 2, "in_range": 1, "cross_range": None},
-    "2": {"out_range": None, "in_range": None, "cross_range": 5}
-}
+from strategy.game_utils import GameUtils
 
 
 class SkillRange:
@@ -19,14 +14,6 @@ class SkillRange:
         if abs(point1[1] - point2[1]) <= int(distance):
             return True
         return False
-
-
-
-    @staticmethod
-    # @lru_cache(maxsize=None)
-    def get_maps_point(xz, maps):
-        y = maps[xz]["y"]
-        return xz[0], y, xz[1]
 
     @staticmethod
     def get_manhattan_path(x, y, z, max_distance, maps, jump_height=None):
@@ -52,9 +39,12 @@ class SkillRange:
                     p = (current_x + dx, current_z + dz)
                     if p not in maps:
                         continue
-                    if maps[p].get("used") == 1 or maps[p].get("Block") == 0:
+
+                    # if GameUtils.is_reach_point((current_x, current_y, current_z), point, jump_height, [1]):
+                    if maps[p].get("Block") in (0, 2):
                         continue
-                    point = SkillRange.get_maps_point(p, maps)
+                    point = GameUtils.get_maps_point(p, maps)
+
                     if jump_height is not None:
                         if abs(current_y - point[1]) > jump_height:
                             continue
@@ -63,7 +53,6 @@ class SkillRange:
                         new_path = path + [point]
                         paths[point] = new_path
                         queue.append((point, new_path))
-
         return paths
 
     @staticmethod
@@ -77,60 +66,13 @@ class SkillRange:
 
                 if p not in maps:
                     continue
-                point = SkillRange().get_maps_point(p, maps)
+                point = GameUtils.get_maps_point(p, maps)
                 if jump_height:
                     if abs(y - point[1]) > jump_height:
                         continue
 
                 points.append(point)
         return points
-
-    @staticmethod
-    def get_h_manhattan_range():
-        pass
-
-    @staticmethod
-    def hit_line_range(point, maps, param, is_atk_distance=0):
-        x, y, z = point
-        attack_range = [point]  # 包含该点位自身
-        param = [int(_) for _ in param]
-
-        # 左上的距离
-        for i in range(1, param[0] + 1):
-            if (x - i, z) in maps:
-                attack_range.append(SkillRange().get_maps_point((x - i, z), maps))
-            if (x, z - i) in maps:
-                attack_range.append(SkillRange().get_maps_point((x, z - i), maps))
-
-        # 右下的距离
-        for i in range(1, param[1] + 1):
-            if (x + i, z) in maps:
-                attack_range.append(SkillRange().get_maps_point((x + i, z), maps))
-            if (x, z + i) in maps:
-                attack_range.append(SkillRange().get_maps_point((x, z + i), maps))
-
-        return attack_range
-
-    @staticmethod
-    def range_mht_hollow_circle(point, o, i, gap, effect, maps):
-        """
-        获取曼哈顿 空心菱形范围
-        :param o: 外圆范围
-        :param i: 内圆范围
-        """
-        o = int(o) + 1
-        i = int(i) + 1
-        atk_limit = range(i, o)
-        atk_range = []
-
-        for m in maps:
-            m_pos = maps[m]["position"]
-            if BasicFunc().h_manhattan_distance(point, m_pos, gap, effect) in atk_limit:
-                atk_range.append(m_pos)
-        # outer_range = set(SkillRange.get_manhattan_range(x, y, z, o, maps))
-        # inner_range = set(SkillRange.get_manhattan_range(x, y, z, i, maps))
-        # return list(outer_range - inner_range)
-        return atk_range
 
     @staticmethod
     @lru_cache(maxsize=None)
@@ -153,7 +95,7 @@ class SkillRange:
             gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
         else:
             gap, effect = 0, 0
-        points = SkillRange.range_mht_hollow_circle(position, int(range[1]), int(range[0]), gap, effect, maps)
+        points = GameUtils.range_mht_hollow_circle(position, int(range[1]), int(range[0]), gap, effect, maps)
         return points
 
     @staticmethod
@@ -172,13 +114,13 @@ class SkillRange:
         is_atk_distance = skill["effects"].get("IS_ATK_DISTANCE", {}).get("param", [0])[0]
 
         if hit_line:
-            atk_range += SkillRange().hit_line_range(position, maps, hit_line, is_atk_distance)
+            atk_range += GameUtils.hit_line_range(position, maps, hit_line, is_atk_distance)
         if hit_range:
             if "ADD_ATK_DISTANCE" in skill["effects"]:
                 gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
             else:
                 gap, effect = 0, 0
-            atk_range += SkillRange().range_mht_hollow_circle(position, hit_range[1], hit_range[0], gap, effect, maps)
+            atk_range += GameUtils.range_mht_hollow_circle(position, hit_range[1], hit_range[0], gap, effect, maps)
         if not atk_range and not hit_range:  # 单体攻击
             atk_range = [position]
 
@@ -189,7 +131,7 @@ class SkillRange:
     def get_attack_range(self, attacker, maps):
         # 获取攻击者 目前点位所有可释放范围内所有技能的攻击范围并集
         attack_range = []
-        skills = BasicFunc().get_damage_skills(attacker)
+        skills = GameUtils.get_damage_skills(attacker)
         attacker_position = tuple(attacker["position"])
         for skill in skills:
             release_range = SkillRange.skill_release_range(attacker_position, skill, maps)

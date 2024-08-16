@@ -103,7 +103,7 @@ class Map(): # 地图
     def set_land_no_pass(self, x, y, z): # 设置地块不可以通过
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(0)
+            land.set_Block(2)
         return self
     
     @staticmethod

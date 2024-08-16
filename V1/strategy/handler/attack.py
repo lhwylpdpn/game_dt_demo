@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/8/1 15:51
-
-from strategy.handler.func import BasicFunc
+from strategy.game_utils import GameUtils
 from strategy.handler.skill_attack_range import SkillRange
 from strategy.handler.weight import Weight
 
 
 class Attack(object):
 
-    def convert_maps(self, maps, used_points):
+    def convert_maps(self, maps):
         # return {(x, y): {"z": z} for x, y, z in maps}
         xy_dict = {}
         for k, v in maps.items():
-            if k in used_points:
-                v["used"] = 1
             v["y"] = k[1]
             v["position"] = tuple(v["position"])
             xy_dict[(k[0], k[2])] = v
@@ -22,7 +19,7 @@ class Attack(object):
 
     def find_targets_within_atk_range(self, hero, enemies, maps):
         pick_list = []
-        skills = BasicFunc().get_damage_skills(hero)
+        skills = GameUtils().get_damage_skills(hero)
         doge_base = int(hero["DogBase"])
 
         max_step = hero["RoundAction"]

@@ -2,20 +2,22 @@
 # @Author  : Bin
 # @Time    : 2024/8/5 11:14
 from copy import deepcopy
-from datetime import datetime
-from itertools import product
-from collections import deque
 
 from log.log import LogManager
-from strategy.handler.attack import Attack
+from strategy.game_utils import GameUtils
 from strategy.handler.distance_func import DistanceFunc
-from strategy.handler.func import BasicFunc
-from strategy.handler.self_func import SelfFunc
 from strategy.handler.skill_attack_range import SkillRange
 log_manager = LogManager()
 
 
 class Move(object):
+    @staticmethod
+    def is_health_sub_half(hero_hp, hero_base_hp):
+        # 血量是否低于50%
+        if float(hero_base_hp / 2) < hero_hp:
+            return False
+        return True
+
     def is_escape(self, hero, enemies, maps):
         # 是否需要逃跑
         hp = hero["Hp"]
@@ -24,7 +26,7 @@ class Move(object):
         enemies = [e for e in enemies if e["Hp"] > 0]
 
         atk_count = 0
-        if SelfFunc().is_health_sub_half(hp, hp_base):
+        if Move().is_health_sub_half(hp, hp_base):
             for enemy in enemies:
                 enemy_atk_range = SkillRange().get_attack_range(enemy, maps)
                 if hero_position in enemy_atk_range:
@@ -50,17 +52,15 @@ class Move(object):
 
             stk_range = SkillRange().get_attack_range(_hero, maps)
             if enemy_position in stk_range:
-                move_steps = DistanceFunc().find_shortest_path(hero_position, point, jump_height, maps)[: round_action + 1]
+                move_steps = GameUtils.find_shortest_path(hero_position, point, jump_height, maps, [1])[: round_action + 1]
                 if move_steps:
                     attack_pos_dict[point] = move_steps
 
         if attack_pos_dict:
-            closest_pos = min(attack_pos_dict.keys(), key=lambda k: BasicFunc().manhattan_distance(k, hero_position))
+            closest_pos = min(attack_pos_dict.keys(), key=lambda k: GameUtils.manhattan_distance(k, hero_position))
             steps = attack_pos_dict[closest_pos]
             return closest_pos, steps
         else:
-            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemy_position": enemy_position}), )
-            print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
             return None, None
 
     def choose_move_steps(self, hero, enemies, maps):
@@ -69,7 +69,7 @@ class Move(object):
         doge_base = int(hero["DogBase"])
         jump_height = int(hero["JumpHeight"][0])
         enemies = [e for e in enemies if e["Hp"] > 0]
-        hero["skills"] = BasicFunc().get_damage_skills(hero)
+        hero["skills"] = GameUtils.get_damage_skills(hero)
         if not hero["skills"]:
             print("当前英雄无可用技能！")
         if DistanceFunc().is_within_range(doge_base, position, enemies):
@@ -92,7 +92,20 @@ class Move(object):
         if atk_position:
             print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
             return move_steps
-        else: return []
+        else:
+            move_steps = []
+            steps = GameUtils.find_shortest_path(position, closest_enemy_position["position"], jump_height, maps, [1, 2])[: round_action+1]
+            for k, s in enumerate(steps):
+                xz = GameUtils.get_xz(s)
+                if k > 0:
+                    if maps[xz]["Block"] == 2:
+                        break
+                move_steps.append(s)
+            if len(move_steps) > 1:
+                return move_steps
+            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemy_position": closest_enemy_position["position"]}), )
+            print(f"攻击者位置{position} 对于{closest_enemy_position['position']}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
+            return []
 
     def escape(self, hero, enemies, maps):
         # 逃跑：当次可移动范围内，距离所有人敌人的距离平均值最远的位置

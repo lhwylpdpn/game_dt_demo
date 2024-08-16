@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:25
+from strategy.game_utils import GameUtils
 from strategy.handler.attack import Attack
 from strategy.handler.move import Move
-from strategy.handler.self_func import SelfFunc
 
 
 class Action(object):
 
     def move_step_handler(self, move_queue):
         res = []
-        move = SelfFunc().generate_pairs(move_queue)
+        move = GameUtils.generate_pairs(move_queue)
         for m in move:
-            f = SelfFunc().determine_direction(*m)
+            f = GameUtils.determine_direction(*m)
             m_dict = {
                 "action_type": f,
                 "move_position": m[1]
