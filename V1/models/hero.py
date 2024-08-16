@@ -388,14 +388,14 @@ class Hero():
         if buff_object.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
             self.set_JumpHeight([self.JumpHeight[0] - int(buff_object.buff_value)])
         if buff_object.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            self.set_Def(self.Def * (1 - int(buff_object.buff_value)/100.0))
+            self.set_Def(self.Def -  self.DefBase* int(buff_object.buff_value)/100.0)
         if buff_object.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            self.set_Atk(self.Atk * (1 - int(buff_object.buff_value)/100.0))
+            self.set_Atk(self.Atk -  self.AtkBase *  int(buff_object.buff_value)/100.0)
         if buff_object.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
             hp = self.Hp -  self.HpBase * int(buff_object.buff_value)/100.0
             self.set_Hp(hp if hp >= 1 else 1)
         if buff_object.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            self.set_MagicalDef(self.MagicalDef * (1 - int(buff_object.buff_value)/100.0))
+            self.set_MagicalDef(self.MagicalDef - self.MagicalDefBase * int(buff_object.buff_value)/100.0)
         if buff_object.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             self.set_RoundAction(buff_object.buff_back)
         return self
@@ -480,11 +480,11 @@ class Hero():
                         hp = self.Hp +  self.HpBase * int(each.param[1])/100.0
                         self.set_Hp(self.HpBase if hp >= self.HpBase else hp)
                     elif each.key == "ADD_DEF": # 
-                        self.set_Def(self.Def * (1 + int(each.param[1])/100.0))
+                        self.set_Def(self.Def + self.DefBase * (1 + int(each.param[1])/100.0))
                     elif each.key == "ADD_MAGICAL_DEF": # 
-                        self.set_MagicalDef(self.MagicalDef * (1 + int(each.param[1])/100.0))
+                        self.set_MagicalDef(self.MagicalDef + self.MagicalDefBase * (1 + int(each.param[1])/100.0))
                     elif each.key == "ADD_ATK": #
-                        self.set_Atk(self.Atk * (1 + int(each.param[1])/100.0))
+                        self.set_Atk(self.Atk + self.AtkBase * (1 + int(each.param[1])/100.0))
                     else:
                         pass
             else:
