@@ -117,6 +117,10 @@ class game:
         # 在指定位置绘制颜色，改变颜色和透明度
         color = (255, 0, 0, 128)  # 红色半透明
         pygame.draw.rect(self.overlay, color, (position[0], position[1], 50, 50))  # 根据地块大小调整
+    def add_color_effect_rect_line(self, position):
+        # 在指定位置绘制颜色，改变颜色和透明度
+        color = (255, 255, 255, 255)  # 纯粹的黑色线
+        pygame.draw.rect(self.overlay, color, (position[0], position[1], 50, 50),5)  # 根据地块大小调整
 
     def position_change_to_pygame(self,x, y):
         print('棋子初始化翻译前', x, y)
@@ -151,9 +155,14 @@ class game:
                 print('怪兽平均伤害',h.piece_id,0,0)
 
 
-    def attack(self, position):
+    def attack(self, position,selfposition):
         # 假设 position 是攻击的地块的坐标
+
+        self.add_color_effect_rect_line(selfposition)
         self.add_color_effect(position)
+        print('攻击效果',position,selfposition)
+
+
     def run(self,json_data):
 
 
@@ -211,7 +220,7 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 h.draw_action(self.screen, action['action_type'])
-                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
+                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),h.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 print('完整的state变化',i['state'])
                                 w=0
@@ -237,13 +246,13 @@ class game:
                                                         p_change+=1
                                                 if str(change[1][3])=='2':#代表y变化，代表上下
                                                     p_change=change[2][1]-change[2][0]
-                                                    while p_change>0:#向下移动
-                                                        print('应该down',change[2])
-                                                        m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
-                                                        p_change-=1
-                                                    while p_change<0:#向上移动
-                                                        print('应该top',change[2])
+                                                    while p_change>0:#向上移动
+                                                        print('向上',change[2])
                                                         m.move((m.position[0], m.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                                                        p_change-=1
+                                                    while p_change<0:#向下移动
+                                                        print('向下',change[2])
+                                                        m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change+=1
                                     if change[1][2]=='Hp':
                                         print('英雄'+str(action['atk_position'])+'血量变化:',change)
@@ -273,7 +282,7 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 m.draw_action(self.screen, action['action_type'])
-                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
+                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),m.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 for change in i['state'][action_num]:
                                     if change[1][2] == 'position' and change[1][0] == 'hero':
@@ -291,10 +300,10 @@ class game:
                                                 if str(change[1][3]) == '2':
                                                     p_change = change[2][1] - change[2][0]
                                                     while p_change > 0:
-                                                        h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
+                                                        h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change -= 1
                                                     while p_change < 0:
-                                                        h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                                                        h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change += 1
                                     if change[1][2]=='Hp':
                                         print('怪物'+str(action['atk_position'])+'血量变化:',change)
