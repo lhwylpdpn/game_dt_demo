@@ -50,8 +50,6 @@ class Move(object):
 
             stk_range = SkillRange().get_attack_range(_hero, maps)
             if enemy_position in stk_range:
-                print('--->', point, stk_range)
-
                 move_steps = DistanceFunc().find_shortest_path(hero_position, point, jump_height, maps)[: round_action + 1]
                 if move_steps:
                     attack_pos_dict[point] = move_steps
@@ -61,8 +59,7 @@ class Move(object):
             steps = attack_pos_dict[closest_pos]
             return closest_pos, steps
         else:
-            tmp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            log_manager.add_log(timestamp=tmp, log_data=str({"hero": hero, "map": maps, "enemy_position": enemy_position}), )
+            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemy_position": enemy_position}), )
             print(f"攻击者位置{hero_position} 对于{enemy_position}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
             return None, None
 

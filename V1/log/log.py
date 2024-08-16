@@ -12,13 +12,14 @@ class LogManager:
         current_directory = os.path.dirname(os.path.abspath(__file__))
         self.file_path = os.path.join(current_directory, file_name)
 
-    def add_log(self, timestamp, log_data):
+    def add_log(self, log_data):
         # 获取当前时间戳
-        # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # 构造要记录的数据
         log_entry = {timestamp: log_data}
         # 将日志记录到文件中
         self._write_log(log_entry)
+        return timestamp
 
     def _write_log(self, log_entry):
         try:
@@ -47,10 +48,10 @@ class LogManager:
 
 
 # 示例使用
-# log_manager = LogManager()
+log_manager = LogManager()
 # #
 # # # 添加日志，直接传入一个字典
-# log_manager.add_log({"event": "start", "status": "success", "details": "Initial setup completed"})
+# log_manager.add_log(str({"event": "start", "status": "success", "details": "Initial setup completed"}))
 # log_manager.add_log({"event": "process", "status": "running", "details": "Process running smoothly"})
 # #
 # # 获取日志
