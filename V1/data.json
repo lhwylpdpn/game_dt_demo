@@ -118,7 +118,7 @@
         "HeroID": 5002,
         "AvailableSkills": [77, 78],
         "RoundAction": 3,
-        "JumpHeight": [1],
+        "JumpHeight": [3],
         "Hp": 408,
         "Atk": 97,
         "MagicalAtk": 65,
