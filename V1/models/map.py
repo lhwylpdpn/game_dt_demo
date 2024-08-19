@@ -50,7 +50,7 @@ class Map(): # 地图
         if isinstance(land, Land):
             if land.Block is None:
                 return False
-            return int(land.Block) == 1
+            return int(land.Block) == 1 #(0 不可以，1 可以)
         return False
 
     # def view_from_z_dict(self):

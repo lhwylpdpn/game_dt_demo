@@ -32,6 +32,7 @@ class Hero():
         self.__JumpHeight = kwargs.get("JumpHeight", [])           # 跳跃的高度 
         self.__skills =  kwargs.get("skills", [])                  # 技能
         self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
+        self.__BaseClassID = kwargs.get("BaseClassID", None)           # 职业
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
@@ -69,7 +70,7 @@ class Hero():
         self.__buff = []                                                       # 带的buff
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "DogBase",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
+            "DogBase", "BaseClassID",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", 
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
@@ -251,6 +252,14 @@ class Hero():
     
     def set_Velocity(self, Velocity):
         self.__Velocity = Velocity
+        return self
+
+    @property
+    def BaseClassID(self):
+        return self.__BaseClassID
+    
+    def set_BaseClassID(self, v):
+        self.__BaseClassID = BaseClassID
         return self
 
     @property

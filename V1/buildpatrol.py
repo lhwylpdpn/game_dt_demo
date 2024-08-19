@@ -79,8 +79,10 @@ if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
     hero = state.get("hero")[0]
     print(hero.hero_or_monster())
+    print(hero.BaseClassID)
     monster = state.get("monster")[0]
     print(monster.hero_or_monster())
+    print(monster.BaseClassID)
     state["maps"] = state["map"]
     #monster.move_back(hero, [3], state)
     monster.skill_move_to_position(hero, [1], state)
