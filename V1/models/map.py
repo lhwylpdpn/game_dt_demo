@@ -100,10 +100,10 @@ class Map(): # 地图
             land.set_Block(1)       
         return self
 
-    def set_land_no_pass(self, x, y, z): # 设置地块不可以通过
+    def set_land_no_pass(self, x, y, z, block): # 设置地块不可以通过  block 站立英雄和monster分别为 2，3
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(2)
+            land.set_Block(block)
         return self
     
     @staticmethod
@@ -131,7 +131,7 @@ class Land(): # 地块
         self.__PlotDescription = kwargs.get("PlotDescription", None)          # 地块描述
         self.__Ap = kwargs.get("Ap", None)                                    # 通过地块的消耗
         self.__Block = kwargs.get("Block", None)                              # 收否可以通过 1可以，0不可以
-        self.__DestroyEffectsId = kwargs.get("DestroyEffectsId", [])          # 破坏地块效果
+        self.__DestroyEffecIdts = kwargs.get("DestroyEffectsId", [])          # 破坏地块效果
         self.__DestroyState = kwargs.get("DestroyState", [])                  # 地块状态
         self.__DestroyHp = kwargs.get("DestroyHp", None)                      # 血量
         self.__effects = kwargs.get("effects", [])

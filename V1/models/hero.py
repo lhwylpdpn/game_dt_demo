@@ -76,6 +76,11 @@ class Hero():
             ]
         ### unit_hero
         self.__unit_skill_buff = []                                             # 连携攻击增加的buf(每行动一次，重新组织一次此数据)
+        self.__Block = 2                                                        # 地块站立的属性 hero 为2， monster 为 3
+
+    def hero_or_monster(self):
+        "HERO or MONSER"
+        return self.__class__.__name__.upper()
     
     def get_fields(self):
         return self.fields
@@ -150,6 +155,14 @@ class Hero():
     
     def set_skills(self, v):
         self.__skills = v
+        return self
+
+    @property
+    def Block(self):
+        return self.__Block
+    
+    def set_Block(self, v):
+        self.__Block = v
         return self
     
     def skills_add(self, skill):
@@ -433,8 +446,8 @@ class Hero():
         map_obj = state['maps']
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
-        map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
-        map_obj.set_land_no_pass(x,y,z)       # 抵达地块设置为不可通过
+        map_obj.set_land_pass(*self.position)             # 出发地块设置为可通过
+        map_obj.set_land_no_pass(x,y,z, self.Block)       # 抵达地块设置为不可通过
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff
