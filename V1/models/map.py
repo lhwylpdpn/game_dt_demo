@@ -131,7 +131,7 @@ class Land(): # 地块
         self.__PlotDescription = kwargs.get("PlotDescription", None)          # 地块描述
         self.__Ap = kwargs.get("Ap", None)                                    # 通过地块的消耗
         self.__Block = kwargs.get("Block", None)                              # 收否可以通过 1可以，0不可以
-        self.__DestroyEffecIdts = kwargs.get("DestroyEffectsId", [])          # 破坏地块效果
+        self.__DestroyEffectsId = kwargs.get("DestroyEffectsId", [])          # 破坏地块效果
         self.__DestroyState = kwargs.get("DestroyState", [])                  # 地块状态
         self.__DestroyHp = kwargs.get("DestroyHp", None)                      # 血量
         self.__effects = kwargs.get("effects", [])
