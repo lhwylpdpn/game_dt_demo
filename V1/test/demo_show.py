@@ -31,6 +31,10 @@ demo_skill['快脚']=94
 demo_skill['协调']=95
 
 
+bass_class={}
+bass_class['战士']=1
+bass_class['弓箭手']=2
+
 
 # 棋子类
 class Piece:
@@ -158,7 +162,7 @@ class game:
     def attack(self, position,selfposition):
         # 假设 position 是攻击的地块的坐标
 
-        self.add_color_effect_rect_line(selfposition)
+        #self.add_color_effect_rect_line(selfposition)
         self.add_color_effect(position)
         print('攻击效果',position,selfposition)
 
@@ -215,7 +219,7 @@ class game:
                                 h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'WAIT':
                                 h.move((h.position[0], h.position[1]))
-
+                            self.add_color_effect_rect_line(h.position)
 
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
@@ -278,7 +282,7 @@ class game:
                                 m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'WAIT':
                                 m.move((m.position[0], m.position[1]))
-
+                            self.add_color_effect_rect_line(m.position)
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 m.draw_action(self.screen, action['action_type'])
@@ -384,16 +388,21 @@ class game:
     def generate_piece(self):
         self.hero = [i.dict(for_view=True) for i in self.state['hero']]
         self.monster = [i.dict(for_view=True) for i in self.state['monster']]
+
         i=0
         self.hero_piece=[]
         self.monster_piece=[]
         for h in self.hero:
 
+
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0,255, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+            fnt = ImageFont.truetype('utils/fireflysung.ttf', 15)
 
             d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(255, 255, 255))
+
+            d.text((0, 15), list(bass_class.keys())[list(bass_class.values()).index(h['BaseClassID'])], font=fnt, fill=(0, 0, 0))
+
             # 保存图片
             img.save('hero'+str(i)+'.png')
             self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2]),'hero',h['HeroID'],1))#1代表不是boss
@@ -407,12 +416,13 @@ class game:
             else:
                 img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+            fnt = ImageFont.truetype('utils/fireflysung.ttf', 15)
             if m['Quality']==2:
                 d.ellipse([(0, 0), img.size], fill=(255, 0,0 ,200))
 
             d.text((0, 0), "M"+str(m['HeroID']), font=fnt, fill=(0, 0, 0))
-            # 保存图片
+            d.text((0, 15), list(bass_class.keys())[list(bass_class.values()).index(m['BaseClassID'])] , font=fnt, fill=(0, 0, 0))
+
             img.save('monster'+str(i)+'.png')
             self.monster_piece.append(Piece('monster'+str(i)+'.png', self.position_change_to_pygame(m['position'][0], m['position'][2]),'monster',m['HeroID'],m['Quality']))
             self.monster_piece[-1].set_hp(m['Hp'])
@@ -475,5 +485,9 @@ if __name__ == '__main__':
     #generate_state()
     #test_main()
 
-    t={'0':{'t':3}}
-    print(t[str(0)])
+    bass_class = {}
+    bass_class['战士'] = 1
+    bass_class['弓箭手'] = 2
+    k=1
+    #取到bass_class的k对应的key
+    print(list(bass_class.keys())[list(bass_class.values()).index(k)])
