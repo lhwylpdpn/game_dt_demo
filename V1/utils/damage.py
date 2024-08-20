@@ -31,14 +31,14 @@ def damage(attacker,defender,skill):
     attacker_PhysicalDef=defender.Def
     attacker_Velocity=attacker.Velocity
     attacker_x=attacker.x
-    attacker_y=attacker.y
-    attacker_z=attacker.z
+    attacker_y=attacker.z
+    attacker_z=attacker.y
     attacker_MagicalDef=attacker.MagicalDef
     attacker_MagicalAtk=attacker.MagicalAtk
     attacker_Luck=attacker.Luck
     attacker_Agile=attacker.Agile
-    attacker_level=1
-    attacker_hitrate=100
+    attacker_level=1 #todo 级别暂时不考虑
+    attacker_hitrate=100 #todo 暂时不考虑
 
     attacker_hitrate=attacker.BUFF_HIT_RATE #
 
@@ -50,8 +50,8 @@ def damage(attacker,defender,skill):
     defender_PhysicalDef=defender.Def
     defender_Velocity=defender.Velocity
     defender_x=defender.x
-    defender_y=defender.y
-    defender_z=defender.z
+    defender_y=defender.z
+    defender_z=defender.y
     defender_MagicalDef=defender.MagicalDef
     defender_MagicalAtk=defender.MagicalAtk
     defender_Luck=defender.Luck
