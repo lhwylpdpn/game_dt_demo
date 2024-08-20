@@ -2,6 +2,8 @@
 # @Author  : Bin
 # @Time    : 2024/8/16 14:01
 import heapq
+from itertools import product
+
 
 
 class GameUtils(object):
@@ -21,6 +23,44 @@ class GameUtils(object):
         # 曼哈顿距离计算
         point1, point2 = tuple(point1), tuple(point2)
         return abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
+
+    @staticmethod
+    def manhattan_range_xz(center, distance, maps):
+        # 获取center点distance曼哈顿范围内所有点位
+        x0, y0, z0 = center
+        points = []
+
+        for dx in range(-distance, distance + 1):
+            dz = distance - abs(dx)
+            p = (x0 + dx, z0 + dz)
+
+            if p in maps:
+                points.append(GameUtils.get_maps_point(p, maps))
+
+        return points
+
+    @staticmethod
+    def get_manhattan_range(x, y, z, max_distance, maps, jump_height=None):
+        # 获取曼哈顿范围
+        points = []
+        for dx, dz in product(range(-max_distance, max_distance + 1), repeat=2):
+            if abs(dx) + abs(dz) <= max_distance:
+                p = (x + dx, z + dz)
+
+                if p not in maps:
+                    continue
+                point = GameUtils.get_maps_point(p, maps)
+                if jump_height:
+                    if abs(y - point[1]) > jump_height:
+                        continue
+
+                points.append(point)
+        return points
+
+    @staticmethod
+    def has_intersection(list1, list2):
+        # 对比两个列表是否并集
+        return bool(set(list1) & set(list2))
 
     @staticmethod
     def h_manhattan_distance(point1, point2, gap, h_effect):
@@ -181,3 +221,34 @@ class GameUtils(object):
                 attack_range.append(GameUtils.get_maps_point((x, z + i), maps))
 
         return attack_range
+
+    @staticmethod
+    def is_enemies_in_warning_range(role, enemies, maps):
+        # 警戒范围内是否有敌人
+        role_position = role["position"]
+        doge_base = int(role["DogBase"])
+        enemies_position = [tuple(_["position"]) for _ in enemies]
+        warning_range = GameUtils.get_manhattan_range(*role_position, doge_base, maps)
+        return GameUtils.has_intersection(enemies_position, warning_range)
+
+    @staticmethod
+    def is_role_in_enemies_warning_range(role, enemies, maps):
+        # 是否在敌人警戒范围内
+        role_position = tuple(role["position"])
+
+        for e in enemies:
+            e_position = tuple(e["position"])
+            doge_base = int(e["DogBase"])
+            if role_position in GameUtils.manhattan_range_xz(e_position, doge_base, maps):
+                return True
+        return False
+
+    @staticmethod
+    def is_in_combat(role, enemies, maps):
+        # 角色是否处于战斗状态
+        if GameUtils.is_enemies_in_warning_range(role, enemies, maps) or GameUtils.is_role_in_enemies_warning_range(role, enemies, maps):
+            return True
+        return False
+
+
+

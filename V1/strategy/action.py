@@ -61,7 +61,7 @@ class Action(object):
         # print(f"本次行动步骤：{steps}")
         return self.choose_action(steps, hero, state)
 
-    def get_action_steps(self, hero, enemies, maps):
+    def get_action_steps(self, hero, teammates, enemies, maps):
         print('-----------------------------------------')
         print(f"攻击者位置{hero['position']}, 跳跃高度为{hero['JumpHeight']}, 敌人们的位置为: {[_['position'] for _ in enemies]}")
         # 判断是否逃跑
@@ -76,7 +76,7 @@ class Action(object):
             return self.attack(hero, pick_data)
 
         # 选择移动
-        move_steps = Move().choose_move_steps(hero, enemies, maps)
+        move_steps = Move().choose_move_steps(hero, teammates, enemies, maps)
         steps = self.move_step_handler(move_steps)
         if steps:
             return steps

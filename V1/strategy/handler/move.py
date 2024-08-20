@@ -5,6 +5,7 @@ from copy import deepcopy
 
 from log.log import LogManager
 from strategy.game_utils import GameUtils
+from strategy.handler.dict_utils import DictUtils
 from strategy.handler.distance_func import DistanceFunc
 from strategy.handler.skill_attack_range import SkillRange
 log_manager = LogManager()
@@ -35,14 +36,43 @@ class Move(object):
                     return True
         return False
 
+    def get_block_step(self, steps, block_status, maps):
+        move_steps = []
+        for k, s in enumerate(steps):
+            xz = GameUtils.get_xz(s)
+            if k > 0:
+                if maps[xz]["Block"] in block_status:
+                    break
+            move_steps.append(s)
+        return move_steps
+
+
+    def has_combat_ready_teammate(self, role, teammates, enemies, maps):
+        # 获取在战斗状态的队友的位置
+        distance = None
+        teammate_position = None
+        role_position = DictUtils.value("position", role)
+
+        for t in teammates:
+            if GameUtils.is_in_combat(t, enemies, maps):
+                _teammate_position = DictUtils.value("position", t)
+                _distance = GameUtils.manhattan_distance(role_position, _teammate_position)
+
+                if distance and teammate_position:
+                    if distance > _distance:
+                        distance, teammate_position = _distance, _teammate_position
+                else:
+                    distance, teammate_position = _distance, _teammate_position
+        return teammate_position
+
     def find_closest_attack_position(self, hero, enemy_position, maps):
         """
         获取对于攻击者来说能攻击到敌人最近的位置，并得到前往这个位置的在round_action行动内的前进列表
         """
         enemy_position = tuple(enemy_position)
-        hero_position = tuple(hero["position"])
-        jump_height = int(hero["JumpHeight"][0])
-        round_action = int(hero["RoundAction"])
+        hero_position = DictUtils.value("position", hero)
+        jump_height = DictUtils.value("JumpHeight", hero)
+        round_action = DictUtils.value("RoundAction", hero)
         attack_pos_dict = {}
 
         for xz in maps:
@@ -63,49 +93,122 @@ class Move(object):
         else:
             return None, None
 
-    def choose_move_steps(self, hero, enemies, maps):
+    def move_to_enemy(self, hero, teammates, enemies, maps):
         position = tuple(hero["position"])
         round_action = int(hero["RoundAction"])
         doge_base = int(hero["DogBase"])
         jump_height = int(hero["JumpHeight"][0])
         enemies = [e for e in enemies if e["Hp"] > 0]
         hero["skills"] = GameUtils.get_damage_skills(hero)
-        if not hero["skills"]:
-            print("当前英雄无可用技能！")
         if DistanceFunc().is_within_range(doge_base, position, enemies):
             closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
-            print(f"警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
+            print(f"[MOVE]警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
+            atk_position, move_steps = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
+            if atk_position:
+                print(f"[MOVE]{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
+                return True, move_steps
+        return False, None
 
-        else:
-            print(f"警戒范围{doge_base}内没有敌人, 检查BOSS位置")
-            closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
-            if closest_enemy_position:
-                closest_enemy_position = closest_enemy_position[0]
-                print(f"BOSS位置为{closest_enemy_position['position']}")
-
-            else:
-                print(f"警戒范围{doge_base}外也没有BOSS")
-
-                return []
-        atk_position, move_steps = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
-
-        if atk_position:
-            print(f"{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
-            return move_steps
-        else:
-            move_steps = []
-            steps = GameUtils.find_shortest_path(position, closest_enemy_position["position"], jump_height, maps, [1, 2])[: round_action+1]
-            for k, s in enumerate(steps):
-                xz = GameUtils.get_xz(s)
-                if k > 0:
-                    if maps[xz]["Block"] == 2:
-                        break
-                move_steps.append(s)
+    def move_to_combat_teammate(self, hero, teammates, enemies, maps):
+        position = tuple(hero["position"])
+        round_action = int(hero["RoundAction"])
+        doge_base = int(hero["DogBase"])
+        jump_height = int(hero["JumpHeight"][0])
+        enemies = [e for e in enemies if e["Hp"] > 0]
+        hero["skills"] = GameUtils.get_damage_skills(hero)
+        teammate_position = self.has_combat_ready_teammate(hero, teammates, enemies, maps)
+        print('----->', teammate_position)
+        if teammate_position:
+            steps = GameUtils.find_shortest_path(position, teammate_position, jump_height, maps, [1])[: round_action + 1]
+            move_steps = self.get_block_step(steps, (1,), maps)
             if len(move_steps) > 1:
-                return move_steps
-            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemies": enemies}), )
-            print(f"攻击者位置{position} 对于{closest_enemy_position['position']}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
+                print(f"[MOVE]存在战斗状态的队友: {teammate_position}, 向队友移动:{move_steps}")
+                return True, move_steps
+        return False, None
+
+    def move_to_boss(self, hero, teammates, enemies, maps):
+        position = tuple(hero["position"])
+        round_action = int(hero["RoundAction"])
+        doge_base = int(hero["DogBase"])
+        jump_height = int(hero["JumpHeight"][0])
+        enemies = [e for e in enemies if e["Hp"] > 0]
+        hero["skills"] = GameUtils.get_damage_skills(hero)
+        print(f"[MOVE]警戒范围{doge_base}内没有敌人, 检查BOSS位置")
+        closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
+        if closest_enemy_position:
+            closest_enemy_position = closest_enemy_position[0]
+            print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}")
+            atk_position, move_steps = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
+
+            if atk_position:
+                print(f"[MOVE]{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
+
+                return True, move_steps
+
+        return False, None
+
+    def choose_move_steps(self, hero, teammates, enemies, maps):
+        print("[MOVE 选择：]")
+        _bool, steps = self.move_to_enemy(hero, teammates, enemies, maps)
+        if not _bool:
+            _bool, steps = self.move_to_combat_teammate(hero, teammates, enemies, maps)
+            if not _bool:
+                _bool, steps = self.move_to_boss(hero, teammates, enemies, maps)
+
+        if _bool:
+            return steps
+        else:
+            tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemies": enemies, "teammates": teammates}), )
+            print(f"log tmp: {tmp}")
             return []
+
+    # def choose_move_steps_old(self, hero, teammates, enemies, maps):
+    #     position = tuple(hero["position"])
+    #     round_action = int(hero["RoundAction"])
+    #     doge_base = int(hero["DogBase"])
+    #     jump_height = int(hero["JumpHeight"][0])
+    #     enemies = [e for e in enemies if e["Hp"] > 0]
+    #     hero["skills"] = GameUtils.get_damage_skills(hero)
+    #
+    #     if not hero["skills"]:
+    #         print("当前英雄无可用技能！")
+    #
+    #     if DistanceFunc().is_within_range(doge_base, position, enemies):
+    #         closest_enemy_position = DistanceFunc().find_closest_enemy(position, enemies)
+    #         print(f"[MOVE]警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
+    #
+    #     else:
+    #         teammate_position = self.has_combat_ready_teammate(hero, teammates, enemies, maps)
+    #         if teammate_position:
+    #             steps = GameUtils.find_shortest_path(position, teammate_position, jump_height, maps, [1])[: round_action+1]
+    #             move_steps = self.get_block_step(steps, (1,), maps)
+    #             print(f"[MOVE]存在战斗状态的队友: {teammate_position}, 向队友移动:{move_steps}")
+    #             return move_steps
+    #
+    #         else:
+    #             print(f"[MOVE]警戒范围{doge_base}内没有敌人, 检查BOSS位置")
+    #             closest_enemy_position = [e for e in enemies if e.get("Quality") == 2]
+    #             if closest_enemy_position:
+    #                 closest_enemy_position = closest_enemy_position[0]
+    #                 print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}")
+    #
+    #             else:
+    #                 print(f"[MOVE]警戒范围{doge_base}外也没有BOSS")
+    #                 return []
+    #     atk_position, move_steps = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
+    #
+    #     if atk_position:
+    #         print(f"[MOVE]{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
+    #         return move_steps
+    #     else:
+    #         steps = GameUtils.find_shortest_path(position, closest_enemy_position["position"], jump_height, maps, [1, 2])[: round_action+1]
+    #         move_steps = self.get_block_step(steps, (2,), maps)
+    #
+    #         if len(move_steps) > 1:
+    #             return move_steps
+    #         tmp = log_manager.add_log(log_data=str({"hero": hero, "map": maps, "enemies": enemies, "teammates": teammates}), )
+    #         print(f"[MOVE]攻击者位置{position} 对于{closest_enemy_position['position']}无前进步骤, 可用技能为{len(hero['skills'])}, log_tmp: {tmp}")
+    #         return []
 
     def escape(self, hero, enemies, maps):
         # 逃跑：当次可移动范围内，距离所有人敌人的距离平均值最远的位置

@@ -24,7 +24,8 @@ class Agent(object):
         enemies = [_.dict() for _ in state["monster"]]
         maps = state["map"].view_from_y_dict()
         maps = Attack().convert_maps(maps)
-        res = Action().get_action_steps(hero, enemies, maps)
+        teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
+        res = Action().get_action_steps(hero, teammates, enemies, maps)
         return res
 
     def choice_monster_act(self, hero, state):
@@ -33,5 +34,6 @@ class Agent(object):
         enemies = [_.dict() for _ in state["monster"]]
         maps = state["map"].view_from_y_dict()
         maps = Attack().convert_maps(maps)
-        res = Action().get_action_steps(hero, enemies, maps)
+        teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
+        res = Action().get_action_steps(hero, teammates, enemies, maps)
         return res
