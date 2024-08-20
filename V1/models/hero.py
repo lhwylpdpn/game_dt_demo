@@ -25,7 +25,7 @@ class Hero():
         # buff 
 
         # 基本属性
-        self.__HeroID = kwargs.get("HeroID", None)
+        self.__HeroID = int(kwargs.get("HeroID", None))
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
         self.__AvailableSkills = kwargs.get("AvailableSkills", []) # 可用的技能     #
         self.__RoundAction = kwargs.get("RoundAction", None)       # 行动步数
