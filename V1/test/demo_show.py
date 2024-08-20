@@ -123,7 +123,7 @@ class game:
         pygame.draw.rect(self.overlay, color, (position[0], position[1], 50, 50))  # 根据地块大小调整
     def add_color_effect_rect_line(self, position):
         # 在指定位置绘制颜色，改变颜色和透明度
-        color = (255, 255, 255, 255)  # 纯粹的黑色线
+        color = (204, 0, 204, 255)  # 纯粹的黑色线
         pygame.draw.rect(self.overlay, color, (position[0], position[1], 50, 50),5)  # 根据地块大小调整
 
     def position_change_to_pygame(self,x, y):
@@ -137,7 +137,7 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(200)
+        pygame.time.delay(600)
 
     def game_init(self):
         self.generate_state()
@@ -322,7 +322,12 @@ class game:
                     font = pygame.font.Font("utils/fireflysung.ttf", 20)
                     info_list=info_list[-15:]
                     for ii in range(len(info_list)):
-                        text = font.render(info_list[ii], True, (0, 0, 0))
+                        if '英雄' in info_list[ii]:
+                            text = font.render(info_list[ii], True, (0, 0, 255))
+                        elif '怪物' in info_list[ii]:
+                            text = font.render(info_list[ii], True, (0, 255, 0))
+                        else:
+                            text = font.render(info_list[ii], True, (0, 0, 0))
                         self.screen.blit(text, (self.WIDTH + 10, 40+30*ii))
                     for h in self.hero_piece:
                         if int(h.hp)>0:
@@ -401,7 +406,7 @@ class game:
 
             d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(255, 255, 255))
 
-            d.text((0, 15), list(bass_class.keys())[list(bass_class.values()).index(h['BaseClassID'])], font=fnt, fill=(0, 0, 0))
+            d.text((0, 15), list(bass_class.keys())[list(bass_class.values()).index(h['BaseClassID'])], font=fnt, fill=(255, 255, 255))
 
             # 保存图片
             img.save('hero'+str(i)+'.png')
