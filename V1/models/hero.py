@@ -25,13 +25,14 @@ class Hero():
         # buff 
 
         # 基本属性
-        self.__HeroID = kwargs.get("HeroID", None)
+        self.__HeroID = int(kwargs.get("HeroID", None))
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
         self.__AvailableSkills = kwargs.get("AvailableSkills", []) # 可用的技能     #
         self.__RoundAction = kwargs.get("RoundAction", None)       # 行动步数
         self.__JumpHeight = kwargs.get("JumpHeight", [])           # 跳跃的高度 
         self.__skills =  kwargs.get("skills", [])                  # 技能
         self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
+        self.__BaseClassID = kwargs.get("BaseClassID", None)           # 职业
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
@@ -69,13 +70,18 @@ class Hero():
         self.__buff = []                                                       # 带的buff
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "DogBase",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
+            "DogBase", "BaseClassID",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", 
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
             ]
         ### unit_hero
         self.__unit_skill_buff = []                                             # 连携攻击增加的buf(每行动一次，重新组织一次此数据)
+        self.__Block = 2                                                        # 地块站立的属性 hero 为2， monster 为 3
+
+    def hero_or_monster(self):
+        "HERO or MONSER"
+        return self.__class__.__name__.upper()
     
     def get_fields(self):
         return self.fields
@@ -150,6 +156,14 @@ class Hero():
     
     def set_skills(self, v):
         self.__skills = v
+        return self
+
+    @property
+    def Block(self):
+        return self.__Block
+    
+    def set_Block(self, v):
+        self.__Block = v
         return self
     
     def skills_add(self, skill):
@@ -238,6 +252,14 @@ class Hero():
     
     def set_Velocity(self, Velocity):
         self.__Velocity = Velocity
+        return self
+
+    @property
+    def BaseClassID(self):
+        return self.__BaseClassID
+    
+    def set_BaseClassID(self, v):
+        self.__BaseClassID = BaseClassID
         return self
 
     @property
@@ -433,8 +455,8 @@ class Hero():
         map_obj = state['maps']
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
-        map_obj.set_land_pass(*self.position) # 出发地块设置为可通过
-        map_obj.set_land_no_pass(x,y,z)       # 抵达地块设置为不可通过
+        map_obj.set_land_pass(*self.position)             # 出发地块设置为可通过
+        map_obj.set_land_no_pass(x,y,z, self.Block)       # 抵达地块设置为不可通过
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff

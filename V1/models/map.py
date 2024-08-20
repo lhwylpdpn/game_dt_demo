@@ -50,7 +50,7 @@ class Map(): # 地图
         if isinstance(land, Land):
             if land.Block is None:
                 return False
-            return int(land.Block) == 1
+            return int(land.Block) == 1 #(0 不可以，1 可以)
         return False
 
     # def view_from_z_dict(self):
@@ -100,10 +100,10 @@ class Map(): # 地图
             land.set_Block(1)       
         return self
 
-    def set_land_no_pass(self, x, y, z): # 设置地块不可以通过
+    def set_land_no_pass(self, x, y, z, block): # 设置地块不可以通过  block 站立英雄和monster分别为 2，3
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(2)
+            land.set_Block(block)
         return self
     
     @staticmethod

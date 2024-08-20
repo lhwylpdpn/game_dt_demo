@@ -32,7 +32,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 100
+        self.timeout_tick = 1000
         self.tick = 0
         self.record_update_dict = {}
         self.record_error_dict = {}

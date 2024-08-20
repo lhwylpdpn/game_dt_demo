@@ -60,27 +60,27 @@ class test_process:
             # self.state['hero'][i].set_RoundAction(hero_random_RoundAction)
 
 
-            self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
+            #self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
             # self.state['hero'][i].set_DogBase(hero_random_DogBase)
             # self.state['hero'][i].set_Hp(hero_random_HP)
             # self.state['hero'][i].set_Atk(hero_random_Atk)
             # #随机选地图的一个位置给到英雄
             # print('p', p)
-            # self.state['hero'][i].set_x(p[0])
-            # self.state['hero'][i].set_y(p[1])
-            # self.state['hero'][i].set_z(p[2])
+            self.state['hero'][i].set_x(p[0])
+            self.state['hero'][i].set_y(p[1])
+            self.state['hero'][i].set_z(p[2])
         for i in range(len(self.state['monster'])):
 
             monster_random_RoundAction = random.randint(20,30)
             monster_random_JumpHeight = [random.randint(20,20)]
             monster_random_DogBase = random.randint(10,10 )
-            monster_random_HP = random.randint(200, 200)
+            monster_random_HP = random.randint(1350, 1350)
             monster_random_Atk = random.randint(1, 1)
             monster_random_Def = random.randint(10, 10)
             p = random.choice(p_all)
             p_all.remove(p)
             tmp_skills = copy.deepcopy(self.state['monster'][i].dict()['AvailableSkills'])
-            print('tmp_skills',tmp_skills)
+            #print('tmp_skills',tmp_skills)
             # for j in self.state['monster'][i].dict()['AvailableSkills']:
             #     if random.random() > 0.5:
             #         tmp_skills.remove(j)
@@ -98,9 +98,9 @@ class test_process:
             # self.state['monster'][i].set_RoundAction(monster_random_RoundAction)
             # self.state['monster'][i].set_JumpHeight(monster_random_JumpHeight)
             # self.state['monster'][i].set_DogBase(monster_random_DogBase)
-            self.state['monster'][i].set_Hp(monster_random_HP)
-            self.state['monster'][i].set_Atk(monster_random_Atk)
-            self.state['monster'][i].set_Def(monster_random_Def)
+           # self.state['monster'][i].set_Hp(monster_random_HP)
+            # self.state['monster'][i].set_Atk(monster_random_Atk)
+            # self.state['monster'][i].set_Def(monster_random_Def)
             # if i==0:
             #     p=(19,5,18)
             # if i==1:
@@ -127,7 +127,7 @@ class test_process:
 
     def game_run(self):
         self.game_obj.run(self.return_data)
-
+        self.game_obj.over_state()
 
     def over_state(self):
         for i in range(len(self.state['hero'])):
@@ -143,7 +143,7 @@ if __name__ == '__main__':
         #obj_.data_init()
         obj_.pygame_init()
         res.append(obj_.run())
-        obj_.over_state()
+        #obj_.over_state()
         obj_.game_run()
     print(res)
     time.sleep(1000)

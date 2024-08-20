@@ -31,6 +31,10 @@ demo_skill['快脚']=94
 demo_skill['协调']=95
 
 
+bass_class={}
+bass_class['战士']=1
+bass_class['弓箭手']=2
+
 
 # 棋子类
 class Piece:
@@ -117,6 +121,10 @@ class game:
         # 在指定位置绘制颜色，改变颜色和透明度
         color = (255, 0, 0, 128)  # 红色半透明
         pygame.draw.rect(self.overlay, color, (position[0], position[1], 50, 50))  # 根据地块大小调整
+    def add_color_effect_rect_line(self, position):
+        # 在指定位置绘制颜色，改变颜色和透明度
+        color = (204, 0, 204, 255)  # 纯粹的黑色线
+        pygame.draw.rect(self.overlay, color, (position[0], position[1], 50, 50),5)  # 根据地块大小调整
 
     def position_change_to_pygame(self,x, y):
         print('棋子初始化翻译前', x, y)
@@ -129,7 +137,7 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(200)
+        pygame.time.delay(600)
 
     def game_init(self):
         self.generate_state()
@@ -151,9 +159,14 @@ class game:
                 print('怪兽平均伤害',h.piece_id,0,0)
 
 
-    def attack(self, position):
+    def attack(self, position,selfposition):
         # 假设 position 是攻击的地块的坐标
+
+        #self.add_color_effect_rect_line(selfposition)
         self.add_color_effect(position)
+        print('攻击效果',position,selfposition)
+
+
     def run(self,json_data):
 
 
@@ -206,12 +219,12 @@ class game:
                                 h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'WAIT':
                                 h.move((h.position[0], h.position[1]))
-
+                            self.add_color_effect_rect_line(h.position)
 
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 h.draw_action(self.screen, action['action_type'])
-                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
+                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),h.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 print('完整的state变化',i['state'])
                                 w=0
@@ -237,13 +250,13 @@ class game:
                                                         p_change+=1
                                                 if str(change[1][3])=='2':#代表y变化，代表上下
                                                     p_change=change[2][1]-change[2][0]
-                                                    while p_change>0:#向下移动
-                                                        print('应该down',change[2])
-                                                        m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
-                                                        p_change-=1
-                                                    while p_change<0:#向上移动
-                                                        print('应该top',change[2])
+                                                    while p_change>0:#向上移动
+                                                        print('向上',change[2])
                                                         m.move((m.position[0], m.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                                                        p_change-=1
+                                                    while p_change<0:#向下移动
+                                                        print('向下',change[2])
+                                                        m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change+=1
                                     if change[1][2]=='Hp':
                                         print('英雄'+str(action['atk_position'])+'血量变化:',change)
@@ -269,11 +282,11 @@ class game:
                                 m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                             if action['action_type'] == 'WAIT':
                                 m.move((m.position[0], m.position[1]))
-
+                            self.add_color_effect_rect_line(m.position)
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 m.draw_action(self.screen, action['action_type'])
-                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]))
+                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),m.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 for change in i['state'][action_num]:
                                     if change[1][2] == 'position' and change[1][0] == 'hero':
@@ -291,10 +304,10 @@ class game:
                                                 if str(change[1][3]) == '2':
                                                     p_change = change[2][1] - change[2][0]
                                                     while p_change > 0:
-                                                        h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
+                                                        h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change -= 1
                                                     while p_change < 0:
-                                                        h.move((h.position[0], h.position[1] - self.HEIGHT // self.BOARD_HEIGHT))
+                                                        h.move((h.position[0], h.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change += 1
                                     if change[1][2]=='Hp':
                                         print('怪物'+str(action['atk_position'])+'血量变化:',change)
@@ -309,7 +322,12 @@ class game:
                     font = pygame.font.Font("utils/fireflysung.ttf", 20)
                     info_list=info_list[-15:]
                     for ii in range(len(info_list)):
-                        text = font.render(info_list[ii], True, (0, 0, 0))
+                        if '英雄' in info_list[ii]:
+                            text = font.render(info_list[ii], True, (0, 0, 255))
+                        elif '怪物' in info_list[ii]:
+                            text = font.render(info_list[ii], True, (0, 255, 0))
+                        else:
+                            text = font.render(info_list[ii], True, (0, 0, 0))
                         self.screen.blit(text, (self.WIDTH + 10, 40+30*ii))
                     for h in self.hero_piece:
                         if int(h.hp)>0:
@@ -375,16 +393,21 @@ class game:
     def generate_piece(self):
         self.hero = [i.dict(for_view=True) for i in self.state['hero']]
         self.monster = [i.dict(for_view=True) for i in self.state['monster']]
+
         i=0
         self.hero_piece=[]
         self.monster_piece=[]
         for h in self.hero:
 
+
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0,255, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+            fnt = ImageFont.truetype('utils/fireflysung.ttf', 15)
 
             d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(255, 255, 255))
+
+            d.text((0, 15), list(bass_class.keys())[list(bass_class.values()).index(h['BaseClassID'])], font=fnt, fill=(255, 255, 255))
+
             # 保存图片
             img.save('hero'+str(i)+'.png')
             self.hero_piece.append(Piece('hero'+str(i)+'.png', self.position_change_to_pygame(h['position'][0], h['position'][2]),'hero',h['HeroID'],1))#1代表不是boss
@@ -398,12 +421,13 @@ class game:
             else:
                 img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('/Library/Fonts/Arial.ttf', 15)
+            fnt = ImageFont.truetype('utils/fireflysung.ttf', 15)
             if m['Quality']==2:
                 d.ellipse([(0, 0), img.size], fill=(255, 0,0 ,200))
 
             d.text((0, 0), "M"+str(m['HeroID']), font=fnt, fill=(0, 0, 0))
-            # 保存图片
+            d.text((0, 15), list(bass_class.keys())[list(bass_class.values()).index(m['BaseClassID'])] , font=fnt, fill=(0, 0, 0))
+
             img.save('monster'+str(i)+'.png')
             self.monster_piece.append(Piece('monster'+str(i)+'.png', self.position_change_to_pygame(m['position'][0], m['position'][2]),'monster',m['HeroID'],m['Quality']))
             self.monster_piece[-1].set_hp(m['Hp'])
@@ -466,5 +490,9 @@ if __name__ == '__main__':
     #generate_state()
     #test_main()
 
-    t={'0':{'t':3}}
-    print(t[str(0)])
+    bass_class = {}
+    bass_class['战士'] = 1
+    bass_class['弓箭手'] = 2
+    k=1
+    #取到bass_class的k对应的key
+    print(list(bass_class.keys())[list(bass_class.values()).index(k)])
