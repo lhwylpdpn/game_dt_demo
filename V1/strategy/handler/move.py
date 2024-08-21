@@ -40,7 +40,6 @@ class Move(object):
         move_steps = []
         for k, s in enumerate(steps):
             xz = GameUtils.get_xz(s)
-            print(xz, maps[xz]["Block"])
             if k > 0:
                 if maps[xz]["Block"] not in block_status:
                     break
@@ -83,7 +82,7 @@ class Move(object):
 
             stk_range = SkillRange().get_attack_range(_hero, maps)
             if enemy_position in stk_range:
-                move_steps = GameUtils.find_shortest_path(hero_position, point, jump_height, maps, [1, 2])[: round_action + 1]
+                move_steps = GameUtils.find_shortest_path(hero_position, point, jump_height, maps, [1, 2, 3])[: round_action + 1]
                 if move_steps:
                     attack_pos_dict[point] = move_steps
 
@@ -121,10 +120,10 @@ class Move(object):
         hero["skills"] = GameUtils.get_damage_skills(hero)
         teammate_position = self.has_combat_ready_teammate(hero, teammates, enemies, maps)
         if teammate_position:
-            steps = GameUtils.find_shortest_path(position, teammate_position, jump_height, maps, [1])[: round_action + 1]
+            print(f"[MOVE]存在战斗状态的队友: {teammate_position}")
+            steps = GameUtils.find_shortest_path(position, teammate_position, jump_height, maps, [1, 2, 3])[: round_action + 1]
             move_steps = self.get_block_step(steps, (1,), maps)
             if len(move_steps) > 1:
-                print(f"[MOVE]存在战斗状态的队友: {teammate_position}, 向队友移动:{move_steps}")
                 return True, move_steps
         return False, None
 
@@ -141,12 +140,11 @@ class Move(object):
             closest_enemy_position = closest_enemy_position[0]
             atk_position, move_steps = self.find_closest_attack_position(hero, closest_enemy_position["position"], maps)
             print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}")
-
-
             if atk_position:
                 print(f"[MOVE]{hero['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
-
-                return True, move_steps
+                move_steps = self.get_block_step(move_steps, (1,), maps)
+                if len(move_steps) > 1:
+                    return True, move_steps
 
         return False, None
 
