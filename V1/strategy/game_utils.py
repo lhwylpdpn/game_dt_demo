@@ -83,7 +83,7 @@ class GameUtils(object):
     def is_reach(start, end, jump_height, block_type=None):
         # 是否可到达
         if not block_type:
-            block_type = [1, 2]
+            block_type = [1, 2, 3]
 
         if abs(start["position"][1] - end["position"][1]) <= int(jump_height):
             if end["Block"] in block_type:
@@ -140,11 +140,23 @@ class GameUtils(object):
         return [(lst[i], lst[i + 1]) for i in range(len(lst) - 1)]
 
     @staticmethod
+    def block_score(point_data):
+        if point_data["Block"] == 0:
+            return 1000
+        if point_data["Block"] == 1:
+            return 1
+        if point_data["Block"] == 2:
+            return 3
+        if point_data["Block"] == 3:
+            return 5
+
+    @staticmethod
     def find_shortest_path(start, end, jump_height, maps, block_type=None):
         # 查找点与点之间的可通行的最近路径
         start, end = tuple(start), tuple(end)
         start_pos = maps[(start[0], start[2])]
         # end_pos = maps[(end[0], end[2])]
+        paths = []
 
         open_set = []
         heapq.heappush(open_set, (0, start_pos['position']))
@@ -154,6 +166,16 @@ class GameUtils(object):
         f_score = {start_pos['position']: GameUtils.manhattan_distance(start_pos['position'], end)}
 
         while open_set:
+            # _, current_position = heapq.heappop(open_set)
+            # if current_position == end:
+            #     path = []
+            #     while current_position in came_from:
+            #         path.append(current_position)
+            #         current_position = came_from[current_position]
+            #     path.append(start)
+            #     path.reverse()
+            #     return path
+
             _, current_position = heapq.heappop(open_set)
 
             if current_position == end:
@@ -163,7 +185,9 @@ class GameUtils(object):
                     current_position = came_from[current_position]
                 path.append(start)
                 path.reverse()
-                return path
+
+                # 将路径及其对应的 g_score 存储
+                paths.append((path, g_score[end]))
 
             x, y, z = current_position
             current = maps[(x, z)]
@@ -171,7 +195,9 @@ class GameUtils(object):
                 next_coord = (x + dx, z + dz)
                 if next_coord in maps:
                     next_pos = maps[next_coord]
-                    tentative_g_score = g_score[current_position] + 1
+                    _block_cost = GameUtils.block_score(next_pos)
+                    tentative_g_score = g_score[current_position] + _block_cost
+                    # tentative_g_score = g_score[current_position] + 1
                     if GameUtils.is_reach(current, next_pos, jump_height, block_type):
                         if next_pos['position'] not in g_score or tentative_g_score < g_score[next_pos['position']]:
                             came_from[next_pos['position']] = current_position
@@ -179,6 +205,9 @@ class GameUtils(object):
                             f_score[next_pos['position']] = tentative_g_score + GameUtils.manhattan_distance(
                                 next_pos['position'], end)
                             heapq.heappush(open_set, (f_score[next_pos['position']], next_pos['position']))
+        if paths:
+            print('--->', paths)
+            return min(paths, key=lambda x: x[1])[0]
         return []
 
     @staticmethod

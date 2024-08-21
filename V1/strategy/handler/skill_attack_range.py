@@ -114,7 +114,7 @@ class SkillRange:
         is_atk_distance = skill["effects"].get("IS_ATK_DISTANCE", {}).get("param", [0])[0]
 
         if hit_line:
-            atk_range += GameUtils.hit_line_range(position, maps, hit_line, is_atk_distance)
+            atk_range += GameUtils.hit_line_range(position, maps, hit_line, is_atk_distance) # TODO
         if hit_range:
             if "ADD_ATK_DISTANCE" in skill["effects"]:
                 gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]

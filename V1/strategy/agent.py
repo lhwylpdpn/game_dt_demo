@@ -8,11 +8,13 @@ from strategy.handler.attack import Attack
 class Agent(object):
 
     def swap_specific_keys(self, d, key1, key2):
+        d2 = {}
         if key1 not in d or key2 not in d:
             raise KeyError("Both keys must exist in the dictionary.")
 
-        d[key1], d[key2] = d[key2], d[key1]
-        return d
+        d2[key1], d2[key2] = d[key2], d[key1]
+        d2["map"] = d["map"]
+        return d2
 
     def add_maps_block(self, state):
         maps = state["maps"]

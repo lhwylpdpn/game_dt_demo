@@ -36,7 +36,7 @@ class Action(object):
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
             res["release_range"] = step["release_range"]
-        if step["action_type"] == "WAIT":
+        if step["action_type"] == "WAIT":  # TODO
             return step
         return res
 
@@ -52,10 +52,10 @@ class Action(object):
         # print('action_step: ----->', action_step)
         return action_step
 
-    def move(self, hero, enemies, maps):
-        move_steps = Move().choose_move_steps(hero, enemies, maps)
-        action_step = self.move_step_handler(move_steps)
-        return action_step
+    # def move(self, hero, enemies, maps):
+    #     move_steps = Move().choose_move_steps(hero, enemies, maps)
+    #     action_step = self.move_step_handler(move_steps)
+    #     return action_step
 
     def run_action(self, steps, hero, state):
         # print(f"本次行动步骤：{steps}")
@@ -75,7 +75,7 @@ class Action(object):
             pick_data = Attack().select_atk(atk_pick)
             return self.attack(hero, pick_data)
 
-        # 选择移动
+        # 判断选择移动
         move_steps = Move().choose_move_steps(hero, teammates, enemies, maps)
         steps = self.move_step_handler(move_steps)
         if steps:
