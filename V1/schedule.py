@@ -49,9 +49,8 @@ class schedule:
 
     def run(self):
         self.performance.event_start('get_current_state')
-
         state = self.game.get_current_state()
-        state_dict = self.state_to_dict(state)
+        state_dict = self.state_to_dict(state) #todo  优化性能
         self.init_state=state_dict
         self.performance.event_end('get_current_state')
 
@@ -67,7 +66,7 @@ class schedule:
         state_dict = self.state_to_dict(state)
         self.performance.event_end('get_current_state')
         alive_hero = self.game.get_current_alive_hero()
-
+        #todo  同tick 的顺序问题，同tick的时候是不是有排序
 
 
         for hero in alive_hero:

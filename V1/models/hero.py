@@ -57,6 +57,8 @@ class Hero():
         
         self.__LuckBase = kwargs.get("Luck", None)                   #运气-初始
         self.__Luck = kwargs.get("Luck", None)                       #运气
+        self.__Quality = kwargs.get("Quality", 0)                    # 是否 boss
+        self.__team = kwargs.get("team", None)                       # 所属队伍
 
         
         # position 位置
@@ -71,7 +73,7 @@ class Hero():
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
             "DogBase", "BaseClassID",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
-            "MagicalDef",  "Agile",  "Velocity", 
+            "MagicalDef",  "Agile",  "Velocity", "Quality",
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
             ]
@@ -86,7 +88,7 @@ class Hero():
     def get_fields(self):
         return self.fields
     
-    def join_game(self, state): # 进入战局
+    def join_game(self, state, team=None): # 进入战局
         self.move_position(*self.position, state)
         return self
 
@@ -117,6 +119,23 @@ class Hero():
     def set_HeroID(self, HeroID):
         self.__HeroID = HeroID
         return self
+    
+    @property
+    def team(self): # 
+        return self.__team
+    
+    def set_team(self, v):
+        self.__team = v
+        return self
+    
+    @property
+    def Quality(self):
+        return self.__Quality
+
+    def dict_short(self):
+        data = super().dict_short()
+        data["Quality"] = self.Quality
+        return data
 
     @property
     def protagonist(self): # 
@@ -377,14 +396,14 @@ class Hero():
         if buff_object.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
             self.set_JumpHeight([self.JumpHeight[0] + int(buff_object.buff_value)])
         if buff_object.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            self.set_Def(self.Def * (1 + int(buff_object.buff_value)/100.0))
+            self.set_Def(self.DefBase * (1 + int(buff_object.buff_value)/100.0))
         if buff_object.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            self.set_Atk(self.Atk * (1 + int(buff_object.buff_value)/100.0))
+            self.set_Atk(self.AtkBase * (1 + int(buff_object.buff_value)/100.0))
         if buff_object.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
             hp = self.Hp +  self.HpBase * int(buff_object.buff_value)/100.0
             self.set_Hp(self.HpBase if hp >= self.HpBase else hp)
         if buff_object.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            self.set_MagicalDef(self.MagicalDef * (1 + int(buff_object.buff_value)/100.0))
+            self.set_MagicalDef(self.MagicalDefBase * (1 + int(buff_object.buff_value)/100.0))
         if buff_object.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             self.set_RoundAction(buff_object.buff_value)
         return self
@@ -793,7 +812,7 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        self.check_buff()          # 减少buff
+        self.check_buff()           # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
