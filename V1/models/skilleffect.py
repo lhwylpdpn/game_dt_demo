@@ -60,7 +60,8 @@ class SkillEffect():
         # self.__effectIcon = kwargs.get("effectIcon", None)	      # 效果icon
         # self.__buffEffect = kwargs.get("buffEffect", None)	      # BUFF效果  BUFF持续过程中的特效
         # self.__buffTrigger	 = kwargs.get("buffTrigger", None)    # BUFF触发特效
-        # self.__duration = kwargs.get("duration", None)                # 特效持续时间 持续到下次开始为 1
+        # self.__duration = kwargs.get("duration", None)              # 特效持续时间 持续到下次开始为 1
+        self.__random = None                                          # 有概率情况下，是否在概率中
         self.fields = ["id", "key", "param", "tag", "Priority"]
     
     def dict(self, fields=[]):
@@ -98,6 +99,14 @@ class SkillEffect():
     
     def set_tag(self, value):
         self.__tag = value
+        return self
+
+    @property
+    def random(self):
+        return self.__random
+    
+    def set_random(self, value):
+        self.__random = value
         return self
     
     

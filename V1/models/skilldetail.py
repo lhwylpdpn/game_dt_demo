@@ -4,6 +4,7 @@ author : HU
 date: 2024-07-22
 """
 import copy
+from utils.tools import random_choices
 
 class SkillDetail():
     
@@ -11,7 +12,7 @@ class SkillDetail():
         self.__SkillId = kwargs.get("SkillId", None)
         self.__SkillLev = kwargs.get("SkillLev", None)
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
-        self.__ActiveSkills	= kwargs.get("ActiveSkills", 0)     # 0，1  1 主动技能，0被动技能
+        self.__ActiveSkills	= kwargs.get("ActiveSkills", 0)        # 0，1  1 主动技能，0被动技能
         self.__effects = []
         self.__use_count = None
         self.__max_use_count = self.__use_count
@@ -92,11 +93,12 @@ class SkillDetail():
             self.__max_use_count = self.__use_count
         return self
     
-    def use_skill(self): # 技能使用一次
+    def use_skill(self, hero_or_monster): # 技能使用一次
         for each in self.__effects:
             if each.key == "USE_COUNT":
                 self.__use_count = self.__use_count - 1
                 each.param[0] = str(int(each.param[0]) - 1)
+        self.make_invalid(hero_or_monster)
         return self
 
     def is_avaliable(self): # 判断技能是否可用
@@ -104,7 +106,46 @@ class SkillDetail():
             return True
         else:
             return self.__use_count > 0 
-
+        
+    def make_effective(self, hero_or_monster): # 生效
+        for each in self.effects:
+            if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
+                each.set_random(random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}))
+                if each.random: # 几率判断
+                    if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
+                        hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(each.param[1])/100.0
+                        hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
+                    elif each.key == "ADD_DEF": # 
+                        hero_or_monster.set_Def(hero_or_monster.Def + hero_or_monster.DefBase * (1 + int(each.param[1])/100.0))
+                    elif each.key == "ADD_MAGICAL_DEF": # 
+                        hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef + hero_or_monster.MagicalDefBase * (1 + int(each.param[1])/100.0))
+                    elif each.key == "ADD_ATK": #
+                        hero_or_monster.set_Atk(hero_or_monster.Atk + hero_or_monster.AtkBase * (1 + int(each.param[1])/100.0))
+                    else:
+                        pass
+            else:
+                continue
+        return hero_or_monster
+    
+    def make_invalid(self, hero_or_monster): # 失效
+        for each in self.effects:
+            if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
+                if each.random :# 几率判断
+                    if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
+                        pass
+                    elif each.key == "ADD_DEF": # 
+                        hero_or_monster.set_Def(hero_or_monster.Def - hero_or_monster.DefBase * int(each.param[1])/100.0)
+                    elif each.key == "ADD_MAGICAL_DEF": # 
+                        hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - hero_or_monster.MagicalDefBase * int(each.param[1])/100.0)
+                    elif each.key == "ADD_ATK": #
+                        hero_or_monster.set_Atk(hero_or_monster.Atk - hero_or_monster.AtkBase * int(each.param[1])/100.0)
+                    else:
+                        pass
+                each.set_random(None)
+            else:
+                continue
+        return hero_or_monster
+        
     
         
         
