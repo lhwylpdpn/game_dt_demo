@@ -37,6 +37,7 @@ class Action(object):
             res["atk_position"] = step["atk_position"]
             res["release_range"] = step["release_range"]
         if step["action_type"] == "WAIT":  # TODO
+            hero.dont_move()
             return step
         return res
 
@@ -61,22 +62,22 @@ class Action(object):
         # print(f"本次行动步骤：{steps}")
         return self.choose_action(steps, hero, state)
 
-    def get_action_steps(self, hero, teammates, enemies, maps):
+    def get_action_steps(self, role, state):
         print('-----------------------------------------')
-        print(f"攻击者位置{hero['position']}, 跳跃高度为{hero['JumpHeight']}, 敌人们的位置为: {[_['position'] for _ in enemies]}")
+        # print(f"攻击者位置{hero['position']}, 跳跃高度为{hero['JumpHeight']}, 敌人们的位置为: {[_['position'] for _ in enemies]}")
         # 判断是否逃跑
-        if Move().is_escape(hero, enemies, maps):
-            move_steps = Move().escape(hero, enemies, maps)
+        if Move().is_escape(role, state):
+            move_steps = Move().escape(role, state)
             return self.move_step_handler(move_steps)
 
         # 判断能否攻击
-        atk_pick = Attack().find_targets_within_atk_range(hero, enemies, maps)
+        atk_pick = Attack().find_targets_within_atk_range(role, state)
         if atk_pick:
             pick_data = Attack().select_atk(atk_pick)
-            return self.attack(hero, pick_data)
+            return self.attack(role, pick_data)
 
         # 判断选择移动
-        move_steps = Move().choose_move_steps(hero, teammates, enemies, maps)
+        move_steps = Move().choose_move_steps(role, state)
         steps = self.move_step_handler(move_steps)
         if steps:
             return steps

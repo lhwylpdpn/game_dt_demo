@@ -23,19 +23,19 @@ class Agent(object):
 
     def choice_hero_act(self, hero, state):
         hero = hero.dict()
-        enemies = [_.dict() for _ in state["monster"]]
-        maps = state["map"].view_from_y_dict()
-        maps = Attack().convert_maps(maps)
-        teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = Action().get_action_steps(hero, teammates, enemies, maps)
+        # enemies = [_.dict() for _ in state["monster"]]
+        # maps = state["map"].view_from_y_dict()
+        # maps = Attack().convert_maps(maps)
+        # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
+        res = Action().get_action_steps(hero, state)
         return res
 
     def choice_monster_act(self, hero, state):
         state = self.swap_specific_keys(state, "hero", "monster")
         hero = hero.dict()
-        enemies = [_.dict() for _ in state["monster"]]
-        maps = state["map"].view_from_y_dict()
-        maps = Attack().convert_maps(maps)
-        teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = Action().get_action_steps(hero, teammates, enemies, maps)
+        # enemies = [_.dict() for _ in state["monster"]]
+        # maps = state["map"].view_from_y_dict()
+        # maps = Attack().convert_maps(maps)
+        # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
+        res = Action().get_action_steps(hero, state)
         return res

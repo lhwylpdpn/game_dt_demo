@@ -40,7 +40,6 @@ class SkillRange:
                     if p not in maps:
                         continue
 
-                    # if GameUtils.is_reach_point((current_x, current_y, current_z), point, jump_height, [1]):
                     if maps[p].get("Block") in (0, 2):
                         continue
                     point = GameUtils.get_maps_point(p, maps)
