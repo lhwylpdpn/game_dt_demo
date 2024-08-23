@@ -32,7 +32,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 1000
+        self.timeout_tick = 1200
         self.tick = 0
         self.record_update_dict = {}
         self.record_error_dict = {}
@@ -91,12 +91,16 @@ class schedule:
                     self.performance.event_start('schedule_choose_action')
 
                 for action in actions:
+                    action_result=True
                     print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
-                        self.game.hero_action(hero, action)
+                        action_result=self.game.hero_action(hero, action)
                     else:
-                        self.game.monster_action(hero, action)
+                        action_result=self.game.monster_action(hero, action)
+                    if not action_result: #如果动作失败，直接跳出本次动作链路
+                        print('调度行动-接到动作失败',self.tick,'id',alive_hero_id,'class',alive_hero)
+                        break
                     self.performance.event_end('game_action')
                     self.performance.event_start('get_current_state')
                     new_state = self.game.get_current_state()
@@ -192,12 +196,12 @@ def save_result_to_view(data, path):
 
 
 if __name__ == '__main__':
-    ### python schedule.py src_path result_path
+    ## python schedule.py src_path result_path
     a=time.time()
     src_path = sys.argv[1] if len(sys.argv) > 2 else "data.json"        # 源文件地址
     result_file = sys.argv[2] if len(sys.argv) >= 3 else "result.json"   # result地址
-    
-    state = BuildPatrol(src_path).load_data()                          # 初始化对象   
+
+    state = BuildPatrol(src_path).load_data()                          # 初始化对象
 
     # map = BuildPatrol.build_map(origin_map_data)  # map
     # heros = BuildPatrol.build_heros(origin_hero_data)  # heros
@@ -213,5 +217,6 @@ if __name__ == '__main__':
     result = main(state)
     save_result_to_view(result, result_file)
     print('总时间',time.time()-a)
+
 
 
