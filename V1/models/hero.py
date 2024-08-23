@@ -7,11 +7,13 @@ date: 2024-08-01
 import json
 import copy
 import traceback
+from itertools import product
 from utils.damage import damage
 # from utils.transposition import trans_postion
 from utils.tools import random_choices
 from .map import Map, Land
 from .buff import Buff
+from .teamflag import TeamFlag
 
 class Hero():
     
@@ -88,13 +90,14 @@ class Hero():
     def get_fields(self):
         return self.fields
     
-    def join_game(self, state, team=None): # 进入战局
-        self.move_position(*self.position, state)
+    def join_game(self, state, init_position=True): # 进入战局
+        self.move_position(*self.position, state, init_position)
         return self
 
     def leve_game(self, state): # 退出战局
         map_obj = state.get('maps')
         map_obj.set_land_pass(*self.position)
+        self.team.leve_game(self)
         print(f"{self.HeroID} is Killed, leve game.")
         return self
 
@@ -289,6 +292,20 @@ class Hero():
         self.__DogBase = DogBase
         return self
     
+    def get_dog_range(self, state): # 警戒范围
+        map_object = state.get("maps")
+        drange = []
+        if self.is_alive:
+            for x, z in product(range(-self.__DogBase, self.__DogBase + 1), repeat=2):
+                if abs(x) + abs(z) <= self.__DogBase:
+                    try:
+                        p_x, p_z = self.x + x, self.z + z
+                        land = map_object.get_land_from_xz(p_x, p_z)
+                        drange.append(tuple([p_x, land.y, p_z]))
+                    except Exception:
+                        pass
+        return drange
+                
     @property
     def LuckBase(self):
         return self.__LuckBase
@@ -420,7 +437,18 @@ class Hero():
         map_obj = state['maps']
         return map_obj.land_can_pass(x, y, z)
     
-    def move_position(self, x, y, z, state):
+    def check_team(self, state): # 检查是否需要合并队伍
+        print("*****************检查是否需要合并队伍")
+        enter_other_team_dog_range = TeamFlag.get_should_combine_team(self, state)
+                    
+        if enter_other_team_dog_range:
+            new_team = TeamFlag.choose_team(self, state, enter_other_team_dog_range)
+            TeamFlag.recombine_team(self.team, new_team)
+            del new_team
+        
+        return self
+    
+    def move_position(self, x, y, z, state, init_position=False):
         print("MOVE>>:", self.HeroID, f"from <{self.position}>计划移动到<[{x}, {y}, {z}]>")
         map_obj = state['maps']
         if not map_obj.land_can_pass(x, y, z):
@@ -431,6 +459,8 @@ class Hero():
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff
         self.load_unit_buff(state)            # 加载新的连携buff
+        if not init_position: #初始化位置时候，不做队伍检查
+            self.check_team(state)
         return self
 
     @property

@@ -11,6 +11,7 @@ from models.skill import Skill
 from models.skilldetail import SkillDetail
 from models.skilleffect import SkillEffect
 from models.map import Map, Land
+from models.teamflag import TeamFlag
 # from test_hero_data import origin_hero_data
 # from test_map_data import origin_map_data
 # from test_monster_data import origin_monster_data
@@ -24,10 +25,13 @@ class BuildPatrol():
     def load_data(self):
         with open(self.src_data_path, 'r') as file:
             data = json.load(file)
-
+        heros = self.build_heros(data.get("hero"))
+        monsters = self.build_monster(data.get("monster"))
+        TeamFlag.search_teammate(heros)
+        TeamFlag.search_teammate(monsters)
         return {"map": self.build_map(data.get("map")), 
-                "hero": self.build_heros(data.get("hero")),
-                "monster": self.build_monster(data.get("monster"))
+                "hero": heros,
+                "monster": monsters
                 }
 
     @staticmethod
@@ -77,15 +81,22 @@ class BuildPatrol():
         
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
-    hero = state.get("hero")[0]
-    print(hero.hero_or_monster())
-    print(hero.BaseClassID)
-    monster = state.get("monster")[0]
-    print(monster.hero_or_monster())
-    print(monster.BaseClassID)
     state["maps"] = state["map"]
-    #monster.move_back(hero, [3], state)
-    monster.skill_move_to_position(hero, [1], state)
+    # print(len(state.get("monster")))
+    # hero = state.get("hero")[0]
+    # print(hero.hero_or_monster())
+    # print(hero.BaseClassID)
+    monster = state.get("monster")[0]
+    print(monster.team)
+    print(monster.team.get_dog_range(state))
+    # print(monster.hero_or_monster())
+    # print(monster.BaseClassID)
+    # state["maps"] = state["map"]
+    # monster.move_back(hero, [3], state)
+    # monster.skill_move_to_position(hero, [1], state)
+    # TeamFlag.search_teammate(state.get("monster"))
+    # TeamFlag.search_teammate(state.get("hero"))
+
     #map = BuildPatrol.build_map(origin_map_data)    # map
     #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
     # monster = BuildPatrol.build_monster(origin_monster_data)# monster 

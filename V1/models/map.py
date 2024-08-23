@@ -35,7 +35,10 @@ class Map(): # 地图
         return np.max(self.map, axis=1)
     
     def get_land_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
-        return np.max(self.map[x, :, z], axis=0)
+        if x >=0 and x <= self._x and z >= 0 and z <= self._z:
+            return np.max(self.map[x, :, z], axis=0)
+        else:
+            raise Exception(f"{x}, {z} is wrong")
 
     def land_can_pass(self, x, y, z): # 判断地图是否可以通过
         land = self.map[x,y,z]
