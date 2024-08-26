@@ -45,6 +45,13 @@ class Range(Data):
                     if Data.value("Hp", _) > 0:
                         self.enemies.append(_)
 
+    def is_health_below_threshold(self, num):
+        # 血量是否小于num比例
+
+        hp = Data.value("Hp", self.role)
+        hp_base = Data.value("HpBase", self.role)
+        return float(hp) / float(hp_base) < float(num)
+
     def is_reach(self, start, end, jump_height, block_type=None):
         # 是否可到达
         if not block_type:
@@ -82,12 +89,12 @@ class Range(Data):
         return s
 
     def manhattan_distance(self, point1, point2):
-        # 曼哈顿距离计算
+        # 曼哈顿距离计算 （ 只计算xz
         point1, point2 = tuple(point1), tuple(point2)
         return abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
 
     def get_manhattan_range(self, x, y, z, max_distance, jump_height=None):
-        # 获取曼哈顿范围
+        # 获取曼哈顿范围内的所有点位
         points = []
         for dx, dz in product(range(-max_distance, max_distance + 1), repeat=2):
             if abs(dx) + abs(dz) <= max_distance:
@@ -103,19 +110,19 @@ class Range(Data):
                 points.append(point)
         return points
 
-    def manhattan_range_xz(self, center, distance):
-        # 获取center点distance曼哈顿范围内所有点位
-        x0, y0, z0 = center
-        points = []
-
-        for dx in range(-distance, distance + 1):
-            dz = distance - abs(dx)
-            p = (x0 + dx, z0 + dz)
-
-            if p in self.map:
-                points.append(Data.get_maps_point(p, self.map))
-
-        return points
+    # def manhattan_range_xz(self, center, distance):
+    #     # 获取center点distance曼哈顿范围内所有点位
+    #     x0, y0, z0 = center
+    #     points = []
+    #
+    #     for dx in range(-distance, distance + 1):
+    #         dz = distance - abs(dx)
+    #         p = (x0 + dx, z0 + dz)
+    #
+    #         if p in self.map:
+    #             points.append(Data.get_maps_point(p, self.map))
+    #
+    #     return points
 
     def h_manhattan_distance(self, point1, point2, gap, h_effect):
         # 受高度差影响的曼哈顿距离
@@ -178,7 +185,7 @@ class Range(Data):
         for e in enemies:
             _position = Data.value("position", e)
             _doge_base = Data.value("DogBase", e)
-            if role_position in self.manhattan_range_xz(_position, _doge_base):
+            if role_position in self.get_manhattan_range(*_position, _doge_base):
                 return True
         return False
 
@@ -202,7 +209,7 @@ class Range(Data):
 
     def is_in_combat(self, role, enemies):
         # 角色是否处于战斗状态
-        if self.enemies_in_warning_range_count(role, enemies) or self.is_role_in_enemies_warning_range(role, enemies):
+        if self.enemies_in_warning_range_count() or self.is_role_in_enemies_warning_range(role, enemies):
             return True
         return False
 
@@ -225,11 +232,8 @@ class Range(Data):
         return teammate_position
 
     def range_mht_hollow_circle(self, point, o, i, gap, effect):
-        """
-        获取空心菱形范围
-        :param o: 外圆范围
-        :param i: 内圆范围
-        """
+        # 获取空心菱形范围  o: 外圆范围 i: 内圆范围
+
         o = int(o) + 1
         i = int(i) + 1
         atk_limit = range(i, o)
@@ -267,6 +271,7 @@ class Range(Data):
         return attack_range
 
     def is_atk_distance(self, point1, point2, distance):
+        # 攻击是否受到高低差影响
         if abs(point1[1] - point2[1]) <= int(distance):
             return True
         return False
@@ -284,7 +289,7 @@ class Range(Data):
         return count
 
     def find_shortest_path(self, start, end, jump_height, block_type=None):
-        # 查找点与点之间的可通行的最近路径
+        # 查找点与点之间的可通行的最近路径， 返回路径list
         start, end = tuple(start), tuple(end)
         start_pos = self.map[(start[0], start[2])]
         # end_pos = maps[(end[0], end[2])]
@@ -426,7 +431,7 @@ class Range(Data):
                 attack_range += self.skill_effect_range(point, skill)
         return set(tuple(attack_range))
 
-    def nearby_enemy_count(self):
+    def nearby_enemy_count(self, num):
         # 获取附近的敌人数量( 在多少个敌人的警戒范围内
         _count = 0
         role_position = Data.value("position", self.role)
@@ -435,13 +440,13 @@ class Range(Data):
             enemy_atk_range = self.enemies_in_warning_range(enemy)
             if role_position in enemy_atk_range:
                 _count += 1
-        return _count
+        return num > _count
 
-    def enemies_in_warning_range_count(self, role, enemies):
+    def enemies_in_warning_range_count(self,):
         # 警戒范围内的敌人数量
-        doge_base = Data.value("DogBase", role)
-        role_position = Data.value("position", role)
-        enemies_position = [Data.value("position", _) for _ in enemies]
+        doge_base = Data.value("DogBase", self.role)
+        role_position = Data.value("position", self.role)
+        enemies_position = [Data.value("position", _) for _ in self.enemies]
         warning_range = self.get_manhattan_range(*role_position, doge_base)
         return len(Data.intersection(enemies_position, warning_range))
 
