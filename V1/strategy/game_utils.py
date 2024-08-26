@@ -84,6 +84,7 @@ class GameUtils(object):
         # 是否可到达
         if not block_type:
             block_type = [1, 2, 3]
+        # block_type = [1, 2, 3]
 
         if abs(start["position"][1] - end["position"][1]) <= int(jump_height):
             if end["Block"] in block_type:
@@ -166,16 +167,6 @@ class GameUtils(object):
         f_score = {start_pos['position']: GameUtils.manhattan_distance(start_pos['position'], end)}
 
         while open_set:
-            # _, current_position = heapq.heappop(open_set)
-            # if current_position == end:
-            #     path = []
-            #     while current_position in came_from:
-            #         path.append(current_position)
-            #         current_position = came_from[current_position]
-            #     path.append(start)
-            #     path.reverse()
-            #     return path
-
             _, current_position = heapq.heappop(open_set)
 
             if current_position == end:
@@ -197,7 +188,6 @@ class GameUtils(object):
                     next_pos = maps[next_coord]
                     _block_cost = GameUtils.block_score(next_pos)
                     tentative_g_score = g_score[current_position] + _block_cost
-                    # tentative_g_score = g_score[current_position] + 1
                     if GameUtils.is_reach(current, next_pos, jump_height, block_type):
                         if next_pos['position'] not in g_score or tentative_g_score < g_score[next_pos['position']]:
                             came_from[next_pos['position']] = current_position
@@ -206,7 +196,6 @@ class GameUtils(object):
                                 next_pos['position'], end)
                             heapq.heappush(open_set, (f_score[next_pos['position']], next_pos['position']))
         if paths:
-            print('--->', paths)
             return min(paths, key=lambda x: x[1])[0]
         return []
 

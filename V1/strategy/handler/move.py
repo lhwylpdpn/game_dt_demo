@@ -8,7 +8,6 @@ from strategy.game_utils import GameUtils
 from strategy.handler.dict_utils import DictUtils
 from strategy.handler.distance_func import DistanceFunc
 from strategy.handler.skill_attack_range import SkillRange
-from utils.strategy_utils.clac import Clac
 from utils.strategy_utils.range import Range
 
 log_manager = LogManager()
@@ -152,9 +151,8 @@ class Move(object):
 
     def is_escape(self, role, state):
         f = Range(role, state)
-        atk_count = 0
-        if Clac().is_health_below_threshold(role, 0.5):
-            if f.nearby_enemy_count() > 1:
+        if f.is_health_below_threshold(0.5):
+            if f.nearby_enemy_count(1):
                 return True
         return False
 
