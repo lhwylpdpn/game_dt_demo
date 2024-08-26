@@ -3,4 +3,4 @@ requirements.txt
 *.pyc
 __pycache__
 project
-
+logs/logs.json

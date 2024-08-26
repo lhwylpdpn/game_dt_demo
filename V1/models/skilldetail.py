@@ -76,6 +76,9 @@ class SkillDetail():
     def ActiveSkills(self):
         return self.__ActiveSkills
     
+    def is_active_skill(self): #是否是主动技能
+        return int(self.ActiveSkills) == 1
+    
     @property
     def effects(self):
         return self.__effects
@@ -106,6 +109,24 @@ class SkillDetail():
             return True
         else:
             return self.__use_count > 0 
+    
+    def is_buff(self): # BUFF: 非主动，非被动触发的技能, 不是被普通攻击 , 不是连携, 不是被普攻时候出发
+        if  not self.is_active_skill() and\
+            "IS_HIT" not in self.avaliable_effects() and\
+            "IS_WAIT" not in self.avaliable_effects() and\
+            "IS_NEAR_HERO" not in self.avaliable_effects() and\
+            "IS_DEFAULT_HIT" not in self.avaliable_effects():
+            return True
+        return False
+    
+    def is_unit_skill(self): # BUFF: 非主动，非被动触发的技能, 不是被普通攻击 , 是连携, 不是被普攻时候出发
+        if  not self.is_active_skill() and\
+            "IS_HIT" not in each_skill.avaliable_effects() and\
+            "IS_WAIT" not in each_skill.avaliable_effects() and\
+            "IS_NEAR_HERO" in each_skill.avaliable_effects() and\
+            "IS_DEFAULT_HIT" not in each_skill.avaliable_effects():
+            return True
+        return False
         
     def make_effective(self, hero_or_monster): # 生效
         for each in self.effects:

@@ -75,7 +75,7 @@ class Hero():
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
             "DogBase", "BaseClassID",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
-            "MagicalDef",  "Agile",  "Velocity", "Quality",
+            "MagicalDef",  "Agile",  "Velocity", "Quality", "team",
             "Luck", "position", 
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
             ]
@@ -111,6 +111,8 @@ class Hero():
             for each in self.__skills:
                 data["skills"].append(each.dict(for_view=for_view))
         data.update({field: self.__getattribute__(field) for field in fields})
+        if "team" in fields:
+            data["team"] = self.team.dict()
         # if for_view:
         #     data['position'] = list(trans_postion(*data["position"]))
         return data         
@@ -497,10 +499,7 @@ class Hero():
     def load_init_unActiveSkill(self): # load  buff
         # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 , 不是连携
         for each_skill in self.get_Skills(active=0):
-            if "IS_HIT" not in each_skill.avaliable_effects() and\
-               "IS_WAIT" not in each_skill.avaliable_effects() and\
-               "IS_NEAR_HERO" not in each_skill.avaliable_effects() and\
-               "IS_DEFAULT_HIT" not in each_skill.avaliable_effects(): 
+            if each_skill.is_buff(): 
                 for each in each_skill.effects:
                     self.add_buff(buff_key=each.key, param=each.param)
         return self
@@ -508,10 +507,7 @@ class Hero():
     def get_unit_skill(self): # 获取连携攻击
         unit_skills = []
         for each_skill in self.get_Skills(active=0):
-            if "IS_HIT" not in each_skill.avaliable_effects() and\
-               "IS_WAIT" not in each_skill.avaliable_effects() and\
-               "IS_NEAR_HERO" in each_skill.avaliable_effects() and\
-               "IS_DEFAULT_HIT" not in each_skill.avaliable_effects(): 
+            if each_skill.is_unit_skill(): 
                unit_skills.append(each_skill)
         return unit_skills
                 

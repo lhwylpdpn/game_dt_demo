@@ -20,6 +20,12 @@ class TeamFlag():
         self.__team_id = team_id
         self.__team_name = None
         self.__team_member = []
+    
+    def dict(self):
+        return {
+            "team_id": self.team_id,
+            "team_member": [each.HeroID for each in self.team_member]
+        }
 
     @property
     def team_id(self):
@@ -107,7 +113,7 @@ class TeamFlag():
             km = KMeans(n_clusters=k)
             km.fit(x)
             score = silhouette_score(x, km.labels_)
-            k_socre.append({'k':k, "score":score, "labels":km.labels_})
+            k_socre.append({'k':k, "score":score})
         best_k_data = sorted(k_socre, key=lambda x:x["score"], reverse=True)[0]
         return best_k_data["k"]
 
@@ -116,13 +122,12 @@ class TeamFlag():
         """
         """
         x =[_.position for _ in h_m_objects]
-        besk_k = TeamFlag.search_besk_k(x)
-        km = KMeans(n_clusters=besk_k)
+        km = KMeans(n_clusters=TeamFlag.search_besk_k(x))
         km.fit(x)
         predict = km.predict(x)
         team_flag_dict = {}
         for label, h_or_m in zip(predict, h_m_objects):
-            h_m = h_or_m.hero_or_monster()
+            h_m = h_or_m.hero_or_monster() # HERO MONSTER
             label = f"{h_m}_{label}"
             if label not in team_flag_dict.keys():
                 team_flag_dict[label] = TeamFlag(label)
