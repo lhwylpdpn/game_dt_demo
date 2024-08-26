@@ -220,15 +220,16 @@ class Range(Data):
         role_position = Data.value("position", role)
 
         for t in teammates:
-            if self.is_in_combat(t, enemies):
-                _teammate_position = Data.value("position", t)
-                _distance = self.manhattan_distance(role_position, _teammate_position)
+            if Data.value("team_id", role) == Data.value("team_id", t):  # 小队编号一致
+                if self.is_in_combat(t, enemies):
+                    _teammate_position = Data.value("position", t)
+                    _distance = self.manhattan_distance(role_position, _teammate_position)
 
-                if distance and teammate_position:
-                    if distance > _distance:
+                    if distance and teammate_position:
+                        if distance > _distance:
+                            distance, teammate_position = _distance, _teammate_position
+                    else:
                         distance, teammate_position = _distance, _teammate_position
-                else:
-                    distance, teammate_position = _distance, _teammate_position
         return teammate_position
 
     def range_mht_hollow_circle(self, point, o, i, gap, effect):

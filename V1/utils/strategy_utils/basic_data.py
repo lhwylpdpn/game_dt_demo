@@ -12,6 +12,9 @@ class Data(object):
         elif key in ("JumpHeight", ):
             return int(data[key][0])
 
+        elif key in ("team_id", ):
+            return data["team"][key]
+
         elif key in ("skills", "HeroID", "Hp", "HpBase"):
             return data[key]
         else:
