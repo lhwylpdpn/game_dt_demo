@@ -95,7 +95,12 @@ def is_health_below_threshold(N):
     print("Getting health!",N)
     return True
 
+def is_have_boss():
+    print("is_have_boss!")
+    return True
 
+def wait():
+    print("wait!")
 
 
 def lambda_is_health_below_threshold(N):
@@ -124,6 +129,9 @@ def lambda_have_not_targets_within_atk_range():
     #print("have_not_targets_within_atk_range!")
     return lambda :  random.random() < 0.5
 
+def lambda_is_have_boss():
+    return lambda : is_have_boss()
+
 
 
 def action_eascape():#todo
@@ -138,10 +146,17 @@ action_escape_node = Node("逃跑", action=action_eascape)
 is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(0)],probability=1)
 is_have_targets_within_atk_range_node=Node("判断是否有敌人在攻击范围内",action=None,selection=[lambda_have_targets_within_atk_range()],probability=1)
 is_have_allies_within_range_node=Node("判断是否有友军在战斗",action=None,selection=[lambda_is_fight_allies()],probability=1)
+is_have_boss_node=Node("判断是否有boss",action=None,selection=[lambda_is_have_boss()],probability=1)
+
+
 move_to_enemies_node=Node("移动到敌人附近",action=move_to_enemie,probability=1)
 move_to_allies_node=Node("移动到友军附近",action=move_to_allies,probability=1)
-move_to_boss_node=Node("移动到boss附近",action=move_to_boss,probability=1)
+move_to_boss_node=Node("移动到boss",action=move_to_boss,probability=1)
 move_and_attack_node=Node("移动到敌人附近并攻击",action=move_to_attack,probability=1)
+move_to_wait_node=Node("等待",action=wait,probability=1)
+
+
+
 root.add_true_child(action_escape_node)
 root.add_false_child(is_have_enemie_within_range_node)
 is_have_enemie_within_range_node.add_true_child(is_have_targets_within_atk_range_node)
@@ -149,7 +164,9 @@ is_have_enemie_within_range_node.add_false_child(is_have_allies_within_range_nod
 is_have_targets_within_atk_range_node.add_true_child(move_and_attack_node)
 is_have_targets_within_atk_range_node.add_false_child(move_to_enemies_node)
 is_have_allies_within_range_node.add_true_child(move_to_allies_node)
-is_have_allies_within_range_node.add_false_child(move_to_boss_node)
+is_have_allies_within_range_node.add_false_child(is_have_boss_node)
+is_have_boss_node.add_true_child(move_to_boss_node)
+is_have_boss_node.add_false_child(move_to_wait_node)
 
 # # 评估决策树
 root.evaluate()
