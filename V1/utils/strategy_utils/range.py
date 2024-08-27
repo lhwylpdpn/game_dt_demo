@@ -516,8 +516,7 @@ class Range(Data):
                 continue
             if pick["weight"] < _weight:
                 pick = {"weight": _weight, "data": each}
-        print(
-            f"[ATK]攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
+        print(f"[ATK]攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
         return pick["data"]
 
     def move_to_enemy(self):
@@ -586,6 +585,10 @@ class Range(Data):
                     return move_steps
 
         return []
+
+    def wait(self):
+        # 本轮行动WAIT
+        return [{"action_type": "WAIT"}]
 
 
 if __name__ == '__main__':
