@@ -277,17 +277,16 @@ class Range(Data):
             return True
         return False
 
-    def is_within_range(self):
-        # 在范围内的敌人列表
+    def is_within_range(self, num):
+        # 是否在num个敌人的范围内
         doge_base = Data.value("DogBase", self.role)
         role_position = Data.value("position", self.role)
-        count = []
+        count = 0
         for enemy in self.enemies:
-            if enemy["Hp"] > 0:
-                enemy_position = Data.value("position", enemy)
-                if self.manhattan_distance(role_position, enemy_position) <= doge_base:
-                    count.append(enemy)
-        return count
+            enemy_position = Data.value("position", enemy)
+            if self.manhattan_distance(role_position, enemy_position) <= doge_base:
+                count += 1
+        return num >= count
 
     def find_shortest_path(self, start, end, jump_height, block_type=None):
         # 查找点与点之间的可通行的最近路径， 返回路径list
@@ -433,7 +432,7 @@ class Range(Data):
         return set(tuple(attack_range))
 
     def nearby_enemy_count(self, num):
-        # 获取附近的敌人数量( 在多少个敌人的警戒范围内
+        # 获取附近的敌人数量( 是否在num个敌人的警戒范围内
         _count = 0
         role_position = Data.value("position", self.role)
 
@@ -441,7 +440,7 @@ class Range(Data):
             enemy_atk_range = self.enemies_in_warning_range(enemy)
             if role_position in enemy_atk_range:
                 _count += 1
-        return num > _count
+        return num >= _count
 
     def enemies_in_warning_range_count(self,):
         # 警戒范围内的敌人数量
@@ -528,7 +527,7 @@ class Range(Data):
         jump_height = Data.value("JumpHeight", self.role)
 
         self.role["skills"] = self.get_damage_skills()
-        if self.is_within_range():
+        if self.is_within_range(1):
             closest_enemy_position = self.find_closest_enemy()
             print(f"[MOVE]警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
             atk_position, move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
@@ -538,6 +537,12 @@ class Range(Data):
                     print(f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
                     return True, move_steps
         return False, None
+
+    def is_combat_teammate(self):
+        # 是否存在战斗状态的队友
+        teammate_position = self.has_combat_ready_teammate(self.role, self.teammates, self.enemies)
+        if teammate_position: return True
+        return False
 
     def move_to_combat_teammate(self):
         # 向战斗状态的队友移动
@@ -553,6 +558,12 @@ class Range(Data):
             if len(move_steps) > 1:
                 return True, move_steps
         return False, None
+
+    def is_boss(self):
+        # 是否存在boss
+        closest_enemy_position = [e for e in self.enemies if e.get("Quality") == 2]
+        if closest_enemy_position:return True
+        return False
 
     def move_to_boss(self):
         doge_base = Data.value("DogBase", self.role)

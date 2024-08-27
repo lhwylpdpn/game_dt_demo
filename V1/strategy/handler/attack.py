@@ -20,7 +20,7 @@ class Attack(object):
 
     def find_targets_within_atk_range(self, role, state):
         f = Range(role, state)
-        if len(f.is_within_range()) > 0:
+        if f.is_within_range(1):
             return f.find_targets_within_atk_range()
 
 
