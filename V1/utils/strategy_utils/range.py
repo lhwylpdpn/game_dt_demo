@@ -286,7 +286,7 @@ class Range(Data):
             enemy_position = Data.value("position", enemy)
             if self.manhattan_distance(role_position, enemy_position) <= doge_base:
                 count += 1
-        return num >= count
+        return num <= count
 
     def find_shortest_path(self, start, end, jump_height, block_type=None):
         # 查找点与点之间的可通行的最近路径， 返回路径list
@@ -527,7 +527,7 @@ class Range(Data):
         jump_height = Data.value("JumpHeight", self.role)
 
         self.role["skills"] = self.get_damage_skills()
-        if self.is_within_range(1):
+        if self.is_within_range(0):
             closest_enemy_position = self.find_closest_enemy()
             print(f"[MOVE]警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
             atk_position, move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
