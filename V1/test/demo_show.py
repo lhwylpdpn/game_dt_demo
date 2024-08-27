@@ -137,7 +137,7 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(600)
+        pygame.time.delay(200)
 
     def game_init(self):
         self.generate_state()
@@ -172,6 +172,7 @@ class game:
 
         print('开始游戏')
         all_data=json.loads(json_data)
+
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1920, 0)
 
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.HEIGHT))

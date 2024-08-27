@@ -1,4 +1,4 @@
 *.pyc
 __pycache__
 project
-logs/logs.json
+V1/log/*.json
