@@ -2,3 +2,6 @@
 __pycache__
 project
 V1/log/*.json
+*.xml
+*.png
+*.iml
