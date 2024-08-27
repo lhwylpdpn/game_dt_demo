@@ -50,7 +50,7 @@ class Range(Data):
 
         hp = Data.value("Hp", self.role)
         hp_base = Data.value("HpBase", self.role)
-        return float(hp) / float(hp_base) < float(num)
+        return float(hp) / float(hp_base) <= float(num)
 
     def is_reach(self, start, end, jump_height, block_type=None):
         # 是否可到达
