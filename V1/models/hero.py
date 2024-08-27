@@ -579,10 +579,7 @@ class Hero():
                 move_x = move_x - move_value
             else:
                 pass
-            move_x = move_x if map_obj.x > move_x else  map_obj.x
-            move_x = 0 if move_x < 0 else  move_x
-            move_z = move_z if map_obj.z > move_z  else  map_obj.z
-            move_z = 0 if move_z < 0 else move_z
+            move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_land_from_xz(move_x, move_z).y
             if self.is_position_ok(move_x, move_y, move_z, state):
                 total_step = move_value if position_ok is None else total_step
@@ -621,10 +618,7 @@ class Hero():
                 move_x = move_x + move_value
             else:
                 pass
-            move_x = move_x if map_obj.x > move_x else  map_obj.x
-            move_x = 0 if move_x < 0 else  move_x
-            move_z = move_z if map_obj.z > move_z  else  map_obj.z
-            move_z = 0 if move_z < 0 else move_z
+            move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_land_from_xz(move_x, move_z).y
             if self.is_position_ok(move_x, move_y, move_z, state):
                 total_step = move_value if position_ok is None else total_step
@@ -713,7 +707,7 @@ class Hero():
                 return True
         return False
  
-    def is_hit_range(self, gap, radis, enemy, state):
+    def is_in_hit_range(self, gap, radis, enemy, state):
         map_obj = state.get("maps")
         huff_dis = abs(self.x - enemy.x) + abs(self.z - enemy.z)
         if huff_dis <= int(radis) and huff_dis > gap:
@@ -744,7 +738,7 @@ class Hero():
             if "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
                 _eff = back_skill.get_effect_by_key("HIT_LINE")
                 gap, radis = _eff.param[0], _eff.param[1] 
-                r_in_range = self.is_hit_range(gap, radis, enemy, state)
+                r_in_range = self.is_in_hit_range(gap, radis, enemy, state)
             if not l_in_range and not r_in_range: # 没有在范围内
                 return False
             else:

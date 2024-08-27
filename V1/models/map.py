@@ -34,6 +34,13 @@ class Map(): # 地图
     def view_from_y(self):
         return np.max(self.map, axis=1)
     
+    def correct_map_bonus(self, x, z): # x, z 中检查地图的边界
+        x = x if self.x > x else self.x
+        x = 0 if x < 0 else  x
+        z = z if self.z > z  else  self.z
+        z = 0 if z < 0 else z
+        return x, z
+
     def get_land_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
         if x >=0 and x <= self.x and z >= 0 and z <= self.z:
             return np.max(self.map[x, :, z], axis=0)
