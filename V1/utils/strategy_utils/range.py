@@ -505,9 +505,10 @@ class Range(Data):
             print(f"log tmp: {tmp}")
         return pick_list
 
-    def find_attack_target(self, pick_list):
+    def find_attack_target(self):
         # 确定攻击目标
         pick = {}
+        pick_list = self.find_targets_within_atk_range()
         for each in pick_list:
             _weight = Weight().clac_skill_weight(each)
             if not pick:
