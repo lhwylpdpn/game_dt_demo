@@ -45,6 +45,38 @@ class Range(Data):
                     if Data.value("Hp", _) > 0:
                         self.enemies.append(_)
 
+    def generate_pairs(self, lst):
+        # 返回相邻数组  [1, 2, 3] > [[1, 2], [2, 3]]
+        return [(lst[i], lst[i + 1]) for i in range(len(lst) - 1)]
+
+    def determine_direction(self, pos1, pos2):
+        # 判断移动方向
+        x1, y1, z1 = pos1
+        x2, y2, z2 = pos2
+
+        if x2 == x1 + 1 and z2 == z1:
+            return "RIGHT"
+        elif x2 == x1 - 1 and z2 == z1:
+            return "LEFT"
+        elif z2 == z1 + 1 and x2 == x1:
+            return "TOP"
+        elif z2 == z1 - 1 and x2 == x1:
+            return "BOTTOM"
+        else:
+            raise Exception(f"invalid move, {pos1} > {pos2}")
+
+    def move_step_handler(self, move_queue):
+        res = []
+        move = self.generate_pairs(move_queue)
+        for m in move:
+            f = self.determine_direction(*m)
+            m_dict = {
+                "action_type": f,
+                "move_position": m[1]
+            }
+            res.append(m_dict)
+        return res
+
     def is_health_below_threshold(self, num):
         # 血量是否小于num比例
 
@@ -205,7 +237,7 @@ class Range(Data):
                 max_distance_sum = distance_sum
                 best_position = routes
 
-        return best_position
+        return self.move_step_handler(best_position)
 
     def is_in_combat(self, role, enemies):
         # 角色是否处于战斗状态
@@ -517,7 +549,15 @@ class Range(Data):
             if pick["weight"] < _weight:
                 pick = {"weight": _weight, "data": each}
         print(f"[ATK]攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
-        return pick["data"]
+
+        action_step = []
+        if pick["hero_pos"] != Data.value("position", self.role):
+            action_step += self.move_step_handler(pick["route"])
+        action_step.append(
+            {"action_type": f"SKILL_{pick['skill']['SkillId']}", "atk_range": pick["atk_range"],
+             "atk_position": pick["skill_pos"], "attack_enemies": pick["enemies_in_range"], "release_range": pick["release_range"]})
+
+        return action_step
 
     def move_to_enemy(self):
         # 向最近的敌人移动
@@ -535,7 +575,7 @@ class Range(Data):
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
                     print(f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
-                    return move_steps
+                    return self.move_step_handler(move_steps)
         return []
 
     def is_combat_teammate(self):
@@ -556,7 +596,7 @@ class Range(Data):
             steps = self.find_shortest_path(position, teammate_position, jump_height, [1, 2, 3])[: round_action + 1]
             move_steps = self.get_block_step(steps, (1,), self.map)
             if len(move_steps) > 1:
-                return move_steps
+                return self.move_step_handler(move_steps)
         return []
 
     def is_boss(self):
@@ -582,7 +622,7 @@ class Range(Data):
                 print(f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
-                    return move_steps
+                    return self.move_step_handler(move_steps)
 
         return []
 
