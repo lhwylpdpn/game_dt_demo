@@ -3,7 +3,7 @@
 # @Time    : 2024/7/26 14:20
 from strategy.action import Action
 from strategy.handler.attack import Attack
-
+from strategy.level1_tree import make_decision
 
 class Agent(object):
 
@@ -27,7 +27,7 @@ class Agent(object):
         # maps = state["map"].view_from_y_dict()
         # maps = Attack().convert_maps(maps)
         # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = Action().get_action_steps(hero, state)
+        res = make_decision(hero, state)
         return res
 
     def choice_monster_act(self, hero, state):
@@ -37,5 +37,5 @@ class Agent(object):
         # maps = state["map"].view_from_y_dict()
         # maps = Attack().convert_maps(maps)
         # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = Action().get_action_steps(hero, state)
+        res = make_decision(hero, state)
         return res
