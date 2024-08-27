@@ -535,8 +535,8 @@ class Range(Data):
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
                     print(f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
-                    return True, move_steps
-        return False, None
+                    return move_steps
+        return []
 
     def is_combat_teammate(self):
         # 是否存在战斗状态的队友
@@ -556,8 +556,8 @@ class Range(Data):
             steps = self.find_shortest_path(position, teammate_position, jump_height, [1, 2, 3])[: round_action + 1]
             move_steps = self.get_block_step(steps, (1,), self.map)
             if len(move_steps) > 1:
-                return True, move_steps
-        return False, None
+                return move_steps
+        return []
 
     def is_boss(self):
         # 是否存在boss
@@ -582,9 +582,9 @@ class Range(Data):
                 print(f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
-                    return True, move_steps
+                    return move_steps
 
-        return False, None
+        return []
 
 
 if __name__ == '__main__':
