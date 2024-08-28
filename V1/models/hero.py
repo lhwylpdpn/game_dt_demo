@@ -444,6 +444,9 @@ class Hero():
     
     def check_team(self, state): # 检查是否需要合并队伍
         print("*****************检查是否需要合并队伍")
+        if not self.is_alive():
+            print("已经死亡，不需要队伍合并")
+            return self
         enter_other_team_dog_range = TeamFlag.get_should_combine_team(self, state)
                     
         if enter_other_team_dog_range:
@@ -464,7 +467,7 @@ class Hero():
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff
         self.load_unit_buff(state)            # 加载新的连携buff
-        if not init_position: #初始化位置时候，不做队伍检查
+        if not init_position : #初始化位置时候，不做队伍检查
             self.check_team(state)
         return self
 
