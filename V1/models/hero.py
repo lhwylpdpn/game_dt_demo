@@ -473,16 +473,16 @@ class Hero():
     def is_alive(self):
         return not self.is_death
     
-    def get_Skills(self, active=1): # 获取主动 1 or 被动技能 0
+    def get_inactive_Skills(self): # 获取主动 1 or 被动技能 0
         skill = []
         for _ in self.__skills:
-            if int(_.ActiveSkills) == active:
+            if not _.is_active_skill():
                 skill.append(_)
         return skill
     
     def get_back_skills(self, enemy, attach_skill): # 获取反击技能
         skill = []
-        for _ in self.get_Skills(active=0):
+        for _ in self.get_inactive_Skills():
             if "ATK_BACK" in _.avaliable_effects() and ("IS_HIT" in _.avaliable_effects() or "IS_DEFAULT_HIT" in _.avaliable_effects()):
                 # 是默认技能， 默认技能攻击时候触发
                 if int(attach_skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
@@ -498,7 +498,7 @@ class Hero():
 
     def load_init_unActiveSkill(self): # load  buff
         # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 , 不是连携
-        for each_skill in self.get_Skills(active=0):
+        for each_skill in self.get_inactive_Skills():
             if each_skill.is_buff(): 
                 for each in each_skill.effects:
                     self.add_buff(buff_key=each.key, param=each.param)
@@ -506,7 +506,7 @@ class Hero():
 
     def get_unit_skill(self): # 获取连携攻击
         unit_skills = []
-        for each_skill in self.get_Skills(active=0):
+        for each_skill in self.get_inactive_Skills():
             if each_skill.is_unit_skill(): 
                unit_skills.append(each_skill)
         return unit_skills
@@ -663,7 +663,7 @@ class Hero():
         return self
 
     def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
-        for each_skill in self.get_Skills(active=0):
+        for each_skill in self.get_inactive_Skills():
             if "IS_HIT" in each_skill.avaliable_effects() : # 被动触发的技能
                 if "IS_DEFAULT_HIT" in each_skill.avaliable_effects(): # 被默认技能攻击
                     if int(skill.DefaultSkills) == 1: # 技能是默认技能
@@ -680,7 +680,7 @@ class Hero():
 
     def dont_move(self): # 移动不移动
         self.check_buff()                                       # 减少buff
-        for each_skill in self.get_Skills(active=0):
+        for each_skill in self.get_inactive_Skills():
             if "IS_HIT" not in each_skill.avaliable_effects():  # 非被动触发的技能
                 if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
                     each_skill.make_effective(self)
@@ -689,7 +689,7 @@ class Hero():
     
     # 被动技能使攻击失效
     def is_miss_hit(self):
-        for each_skill in self.get_Skills(active=0):
+        for each_skill in self.get_inactive_Skills():
             if "IS_DEFAULT_HIT" in each_skill.avaliable_effects() and\
                "BUFF_MISS_HIT" in each_skill.avaliable_effects():
                effect = each_skill.get_effect_by_key("BUFF_MISS_HIT")
