@@ -28,15 +28,22 @@ class Node:
             child = random.choice([self.true_child, self.false_child])
             return child.evaluate()
         else:
+            print()
+            if self.selection:
+                #逐个打印判断条件的结果
+                for s in self.selection:
+                    print(f"判断条件: {s} 结果: {s()}")
 
-            if self.true_child.selection:
-                if all([s() for s in self.true_child.selection]):
+                if all([s() for s in self.selection]):
+                    print('选择了left node:',self.true_child.name)
                     return self.true_child.evaluate()
                 else:
+                    print('选择了right node:',self.false_child.name)
                     return self.false_child.evaluate()
 
 
             else:
+                print('无判断条件，直接选择right node:',self.false_child.name)
                 return self.false_child.evaluate()
 
 
