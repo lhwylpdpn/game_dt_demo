@@ -444,7 +444,7 @@ class Hero():
     
     def check_team(self, state): # 检查是否需要合并队伍
         print("*****************检查是否需要合并队伍")
-        if not self.is_alive():
+        if not self.is_alive:
             print("已经死亡，不需要队伍合并")
             return self
         enter_other_team_dog_range = TeamFlag.get_should_combine_team(self, state)
