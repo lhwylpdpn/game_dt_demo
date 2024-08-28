@@ -112,7 +112,10 @@ class Hero():
                 data["skills"].append(each.dict(for_view=for_view))
         data.update({field: self.__getattribute__(field) for field in fields})
         if "team" in fields:
-            data["team"] = self.team.dict()
+            if self.team:
+                data["team"] = self.team.dict()
+            else:
+                data["team"] = []
         # if for_view:
         #     data['position'] = list(trans_postion(*data["position"]))
         return data         
