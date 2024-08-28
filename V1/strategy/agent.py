@@ -22,6 +22,7 @@ class Agent(object):
             m.move_position(m.position, state["maps"])
 
     def choice_hero_act(self, hero, state):
+        print('------------------------------')
         hero = hero.dict()
         # enemies = [_.dict() for _ in state["monster"]]
         # maps = state["map"].view_from_y_dict()

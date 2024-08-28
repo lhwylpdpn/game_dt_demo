@@ -318,6 +318,7 @@ class Range(Data):
             enemy_position = Data.value("position", enemy)
             if self.manhattan_distance(role_position, enemy_position) <= doge_base:
                 count += 1
+        print(f"警戒范围内是否有{num}个敌方单位: {num <= count}")
         return num <= count
 
     def find_shortest_path(self, start, end, jump_height, block_type=None):
@@ -535,6 +536,7 @@ class Range(Data):
                      "monster": self.enemies}
             tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
             print(f"log tmp: {tmp}")
+        print(f"[ATK]攻击可选择数量为: {len(pick_list)}")
         return pick_list
 
     def find_attack_target(self):
@@ -548,14 +550,15 @@ class Range(Data):
                 continue
             if pick["weight"] < _weight:
                 pick = {"weight": _weight, "data": each}
-        print(f"[ATK]攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
+        print(f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
 
+        pick_data = pick["data"]
         action_step = []
-        if pick["hero_pos"] != Data.value("position", self.role):
-            action_step += self.move_step_handler(pick["route"])
+        if pick_data["hero_pos"] != Data.value("position", self.role):
+            action_step += self.move_step_handler(pick_data["route"])
         action_step.append(
-            {"action_type": f"SKILL_{pick['skill']['SkillId']}", "atk_range": pick["atk_range"],
-             "atk_position": pick["skill_pos"], "attack_enemies": pick["enemies_in_range"], "release_range": pick["release_range"]})
+            {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "atk_range": pick_data["atk_range"],
+             "atk_position": pick_data["skill_pos"], "attack_enemies": pick_data["enemies_in_range"], "release_range": pick_data["release_range"]})
 
         return action_step
 
