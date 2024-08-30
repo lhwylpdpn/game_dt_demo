@@ -39,7 +39,7 @@ def Deepdiff_modify(before,after):
     # after['hero'][5002]['test'] = {'k': [200, 201, 202, 203, 204, 205, 3], 'K2': [33, 33]}
     # print('Deepdiff_modify_after给强爷',"before['hero'][5002]['AvailableSkills']",after['hero'][5002]['AvailableSkills'])
 
-    res=list(dictdiffer.diff(before, after))
+    #res=list(dictdiffer.diff(before, after))
     # print('before',before['hero']['heroID'][5003])
     # print('after',after['hero']['heroID'][5003])
     # print('Deepdiff_modify_before',res)
@@ -87,9 +87,9 @@ def Deepdiff_modify(before,after):
     #
     #     merge_dicts(return_res,res)
     #print('Deepdiff_modify_after',return_res)
-    return_res=res
+    #return_res=res
 
-    return return_res
+    return list(dictdiffer.diff(before, after))
 
 
 def merge_dicts(dict_a, dict_b):

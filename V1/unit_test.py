@@ -140,10 +140,10 @@ if __name__ == '__main__':
     res=[]
     for i in range(1):
         obj_=test_process()
-        obj_.data_init()
-        obj_.pygame_init()
+        #obj_.data_init()
+        #obj_.pygame_init()
         res.append(obj_.run())
         #obj_.over_state()
-        obj_.game_run()
-    print(res)
-    time.sleep(1000)
+        #obj_.game_run()
+    #print(res)
+    #time.sleep(1000)

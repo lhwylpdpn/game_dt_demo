@@ -2,7 +2,7 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from utils.strategy_utils.range import Range
-
+import time
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):
         self.name = name
@@ -28,7 +28,7 @@ class Node:
             child = random.choice([self.true_child, self.false_child])
             return child.evaluate()
         else:
-            print()
+
             if self.selection:
                 #逐个打印判断条件的结果
                 for s in self.selection:
@@ -110,8 +110,8 @@ def lambda_is_have_boss(obj):
 
 def make_decision(hero,state):
     root= create_decision_tree(hero,state)
-
-    return root.evaluate()
+    res=root.evaluate()
+    return res
 
 def show_plot_tree():
     from buildpatrol import BuildPatrol
@@ -159,6 +159,8 @@ def create_decision_tree(hero,state):
     return root
 
 if __name__ == '__main__':
+    from buildpatrol import BuildPatrol
 
-    show_plot_tree()
-
+    state = BuildPatrol("../data.json").load_data()
+    hero = state['hero'][0]
+    make_decision(hero,state)
