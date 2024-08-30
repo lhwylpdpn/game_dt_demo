@@ -1,10 +1,8 @@
 import copy
-
+from utils.config import bass_class
 #生成一个固定对参数字典,然后每个英雄都用这个字典产生一个参数字典
 #再网上都是针对这个字典的模版封装
 #最终每个英雄和怪物都有一个字典，作为英雄的属性初始化进去
-
-
 #####
 #score: 归一化后的范围
 #normalized: 归一化的方法，根据当前state的情况里的数据进行归一化
@@ -17,14 +15,7 @@ import copy
 class strategy_params:
     def __init__(self):
 
-        self.career_list = {}
-        self.career_list['战士'] = 1
-        self.career_list['弓手'] = 2
-        self.career_list['治疗'] = 3
-        self.career_list['法师'] = 4
-        self.career_list['野蛮人'] = 5
-
-
+        self.base_class = bass_class
         self.action_strategy = {}
         self.selection_strategy = {}
         ####选择逃跑策略================================================================================================
@@ -105,16 +96,14 @@ class strategy_params:
         ####优先针对自己加血
         self.action_strategy["assist"]["self_heal"] = {'score': [0,1], 'desc': '优先针对自己加血', 'weight': 0.2, 'clac_type': 'exclusive'}
 
-    def get_strategy_params(self,career):
+    def get_strategy_params(self,base_class_value:int):
 
 
-        #根据传入的职业的value，输出key
-        career_name = [k for k,v in self.career_list.items() if v == career][0]
         real_action_strategy  =copy.deepcopy(self.action_strategy)
         real_selection_strategy = copy.deepcopy(self.selection_strategy)
         #print('real_action_strategy',real_action_strategy)
         #print('real_selection_strategy',real_selection_strategy)
-        if career_name== '战士':
+        if base_class_value==1:#战士
             real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
             real_action_strategy["atk_target"]["nearest"]['weight'] = 0.2
             real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
@@ -145,7 +134,7 @@ class strategy_params:
             real_action_strategy["assist"]["career_defense"]['weight'] = 0.2
             real_action_strategy["assist"]["career_attack"]['weight'] = 0.2
             real_action_strategy["assist"]["self_heal"]['weight'] = 0.2
-        elif career_name == '弓手':
+        elif base_class_value == 2:#弓箭手
             real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
             real_action_strategy["atk_target"]["nearest"]['weight'] = 0.2
             real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
@@ -176,7 +165,7 @@ class strategy_params:
             real_action_strategy["assist"]["career_defense"]['weight'] = 0.2
             real_action_strategy["assist"]["career_attack"]['weight'] = 0.2
             real_action_strategy["assist"]["self_heal"]['weight'] = 0.2
-        elif career_name == '治疗':
+        elif base_class_value == 3:#治疗
             real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
             real_action_strategy["atk_target"]["nearest"]['weight'] = 0.3444
             real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
@@ -212,4 +201,4 @@ class strategy_params:
         return real_action_strategy,real_selection_strategy
 if __name__ == '__main__':
     obj= strategy_params()
-    print(obj.get_strategy_params(3))
+    print(obj.get_strategy_params(1))
