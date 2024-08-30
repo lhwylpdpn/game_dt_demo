@@ -11,8 +11,12 @@
 #normalized: 归一化的方法，根据当前state的情况里的数据进行归一化
 #exclusive: 互斥的方法，根据当前state的情况里符合条件的为score[1]，不符合条件的为score[0]
 
-#得到分数后*权重，然后根据权重排序，得到最终的结果
+#得到分数后*权重，然后根据权重数加和，得到最终的结果
+#action_strategy: 选择行动策略用于函数内
+#selection_strategy: 选择tree上的判断策略 用于tree上
 #####
+
+
 
 aciton_strategy = {}
 selection_strategy = {}
