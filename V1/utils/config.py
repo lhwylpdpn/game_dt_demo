@@ -38,3 +38,11 @@ bass_class['弓箭手']=2
 bass_class['治疗']=3
 bass_class['法师']=4
 bass_class['野蛮人']=5
+
+LineupClassID = {}
+
+LineupClassID['前卫攻击型'] = 1
+LineupClassID['前卫防守型'] = 2
+LineupClassID['后卫攻击型'] = 3
+LineupClassID['后卫防守型'] = 4
+LineupClassID['后卫支援型'] = 5
