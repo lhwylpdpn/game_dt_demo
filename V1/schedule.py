@@ -34,6 +34,7 @@ class schedule:
         self.timeout_tick = 50
         self.tick = 0
         self.record_update_dict = {}
+        self.record_update_dict_update = {}#测试用
         self.record_error_dict = {}
         self.action_dict= {}
         self.ap_parm=20 # 特定设置，代表一个tick增加速度/20 个ap
@@ -66,6 +67,8 @@ class schedule:
         state=self.game.get_current_state()
         state_dict = self.state_to_dict(state)
         self.performance.event_end('get_current_state')
+
+
         self.performance.event_start('get_current_alive_hero')
         alive_hero = self.game.get_current_alive_hero()
         self.performance.event_end('get_current_alive_hero')
@@ -112,10 +115,13 @@ class schedule:
                     action['class']=alive_hero_class
                     self._record(action, state_dict, new_state_dict)
                     self.performance.event_end('record')
+
+
                     self.performance.event_start('get_current_state')
                     state = new_state
                     state_dict=self.state_to_dict(state)
                     self.performance.event_end('get_current_state')
+
                 self.performance.event_start('check_game_over')
                 if self.game.check_game_over()[0]:
                     print('战斗结束了！！！！',self.game.check_game_over()[1])
@@ -125,12 +131,12 @@ class schedule:
                 self.performance.event_end('check_game_over')
 
     #增加一个state静态化的方法
-    def state_to_dict(self,state):
-        #self.performance.event_start('get_current_state_to_dict')
+    def state_to_dict_old(self,state):
+        self.performance.event_start('deepcopy')
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
-
+        self.performance.event_end('deepcopy')
         if type(map)!=list:
             map=[map]
         if type(hero)!=list:
@@ -141,7 +147,35 @@ class schedule:
         map_dict={}
         hero_dict={}
         monster_dict={}
+        self.performance.event_start('get_current_state_to_dict')
+        for i in range(len(map)):
+            map_dict[i]=map[i].dict(for_view=True)
+        for h in hero:
+            hero_dict[h.HeroID]=h.dict(for_view=True)
+        for m in monster:
+            monster_dict[m.HeroID]=m.dict(for_view=True)
+        self.performance.event_end('get_current_state_to_dict')
+        #self.performance.event_end('get_current_state_to_dict')
+        res=json.dumps({'map':map_dict,'hero':hero_dict,'monster':monster_dict})
+        return json.loads(res)
 
+    def state_to_dict(self,state):
+        if type(state['map'])!=list:
+            map=[state['map']]
+        else:
+            map=state['map']
+        if type(state['hero'])!=list:
+            hero=[state['hero']]
+        else:
+            hero=state['hero']
+        if type(state['monster'])!=list:
+            monster=[state['monster']]
+        else:
+            monster=state['monster']
+
+        map_dict={}
+        hero_dict={}
+        monster_dict={}
         for i in range(len(map)):
             map_dict[i]=map[i].dict(for_view=True)
         for h in hero:
@@ -149,9 +183,8 @@ class schedule:
         for m in monster:
             monster_dict[m.HeroID]=m.dict(for_view=True)
         #self.performance.event_end('get_current_state_to_dict')
-        return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
-
-
+        res = json.dumps({'map': map_dict, 'hero': hero_dict, 'monster': monster_dict})
+        return json.loads(res)
     def _record(self,action,before_state,after_state):
         #self.performance.event_start('record_detail')
         update_dict=Deepdiff_modify(before_state,after_state)
@@ -164,15 +197,14 @@ class schedule:
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick']=self.tick
 
+
     def send_update(self):
 
         self.performance.event_start('send_update')
-        #打印测试
-        # for key in self.record_update_dict.keys():
-        #     print('第',key,'tick 行动')
-        #     print('行动',self.record_update_dict[key]['action'])
-        #     print('状态',self.record_update_dict[key]['state'])
-        #self.record_update_dict=self.record_update_dict.values()
+
+        #增加测试对比 record_update_dict 和 record_update_dict_update的内容是否完全一样
+
+
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
