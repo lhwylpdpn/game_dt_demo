@@ -21,22 +21,22 @@ class Agent(object):
         for m in [state["hero"] + state["monster"]]:
             m.move_position(m.position, state["maps"])
 
-    def choice_hero_act(self, hero, state):
+    def choice_hero_act(self, hero, state,performance=None):
         print('------------------------------')
         hero = hero.dict()
         # enemies = [_.dict() for _ in state["monster"]]
         # maps = state["map"].view_from_y_dict()
         # maps = Attack().convert_maps(maps)
         # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = make_decision(hero, state)
+        res = make_decision(hero, state,performance=performance)
         return res
 
-    def choice_monster_act(self, hero, state):
+    def choice_monster_act(self, hero, state,performance=None):
         state = self.swap_specific_keys(state, "hero", "monster")
         hero = hero.dict()
         # enemies = [_.dict() for _ in state["monster"]]
         # maps = state["map"].view_from_y_dict()
         # maps = Attack().convert_maps(maps)
         # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = make_decision(hero, state)
+        res = make_decision(hero, state,performance=performance)
         return res

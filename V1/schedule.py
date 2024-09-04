@@ -31,7 +31,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 50
+        self.timeout_tick = 20
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}#测试用
@@ -85,12 +85,12 @@ class schedule:
                 # 查看hero的队列
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
-                    actions = self.agent_1.choice_hero_act(hero, state)
+                    actions = self.agent_1.choice_hero_act(hero, state,self.performance)
                     #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
-                    actions = self.agent_2.choice_monster_act(hero, state)
+                    actions = self.agent_2.choice_monster_act(hero, state,self.performance)
                     #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
                 for action in actions:

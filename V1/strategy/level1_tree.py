@@ -91,7 +91,15 @@ def action_eascape(obj):
     return lambda : obj.get_furthest_position()
 
 
-
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()  # 记录开始时间
+        result = func(*args, **kwargs)  # 执行原函数
+        end_time = time.time()  # 记录结束时间
+        execution_time = end_time - start_time
+        print(f"Execution time: {execution_time:.4f} seconds")
+        return result
+    return wrapper
 ###=------- 所有判断函数
 def lambda_is_health_below_threshold(obj,N):
     return lambda : obj.is_health_below_threshold(N)
@@ -108,9 +116,15 @@ def lambda_is_have_boss(obj):
     return lambda : obj.is_boss()
 
 
-def make_decision(hero,state):
+def make_decision(hero,state,performance=None):
     root= create_decision_tree(hero,state)
+    a=time.time()
+    if performance is not None:
+        performance.event_start('evaluate')
     res=root.evaluate()
+    if performance is not None:
+        performance.event_end('evaluate')
+    print('决策树耗时:',time.time()-a)
     return res
 
 def show_plot_tree():
@@ -126,6 +140,8 @@ def create_decision_tree(hero,state):
     BaseClassID=hero.get("BaseClassID")
     sp_obj=sp()
 
+
+    sp_obj=sp()
     eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
     range_obj=Range(hero,state)
     # 创建决策树
@@ -164,5 +180,5 @@ if __name__ == '__main__':
     from buildpatrol import BuildPatrol
 
     state = BuildPatrol("../data.json").load_data()
-    hero = state['hero'][0]
+    hero = state['hero'][0].dict()
     make_decision(hero,state)
