@@ -56,7 +56,7 @@ class SkillDetail():
         if self.__max_use_count is None:
             return -1
         return self.__max_use_count
-
+ 
     @property
     def SkillId(self):
         return self.__SkillId
@@ -118,7 +118,7 @@ class SkillDetail():
         return self
 
     def is_avaliable(self): # 判断技能是否可用
-        if self.__use_count is None:
+        if self.__use_count is None or self.__use_count == -1:
             return True
         else:
             return self.__use_count > 0 

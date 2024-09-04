@@ -257,6 +257,7 @@ class Hero():
     
     def set_Hp(self, Hp):
         self.__Hp = Hp
+        print(self.HeroID ,"Hp ", self.__Hp)
         return self
     
     def Hp_damage(self, damage): # 被攻击，掉血
@@ -880,8 +881,8 @@ class Hero():
             result[each] = copy.deepcopy(_res)
             # print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
             each.Hp_damage(_res.get("damage")) # 敌人掉血攻击
-            if not is_back_atk: # 不是反击技能
-                self.Hp_suck(_res.get("damage"))   # 攻击者吸血
+            # if not is_back_atk: # 不是反击技能
+            #     self.Hp_suck(_res.get("damage"))   # 攻击者吸血
             if each.is_death:
                 each.leve_game(state)
                 continue
