@@ -98,7 +98,6 @@ class strategy_params:
 
     def get_strategy_params(self,base_class_value:int):
 
-
         real_action_strategy  =copy.deepcopy(self.action_strategy)
         real_selection_strategy = copy.deepcopy(self.selection_strategy)
         #print('real_action_strategy',real_action_strategy)

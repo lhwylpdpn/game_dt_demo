@@ -2,6 +2,7 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from utils.strategy_utils.range import Range
+from strategy.strategy_context import strategy_params as sp
 import time
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):
@@ -86,7 +87,6 @@ def move_to_boss(obj):
 def wait(obj):
     return lambda: obj.wait()
 
-
 def action_eascape(obj):
     return lambda : obj.get_furthest_position()
 
@@ -123,13 +123,15 @@ def show_plot_tree():
     plt.axis('off')
     plt.show()
 def create_decision_tree(hero,state):
+    BaseClassID=hero.BaseClassID
+    sp_obj=sp()
 
-
+    eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
     range_obj=Range(hero,state)
     # 创建决策树
 
     #所有判断节点
-    root = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,0.4),lambda_nearby_enemy_count(range_obj,1)],probability=1)
+    root = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,1)],probability=1)
     is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(range_obj,0)],probability=1)
     is_have_targets_within_atk_range_node=Node("判断是否有敌人在攻击范围内",action=None,selection=[lambda_have_targets_within_atk_range(range_obj)],probability=1)
     is_have_allies_within_range_node=Node("判断是否有友军在战斗",action=None,selection=[lambda_is_fight_allies(range_obj)],probability=1)
