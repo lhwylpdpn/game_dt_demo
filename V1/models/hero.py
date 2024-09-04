@@ -429,6 +429,7 @@ class Hero():
         return self.set_x(x).set_y(y).set_z(z)
     
     def __buff_value(self, buff_key):
+        value = None
         for each in self.__buff:
             if each.buff_key == buff_key:
                 if value is not None:

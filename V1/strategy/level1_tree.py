@@ -123,7 +123,7 @@ def show_plot_tree():
     plt.axis('off')
     plt.show()
 def create_decision_tree(hero,state):
-    BaseClassID=hero.BaseClassID
+    BaseClassID=hero.get("BaseClassID")
     sp_obj=sp()
 
     eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']

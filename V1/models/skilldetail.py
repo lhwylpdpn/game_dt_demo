@@ -47,10 +47,14 @@ class SkillDetail():
     
     @property
     def use_count(self):
+        if self.__use_count is None:
+            return -1
         return self.__use_count
 
     @property
     def max_use_count(self):
+        if self.__max_use_count is None:
+            return -1
         return self.__max_use_count
 
     @property
@@ -134,10 +138,10 @@ class SkillDetail():
     
     def is_unit_skill(self): # BUFF: 非主动，非被动触发的技能, 不是被普通攻击 , 是连携, 不是被普攻时候出发
         if  not self.is_active_skill() and\
-            "IS_HIT" not in each_skill.avaliable_effects() and\
-            "IS_WAIT" not in each_skill.avaliable_effects() and\
-            "IS_NEAR_HERO" in each_skill.avaliable_effects() and\
-            "IS_DEFAULT_HIT" not in each_skill.avaliable_effects():
+            "IS_HIT" not in self.avaliable_effects() and\
+            "IS_WAIT" not in self.avaliable_effects() and\
+            "IS_NEAR_HERO" in self.avaliable_effects() and\
+            "IS_DEFAULT_HIT" not in self.avaliable_effects():
             return True
         return False
         
