@@ -4,7 +4,7 @@ from utils.config import demo_skill
 #准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage(attacker,defender,skill):
 
-    if skill.SkillId == demo_skill['反击斩']:
+    if skill.SkillId == demo_skill['战士反击斩']:
         res=random_choices({0:0.5,1:0.5}) #0 反击生效  1 反击不生效
         if res==1:
             return {'damage':0,'miss':0}
@@ -56,17 +56,17 @@ def damage(attacker,defender,skill):
     attacker_skill_coefficient = 1  #技能伤害系数
     if skill.SkillId==demo_skill['战士普攻']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK').param[1])/100 # 100%物理伤害
-    if skill.SkillId==demo_skill['劈砍']:
+    if skill.SkillId==demo_skill['战士劈砍']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK').param[1])/100 # 85%物理伤害
-    if skill.SkillId==demo_skill['弓箭手普攻']:
+    if skill.SkillId==demo_skill['弓手普攻']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK_FORMULA_1').param[1])/100 #65%(物理+敏捷)的物理伤害
-    if skill.SkillId==demo_skill['穿杨']:
+    if skill.SkillId==demo_skill['弓手穿杨']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK').param[1])/100 #对范围内的敌人造成150%普攻的物理伤害
-    if skill.SkillId==demo_skill['上前一步']:
+    if skill.SkillId==demo_skill['弓手上前一步']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK').param[1])/100  #给指定范围内的目标以50%的伤害
-    if skill.SkillId==demo_skill['箭雨']:
+    if skill.SkillId==demo_skill['弓手箭雨']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK').param[1])/100 # 130%物理伤害
-    if skill.SkillId==demo_skill['反击斩']:
+    if skill.SkillId==demo_skill['战士反击斩']:
         attacker_skill_coefficient=float(skill.get_effect_by_key('ATK_BACK').param[1])/100 # 100%物理伤害
     attacker_Def=attacker_PhysicalDef # 防御值
     if False: #todo 这里需要知道技能的是物理伤害还是魔法伤害，当前判断假设是物理伤害都
@@ -76,7 +76,7 @@ def damage(attacker,defender,skill):
         defender_Def=defender_MagicalDef
 
     attacker_ATK=attacker_PhysicalAtk#攻击值  这里要根据不同技能增加
-    if skill.SkillId==demo_skill['弓箭手普攻']:
+    if skill.SkillId==demo_skill['弓手普攻']:
         attacker_ATK=(attacker_PhysicalAtk+attacker_Agile)
 
     #被动防御加成
@@ -132,11 +132,6 @@ def damage(attacker,defender,skill):
     print('basedamage',basedamage)
 
     level2damage=(basedamage*(1+attacker_Atk_bonusCoefficient)-defender_Def)*defender_DefenseCoefficient*(1+attacker_critBase)
-    if skill.SkillId == demo_skill['反击斩']:
-        print('反2击','basedamage',basedamage,'attacker_Atk_bonusCoefficient',attacker_Atk_bonusCoefficient,'defender_Def',defender_Def,'defender_DefenseCoefficient',defender_DefenseCoefficient,'attacker_critBase',attacker_critBase)
-    print('中途输出', 'basedamage', basedamage, 'attacker_Atk_bonusCoefficient', attacker_Atk_bonusCoefficient,
-          'defender_Def', defender_Def, 'defender_DefenseCoefficient', defender_DefenseCoefficient, 'attacker_critBase',
-          attacker_critBase)
 
     print('level2damage',level2damage)
     #print('level2damage',level2damage)
