@@ -138,12 +138,18 @@ class test_process:
 
 if __name__ == '__main__':
     res=[]
+    #显示pandas的所有行、列
+    import pandas as pd
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', None)
+    #显示每一列的全部内容
+    pd.set_option('display.max_colwidth', 1000)
     for i in range(1):
         obj_=test_process()
         #obj_.data_init()
         obj_.pygame_init()
         res.append(obj_.run())
-        obj_.over_state()
+        #obj_.over_state()
         obj_.game_run()
     #print(res)
-    time.sleep(1000)
+    time.sleep(100)

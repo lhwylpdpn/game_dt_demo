@@ -17,17 +17,21 @@ class Node:
     def add_false_child(self, child_node):
         self.false_child = child_node
 
-    def evaluate(self):
+    def evaluate(self,performance=None):
         # 是行动节点直接行动
 
         if self.action:
-            print(f"决策树选择执行动作: {self.name}",self.action())
-            return self.action()
+            if performance is not None:
+                performance.event_start(self.name)
+            res=self.action()
+            if performance is not None:
+                performance.event_end(self.name)
+            return res
         #非行动节点判断概率，如果需要随机，就随机选择一个子节点
         if random.random() < 1-self.probability:
             #随机选择一个子节点
             child = random.choice([self.true_child, self.false_child])
-            return child.evaluate()
+            return child.evaluate(performance=performance)
         else:
 
             if self.selection:
@@ -35,17 +39,26 @@ class Node:
                 for s in self.selection:
                     print(f"判断条件: {s} 结果: {s()}")
 
-                if all([s() for s in self.selection]):
+                res=[]
+
+                for s in self.selection:
+                    if performance is not None:
+                        performance.event_start("selection_"+str(s))
+                    res.append(s())
+                    if performance is not None:
+                        performance.event_end("selection_"+str(s))
+
+                if all(res):
                     print('选择了left node:',self.true_child.name)
-                    return self.true_child.evaluate()
+                    return self.true_child.evaluate(performance=performance)
                 else:
                     print('选择了right node:',self.false_child.name)
-                    return self.false_child.evaluate()
+                    return self.false_child.evaluate(performance=performance)
 
 
             else:
                 print('无判断条件，直接选择right node:',self.false_child.name)
-                return self.false_child.evaluate()
+                return self.false_child.evaluate(performance=performance)
 
 
 
@@ -91,15 +104,6 @@ def action_eascape(obj):
     return lambda : obj.get_furthest_position()
 
 
-def timing_decorator(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()  # 记录开始时间
-        result = func(*args, **kwargs)  # 执行原函数
-        end_time = time.time()  # 记录结束时间
-        execution_time = end_time - start_time
-        print(f"Execution time: {execution_time:.4f} seconds")
-        return result
-    return wrapper
 ###=------- 所有判断函数
 def lambda_is_health_below_threshold(obj,N):
     return lambda : obj.is_health_below_threshold(N)
@@ -121,7 +125,7 @@ def make_decision(hero,state,performance=None):
     a=time.time()
     if performance is not None:
         performance.event_start('evaluate')
-    res=root.evaluate()
+    res=root.evaluate(performance=performance)
     if performance is not None:
         performance.event_end('evaluate')
     print('决策树耗时:',time.time()-a)

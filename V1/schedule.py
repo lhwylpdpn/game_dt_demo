@@ -31,7 +31,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 20
+        self.timeout_tick = 100
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}#测试用
@@ -76,6 +76,7 @@ class schedule:
 
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
+
             alive_hero_class = hero.__class__.__name__.lower()
             alive_hero_id=hero.HeroID
             #向上取整
@@ -86,15 +87,15 @@ class schedule:
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state,self.performance)
-                    #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id)
+                    print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state,self.performance)
-                    #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
+                    print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
                 for action in actions:
-                    #print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
+                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         action_result=self.game.hero_action(hero, action)
@@ -131,12 +132,12 @@ class schedule:
                 self.performance.event_end('check_game_over')
 
     #增加一个state静态化的方法
-    def state_to_dict_old(self,state):
-        self.performance.event_start('deepcopy')
+    def state_to_dict(self,state):
+        self.performance.event_start('__deepcopy')
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
-        self.performance.event_end('deepcopy')
+        self.performance.event_end('__deepcopy')
         if type(map)!=list:
             map=[map]
         if type(hero)!=list:
@@ -156,10 +157,10 @@ class schedule:
             monster_dict[m.HeroID]=m.dict(for_view=True)
         self.performance.event_end('get_current_state_to_dict')
         #self.performance.event_end('get_current_state_to_dict')
-        res=json.dumps({'map':map_dict,'hero':hero_dict,'monster':monster_dict})
-        return json.loads(res)
+        res={'map':map_dict,'hero':hero_dict,'monster':monster_dict}
+        return res
 
-    def state_to_dict(self,state):
+    def state_to_dict_new(self,state):
         if type(state['map'])!=list:
             map=[state['map']]
         else:
