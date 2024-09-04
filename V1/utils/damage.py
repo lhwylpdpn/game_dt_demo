@@ -1,19 +1,8 @@
 from utils.tools import random_choices
 import random
+from utils.config import demo_skill
 #准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage(attacker,defender,skill):
-
-
-
-    demo_skill={}
-    demo_skill['劈砍'] = 78
-    demo_skill['战士普攻'] = 77
-    demo_skill['弓箭手普攻'] = 86
-    demo_skill['穿杨'] = 87
-    demo_skill['上前一步'] = 88
-    demo_skill['集中'] = 92
-    demo_skill['反击斩']=81
-    demo_skill['箭雨']=89
 
     if skill.SkillId == demo_skill['反击斩']:
         res=random_choices({0:0.5,1:0.5}) #0 反击生效  1 反击不生效

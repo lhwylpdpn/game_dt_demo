@@ -18,7 +18,6 @@ from utils.tools import performance
 # step3.5 获取当前状态
 # step4 判断能整除谁的时候，使用棋子调用决策树获得行动
 # step4.5 调用棋盘执行行动
-# step4.6 获得行动后的状态，计算状态差异，组织数据存储
 # step5 检查游戏是否结束
 # step6 如果游戏结束，产生内容序列
 
@@ -32,9 +31,10 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 1200
+        self.timeout_tick = 50
         self.tick = 0
         self.record_update_dict = {}
+        self.record_update_dict_update = {}#测试用
         self.record_error_dict = {}
         self.action_dict= {}
         self.ap_parm=20 # 特定设置，代表一个tick增加速度/20 个ap
@@ -45,7 +45,9 @@ class schedule:
         self.performance=performance()
 
     def start(self):
+        self.performance.event_start('game_start')
         self.game.start()
+        self.performance.event_end('game_start')
 
     def run(self):
         self.performance.event_start('get_current_state')
@@ -55,9 +57,9 @@ class schedule:
         self.performance.event_end('get_current_state')
 
         while self.tick < self.timeout_tick and not self.game_over:
+
             self.tick += 1
             self.next()
-
         self.performance.end()
         return self.game.check_game_over()[1]
     def next(self):
@@ -65,16 +67,18 @@ class schedule:
         state=self.game.get_current_state()
         state_dict = self.state_to_dict(state)
         self.performance.event_end('get_current_state')
-        alive_hero = self.game.get_current_alive_hero()
-        #todo  同tick 的顺序问题，同tick的时候是不是有排序
 
+
+        self.performance.event_start('get_current_alive_hero')
+        alive_hero = self.game.get_current_alive_hero()
+        self.performance.event_end('get_current_alive_hero')
+        #todo  同tick 的顺序问题，同tick的时候是不是有排序
 
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
             alive_hero_class = hero.__class__.__name__.lower()
             alive_hero_id=hero.HeroID
             #向上取整
-
             once_tick=math.ceil(self.ap_limit/(hero.Velocity/self.ap_parm))
             #print('once_tick',self.tick,once_tick)
             if self.tick % once_tick == 0:
@@ -82,26 +86,25 @@ class schedule:
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state)
-                    print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id)
+                    #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state)
-                    print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
-                    self.performance.event_start('schedule_choose_action')
-
+                    #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
+                    self.performance.event_end('schedule_choose_action')
                 for action in actions:
-                    action_result=True
-                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
+                    #print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         action_result=self.game.hero_action(hero, action)
                     else:
                         action_result=self.game.monster_action(hero, action)
+                    self.performance.event_end('game_action')
                     if not action_result: #如果动作失败，直接跳出本次动作链路
                         print('调度行动-接到动作失败',self.tick,'id',alive_hero_id,'class',alive_hero)
                         break
-                    self.performance.event_end('game_action')
+
                     self.performance.event_start('get_current_state')
                     new_state = self.game.get_current_state()
                     new_state_dict=self.state_to_dict(new_state)
@@ -112,27 +115,28 @@ class schedule:
                     action['class']=alive_hero_class
                     self._record(action, state_dict, new_state_dict)
                     self.performance.event_end('record')
+
+
                     self.performance.event_start('get_current_state')
                     state = new_state
                     state_dict=self.state_to_dict(state)
                     self.performance.event_end('get_current_state')
+
                 self.performance.event_start('check_game_over')
                 if self.game.check_game_over()[0]:
-                    self.performance.event_end('check_game_over')
                     print('战斗结束了！！！！',self.game.check_game_over()[1])
+                    self.performance.event_end('check_game_over')
                     self.game_over=True
-
                     return
                 self.performance.event_end('check_game_over')
 
-
     #增加一个state静态化的方法
-    def state_to_dict(self,state):
-        #self.performance.event_start('get_current_state_to_dict')
+    def state_to_dict_old(self,state):
+        self.performance.event_start('deepcopy')
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
-
+        self.performance.event_end('deepcopy')
         if type(map)!=list:
             map=[map]
         if type(hero)!=list:
@@ -143,7 +147,35 @@ class schedule:
         map_dict={}
         hero_dict={}
         monster_dict={}
+        self.performance.event_start('get_current_state_to_dict')
+        for i in range(len(map)):
+            map_dict[i]=map[i].dict(for_view=True)
+        for h in hero:
+            hero_dict[h.HeroID]=h.dict(for_view=True)
+        for m in monster:
+            monster_dict[m.HeroID]=m.dict(for_view=True)
+        self.performance.event_end('get_current_state_to_dict')
+        #self.performance.event_end('get_current_state_to_dict')
+        res=json.dumps({'map':map_dict,'hero':hero_dict,'monster':monster_dict})
+        return json.loads(res)
 
+    def state_to_dict(self,state):
+        if type(state['map'])!=list:
+            map=[state['map']]
+        else:
+            map=state['map']
+        if type(state['hero'])!=list:
+            hero=[state['hero']]
+        else:
+            hero=state['hero']
+        if type(state['monster'])!=list:
+            monster=[state['monster']]
+        else:
+            monster=state['monster']
+
+        map_dict={}
+        hero_dict={}
+        monster_dict={}
         for i in range(len(map)):
             map_dict[i]=map[i].dict(for_view=True)
         for h in hero:
@@ -151,11 +183,12 @@ class schedule:
         for m in monster:
             monster_dict[m.HeroID]=m.dict(for_view=True)
         #self.performance.event_end('get_current_state_to_dict')
-        return {'map':map_dict,'hero':hero_dict,'monster':monster_dict}
-
-
+        res = json.dumps({'map': map_dict, 'hero': hero_dict, 'monster': monster_dict})
+        return json.loads(res)
     def _record(self,action,before_state,after_state):
+        #self.performance.event_start('record_detail')
         update_dict=Deepdiff_modify(before_state,after_state)
+        #self.performance.event_end('record_detail')
 
         print('调度显示的变化',update_dict)
         if self.record_update_dict.get(self.tick) is None:
@@ -164,19 +197,19 @@ class schedule:
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick']=self.tick
 
+
     def send_update(self):
 
+        self.performance.event_start('send_update')
 
-        #打印测试
-        # for key in self.record_update_dict.keys():
-        #     print('第',key,'tick 行动')
-        #     print('行动',self.record_update_dict[key]['action'])
-        #     print('状态',self.record_update_dict[key]['state'])
-        #self.record_update_dict=self.record_update_dict.values()
+        #增加测试对比 record_update_dict 和 record_update_dict_update的内容是否完全一样
+
+
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
-        print('给强爷',result)
+        #print('给强爷',result)
+        self.performance.event_end('send_update')
         return result
 
 

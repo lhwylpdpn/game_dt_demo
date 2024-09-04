@@ -106,9 +106,9 @@ class test_process:
             # if i==1:
             #     p=(12,7,8)
            # print('p', p)
-            # self.state['monster'][i].set_x(p[0])
-            # self.state['monster'][i].set_y(p[1])
-            # self.state['monster'][i].set_z(p[2])
+            self.state['monster'][i].set_x(p[0])
+            self.state['monster'][i].set_y(p[1])
+            self.state['monster'][i].set_z(p[2])
 
 
     #创建固定参数
@@ -141,9 +141,9 @@ if __name__ == '__main__':
     for i in range(1):
         obj_=test_process()
         #obj_.data_init()
-        obj_.pygame_init()
+        #obj_.pygame_init()
         res.append(obj_.run())
         #obj_.over_state()
-        obj_.game_run()
-    print(res)
-    time.sleep(1000)
+        #obj_.game_run()
+    #print(res)
+    #time.sleep(1000)
