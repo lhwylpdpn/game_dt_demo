@@ -27,7 +27,7 @@ class BuildPatrol():
         with open(self.src_data_path, 'r') as file:
             data = json.load(file)
         heros = self.build_object(data.get("hero"), hero_or_monster="hero")
-        monsters = self.build_object(data.get("monster"), hero_or_monster="hero")
+        monsters = self.build_object(data.get("monster"), hero_or_monster="monster")
         TeamFlag.search_teammate(heros)
         TeamFlag.search_teammate(monsters)
         return {"map": self.build_map(data.get("map")), 
@@ -80,8 +80,10 @@ if __name__ == "__main__":
     hero = state.get("hero")[0]
     # print(hero.hero_or_monster())
     # print(hero.BaseClassID)
-    # monster = state.get("monster")[0]
-    print(hero.dict())
+    monster = state.get("monster")[0]
+    print(hero.hero_or_monster())
+    print(monster.hero_or_monster())
+
     # print(monster.team)
     # print(monster.team.get_dog_range(state))
     # print(monster.hero_or_monster())
