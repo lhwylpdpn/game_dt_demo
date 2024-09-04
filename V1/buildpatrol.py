@@ -4,6 +4,7 @@
 @date 20245-07-23
 """
 import json
+import copy
 from pprint import pprint
 from models.hero import Hero
 from models.monster import Monster
@@ -25,8 +26,8 @@ class BuildPatrol():
     def load_data(self):
         with open(self.src_data_path, 'r') as file:
             data = json.load(file)
-        heros = self.build_heros(data.get("hero"))
-        monsters = self.build_monster(data.get("monster"))
+        heros = self.build_object(data.get("hero"), hero_or_monster="hero")
+        monsters = self.build_object(data.get("monster"), hero_or_monster="hero")
         TeamFlag.search_teammate(heros)
         TeamFlag.search_teammate(monsters)
         return {"map": self.build_map(data.get("map")), 
@@ -35,10 +36,12 @@ class BuildPatrol():
                 }
 
     @staticmethod
-    def build_heros(origin_hero_data):  # 返回英雄的对象
-        heros = []
+    def build_object(origin_hero_data, hero_or_monster="hero"):  # 
+        m_h_obj_list = []
+        buff_unit_dis = [] # 全队连携的buff
+        Object_Class = Hero if hero_or_monster == "hero" else Monster
         for each in origin_hero_data:
-            _hero = Hero(**each)
+            m_h_obj = Object_Class(**each)
             skills = []
             for skill in each.get("skills"):
                 skill_detail = SkillDetail(**skill)
@@ -46,10 +49,18 @@ class BuildPatrol():
                     skill_effect = SkillEffect(**each_skill_effect)
                     skill_detail.effects_add(skill_effect)
                 skills.append(skill_detail)
-            _hero.set_skills(skills)
-            _hero.load_init_unActiveSkill()
-            heros.append(_hero)
-        return heros
+            m_h_obj.set_skills(skills)
+            buffs = m_h_obj.load_init_unActiveSkill() # 返回全队的连携
+            buff_unit_dis.extend(buffs)
+            m_h_obj_list.append(m_h_obj)
+        
+        # 加载给全部队友的buff
+        for each_buff_unit_dis in buff_unit_dis: # 所有的连携 
+            for each in m_h_obj_list:
+                if each_buff_unit_dis.buff_from != each: #  不是自己的技能，需要加一下
+                    each.add_buff_object(copy.deepcopy(each_buff_unit_dis))
+        
+        return m_h_obj_list
 
     @staticmethod
     def build_map(origin_map_data):  # 返回加载地块的MAP对象
@@ -60,36 +71,19 @@ class BuildPatrol():
             map.load_land(*position, land)
         # pprint(map.view_from_y())
         return map
-    
-    @staticmethod
-    def build_monster(origin_monster_data): # 返回monster的对象
-        monsters = []
-        for each in origin_monster_data:
-            monster = Monster(**each)
-            skills = []
-            for skill in each.get("skills"):
-                skill_detail = SkillDetail(**skill)
-                for each_skill_effect in skill.get("effects"):
-                    skill_effect = SkillEffect(**each_skill_effect)
-                    skill_detail.effects_add(skill_effect)
-                skills.append(skill_detail)
-            monster.set_skills(skills)
-            monster.load_init_unActiveSkill()
-            monsters.append(monster)
-        return monsters
 
         
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
     state["maps"] = state["map"]
     # print(len(state.get("monster")))
-    # hero = state.get("hero")[0]
+    hero = state.get("hero")[0]
     # print(hero.hero_or_monster())
     # print(hero.BaseClassID)
-    monster = state.get("monster")[0]
-    print(monster.dict())
-    print(monster.team)
-    print(monster.team.get_dog_range(state))
+    # monster = state.get("monster")[0]
+    print(hero.dict())
+    # print(monster.team)
+    # print(monster.team.get_dog_range(state))
     # print(monster.hero_or_monster())
     # print(monster.BaseClassID)
     # state["maps"] = state["map"]

@@ -13,13 +13,14 @@ class SkillDetail():
         self.__SkillLev = kwargs.get("SkillLev", None)
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
         self.__ActiveSkills	= kwargs.get("ActiveSkills", 0)        # 0，1  1 主动技能，0被动技能
+        self.__SkillGoals = kwargs.get("SkillGoals", [])           # 1敌人  2地格  3自身  4友方
         self.__effects = []
         self.__use_count = None
         self.__max_use_count = self.__use_count
-        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count", "use_count"]
+        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "SkillGoals", "effects", "max_use_count", "use_count"]
         #self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count"]
 
-    def dict(self, fields=[], for_view=False):
+    def dict(self, fields=[], for_view=False, **kwargs):
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
@@ -58,6 +59,14 @@ class SkillDetail():
     
     def set_SkillId(self, v):
         self.__SkillId = v
+        return self
+    
+    @property
+    def SkillGoals(self):
+        return self.__SkillGoals
+    
+    def set_SkillGoals(self, v):
+        self.__SkillGoals = v
         return self
     
     @property
@@ -110,9 +119,13 @@ class SkillDetail():
         else:
             return self.__use_count > 0 
     
+    def is_default_skill(self):
+        return self.__DefaultSkills == 1
+    
     def is_buff(self): # BUFF: 非主动，非被动触发的技能, 不是被普通攻击 , 不是连携, 不是被普攻时候出发
         if  not self.is_active_skill() and\
             "IS_HIT" not in self.avaliable_effects() and\
+            "IS_SKILL_HIT" not in self.avaliable_effects() and\
             "IS_WAIT" not in self.avaliable_effects() and\
             "IS_NEAR_HERO" not in self.avaliable_effects() and\
             "IS_DEFAULT_HIT" not in self.avaliable_effects():

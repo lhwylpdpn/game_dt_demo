@@ -8,7 +8,7 @@ import json
 import copy
 import traceback
 from itertools import product
-from utils.damage import damage
+from utils.damage import damage#, medical
 # from utils.transposition import trans_postion
 from utils.tools import random_choices
 from .map import Map, Land
@@ -34,7 +34,8 @@ class Hero():
         self.__JumpHeight = kwargs.get("JumpHeight", [])           # 跳跃的高度 
         self.__skills =  kwargs.get("skills", [])                  # 技能
         self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
-        self.__BaseClassID = kwargs.get("BaseClassID", None)           # 职业
+        self.__BaseClassID = kwargs.get("BaseClassID", None)       # 职业
+        self.__LineUpClassID = kwargs.get("LineUpClassID", None)    # 职业
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
@@ -61,7 +62,7 @@ class Hero():
         self.__Luck = kwargs.get("Luck", None)                       #运气
         self.__Quality = kwargs.get("Quality", 0)                    # 是否 boss
         self.__team = kwargs.get("team", None)                       # 所属队伍
-
+       
         
         # position 位置
         # self.__position = list(trans_postion(*kwargs.get("position")))       #  坐标
@@ -74,14 +75,16 @@ class Hero():
         self.__buff = []                                                       # 带的buff
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "DogBase", "BaseClassID",  "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
+            "DogBase", "BaseClassID", "LineUpClassID", "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", "Quality", "team",
-            "Luck", "position", 
+            "Luck", "position", "buff",
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
             ]
         ### unit_hero
         self.__unit_skill_buff = []                                             # 连携攻击增加的buf(每行动一次，重新组织一次此数据)
         self.__Block = 2                                                        # 地块站立的属性 hero 为2， monster 为 3
+        # UnitDistance 
+        self.__UnitDistance = kwargs.get("UnitDistance", 1)                   # 连携距离
 
     def hero_or_monster(self):
         "HERO or MONSER"
@@ -93,11 +96,40 @@ class Hero():
     def join_game(self, state, init_position=True): # 进入战局
         self.move_position(*self.position, state, init_position)
         return self
+    
+    def __get_need_trigger_buff(self): # 获取自己需要每次触发的buff
+        _buf = []
+        for _ in self.__buff:
+            if _.is_need_trigger:
+                _buf.append(_)
+        return _buf
+
+    def focus(self, state):
+        # 被选中
+        self.check_buff()           # 减少buff
+        return self.__get_need_trigger_buff()  
+    
+    def un_focus(self, state):
+        # 取消选中
+        self.reduce_buff_round_action() # 减少buff的round action
+        return self
+    
+    def __get_friends(self, state):
+        friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人, 包括自己
+        return friends
 
     def leve_game(self, state): # 退出战局
         map_obj = state.get('maps')
         map_obj.set_land_pass(*self.position)
         self.team.leve_game(self)
+        friends = self.__get_friends(state)
+        # 由于我给加上的buff，都要去掉（主要是连携 NEAR）
+        for each in friends: 
+            for each_buff in each.buff:
+                if each_buff.buff_from == self:
+                    each_buff.make_invalid(each)
+                    each.__buff.remove(each_buff)
+        
         print(f"{self.HeroID} is Killed, leve game.")
         return self
 
@@ -105,11 +137,13 @@ class Hero():
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
-        if "skills" in fields:
-            data["skills"] = []
-            fields.remove("skills")
-            for each in self.__skills:
-                data["skills"].append(each.dict(for_view=for_view))
+        for s_f in ["skills", "buff" ]:
+            if s_f in fields:
+                data[s_f] = []
+                fields.remove(s_f)
+                for each in self.__getattribute__(s_f):
+                    if each.is_avaliable():
+                        data[s_f].append(each.dict(for_view=for_view))
         data.update({field: self.__getattribute__(field) for field in fields})
         if "team" in fields:
             if self.team:
@@ -128,6 +162,18 @@ class Hero():
         self.__HeroID = HeroID
         return self
     
+    @property
+    def UnitDistance(self):
+        return self.__UnitDistance
+    
+    def set_UnitDistance(self, v):
+        self.__UnitDistance = v
+        return self
+    
+    @property
+    def buff(self): # 
+        return self.__buff
+
     @property
     def team(self): # 
         return self.__team
@@ -201,6 +247,10 @@ class Hero():
     def HpBase(self): # 最高血量
         return self.__HpBase
     
+    def set_HpBase(self,v): # 最高血量
+        self.__HpBase = v
+        return self
+    
     @property
     def Hp(self):
         return self.__Hp
@@ -208,6 +258,22 @@ class Hero():
     def set_Hp(self, Hp):
         self.__Hp = Hp
         return self
+    
+    def Hp_damage(self, damage): # 被攻击，掉血
+        print(self.HeroID ,"Hp <before>: ", self.Hp)
+        print(self.HeroID ,"Hp <damaeg>: ", damage)
+        _t_hp = self.Hp - damage
+        return self.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
+
+    def Hp_add(self, hp): # 被治疗or suck，涨Hp
+        print(self.HeroID ,"Hp <before>: ", self.Hp)
+        print(self.HeroID ,"Hp <hp add>: ", hp)
+        _t_hp = self.Hp + hp
+        return self.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
+    
+    def Hp_suck(self, damage):  # 攻击别人，自己吸血
+        # TODO damage 需要吸血多少，需要处理
+        return self.Hp_add(damage)
     
     @property
     def AtkBase(self):
@@ -286,7 +352,15 @@ class Hero():
         return self.__BaseClassID
     
     def set_BaseClassID(self, v):
-        self.__BaseClassID = BaseClassID
+        self.__BaseClassID = v
+        return self
+    
+    @property
+    def LineUpClassID(self):
+        return self.__LineUpClassID
+    
+    def set_LineUpClassID(self, v):
+        self.__LineUpClassID = v
         return self
 
     @property
@@ -354,44 +428,37 @@ class Hero():
     def set_position(self,x,y,z):
         return self.set_x(x).set_y(y).set_z(z)
     
-    @property
-    def BUFF_HIT_RATE(self): # 增加{0}的命中率
-        value = None
+    def __buff_value(self, buff_key):
         for each in self.__buff:
-            if each.buff_key == "BUFF_HIT_RATE":
+            if each.buff_key == buff_key:
                 if value is not None:
                     value += int(each.buff_value)
                 else:
                     value = int(each.buff_value)
         return value
+
+    @property
+    def BUFF_HIT_RATE(self): # 增加{0}的命中率
+        return self.__buff_value(buff_key="BUFF_HIT_RATE")
 
     @property
     def BUFF_MISS_HIT(self): # {0}%机率使攻击无效，并持续{0}行动回合
-        value = None
-        for each in self.__buff:
-            if each.__buff_key == "BUFF_MISS_HIT":
-                if value is not None:
-                    value += int(each.buff_value)
-                else:
-                    value = int(each.buff_value)
-        return value
+        return self.__buff_value(buff_key="BUFF_MISS_HIT")
 
     @property
     def BUFF_MAX_ATK_DISTANCE(self): # 攻击范围最大值增加{0}格，并持续{0}行动回合
-        value = None
-        for each in self.__buff:
-            if each.__buff_key == "BUFF_MAX_ATK_DISTANCE":
-                if value is not None:
-                    value += int(each.buff_value)
-                else:
-                    value = int(each.buff_value)
-        return value
+        return self.__buff_value(buff_key="BUFF_MAX_ATK_DISTANCE")
+    
+    def add_buff_object(self, buff_obj): # 增加普通buff object
+        buff_obj.make_effective(self)
+        self.__buff.append(buff_obj)
+        return buff_obj
 
     def add_buff(self, buff_key, param): # 增加普通buff
         buff = Buff.create_buff(self, buff_key, param)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)
-        return self
+        return buff
 
     def check_buff(self): # 回合结束后，检查buff的加成
         for each in self.__buff:
@@ -404,10 +471,10 @@ class Hero():
         buff = Buff.create_buff(self, buff_key, param)
         buff.make_effective(self)
         self.__unit_skill_buff.append(buff)
-        return self
+        return buff
     
     def remove_unit_buff(self, state): # 去除连携buff
-        friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人
+        friends = self.__get_friends(state)
         for each_f in friends:
             for each in each_f.__unit_skill_buff:
                 each.make_invalid(each_f)
@@ -503,12 +570,15 @@ class Hero():
         return skill
 
     def load_init_unActiveSkill(self): # load  buff
-        # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 , 不是连携
+        # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 , 不是连携技能
+        buffs_unit_dis = []
         for each_skill in self.get_inactive_Skills():
             if each_skill.is_buff(): 
                 for each in each_skill.effects:
-                    self.add_buff(buff_key=each.key, param=each.param)
-        return self
+                    buff = self.add_buff(buff_key=each.key, param=each.param)
+                    if "BUFF_UNIT_DISTANCE" == each.key: # 寻找可以全队连携的buff
+                        buffs_unit_dis.append(buff)
+        return buffs_unit_dis
 
     def get_unit_skill(self): # 获取连携攻击
         unit_skills = []
@@ -517,34 +587,40 @@ class Hero():
                unit_skills.append(each_skill)
         return unit_skills
                 
+    def __search_near_friends(self, range, state):
+        near_friends = []
+        for each in self.__get_friends(state):
+            if abs(self.x - each.x) + abs(self.z - each.z) <= int(range): # 在范围内
+                near_friends.append(each)
+        return near_friends   
+    
     def load_unit_buff(self, state): # 加载连携攻击
         # 我身边的位置 几格之内有队友
         """
         @ value 几格
         @ state 场景 {"hero":{}, "monster":{}, "maps": map}
         """
-        friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人
-        for each in friends:
+        for each in self.__get_friends(state):
             unit_skill = each.get_unit_skill() # 获取连携攻击
             for each_skill in unit_skill:
                 # 确定连携的范围
                 buff_range = each_skill.get_effect_by_key("ADD_BUFF_RANGE")
                 if buff_range is None: buff_range = 0
                 else: buff_range = buff_range.param[1]
-                near_friends = self.__search_near_friends(buff_range, friends)
+                near_friends = self.__search_near_friends(buff_range, state)
                 if len(near_friends) >1: # 多于一个人才可以连携 (自己一个人不算哈)
                     for friend in near_friends:
                         for e_skill in each_skill.effects:
                             friend.add_unit_buff(buff_key=e_skill.key, param=e_skill.param)
-        return                
+        return  self               
                     
-    def __search_near_friends(self, range, friends):
-        near_friends = []
-        for each in friends:
-            if abs(self.x - each.x) + abs(self.z - each.z) <= int(range): # 在范围内
-                near_friends.append(each)
-        return near_friends                 
-        
+    def __get_unit_num(self, skill, state): # 获取连携数据
+        unit_num = 1
+        if skill.is_default_skill(): # 普通攻击时候 才考虑连携
+            near_frinds = self.__search_near_friends(self.UnitDistance, state)
+            unit_num = len(near_frinds)
+        return unit_num
+                         
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
         skill.make_effective(self)
         return self
@@ -640,9 +716,13 @@ class Hero():
             print(f"{self.HeroID} 实际从{self.position} 后退 0 步")
         return self
     
-    def use_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用技能后
+    def __use_skill(self, skill):
         if not skill.use_skill(self).is_avaliable(): # 使用次数减少 后 判断技能是否还是可用的
             self.__AvailableSkills.remove(skill.skillId)
+        return self
+    
+    def after_atk_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用攻击技能后
+        self.__use_skill(skill)
         enemy = None
         for each_e in enemys: # 只有技能落点的敌人移动
             if tuple(each_e.position) == tuple(attack_point):
@@ -667,6 +747,17 @@ class Hero():
             move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
             enemy.move_back(self, move_value, state)
         return self
+         
+    
+    def after_medical_skill(self, friends=[], skill=None, state=None): # 使用治疗技能之后
+        self.__use_skill(skill)
+        if "BUFF_ADD_HP" in skill.avaliable_effects(): 
+            print("use: BUFF_ADD_HP 持续治疗")
+            buff = Buff.create_buff(hero_or_monster=self, buff_key="BUFF_ADD_HP", 
+                                    param=skill.get_effect_by_key("BUFF_ADD_HP").param)
+            for each in friends:
+                each.add_buff_object(copy.deepcopy(buff))
+        return self
 
     def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
         for each_skill in self.get_inactive_Skills():
@@ -674,7 +765,7 @@ class Hero():
                 if "IS_DEFAULT_HIT" in each_skill.avaliable_effects(): # 被默认技能攻击
                     if int(skill.DefaultSkills) == 1: # 技能是默认技能
                         each_skill.make_effective(self)
-                else: # 不是被默认攻击时候出发
+                if "IS_SKILL_HIT": # 不是被默认攻击时候出发
                     if int(skill.DefaultSkills) == 0: # 技能不是默认技能
                         each_skill.make_effective(self)
         return self
@@ -685,12 +776,12 @@ class Hero():
         return self
 
     def dont_move(self): # 移动不移动
-        self.check_buff()                                       # 减少buff
+        # self.check_buff()                                       # 减少buff
         for each_skill in self.get_inactive_Skills():
             if "IS_HIT" not in each_skill.avaliable_effects():  # 非被动触发的技能
                 if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
                     each_skill.make_effective(self)
-        self.reduce_buff_round_action()
+        # self.reduce_buff_round_action()
         return self
     
     # 被动技能使攻击失效
@@ -771,25 +862,25 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        self.check_buff()           # 减少buff
+        # self.check_buff()           # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
                 self.leve_game(state)
                 return
             if not is_back_atk:
-                if each.is_miss_hit():
+                if each.is_miss_hit(): # 被动技能使攻击失效
                     print(f"** {each.HeroID} 的被动技能使攻击无效～")
                     continue
             each.before_be_attacked(skill) # 被攻击者添加被动skill
-            result = damage(attacker=self, defender=each, skill=skill)
-            result[each] = copy.deepcopy(result)
-            _t_hp = each.Hp - result.get("damage")
-            print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
-            print(each.HeroID ,"Hp <before>: ", each.Hp)
-            print(each.HeroID ,"Hp <damaeg>: ", result)
-            each.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
-            print(each.HeroID ,"Hp <after>: ", each.Hp)
+            unit_num = self.__get_unit_num(skill=skill, state=state)
+            #_res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num)
+            _res = damage(attacker=self, defender=each, skill=skill)
+            result[each] = copy.deepcopy(_res)
+            # print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
+            each.Hp_damage(_res.get("damage")) # 敌人掉血攻击
+            if not is_back_atk: # 不是反击技能
+                self.Hp_suck(_res.get("damage"))   # 攻击者吸血
             if each.is_death:
                 each.leve_game(state)
                 continue
@@ -798,6 +889,30 @@ class Hero():
                     if self.is_in_backskill_range(each_back_skill, self, state):
                         each.func_attack(enemys=[self], skill=each_back_skill, 
                                          attack_point=self.position, state=state, is_back_atk=True)
-        self.use_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
-        self.reduce_buff_round_action() # 减少buff的round action
+        self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
+        #self.reduce_buff_round_action() # 减少buff的round action
         return result
+    
+    def friend_treatment(self, friends=[], skill=None, state=[]): # 对队友释放治疗技能
+        """
+            @friends      治疗的对象列表
+            @skill        使用的技能对象
+            @state 是不是反击
+        """
+        # 敌人属性的改变
+        # 地块的改变
+        result = {}
+        self.prepare_attack(skill)  # 做攻击之前，加载skill相关
+        if self not in friends:
+            friends.append(self)
+        for each in friends:
+            _res = medical(docter=self, patient=each, skill=skill)
+            result[each] = copy.deepcopy(_res)
+            # TODO
+            each.Hp_add(_res)
+        #self.reduce_buff_round_action() # 减少buff的round action
+        return result
+    
+    def trigger_buff(self, buff): # 有些技能需要主动出发执行，比如 BUFF_AD_HP
+        buff.make_effective(self)
+        return self
