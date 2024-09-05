@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import time
@@ -31,13 +32,13 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 100
+        self.timeout_tick = 1100
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}#测试用
         self.record_error_dict = {}
         self.action_dict= {}
-        self.ap_parm=20 # 特定设置，代表一个tick增加速度/20 个ap
+        self.ap_parm=30 # 特定设置，代表一个tick增加速度/20 个ap
         self.ap_limit=100 # 游戏设置，代表每满足100个ap就动一次
         self.game_over=False
         self.init_state=None# 特定用于给强爷传输初始状态
@@ -76,6 +77,7 @@ class schedule:
 
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
+            #print('ddddd', hero.__class__.__name__.lower(),hero.HeroID)
 
             alive_hero_class = hero.__class__.__name__.lower()
             alive_hero_id=hero.HeroID
@@ -86,6 +88,7 @@ class schedule:
                 focus = hero.focus(state)
 
                 # 查看hero的队列
+                #print('tttttt',alive_hero_id,alive_hero_class)
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state,self.performance)
@@ -100,13 +103,15 @@ class schedule:
                 actions = focus + actions + un_focus
 
                 for action in actions:
-                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
+
+                   # print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,action)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         action_result=self.game.hero_action(hero, action)
                     else:
                         action_result=self.game.monster_action(hero, action)
                     self.performance.event_end('game_action')
+                    #print('调度行动-接到动作结果',self.tick,'id',alive_hero_id,'class',alive_hero,action_result)
                     if not action_result: #如果动作失败，直接跳出本次动作链路
                         print('调度行动-接到动作失败',self.tick,'id',alive_hero_id,'class',alive_hero)
                         break
@@ -117,9 +122,9 @@ class schedule:
                     self.performance.event_end('get_current_state')
 
                     self.performance.event_start('record')
-                    action['id']=alive_hero_id
-                    action['class']=alive_hero_class
-                    self._record(action, state_dict, new_state_dict)
+                    action_result['id']=alive_hero_id
+                    action_result['class']=alive_hero_class
+                    self._record(action_result, state_dict, new_state_dict)
                     self.performance.event_end('record')
 
 
@@ -215,6 +220,7 @@ class schedule:
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
         #print('给强爷',result)
+        save_result_to_view(result, 'result_for_qiang2.json')
         self.performance.event_end('send_update')
         return result
 
