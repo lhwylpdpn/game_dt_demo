@@ -83,6 +83,8 @@ class schedule:
             once_tick=math.ceil(self.ap_limit/(hero.Velocity/self.ap_parm))
             #print('once_tick',self.tick,once_tick)
             if self.tick % once_tick == 0:
+                focus = hero.focus(state)
+
                 # 查看hero的队列
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
@@ -94,6 +96,9 @@ class schedule:
                     actions = self.agent_2.choice_monster_act(hero, state,self.performance)
                     print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id)
                     self.performance.event_end('schedule_choose_action')
+                un_focus = hero.un_focus(state)
+                actions = focus + actions + un_focus
+
                 for action in actions:
                     print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class)
                     self.performance.event_start('game_action')

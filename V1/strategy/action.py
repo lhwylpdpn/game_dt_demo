@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:25
+from models.buff import Buff
 from strategy.game_utils import GameUtils
 from strategy.handler.attack import Attack
 from strategy.handler.move import Move
@@ -35,6 +36,10 @@ class Action(object):
         print("敌人在原地发呆！")
 
     def choose_action(self, step, hero, state):
+        if isinstance(step, Buff):
+            hero.trigger_buff(step)
+            return
+
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
             hero.move_position(*step["move_position"], state)
