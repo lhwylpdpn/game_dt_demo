@@ -4,10 +4,10 @@ from utils.config import demo_skill
 
 
 # 准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
-def damage(attacker, defender, skill):
+def damage_calc(attacker, defender, skill):
 
-    #####-------------------------------------------------------------------
-    #####这里负责取值，不负责计算
+    # ####-------------------------------------------------------------------
+    # ####这里负责取值，不负责计算
 
     # 英雄的属性
     attacker_HP = attacker.Hp
@@ -167,6 +167,13 @@ def damage(attacker, defender, skill):
 
     res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage}]
     return res
+
+
+def damage(attacker, defender, skill, unit_num=1):
+    d = []
+    for _ in range(unit_num):
+        d += damage_calc(attacker, defender, skill)
+    return d
 
 
 if __name__ == '__main__':
