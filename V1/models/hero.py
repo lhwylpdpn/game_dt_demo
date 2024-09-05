@@ -112,7 +112,7 @@ class Hero():
     def un_focus(self, state):
         # 取消选中
         self.reduce_buff_round_action() # 减少buff的round action
-        return self
+        return []
     
     def __get_friends(self, state):
         friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人, 包括自己
