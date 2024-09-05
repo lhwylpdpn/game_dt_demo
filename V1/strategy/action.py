@@ -9,16 +9,16 @@ from strategy.handler.move import Move
 
 class Action(object):
     def calc_damage(self, damage_data):
-        d = {}
+        d = []
         for each in damage_data:
             damage = [_["damage"] for _ in damage_data[each]]
             pre_damage = [_["pre_damage"] for _ in damage_data[each]]
-            d[each.HeroID] = {
-                "damage": damage,
-                "pre_damage": pre_damage
-            }
+            # d[each.HeroID] = {
+            #     "damage": damage,
+            #     "pre_damage": pre_damage
+            # }
+            d.extend([[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage])
         return d
-
 
     def move_step_handler(self, move_queue):
         res = []
