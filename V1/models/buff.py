@@ -5,7 +5,6 @@ date: 2024-08-01
 """
 import json
 import copy
-from utils.damage import damage
 
 
 class Buff():
@@ -33,7 +32,7 @@ class Buff():
             buff_from = hero_or_monster
         buff = None
         if buff_key == "DEBUFF_ROUND_ACTION_BACK": # 这个同类别的，后一个覆盖前一个效果
-            for each in hero_or_monster.__buff:
+            for each in hero_or_monster.buff:
                 if each.buff_key == "DEBUFF_ROUND_ACTION_BACK":
                     buff = each
                     buff.set_buff_value(param[0]).set_buff_round_action(param[1])
@@ -41,7 +40,6 @@ class Buff():
             if buff is None: 
                 buff = Buff(buff_key, param[0], param[1], buff_from=buff_from).set_buff_back(hero_or_monster.RoundAction)
         else:
-            print( buff_key, param)
             buff = Buff(buff_key, param[0], param[1], buff_from=buff_from)
             if buff_key == "BUFF_AD_HP":
                 buff.set_is_need_trigger(True)
