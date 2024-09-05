@@ -5,6 +5,11 @@ date: 2024-07-22
 """
 import copy
 from utils.tools import random_choices
+from collections import namedtuple
+
+SKILL_GOALS = namedtuple("SKILL_GOALS", ['ENEMY','LAND','SELF', 'FRIENDS'])
+skill_goals = SKILL_GOALS(1, 2, 3, 4)
+
 
 class SkillDetail():
     
@@ -13,7 +18,7 @@ class SkillDetail():
         self.__SkillLev = kwargs.get("SkillLev", None)
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
         self.__ActiveSkills	= kwargs.get("ActiveSkills", 0)        # 0，1  1 主动技能，0被动技能
-        self.__SkillGoals = kwargs.get("SkillGoals", [])           # 1敌人  2地格  3自身  4友方
+        self.__SkillGoals =[int(_) for _ in kwargs.get("SkillGoals", [])]       # 1敌人  2地格  3自身  4友方
         self.__effects = []
         self.__use_count = None
         self.__max_use_count = self.__use_count
@@ -125,6 +130,18 @@ class SkillDetail():
     
     def is_default_skill(self):
         return self.__DefaultSkills == 1
+    
+    def is_medical_skill(self): # 是否是治疗技能
+        if self.is_active_skill():
+            if skill_goals.LAND in self.skillGoals or skill_goals.SELF in self.skillGoals:
+                return True
+        return False
+    
+    def is_attack_skill(self): # 是否是攻击技能
+        if self.is_active_skill():
+            if skill_goals.ENEMY in self.skill_goals:
+                return True
+        return False
     
     def is_buff(self): # BUFF: 非主动，非被动触发的技能, 不是被普通攻击 , 不是连携, 不是被普攻时候出发
         if  not self.is_active_skill() and\

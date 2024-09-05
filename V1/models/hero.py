@@ -260,7 +260,10 @@ class Hero():
         print(self.HeroID ,"Hp ", self.__Hp)
         return self
     
-    def Hp_damage(self, damage): # 被攻击，掉血
+    def Hp_damage(self, damage_res): # 被攻击，掉血
+        damage = 0 
+        for each in damage_res:
+            damage += each.get("damage")
         print(self.HeroID ,"Hp <before>: ", self.Hp)
         print(self.HeroID ,"Hp <damaeg>: ", damage)
         _t_hp = self.Hp - damage
@@ -876,11 +879,11 @@ class Hero():
                     continue
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
-            #_res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num)
-            _res = damage(attacker=self, defender=each, skill=skill)
+            _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num)
+            #_res = damage(attacker=self, defender=each, skill=skill)
             result[each] = copy.deepcopy(_res)
             # print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
-            each.Hp_damage(_res[0].get("damage")) # 敌人掉血攻击
+            each.Hp_damage(_res) # 敌人掉血攻击
             # if not is_back_atk: # 不是反击技能
             #     self.Hp_suck(_res.get("damage"))   # 攻击者吸血
             if each.is_death:
