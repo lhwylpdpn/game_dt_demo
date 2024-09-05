@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:25
+import time
+
 from models.buff import Buff
 from strategy.game_utils import GameUtils
 from strategy.handler.attack import Attack
@@ -17,7 +19,8 @@ class Action(object):
             #     "damage": damage,
             #     "pre_damage": pre_damage
             # }
-            d.extend([[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage])
+            d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage]])
+            #print('彬哥的code',d)
         return d
 
     def move_step_handler(self, move_queue):
