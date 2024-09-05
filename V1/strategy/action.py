@@ -7,6 +7,17 @@ from strategy.handler.move import Move
 
 
 class Action(object):
+    def calc_damage(self, damage_data):
+        d = {}
+        for each in damage_data:
+            damage = [_["damage"] for _ in damage_data[each]]
+            pre_damage = [_["pre_damage"] for _ in damage_data[each]]
+            d[each.HeroID] = {
+                "damage": damage,
+                "pre_damage": pre_damage
+            }
+        return d
+
 
     def move_step_handler(self, move_queue):
         res = []
@@ -32,10 +43,13 @@ class Action(object):
             attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
             attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
-            hero.func_attack(attack_enemies, skill, step["atk_position"], state)
+            atk_res = hero.func_attack(attack_enemies, skill, step["atk_position"], state)
+
             res["atk_range"] = step["atk_range"]
             res["atk_position"] = step["atk_position"]
             res["release_range"] = step["release_range"]
+            res["damage"] = self.calc_damage(atk_res)
+
         if step["action_type"] == "WAIT":  # TODO
             hero.dont_move()
             return step
