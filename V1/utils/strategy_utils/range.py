@@ -322,7 +322,6 @@ class Range(Data):
         print(f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
 
         pick_data = pick["data"]
-        print('===>pick_data: ', pick_data)
         action_step = []
         if pick_data["hero_pos"] != Data.value("position", self.role):
             action_step += self.move_step_handler(pick_data["route"])

@@ -46,6 +46,22 @@ class Action(object):
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
             hero.move_position(*step["move_position"], state)
+            res["move_position"] = step["move_position"]
+
+        # if step["action_type"] in ("SKILL_97", "SKILL_98", "SKILL_99"):  # 治疗
+        #     targets = []  # TODO
+        #     skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
+        #     heal_res = hero.friend_treatment(targets, skill, step["atk_position"], state)
+        # else:
+        #     skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
+        #     attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
+        #     attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
+        #     atk_res = hero.func_attack(attack_enemies, skill, step["atk_position"], state)
+        #
+        #     res["atk_range"] = step["atk_range"]
+        #     res["atk_position"] = step["atk_position"]
+        #     res["release_range"] = step["release_range"]
+        #     res["damage"] = self.calc_damage(atk_res)
 
         if "SKILL_" in step["action_type"]:
             attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
