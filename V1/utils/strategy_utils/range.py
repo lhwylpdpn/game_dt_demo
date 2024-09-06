@@ -259,7 +259,7 @@ class Range(Data):
         for point in release_range:
             attack_range = skill_effect_range(self.role, point, skill, self.map)
             enemies_in_range = [enemy for enemy in self.enemies if Data.value("position", enemy) in attack_range]
-            if tuple(point) in [Data.value("position", e) for e in self.enemies]:
+            if tuple(point) in [Data.value("position", e) for e in enemies_in_range]:
                 if len(enemies_in_range) > 0:  # 技能范围内>0的敌人才返回
                     results.append(
                         {
@@ -322,7 +322,7 @@ class Range(Data):
         print(f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
 
         pick_data = pick["data"]
-        # print('===>pick_data: ', pick_data)
+        print('===>pick_data: ', pick_data)
         action_step = []
         if pick_data["hero_pos"] != Data.value("position", self.role):
             action_step += self.move_step_handler(pick_data["route"])
