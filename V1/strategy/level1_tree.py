@@ -142,10 +142,9 @@ def show_plot_tree():
     plt.show()
 def create_decision_tree(hero,state):
     BaseClassID=hero.get("BaseClassID")
+    print(333333,BaseClassID)
     sp_obj=sp()
-
-
-    sp_obj=sp()
+    print(sp_obj.get_strategy_params(BaseClassID)[1])
     eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
     range_obj=Range(hero,state)
     # 创建决策树
