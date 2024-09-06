@@ -8,7 +8,8 @@ import json
 import copy
 import traceback
 from itertools import product
-from utils.damage import damage#, medical
+from utils.damage import damage
+from utils.heal import heal
 # from utils.transposition import trans_postion
 from utils.tools import random_choices
 from .map import Map, Land
@@ -261,19 +262,18 @@ class Hero():
         return self
     
     def Hp_damage(self, damage_res): # 被攻击，掉血
-        damage = 0 
-        for each in damage_res:
-            damage += each.get("damage")
+        damage = sum([_.get("damage") for _ in damage_res]) 
         print(self.HeroID ,"Hp <before>: ", self.Hp)
         print(self.HeroID ,"Hp <damaeg>: ", damage)
         _t_hp = self.Hp - damage
         return self.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
 
-    def Hp_add(self, hp): # 被治疗or suck，涨Hp
+    def Hp_add(self, heal_res): # 被治疗or suck，涨Hp
+        hp = sum([_.get("heal") for _ in heal_res])
         print(self.HeroID ,"Hp <before>: ", self.Hp)
         print(self.HeroID ,"Hp <hp add>: ", hp)
         _t_hp = self.Hp + hp
-        return self.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
+        return self.set_Hp(float("%.2f"%_t_hp) if _t_hp <= self.HpBase else self.HpBase) # 血量
     
     def Hp_suck(self, damage):  # 攻击别人，自己吸血
         # TODO damage 需要吸血多少，需要处理
@@ -459,8 +459,8 @@ class Hero():
         self.__buff.append(buff_obj)
         return buff_obj
 
-    def add_buff(self, buff_key, param): # 增加普通buff
-        buff = Buff.create_buff(self, buff_key, param)
+    def add_buff(self, buff_key, param, buff_percent=None): # 增加普通buff
+        buff = Buff.create_buff(self, buff_key, param, buff_percent=buff_percent)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)
         return buff
@@ -571,7 +571,7 @@ class Hero():
             if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
                 effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
                 if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
-                    enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:])
+                    enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:], buff_percent=effect.param[0])
         return skill
 
     def load_init_unActiveSkill(self): # load  buff
@@ -758,10 +758,11 @@ class Hero():
         self.__use_skill(skill)
         if "BUFF_ADD_HP" in skill.avaliable_effects(): 
             print("use: BUFF_ADD_HP 持续治疗")
-            buff = Buff.create_buff(hero_or_monster=self, buff_key="BUFF_ADD_HP", 
-                                    param=skill.get_effect_by_key("BUFF_ADD_HP").param)
-            for each in friends:
-                each.add_buff_object(copy.deepcopy(buff))
+            effect = skill.get_effect_by_key("BUFF_ADD_HP")
+            if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
+                buff = Buff.create_buff(hero_or_monster=self, buff_key="BUFF_ADD_HP", param=effect.param[1:], buff_percent=effect.param[0])
+                for each in friends:
+                    each.add_buff_object(copy.deepcopy(buff))
         return self
 
     def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
@@ -880,9 +881,8 @@ class Hero():
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
             _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num)
-            #_res = damage(attacker=self, defender=each, skill=skill)
             result[each] = copy.deepcopy(_res)
-            # print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
+            print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
             each.Hp_damage(_res) # 敌人掉血攻击
             # if not is_back_atk: # 不是反击技能
             #     self.Hp_suck(_res.get("damage"))   # 攻击者吸血
@@ -902,7 +902,7 @@ class Hero():
         """
             @friends      治疗的对象列表
             @skill        使用的技能对象
-            @state 是不是反击
+            @state        
         """
         # 敌人属性的改变
         # 地块的改变
@@ -911,13 +911,13 @@ class Hero():
         if self not in friends:
             friends.append(self)
         for each in friends:
-            _res = medical(docter=self, patient=each, skill=skill)
+            _res = heal(caster=self, target=each, skill=skill)
             result[each] = copy.deepcopy(_res)
             # TODO
             each.Hp_add(_res)
         #self.reduce_buff_round_action() # 减少buff的round action
         return result
     
-    def trigger_buff(self, buff): # 有些技能需要主动出发执行，比如 BUFF_AD_HP
+    def trigger_buff(self, buff): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
         buff.make_effective(self)
         return self

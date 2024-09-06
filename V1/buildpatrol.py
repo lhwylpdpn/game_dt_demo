@@ -83,7 +83,7 @@ if __name__ == "__main__":
     monster = state.get("monster")[0]
     print(hero.hero_or_monster())
     print(monster.hero_or_monster())
-
+    print(monster.dict())
     # print(monster.team)
     # print(monster.team.get_dog_range(state))
     # print(monster.hero_or_monster())
