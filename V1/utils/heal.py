@@ -23,4 +23,4 @@ def heal(caster, target, skill):
     if skill.SkillId == demo_skill['治疗强力治愈']:
         heal_amount = float(caster_magical_atk * 1.5)  # 150%
 
-    return [{'heal': heal_amount, "pre_heal": heal}]
+    return [{'heal': heal_amount, "pre_heal": heal_amount}]
