@@ -874,13 +874,16 @@ class Hero():
             if self.is_death: # 死亡了
                 self.leve_game(state)
                 return
-            if not is_back_atk:
-                if each.is_miss_hit(): # 被动技能使攻击失效
-                    print(f"** {each.HeroID} 的被动技能使攻击无效～")
-                    continue
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
             _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num)
+            if not is_back_atk:
+                if each.is_miss_hit(): # 被动技能使攻击失效
+                    for _ in _res:
+                        _["damage"] = 0
+                    result[each] = copy.deepcopy(_res)
+                    print(f"~~~~ {each.HeroID} 的被动技能使攻击无效～", _res)
+                    continue
             result[each] = copy.deepcopy(_res)
             print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
             each.Hp_damage(_res) # 敌人掉血攻击
