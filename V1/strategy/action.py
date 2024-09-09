@@ -36,14 +36,13 @@ class Action(object):
         print("敌人在原地发呆！")
 
     def choose_action(self, step, hero, state):
-        if isinstance(step, Buff):
-            hero.trigger_buff(step)
-            return
-
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
             hero.move_position(*step["move_position"], state)
             res["move_position"] = step["move_position"]
+
+        if "EFFECT_" in step["action_type"]:
+            hero.trigger_buff(step)
 
         # if step["action_type"] in ("SKILL_97", "SKILL_98", "SKILL_99"):  # 治疗
         #     targets = []  # TODO
