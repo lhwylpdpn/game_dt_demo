@@ -12,9 +12,12 @@ from utils.config import bass_class
 #action_strategy: 选择行动策略用于函数内
 #selection_strategy: 选择tree上的判断策略 用于tree上
 #####
+
+
+
 class strategy_params:
     def __init__(self):
-
+        self.data_type = [1,2] # 1是越小越好，2是越大越好
         self.base_class = bass_class
         self.action_strategy = {}
         self.selection_strategy = {}
@@ -25,13 +28,13 @@ class strategy_params:
         ####选择攻击对象的策略================================================================================================
         self.action_strategy["atk_target"] = {}
         ####优先攻击最近的敌人
-        self.action_strategy["atk_target"]["nearest"] = {'score': [0,1], 'desc': '优先攻击最近的敌人', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["atk_target"]["nearest"] = {'score': [0,1], 'desc': '优先攻击最近的敌人', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 1}
         ####优先攻击百分比血量最少的敌人
-        self.action_strategy["atk_target"]["min_hp"] = {'score': [0,1], 'desc': '优先攻击百分比血量最少的敌人', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["atk_target"]["min_hp"] = {'score': [0,1], 'desc': '优先攻击百分比血量最少的敌人', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 1}
         ####优先攻击攻击力最高的敌人
-        self.action_strategy["atk_target"]["max_atk"] = {'score': [0,1], 'desc': '优先攻击攻击力最高的敌人', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["atk_target"]["max_atk"] = {'score': [0,1], 'desc': '优先攻击攻击力最高的敌人', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####优先攻击防御力最低的敌人
-        self.action_strategy["atk_target"]["min_def"] = {'score': [0,1], 'desc': '优先攻击防御力最低的敌人', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["atk_target"]["min_def"] = {'score': [0,1], 'desc': '优先攻击防御力最低的敌人', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 1}
         ####优先攻击支援型职业
         self.action_strategy["atk_target"]["career_support"] = {'score': [0,1], 'desc': '优先攻击支援型职业', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先攻击攻击型职业
@@ -50,9 +53,9 @@ class strategy_params:
         ###选择攻击方式的策略================================================================================================
         self.action_strategy["atk_type"] = {}
         ####优先使用技能攻击
-        self.action_strategy["atk_type"]["skill"] = {'score': [0,1], 'desc': '优先使用技能攻击', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["atk_type"]["skill"] = {'score': [0,1], 'desc': '优先使用技能攻击', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先使用普通攻击
-        self.action_strategy["atk_type"]["normal"] = {'score': [0,1], 'desc': '优先使用普通攻击', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["atk_type"]["normal"] = {'score': [0,1], 'desc': '优先使用普通攻击', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先对攻击力最高的敌人使用单体攻击技能
         self.action_strategy["atk_type"]["single_max_atk"] = {'score': [0,1], 'desc': '优先对攻击力最高的敌人使用单体攻击技能', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先对防御力最高的敌人使用单体攻击技能
@@ -68,27 +71,27 @@ class strategy_params:
         self.action_strategy["move_position"] = {}
         ####优先移动到普通攻击可以攻击到更多敌人的位置
         #攻击到人越多，分数越高
-        self.action_strategy["move_position"]["atk_multi"] = {'score': [0,1], 'desc': '优先移动到普通攻击可以攻击到复数敌人的位置', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["move_position"]["atk_multi"] = {'score': [0,1], 'desc': '优先移动到普通攻击可以攻击到复数敌人的位置', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####优先移动到不会被更多敌人攻击的位置
         #被攻击到人越少，分数越高
-        self.action_strategy["move_position"]["no_atk"] = {'score': [0,1], 'desc': '优先移动到不会被更多敌人攻击的位置', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["move_position"]["no_atk"] = {'score': [0,1], 'desc': '优先移动到不会被更多敌人攻击的位置', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 1}
         ####优先占领制高点，目标地点-当前地点的高度差越大，分数越高
-        self.action_strategy["move_position"]["high"] = {'score': [0,1], 'desc': '优先占领制高点', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["move_position"]["high"] = {'score': [0,1], 'desc': '优先占领制高点', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####选择移动路径策略================================================================================================
         self.action_strategy["move_path"] = {}
         ####优先最短路线
-        self.action_strategy["move_path"]["shortest"] = {'score': [0,1], 'desc': '优先最短路线', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["move_path"]["shortest"] = {'score': [0,1], 'desc': '优先最短路线', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 1}
         ####优先不进入敌人的警戒范围
         ###进入敌人警戒范围的点越多，分值越低
-        self.action_strategy["move_path"]["no_warning"] = {'score': [0,1], 'desc': '优先不进入敌人的警戒范围', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["move_path"]["no_warning"] = {'score': [0,1], 'desc': '优先不进入敌人的警戒范围', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 1}
         ####选择辅助策略================================================================================================
         self.action_strategy["assist"] = {}
         ####优先使用单体治疗技能
-        self.action_strategy["assist"]["single_heal"] = {'score': [0,1], 'desc': '优先使用单体治疗技能', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["assist"]["single_heal"] = {'score': [0,1], 'desc': '优先使用单体治疗技能', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####优先使用群体治疗技能
-        self.action_strategy["assist"]["group_heal"] = {'score': [0,1], 'desc': '优先使用群体治疗技能', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["assist"]["group_heal"] = {'score': [0,1], 'desc': '优先使用群体治疗技能', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####优先使用持续治疗技能
-        self.action_strategy["assist"]["sustain_heal"] = {'score': [0,1], 'desc': '优先使用持续治疗技能', 'weight': 0.2, 'clac_type': 'normalized'}
+        self.action_strategy["assist"]["sustain_heal"] = {'score': [0,1], 'desc': '优先使用持续治疗技能', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####优先针对防守型职业使用治疗技能
         self.action_strategy["assist"]["career_defense"] = {'score': [0,1], 'desc': '优先针对防守型职业使用治疗技能', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先针对攻击型职业使用治疗技能
