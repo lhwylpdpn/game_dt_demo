@@ -130,6 +130,8 @@ def damage_calc(attacker, defender, skill):
     print('damage', damage)
     pre_damage = damage
 
+    st = "ADV" if attacker_Atk_bonusCoefficient > defender_ATK_bonusCoefficient else "DISADV" if attacker_Atk_bonusCoefficient < defender_ATK_bonusCoefficient else "EQU"
+
     # ####-------------------------------------------------------------------
 
     # ####-------------------------------------------------------------------
@@ -163,9 +165,9 @@ def damage_calc(attacker, defender, skill):
     if skill.SkillId == demo_skill['战士反击斩']:
         res = random_choices({0: 0.5, 1: 0.5})  # 0 反击生效  1 反击不生效
         if res == 1:
-            return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage}]
+            return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage, "st": st}]
 
-    res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage}]
+    res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage, "st": st}]
     return res
 
 
