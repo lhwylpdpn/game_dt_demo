@@ -108,7 +108,10 @@ class Hero():
     def focus(self, state):
         # 被选中
         self.check_buff()           # 减少buff
-        return self.__get_need_trigger_buff()  
+        bufff_s = []
+        for each in self.__get_need_trigger_buff():
+            bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
+        return bufff_s 
     
     def un_focus(self, state):
         # 取消选中
@@ -459,8 +462,8 @@ class Hero():
         self.__buff.append(buff_obj)
         return buff_obj
 
-    def add_buff(self, buff_key, param, buff_percent=None): # 增加普通buff
-        buff = Buff.create_buff(self, buff_key, param, buff_percent=buff_percent)
+    def add_buff(self, buff_id,  buff_key, param, buff_percent=None): # 增加普通buff
+        buff = Buff.create_buff(self, buff_id, buff_key, param, buff_percent=buff_percent)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)
         return buff
@@ -571,7 +574,8 @@ class Hero():
             if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
                 effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
                 if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
-                    enemy.add_buff(buff_key="DEBUFF_ROUND_ACTION_BACK", param=effect.param[1:], buff_percent=effect.param[0])
+                    enemy.add_buff(buff_id=effect.id, buff_key="DEBUFF_ROUND_ACTION_BACK",
+                                   param=effect.param[1:], buff_percent=effect.param[0])
         return skill
 
     def load_init_unActiveSkill(self): # load  buff
@@ -580,7 +584,7 @@ class Hero():
         for each_skill in self.get_inactive_Skills():
             if each_skill.is_buff(): 
                 for each in each_skill.effects:
-                    buff = self.add_buff(buff_key=each.key, param=each.param)
+                    buff = self.add_buff(buff_id=each.id, buff_key=each.key, param=each.param)
                     if "BUFF_UNIT_DISTANCE" == each.key: # 寻找可以全队连携的buff
                         buffs_unit_dis.append(buff)
         return buffs_unit_dis
@@ -753,14 +757,14 @@ class Hero():
             enemy.move_back(self, move_value, state)
         return self
          
-    
     def after_medical_skill(self, friends=[], skill=None, state=None): # 使用治疗技能之后
         self.__use_skill(skill)
         if "BUFF_ADD_HP" in skill.avaliable_effects(): 
             print("use: BUFF_ADD_HP 持续治疗")
             effect = skill.get_effect_by_key("BUFF_ADD_HP")
             if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
-                buff = Buff.create_buff(hero_or_monster=self, buff_key="BUFF_ADD_HP", param=effect.param[1:], buff_percent=effect.param[0])
+                buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id,
+                       buff_key="BUFF_ADD_HP", param=effect.param[1:], buff_percent=effect.param[0])
                 for each in friends:
                     each.add_buff_object(copy.deepcopy(buff))
         return self

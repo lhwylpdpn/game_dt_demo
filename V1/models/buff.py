@@ -9,7 +9,8 @@ import copy
 
 class Buff():
     
-    def __init__(self, buff_key, buff_value, buff_round_action, buff_from=None, buff_back=None, buff_percent=None):
+    def __init__(self, buff_id, buff_key, buff_value, buff_round_action, buff_from=None, buff_back=None, buff_percent=None):
+        self.__buff_id = buff_id
         self.__buff_key = buff_key
         self.__buff_value = buff_value
         self.__buff_round_action = int(buff_round_action)
@@ -17,7 +18,7 @@ class Buff():
         self.__buff_from = buff_from               # buff 是由谁带来的, 默认都是自己的
         self.__buff_percent = buff_percent
         self.__is_need_trigger = False             # 是否需要触发执行
-        self.fields = ["buff_key", "buff_value", "buff_round_action", "buff_back"]
+        self.fields = ["buff_id", "buff_key", "buff_value", "buff_round_action", "buff_back"]
 
     def dict(self, **kwargs):
         #return {_:self.__getattribute__(_) for _ in self.fields}
@@ -25,6 +26,7 @@ class Buff():
         if self.__buff_percent:
             param.insert(0, self.__buff_percent)
         return {
+            "buff_id": self.buff_id,
             "buff_key": self.buff_key,
             "param":param
         }
@@ -35,7 +37,7 @@ class Buff():
         return self 
     
     @staticmethod
-    def create_buff(hero_or_monster, buff_key, param, buff_from=None, buff_percent=None):
+    def create_buff(hero_or_monster, buff_id, buff_key, param, buff_from=None, buff_percent=None):
         if buff_from is None:
             buff_from = hero_or_monster
         buff = None
@@ -46,13 +48,18 @@ class Buff():
                     buff.set_buff_value(param[0]).set_buff_round_action(param[1])
                     continue
             if buff is None: 
-                buff = Buff(buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent).set_buff_back(hero_or_monster.RoundAction)
+                buff = Buff(buff_id, buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent).set_buff_back(hero_or_monster.RoundAction)
         else:
-            buff = Buff(buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent)
+            buff = Buff(buff_id, buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent)
             if buff_key == "BUFF_AD_HP":
                 buff.set_is_need_trigger(True)
+        print(buff.dict())
         return buff
     
+    @property
+    def buff_id(self):
+        return self.__buff_id
+
     @property
     def is_need_trigger(self):
         return self.__is_need_trigger
