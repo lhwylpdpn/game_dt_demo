@@ -475,8 +475,8 @@ class Hero():
                 self.__buff.remove(each)
         return self
     
-    def add_unit_buff(self, buff_key, param): # 增加连携buff
-        buff = Buff.create_buff(self, buff_key, param)
+    def add_unit_buff(self, buff_id, buff_key, param): # 增加连携buff
+        buff = Buff.create_buff(self, buff_id, buff_key, param)
         buff.make_effective(self)
         self.__unit_skill_buff.append(buff)
         return buff
@@ -620,7 +620,7 @@ class Hero():
                 if len(near_friends) >1: # 多于一个人才可以连携 (自己一个人不算哈)
                     for friend in near_friends:
                         for e_skill in each_skill.effects:
-                            friend.add_unit_buff(buff_key=e_skill.key, param=e_skill.param)
+                            friend.add_unit_buff(buff_id=e_skill.id, buff_key=e_skill.key, param=e_skill.param)
         return  self               
                     
     def __get_unit_num(self, skill, state): # 获取连携数据
