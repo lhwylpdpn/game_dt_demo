@@ -25,18 +25,18 @@ class BuildPatrol():
     
     def load_data(self):
         with open(self.src_data_path, 'r') as file:
-            data = json.load(file)
-        heros = self.build_object(data.get("hero"), hero_or_monster="hero")
-        monsters = self.build_object(data.get("monster"), hero_or_monster="monster")
+            src_json_data = json.load(file)
+        heros = self.build_object(src_json_data.get("hero"), hero_or_monster="hero")
+        monsters = self.build_object(src_json_data.get("monster"), hero_or_monster="monster")
         TeamFlag.search_teammate(heros)
         TeamFlag.search_teammate(monsters)
-        return {"map": self.build_map(data.get("map")), 
+        return {"map": self.build_map(src_json_data.get("map")), 
                 "hero": heros,
                 "monster": monsters
                 }
 
     @staticmethod
-    def build_object(origin_hero_data, hero_or_monster="hero"):  # 
+    def build_object(origin_hero_data, hero_or_monster):  # 
         m_h_obj_list = []
         buff_unit_dis = [] # 全队连携的buff
         Object_Class = Hero if hero_or_monster == "hero" else Monster

@@ -15,12 +15,9 @@ class Action(object):
         for each in damage_data:
             damage = [_["damage"] for _ in damage_data[each]]
             pre_damage = [_["pre_damage"] for _ in damage_data[each]]
-            # d[each.HeroID] = {
-            #     "damage": damage,
-            #     "pre_damage": pre_damage
-            # }
-            d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage]])
-            #print('彬哥的code',d)
+            st = [_["st"] for _ in damage_data[each]]
+
+            d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st]])
         return d
 
     def move_step_handler(self, move_queue):
@@ -39,14 +36,13 @@ class Action(object):
         print("敌人在原地发呆！")
 
     def choose_action(self, step, hero, state):
-        if isinstance(step, Buff):
-            hero.trigger_buff(step)
-            return
-
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
             hero.move_position(*step["move_position"], state)
             res["move_position"] = step["move_position"]
+
+        if "EFFECT_" in step["action_type"]:
+            hero.trigger_buff(step)
 
         # if step["action_type"] in ("SKILL_97", "SKILL_98", "SKILL_99"):  # 治疗
         #     targets = []  # TODO
