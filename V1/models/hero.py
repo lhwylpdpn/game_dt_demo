@@ -85,7 +85,9 @@ class Hero():
         self.__unit_skill_buff = []                                             # 连携攻击增加的buf(每行动一次，重新组织一次此数据)
         self.__Block = 2                                                        # 地块站立的属性 hero 为2， monster 为 3
         # UnitDistance 
-        self.__UnitDistance = kwargs.get("UnitDistance", 1)                   # 连携距离
+        self.__UnitDistance = kwargs.get("UnitDistance", 1)                     # 连携距离
+        # 自己的数据统计
+        self.__focus_times = 0                                                  # 被选中的次数
 
     def hero_or_monster(self):
         "HERO or MONSER"
@@ -98,25 +100,29 @@ class Hero():
         self.move_position(*self.position, state, init_position)
         return self
     
-    def __get_need_trigger_buff(self): # 获取自己需要每次触发的buff
+    def __get_need_trigger_buff(self, is_before_action=True): # 获取自己需要每次触发的buff
         _buf = []
         for _ in self.__buff:
-            if _.is_need_trigger:
+            if _.is_need_trigger and _.is_before_action==is_before_action:
                 _buf.append(_)
         return _buf
 
     def focus(self, state):
         # 被选中
+        self.__focus_times += 1     # 被选中次数 + 1
         self.check_buff()           # 减少buff
         bufff_s = []
-        for each in self.__get_need_trigger_buff():
+        for each in self.__get_need_trigger_buff(is_before_action=True):
             bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
+        self.reduce_buff_round_action() # 减少buff的round action
         return bufff_s 
     
     def un_focus(self, state):
         # 取消选中
-        self.reduce_buff_round_action() # 减少buff的round action
-        return []
+        bufff_s = []
+        for each in self.__get_need_trigger_buff(is_before_action=False):
+            bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
+        return bufff_s
     
     def __get_friends(self, state):
         friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人, 包括自己
@@ -925,6 +931,6 @@ class Hero():
         #self.reduce_buff_round_action() # 减少buff的round action
         return result
     
-    def trigger_buff(self, buff): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
-        buff.make_effective(self)
+    def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
+        buff_dic.get("buff").make_effective(self)
         return self

@@ -9,19 +9,23 @@ import copy
 
 class Buff():
     
-    def __init__(self, buff_id, buff_key, buff_value, buff_round_action, buff_from=None, buff_back=None, buff_percent=None):
+    def __init__(self, buff_id, buff_key, buff_value, buff_round_action, 
+                       buff_from=None, buff_back=None, buff_percent=None, 
+                       is_need_trigger=False, is_before_action=True):
         self.__buff_id = buff_id
         self.__buff_key = buff_key
         self.__buff_value = buff_value
         self.__buff_round_action = int(buff_round_action)
-        self.__buff_back = buff_back
-        self.__buff_from = buff_from               # buff 是由谁带来的, 默认都是自己的
-        self.__buff_percent = buff_percent
-        self.__is_need_trigger = False             # 是否需要触发执行
-        self.fields = ["buff_id", "buff_key", "buff_value", "buff_round_action", "buff_back"]
+        self.__total_buff_round_action = int(buff_round_action)   # 总 round_action
+        self.__buff_back = buff_back                 # 用在buff失效后，用来恢复原始值
+        self.__buff_from = buff_from                 # buff 是由谁带来的, 默认都是自己的
+        self.__buff_percent = buff_percent           # buff 是否触发的百分比（被创建的已经是触发的buff，此数据当前只在返回值用到）
+        self.__is_need_trigger =  is_need_trigger    # 是否需要触发执行
+        self.__is_before_action = is_before_action   # 是否为行动前需要触发, 默认是 True
+        self.__fields = ["buff_id", "buff_key", "buff_value", "buff_round_action", 
+                         "total_buff_round_action", "buff_back", "is_before_action"]
 
-    def dict(self, **kwargs):
-        #return {_:self.__getattribute__(_) for _ in self.fields}
+    def dict(self, **kwargs): # 展示使用
         param =  [self.buff_value, self.buff_round_action]
         if self.__buff_percent:
             param.insert(0, self.__buff_percent)
@@ -30,6 +34,9 @@ class Buff():
             "buff_key": self.buff_key,
             "param":param
         }
+    
+    def dict_normal(self): 
+        return {_:self.__getattribute__(_) for _ in self.__fields} 
     
     def reduce_round_action(self):
         if self.__buff_round_action > 0:
@@ -98,6 +105,18 @@ class Buff():
 
     def set_buff_round_action(self, v):
         self.__buff_round_action = int(v)
+        return self
+    
+    @property
+    def total_buff_round_action(self):
+        return self.__total_buff_round_action
+    
+    @property
+    def is_before_action(self):
+        return self.__is_before_action
+    
+    def set_is_before_action(self, v):
+        self.__is_before_action = v
         return self
 
     def is_avaliable(self):
