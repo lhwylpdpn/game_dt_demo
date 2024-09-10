@@ -105,7 +105,7 @@ def lambda_select_fun(params_list):
     return lambda: []
 
 def wait():
-    print('等待')
+    return False
 
 #
 # def lambda_use_single_skill():

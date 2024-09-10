@@ -3,8 +3,8 @@
 # @Time    : 2024/7/26 14:20
 from strategy.action import Action
 from strategy.handler.attack import Attack
-from strategy.level1_tree import make_decision
-
+from strategy.level1_tree import make_decision as level1_make_decision
+from strategy.level0_tree import make_decision as level0_make_decision
 class Agent(object):
 
     def swap_specific_keys(self, d, key1, key2):
@@ -28,7 +28,9 @@ class Agent(object):
         # maps = state["map"].view_from_y_dict()
         # maps = Attack().convert_maps(maps)
         # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = make_decision(hero, state,performance=performance)
+        res =level0_make_decision(hero, state,performance=performance)
+        if not res:
+            res = level1_make_decision(hero, state,performance=performance)
         return res
 
     def choice_monster_act(self, hero, state,performance=None):
@@ -38,5 +40,7 @@ class Agent(object):
         # maps = state["map"].view_from_y_dict()
         # maps = Attack().convert_maps(maps)
         # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
-        res = make_decision(hero, state,performance=performance)
+        res = level0_make_decision(hero, state,performance=performance)
+        if not res:
+            res = level1_make_decision(hero, state,performance=performance)
         return res

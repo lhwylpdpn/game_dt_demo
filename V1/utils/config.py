@@ -40,10 +40,25 @@ bass_class['治疗']=3
 bass_class['法师']=4
 bass_class['野蛮人']=5
 
-LineupClassID = {}
+Class_type1_ID = {}
 
-LineupClassID['前卫攻击型'] = 1
-LineupClassID['前卫防守型'] = 2
-LineupClassID['后卫攻击型'] = 3
-LineupClassID['后卫防守型'] = 4
-LineupClassID['后卫支援型'] = 5
+Class_type1_ID['前卫型'] = 1
+Class_type1_ID['后卫型'] = 2
+
+Class_type2_ID = {}
+Class_type2_ID['攻击型'] = 1
+Class_type2_ID['防守型'] = 2
+Class_type2_ID['治疗型'] = 3
+Class_type2_ID['辅助型'] = 4
+
+CLass_type3_ID = {}
+CLass_type3_ID['近身持续输出'] = 1
+CLass_type3_ID['近身爆发输出'] = 2
+CLass_type3_ID['远程输出'] = 3
+CLass_type3_ID['魔法输出'] = 4
+CLass_type3_ID['治疗辅助'] = 5
+
+
+
+
+
