@@ -60,7 +60,6 @@ class Buff():
             buff = Buff(buff_id, buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent)
             if buff_key == "BUFF_AD_HP":
                 buff.set_is_need_trigger(True)
-        print(buff.dict())
         return buff
     
     @property

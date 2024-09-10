@@ -109,12 +109,13 @@ class Hero():
 
     def focus(self, state):
         # 被选中
-        self.__focus_times += 1     # 被选中次数 + 1
-        self.check_buff()           # 减少buff
+        self.__focus_times += 1                    # 被选中次数 + 1
+        remove_buffs = self.check_buff()           # 减少buff
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=True):
             bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
         self.reduce_buff_round_action() # 减少buff的round action
+        bufff_s.extend(remove_buffs)
         return bufff_s 
     
     def un_focus(self, state):
@@ -475,11 +476,15 @@ class Hero():
         return buff
 
     def check_buff(self): # 回合结束后，检查buff的加成
+        remove_buff_action = [] 
         for each in self.__buff:
             if not each.is_avaliable:
                 each.make_invalid(self)
+                remove_buff_action.append(
+                    {"action_type": f"EFFECT_{each.buff_id}_REMOVE", "buff":None}
+                )
                 self.__buff.remove(each)
-        return self
+        return remove_buff_action
     
     def add_unit_buff(self, buff_id, buff_key, param): # 增加连携buff
         buff = Buff.create_buff(self, buff_id, buff_key, param)
@@ -792,12 +797,10 @@ class Hero():
         return self
 
     def dont_move(self): # 移动不移动
-        # self.check_buff()                                       # 减少buff
         for each_skill in self.get_inactive_Skills():
             if "IS_HIT" not in each_skill.avaliable_effects():  # 非被动触发的技能
                 if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
                     each_skill.make_effective(self)
-        # self.reduce_buff_round_action()
         return self
     
     # 被动技能使攻击失效
@@ -878,7 +881,6 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        # self.check_buff()           # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
@@ -908,7 +910,6 @@ class Hero():
                         each.func_attack(enemys=[self], skill=each_back_skill, 
                                          attack_point=self.position, state=state, is_back_atk=True)
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
-        #self.reduce_buff_round_action() # 减少buff的round action
         return result
     
     def friend_treatment(self, friends=[], skill=None, state=[]): # 对队友释放治疗技能
@@ -932,5 +933,7 @@ class Hero():
         return result
     
     def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
-        buff_dic.get("buff").make_effective(self)
+        buff_obj = buff_dic.get("buff")
+        if isinstance(buff_obj, Buff):
+            buff_obj.make_effective(self)
         return self
