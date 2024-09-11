@@ -111,7 +111,7 @@ def lambda_nearby_enemy_count(obj,N):
     return lambda : obj.nearby_enemy_count(N) #自己是不是在几个敌人范围内
 def lambda_is_within_range(obj,N):
 
-    return lambda : not obj.is_within_range(N) #自己的警戒周围是不是有几个敌人
+    return lambda : obj.is_within_range(N) #自己的警戒周围是不是有几个敌人
 def lambda_is_fight_allies(obj):
     return lambda : obj.is_combat_teammate()
 def lambda_have_targets_within_atk_range(obj):
