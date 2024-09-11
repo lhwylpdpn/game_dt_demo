@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/8/21 16:06
-import heapq
 from copy import deepcopy
 from itertools import product
-from pprint import pprint
 
 from log.log import log_manager
 from strategy.handler.weight import Weight
@@ -35,7 +33,8 @@ class Range(Data):
                     if not isinstance(_, dict):
                         _ = _.dict()
                     if Data.value("HeroID", _) != Data.value("HeroID", self.role):
-                        self.teammates.append(_)
+                        if Data.value("Hp", _) > 0:
+                            self.teammates.append(_)
 
             if "monster" in state:
                 self.enemies = []
@@ -173,7 +172,7 @@ class Range(Data):
         return False
 
     def is_within_range(self, num):
-        # 是否在num个敌人的范围内
+        # 自己的警戒范围内是否有num个敌人
         doge_base = Data.value("DogBase", self.role)
         role_position = Data.value("position", self.role)
         count = 0
@@ -181,7 +180,7 @@ class Range(Data):
             enemy_position = Data.value("position", enemy)
             if manhattan_distance(role_position, enemy_position) <= doge_base:
                 count += 1
-        print(f"警戒范围内是否有{num}个敌方单位: {num <= count}")
+        print(f"警戒范围内是否有>={num}个敌方单位: {num <= count}  ,count:{count}")
         return num <= count
 
     def find_closest_attack_position(self, hero, enemy_position):
@@ -305,8 +304,8 @@ class Range(Data):
         #     state = {"map": self.map,
         #              "hero": self.teammates + [self.role],
         #              "monster": self.enemies}
-        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
-        # print(f"log tmp: {tmp}")
+        #     tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+        #     print(f"log tmp: {tmp}")
         print(f"[ATK]攻击可选择数量为: {len(pick_list)}")
         return pick_list
 
@@ -314,6 +313,15 @@ class Range(Data):
         # 确定攻击目标
         pick = {}
         pick_list = self.find_targets_within_atk_range()
+
+        # pick = ActionWeight(
+        #     self.role["HeroID"],
+        #     self.role,
+        #     self.teammates,
+        #     self.enemies,
+        #     self.map
+        # ).select_attack_strategy(pick_list)
+
         for each in pick_list:
             _weight = Weight().clac_skill_weight(each)
             if not pick:
@@ -321,8 +329,7 @@ class Range(Data):
                 continue
             if pick["weight"] < _weight:
                 pick = {"weight": _weight, "data": each}
-        print(
-            f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
+        print(f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
 
         pick_data = pick["data"]
         action_step = []
@@ -350,11 +357,11 @@ class Range(Data):
             if atk_position:
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
-                    state = {"map": self.map,
-                             "hero": self.teammates + [self.role],
-                             "monster": self.enemies}
-                    tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}))
-                    print(f"log tmp: {tmp}")
+                    # state = {"map": self.map,
+                    #          "hero": self.teammates + [self.role],
+                    #          "monster": self.enemies}
+                    # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}))
+                    # print(f"log tmp: {tmp}")
                     print(
                         f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
                     return self.move_step_handler(move_steps)
@@ -375,6 +382,7 @@ class Range(Data):
         teammate_position = self.has_combat_ready_teammate(self.role, self.teammates, self.enemies)
         if teammate_position:
             print(f"[MOVE]存在战斗状态的队友: {teammate_position}")
+
             steps = find_shortest_path(position, teammate_position, jump_height, [1, 2, 3], self.map)[
                     : round_action + 1]
             move_steps = self.get_block_step(steps, (1,), self.map)
