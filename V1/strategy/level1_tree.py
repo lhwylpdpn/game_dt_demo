@@ -111,7 +111,7 @@ def lambda_nearby_enemy_count(obj,N):
     return lambda : obj.nearby_enemy_count(N) #自己是不是在几个敌人范围内
 def lambda_is_within_range(obj,N):
 
-    return lambda : obj.is_within_range(N) #自己的警戒周围是不是有几个敌人
+    return lambda : obj.is_within_range(N) #自己的警戒周围是不是小于几个敌人 ，-1 代表>-1 才是没有敌人的时候是Flase，有敌人是True
 def lambda_is_fight_allies(obj):
     return lambda : obj.is_combat_teammate()
 def lambda_have_targets_within_atk_range(obj):
@@ -150,7 +150,7 @@ def create_decision_tree(hero,state):
 
     #所有判断节点
     root = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,1)],probability=1)
-    is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(range_obj,0)],probability=1)
+    is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(range_obj,1)],probability=1)
     is_have_targets_within_atk_range_node=Node("判断是否有敌人在攻击范围内",action=None,selection=[lambda_have_targets_within_atk_range(range_obj)],probability=1)
     is_have_allies_within_range_node=Node("判断是否有友军在战斗",action=None,selection=[lambda_is_fight_allies(range_obj)],probability=1)
     is_have_boss_node=Node("判断是否有boss",action=None,selection=[lambda_is_have_boss(range_obj)],probability=1)
