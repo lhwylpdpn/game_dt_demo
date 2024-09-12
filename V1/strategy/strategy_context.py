@@ -24,7 +24,6 @@ class strategy_params:
         ####选择逃跑策略================================================================================================
         self.selection_strategy["escape"] = {}
         self.selection_strategy["escape"]["is_health_below_threshold"]={'weight': 0.4} #0.4代表40%
-
         ####选择攻击对象的策略================================================================================================
         self.action_strategy["atk_target"] = {}
         ####优先攻击最近的敌人
@@ -105,102 +104,19 @@ class strategy_params:
         real_selection_strategy = copy.deepcopy(self.selection_strategy)
         #print('real_action_strategy',real_action_strategy)
         #print('real_selection_strategy',real_selection_strategy)
-        if base_class_value==1:#战士
+        if base_class_value in (1,2,3):
             real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
-            real_action_strategy["atk_target"]["nearest"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["max_atk"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["min_def"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_support"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_attack"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_defense"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["non_elite"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["elite"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["no_atk"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["no_combat_no_atk"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["skill"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["normal"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_max_atk"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_max_def"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_support"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_attack"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_defense"]['weight'] = 0.2
-            real_action_strategy["move_position"]["atk_multi"]['weight'] = 0.2
-            real_action_strategy["move_position"]["no_atk"]['weight'] = 0.2
-            real_action_strategy["move_position"]["high"]['weight'] = 0.2
-            real_action_strategy["move_path"]["shortest"]['weight'] = 0.2
-            real_action_strategy["move_path"]["no_warning"]['weight'] = 0.2
-            real_action_strategy["assist"]["single_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["group_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["sustain_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["career_defense"]['weight'] = 0.2
-            real_action_strategy["assist"]["career_attack"]['weight'] = 0.2
-            real_action_strategy["assist"]["self_heal"]['weight'] = 0.2
-        elif base_class_value == 2:#弓箭手
-            real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
-            real_action_strategy["atk_target"]["nearest"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["max_atk"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["min_def"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_support"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_attack"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_defense"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["non_elite"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["elite"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["no_atk"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["no_combat_no_atk"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["skill"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["normal"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_max_atk"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_max_def"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_support"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_attack"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_defense"]['weight'] = 0.2
-            real_action_strategy["move_position"]["atk_multi"]['weight'] = 0.2
-            real_action_strategy["move_position"]["no_atk"]['weight'] = 0.2
-            real_action_strategy["move_position"]["high"]['weight'] = 0.2
-            real_action_strategy["move_path"]["shortest"]['weight'] = 0.2
-            real_action_strategy["move_path"]["no_warning"]['weight'] = 0.2
-            real_action_strategy["assist"]["single_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["group_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["sustain_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["career_defense"]['weight'] = 0.2
-            real_action_strategy["assist"]["career_attack"]['weight'] = 0.2
-            real_action_strategy["assist"]["self_heal"]['weight'] = 0.2
-        elif base_class_value == 3:#治疗
-            real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
-            real_action_strategy["atk_target"]["nearest"]['weight'] = 0.3444
-            real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["max_atk"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["min_def"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_support"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_attack"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["career_defense"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["non_elite"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["elite"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["no_atk"]['weight'] = 0.2
-            real_action_strategy["atk_target"]["no_combat_no_atk"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["skill"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["normal"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_max_atk"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_max_def"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_support"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_attack"]['weight'] = 0.2
-            real_action_strategy["atk_type"]["single_career_defense"]['weight'] = 0.2
-            real_action_strategy["move_position"]["atk_multi"]['weight'] = 0.2
-            real_action_strategy["move_position"]["no_atk"]['weight'] = 0.2
-            real_action_strategy["move_position"]["high"]['weight'] = 0.2
-            real_action_strategy["move_path"]["shortest"]['weight'] = 0.2
-            real_action_strategy["move_path"]["no_warning"]['weight'] = 0.2
-            real_action_strategy["assist"]["single_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["group_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["sustain_heal"]['weight'] = 0.2
-            real_action_strategy["assist"]["career_defense"]['weight'] = 0.2
-            real_action_strategy["assist"]["career_attack"]['weight'] = 0.2
-            real_action_strategy["assist"]["self_heal"]['weight'] = 0.3
+            w_tmp = {}
+            k_count_1=len(real_action_strategy.keys())
+            for k in real_action_strategy.keys():
+                w_tmp[k] = round(1/k_count_1,4)
+                k_count_2=len(real_action_strategy[k].keys())
+                for k1 in real_action_strategy[k].keys():
+                    real_action_strategy[k][k1]['weight'] =round(w_tmp[k]/k_count_2,4)
+
         else:
             real_action_strategy,real_selection_strategy = None,None
         return real_action_strategy,real_selection_strategy
 if __name__ == '__main__':
     obj= strategy_params()
-    print(obj.get_strategy_params(1))
+    print(obj.get_strategy_params(2))
