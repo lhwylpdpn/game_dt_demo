@@ -4,6 +4,8 @@ import matplotlib.font_manager as fm
 from utils.strategy_utils.range import Range
 from strategy.strategy_context import strategy_params as sp
 import time
+from log.log import log_manager
+
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):
         self.name = name
@@ -24,6 +26,7 @@ class Node:
             if performance is not None:
                 performance.event_start(self.name)
             res=self.action()
+            log_manager.add_log({'stepname': '决策树-通用决策最终选择的行动', 'action': self.name, 'result': res})
             if performance is not None:
                 performance.event_end(self.name)
             return res
@@ -35,10 +38,6 @@ class Node:
         else:
 
             if self.selection:
-                #逐个打印判断条件的结果
-                for s in self.selection:
-                    print(f"判断条件: {s} 结果: {s()}")
-
                 res=[]
 
                 for s in self.selection:
@@ -49,15 +48,15 @@ class Node:
                         performance.event_end("selection_"+str(s))
 
                 if all(res):
-                    print('选择了left node:',self.true_child.name)
+                    log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了T子节点', 'action': self.true_child.name})
                     return self.true_child.evaluate(performance=performance)
                 else:
-                    print('选择了right node:',self.false_child.name)
+                    log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点', 'action': self.false_child.name})
                     return self.false_child.evaluate(performance=performance)
 
 
             else:
-                print('无判断条件，直接选择right node:',self.false_child.name)
+                log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点,因为没有条件', 'action': self.false_child.name})
                 return self.false_child.evaluate(performance=performance)
 
 
