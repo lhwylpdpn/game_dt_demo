@@ -142,7 +142,7 @@ class Range(Data):
 
     def is_in_combat(self, role, enemies):
         # 角色是否处于战斗状态
-        if self.enemies_in_warning_range_count() or self.is_role_in_enemies_warning_range(role, enemies):
+        if self.enemies_in_warning_range_count(role, enemies) or self.is_role_in_enemies_warning_range(role, enemies):
             return True
         return False
 
@@ -151,8 +151,9 @@ class Range(Data):
         distance = None
         teammate_position = None
         role_position = Data.value("position", role)
-
+        # print(f"ROLE : {Data.value('HeroID', self.role)}, team_id: {Data.value('team_id', self.role)}, {Data.value('position', self.role)}")
         for t in teammates:
+            # print(f"队友: {Data.value('HeroID', t)}, team_id: {Data.value('team_id', t)},{Data.value('position', t)}")
             if Data.value("team_id", role) == Data.value("team_id", t):  # 小队编号一致
                 if self.is_in_combat(t, enemies):
                     _teammate_position = Data.value("position", t)
@@ -163,6 +164,13 @@ class Range(Data):
                             distance, teammate_position = _distance, _teammate_position
                     else:
                         distance, teammate_position = _distance, _teammate_position
+        # if not teammate_position:
+        #     state = {"map": self.map,
+        #                  "hero": self.teammates + [self.role],
+        #                  "monster": self.enemies}
+        #     tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+        #     print(f"无战斗状态的队友log tmp: {tmp}")
+
         return teammate_position
 
     def is_atk_distance(self, point1, point2, distance):
@@ -244,11 +252,11 @@ class Range(Data):
                 _count += 1
         return num >= _count
 
-    def enemies_in_warning_range_count(self, ):
+    def enemies_in_warning_range_count(self, role, enemies):
         # 警戒范围内的敌人数量
-        doge_base = Data.value("DogBase", self.role)
-        role_position = Data.value("position", self.role)
-        enemies_position = [Data.value("position", _) for _ in self.enemies]
+        doge_base = Data.value("DogBase", role)
+        role_position = Data.value("position", role)
+        enemies_position = [Data.value("position", _) for _ in enemies]
         warning_range = self.get_manhattan_range(*role_position, doge_base)
         return len(Data.intersection(enemies_position, warning_range))
 
