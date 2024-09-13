@@ -375,7 +375,7 @@ class Range(Data):
                     # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}))
                     # print(f"log tmp: {tmp}")
                     print(
-                        f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
+                        f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 本次移动{move_steps}")
                     return self.move_step_handler(move_steps)
         return []
 
@@ -423,7 +423,7 @@ class Range(Data):
             print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}")
             if move_steps:
                 print(
-                    f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
+                    f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动,本次移动{move_steps}")
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
                     return self.move_step_handler(move_steps)
