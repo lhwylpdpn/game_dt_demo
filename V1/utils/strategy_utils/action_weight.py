@@ -5,18 +5,17 @@ from log.log import log_manager
 from strategy.strategy_context import strategy_params
 from utils.strategy_utils.basic_data import Data
 from utils.strategy_utils.basic_utils import manhattan_distance
-from utils.strategy_utils.range import Range
 
 WEIGHT = "weight"
 
 
 class ActionWeight(object):
-    def __init__(self, role_id, role=None, teammates=None, enemies=None, maps=None):
+    def __init__(self, role=None, teammates=None, enemies=None, maps=None):
         self.role = role
         self.enemies = enemies
         self.teammates = teammates
         self.maps = maps
-        self.strategy_params = strategy_params().get_strategy_params(role_id)[0]
+        self.strategy_params = strategy_params().get_strategy_params(self.role["BaseClassID"])[0]
 
         self.allEnemiesWarningRange = set()  # 所有敌人的警戒范围的点位合集
 
@@ -142,7 +141,7 @@ class ActionWeight(object):
             score += _score * atk_target["max_def"][WEIGHT]
 
         # exclusive类型 TODO #####
-        print(f"atk_target: {score}")
+        print(f"atk_target: {round(score, 4)}")
 
         return score
 
@@ -160,7 +159,7 @@ class ActionWeight(object):
 
         # exclusive类型 TODO #####
         # exclusive类型 TODO #####
-        print(f"atk_type: {score}")
+        print(f"atk_type: {round(score, 4)}")
 
         return score
 
@@ -194,7 +193,7 @@ class ActionWeight(object):
                 self.heightGapNum
             )
             score += _score * move_position["high"][WEIGHT]
-        print(f"move_position: {score}")
+        print(f"move_position: {round(score, 4)}")
         return score
 
     def move_path(self, move_step):
@@ -214,7 +213,7 @@ class ActionWeight(object):
                 self.enemiesWainingPoint
             )
             score += _score * move_path["no_warning"][WEIGHT]
-        print(f"move_path: {score}")
+        print(f"move_path: {round(score, 4)}")
         return score
 
     def select_attack_strategy(self, atk_data):
@@ -231,35 +230,39 @@ class ActionWeight(object):
         self.enemies_waining_point(atk_data)
         self.shortest_path_num(atk_data)
 
-        for each in atk_data:
-            print("---------------------")
-            _weight = 0
-            skill = each["skill"]
-            move_path = each["route"]
-            enemies = each["enemies_in_range"]
+        if isinstance(self.strategy_params, dict):
+            for each in atk_data:
+                print("-----WEIGHT-----")
+                _weight = 0
+                skill = each["skill"]
+                move_path = each["route"]
+                enemies = each["enemies_in_range"]
 
-            if "atk_target" in self.strategy_params:
-                for e in enemies:
-                    _weight += self.atk_target(e)
+                if "atk_target" in self.strategy_params:
+                    for e in enemies:
+                        _weight += self.atk_target(e)
 
-            # if "atk_type" in self.strategy_params:
-            #     _weight += self.atk_type(skill)
-            #
-            # if "move_position" in self.strategy_params:
-            #     _weight += self.move_position(each)
-            #
-            # if "move_path" in self.strategy_params:
-            #     _weight += self.move_path(move_path)
+                if "atk_type" in self.strategy_params:
+                    _weight += self.atk_type(skill)
 
-            print(f"_weight: {_weight}")
-            if _weight > weight:  # 筛选出权重最大的
-                pick_data = each
+                if "move_position" in self.strategy_params:
+                    _weight += self.move_position(each)
 
-        return pick_data
+                if "move_path" in self.strategy_params:
+                    _weight += self.move_path(move_path)
+
+                print(f"_weight: {round(_weight, 2)}")
+                if _weight > weight:  # 筛选出权重最大的
+                    pick_data = each
+
+        # return pick_data
+        return {"weight": weight, "data": pick_data}
 
 
 if __name__ == '__main__':
-    tmp = "2024-08-28 15:57:03"
+    from utils.strategy_utils.range import Range
+
+    tmp = "2024-09-11 15:12:02"
 
     tmp_data = eval(log_manager.get_log(tmp))
     print(tmp_data.keys())
@@ -268,7 +271,8 @@ if __name__ == '__main__':
     role = tmp_data["role"]
 
     r = Range(role, state)
+    # print(r.find_targets_within_atk_range())
     data = [{}]
     f = ActionWeight(2, r.role, r.teammates, r.enemies)
 
-    f.select_attack_strategy(data)
+    print("pick: ", f.select_attack_strategy(data))

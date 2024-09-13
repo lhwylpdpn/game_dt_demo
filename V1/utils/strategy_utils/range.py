@@ -6,6 +6,7 @@ from itertools import product
 
 from log.log import log_manager
 from strategy.handler.weight import Weight
+from utils.strategy_utils.action_weight import ActionWeight
 
 from utils.strategy_utils.basic_data import Data
 from utils.strategy_utils.basic_utils import get_attack_range, find_shortest_path, skill_effect_range, \
@@ -321,22 +322,21 @@ class Range(Data):
         # 确定攻击目标
         pick = {}
         pick_list = self.find_targets_within_atk_range()
+        if pick_list:
+            pick = ActionWeight(
+                self.role,
+                self.teammates,
+                self.enemies,
+                self.map
+            ).select_attack_strategy(pick_list)
 
-        # pick = ActionWeight(
-        #     self.role["HeroID"],
-        #     self.role,
-        #     self.teammates,
-        #     self.enemies,
-        #     self.map
-        # ).select_attack_strategy(pick_list)
-
-        for each in pick_list:
-            _weight = Weight().clac_skill_weight(each)
-            if not pick:
-                pick = {"weight": _weight, "data": each}
-                continue
-            if pick["weight"] < _weight:
-                pick = {"weight": _weight, "data": each}
+        # for each in pick_list:
+        #     _weight = Weight().clac_skill_weight(each)
+        #     if not pick:
+        #         pick = {"weight": _weight, "data": each}
+        #         continue
+        #     if pick["weight"] < _weight:
+        #         pick = {"weight": _weight, "data": each}
         print(f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
 
         pick_data = pick["data"]
