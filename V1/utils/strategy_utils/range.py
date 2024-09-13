@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/8/21 16:06
+import time
 from copy import deepcopy
 from itertools import product
 
@@ -200,24 +201,27 @@ class Range(Data):
         round_action = Data.value("RoundAction", hero)
         attack_pos_dict = {}
 
-        for xz in self.map:
-            point = tuple(self.map[xz]["position"])
-            _hero = deepcopy(hero)
-            _hero["position"] = point
+        move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1, 2, 3], self.map)[: round_action + 1]
+        return move_steps
 
-            stk_range = get_attack_range(self.role, point, self.map)
-            if enemy_position in stk_range:
-                move_steps = find_shortest_path(hero_position, point, jump_height, [1, 2, 3], self.map)[
-                             : round_action + 1]
-                if move_steps:
-                    attack_pos_dict[point] = move_steps
-
-        if attack_pos_dict:
-            closest_pos = min(attack_pos_dict.keys(), key=lambda k: manhattan_distance(k, hero_position))
-            steps = attack_pos_dict[closest_pos]
-            return closest_pos, steps
-        else:
-            return None, None
+        # for xz in self.map:
+        #     point = tuple(self.map[xz]["position"])
+        #     _hero = deepcopy(hero)
+        #     _hero["position"] = point
+        #
+        #     stk_range = get_attack_range(self.role, point, self.map)
+        #     if enemy_position in stk_range:
+        #         move_steps = find_shortest_path(hero_position, point, jump_height, [1, 2, 3], self.map)[
+        #                      : round_action + 1]
+        #         if move_steps:
+        #             attack_pos_dict[point] = move_steps
+        #
+        # if attack_pos_dict:
+        #     closest_pos = min(attack_pos_dict.keys(), key=lambda k: manhattan_distance(k, hero_position))
+        #     steps = attack_pos_dict[closest_pos]
+        #     return closest_pos, steps
+        # else:
+        #     return None, None
 
     def find_closest_enemy(self):
         # 获取距离最近的敌人
@@ -320,6 +324,7 @@ class Range(Data):
 
     def find_attack_target(self):
         # 确定攻击目标
+        t = time.time()
         pick = {}
         pick_list = self.find_targets_within_atk_range()
         if pick_list:
@@ -338,7 +343,6 @@ class Range(Data):
         #     if pick["weight"] < _weight:
         #         pick = {"weight": _weight, "data": each}
         print(f"[ATK]本次行动为攻击,攻击者在{pick['data']['hero_pos']}位置对{pick['data']['skill_pos']}位置施放技能[{pick['data']['skill']['SkillId']}], 需要移动{pick['data']['route']}")
-
         pick_data = pick["data"]
         action_step = []
         if pick_data["hero_pos"] != Data.value("position", self.role):
@@ -361,8 +365,8 @@ class Range(Data):
         if self.is_within_range(0):
             closest_enemy_position = self.find_closest_enemy()
             print(f"[MOVE]警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
-            atk_position, move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
-            if atk_position:
+            move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
+            if move_steps:
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
                 if len(move_steps) > 1:
                     # state = {"map": self.map,
@@ -415,9 +419,9 @@ class Range(Data):
         closest_enemy_position = [e for e in self.enemies if e.get("Quality") == 2]
         if closest_enemy_position:
             closest_enemy_position = closest_enemy_position[0]
-            atk_position, move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
+            move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
             print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}")
-            if atk_position:
+            if move_steps:
                 print(
                     f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动, 移动目标: {atk_position},攻击位置:{atk_position}, 本次移动{move_steps}")
                 move_steps = self.get_block_step(move_steps, (1,), self.map)
