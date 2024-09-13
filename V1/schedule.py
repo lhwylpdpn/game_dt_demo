@@ -12,6 +12,7 @@ import copy
 import math
 from utils.tools import Deepdiff_modify
 from utils.tools import performance
+from log.log import log_manager
 # step0 调度接到外部的开始请求，传入初始地图，传入初始角色，传入计算信息
 # step1 调度开始游戏,调用棋盘初始化游戏
 # step2 调度开始自增计时器
@@ -77,8 +78,8 @@ class schedule:
 
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
-            #print('ddddd', hero.__class__.__name__.lower(),hero.HeroID)
-
+            #print('tick',self.tick,'调度当前拿到的活着hero', hero.__class__.__name__.lower(), hero.HeroID,)
+            #log_manager.add_log({'stepname':'拿到的存活的英雄','tick':self.tick,'hero':hero.HeroID,'class':hero.__class__.__name__.lower()})
             alive_hero_class = hero.__class__.__name__.lower()
             alive_hero_id=hero.HeroID
             #向上取整
@@ -92,28 +93,33 @@ class schedule:
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state,self.performance)
-                    print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id,actions)
+                    #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id,actions)
+                    log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state,self.performance)
-                    print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id,actions)
+                    #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id,actions)
+                    log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 un_focus = hero.un_focus(state)
                 actions = focus + actions + un_focus
-                print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
+                #print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
+                log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
 
-                    print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,action)
+                    #print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,action)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         action_result=self.game.hero_action(hero, action)
                     else:
                         action_result=self.game.monster_action(hero, action)
                     self.performance.event_end('game_action')
-                    print('调度行动-接到动作结果',self.tick,'id',alive_hero_id,'class',alive_hero,action_result)
+                    #print('调度行动-接到动作结果',self.tick,'id',alive_hero_id,'class',alive_hero,action_result)
+                    log_manager.add_log({'stepname':'调度行动-接到动作结果','tick':self.tick,'hero':alive_hero_id,'action':action,'class':alive_hero_class,'action_result':action_result})
                     if not action_result: #如果动作失败，直接跳出本次动作链路
-                        print('调度行动-接到动作失败',self.tick,'id',alive_hero_id,'class',alive_hero)
+                        #print('调度行动-接到动作失败',self.tick,'id',alive_hero_id,'class',alive_hero)
+                        log_manager.add_log({'stepname':'调度行动-接到动作失败','tick':self.tick,'hero':alive_hero_id,'action':action,'class':alive_hero_class})
                         break
 
                     self.performance.event_start('get_current_state')
@@ -135,7 +141,8 @@ class schedule:
 
                 self.performance.event_start('check_game_over')
                 if self.game.check_game_over()[0]:
-                    print('战斗结束了！！！！',self.game.check_game_over()[1])
+                    #print('战斗结束了！！！！',self.game.check_game_over()[1])
+                    log_manager.add_log({'stepname':'战斗结束了','tick':self.tick,'game_over':self.game.check_game_over()[1]})
                     self.performance.event_end('check_game_over')
                     self.game_over=True
                     return
@@ -200,8 +207,7 @@ class schedule:
         #self.performance.event_start('record_detail')
         update_dict=Deepdiff_modify(before_state,after_state)
         #self.performance.event_end('record_detail')
-
-        print('调度显示的变化',update_dict)
+        log_manager.add_log({'stepname':'调度记录change变化','tick':self.tick,'action':action,'update_dict':update_dict})
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick]={'action':[],'state':[]}#初始化
         self.record_update_dict[self.tick]['action'].append(action)

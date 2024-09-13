@@ -11,10 +11,13 @@ class LogManager:
         # self.file_name = file_name
         current_directory = os.path.dirname(os.path.abspath(__file__))
         self.file_path = os.path.join(current_directory, file_name)
+        #创建一个全局计数器
+        self.counter=0
 
     def add_log(self, log_data):
+        self.counter+=1
         # 获取当前时间戳
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"_{}".format(self.counter)
         # 构造要记录的数据
         log_entry = {timestamp: log_data}
         # 将日志记录到文件中
@@ -34,7 +37,7 @@ class LogManager:
 
         # 写回文件
         with open(self.file_path, "w") as file:
-            json.dump(logs, file, indent=4)
+            json.dump(logs, file, ensure_ascii=False,indent=4)
 
     def get_log(self, timestamp):
         try:

@@ -4,6 +4,7 @@ import matplotlib.font_manager as fm
 from utils.strategy_utils.range import Range
 from strategy.strategy_context import strategy_params as sp
 import time
+from log.log import log_manager
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):
         self.name = name
@@ -28,6 +29,8 @@ class Node:
                 res=self.action(self.selection_result)
             else:
                 res=self.action()
+                log_manager.add_log(
+            log_manager.add_log({'stepname': '决策树-个人偏好最终选择的行动', 'action': self.name, 'result': res}))
             if performance is not None:
                 performance.event_end(self.name)
             return res
@@ -39,10 +42,6 @@ class Node:
         else:
             #有判断节点走判断节点，无判断节点直接走右节点
             if self.selection:
-                #逐个打印判断条件的结果
-                for s in self.selection:
-                    print(f"判断条件: {s} 结果: {s()}")
-
                 res=[]
 
                 for s in self.selection:
@@ -61,17 +60,18 @@ class Node:
                         params_.extend(r)
                 #T 走左节点，F走右节点
                 if len(params_)>0:
-                    print('选择了left node:',self.true_child.name)
+
+                    log_manager.add_log({'stepname': '决策树-个人偏好选择的行动，选择了T子节点，因为[aramas]不为空', 'action': self.true_child.name, 'result': params_})
                     self.true_child.selection_result=params_
                     return self.true_child.evaluate(performance=performance)
                 else:
-                    print('选择了right node:',self.false_child.name)
+                    log_manager.add_log({'stepname': '决策树-个人偏好选择的行动，选择了F子节点，因为[aramas]为空', 'action': self.false_child.name, 'result': params_})
                     self.false_child.selection_result=params_
                     return self.false_child.evaluate(performance=performance)
 
 
             else:
-                print('无判断条件，直接选择right node:',self.false_child.name)
+                log_manager.add_log({'stepname': '决策树-个人偏好选择的行动，选择了F子节点，因为没有判断条件', 'action': self.false_child.name})
                 return self.false_child.evaluate(performance=performance)
 
 
@@ -107,38 +107,6 @@ def lambda_select_fun(params_list):
 def wait():
     return False
 
-#
-# def lambda_use_single_skill():
-#     #返回随机TorF
-#     return lambda :[]
-#
-# def lambda_include_base_class_id(base_class_id):
-#     #返回随机TorF
-#     return lambda :random.random() > 0.5
-# #不包含某个职业
-# def lambda_exclude_base_class_id(base_class_id):
-#     #返回随机TorF
-#     return lambda :random.random() > 0.5
-#
-# def lambda_is_min_hp():
-#     #返回随机TorF
-#     return lambda :random.random() > 0.5
-#
-# def lambda_is_special_skill(skill_id):
-#     #返回随机TorF
-#     return lambda :random.random() > 0.5
-#
-# def lambda_all_targets():
-#     #返回随机TorF
-#     return lambda :random.random() > 0.5
-#
-# #可以攻击到多个目标
-# def lambda_have_targets_within_atk_range(n):
-#     return lambda :random.random() > 0.5
-#
-#
-# def lambda_is_max_def():
-#     return lambda :random.random() > 0.5
 
 
 #向某个点释放某个技能:
