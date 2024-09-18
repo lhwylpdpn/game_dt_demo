@@ -48,16 +48,18 @@ class Buff():
         if buff_from is None:
             buff_from = hero_or_monster
         buff = None
+        buff_value = param[0]
+        buff_round_action = param[0] if len(param) >1 else -1
         if buff_key == "DEBUFF_ROUND_ACTION_BACK": # 这个同类别的，后一个覆盖前一个效果
             for each in hero_or_monster.buff:
                 if each.buff_key == "DEBUFF_ROUND_ACTION_BACK":
                     buff = each
-                    buff.set_buff_value(param[0]).set_buff_round_action(param[1])
+                    buff.set_buff_value(buff_value).set_buff_round_action(buff_round_action)
                     continue
             if buff is None: 
-                buff = Buff(buff_id, buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent).set_buff_back(hero_or_monster.RoundAction)
+                buff = Buff(buff_id, buff_key, buff_value, buff_round_action, buff_from=buff_from, buff_percent=buff_percent).set_buff_back(hero_or_monster.RoundAction)
         else:
-            buff = Buff(buff_id, buff_key, param[0], param[1], buff_from=buff_from, buff_percent=buff_percent)
+            buff = Buff(buff_id, buff_key, buff_value, buff_round_action, buff_from=buff_from, buff_percent=buff_percent)
             if buff_key == "BUFF_AD_HP":
                 buff.set_is_need_trigger(True)
         return buff

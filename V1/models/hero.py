@@ -15,6 +15,7 @@ from utils.tools import random_choices
 from .map import Map, Land
 from .buff import Buff
 from .teamflag import TeamFlag
+from .baseclass import BaseClass
 
 class Hero():
     
@@ -109,13 +110,12 @@ class Hero():
 
     def focus(self, state):
         # 被选中
-        self.__focus_times += 1                    # 被选中次数 + 1
-        remove_buffs = self.check_buff()           # 减少buff
+        self.__focus_times += 1     # 被选中次数 + 1
+        self.check_buff()           # 减少buff
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=True):
             bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
         self.reduce_buff_round_action() # 减少buff的round action
-        bufff_s.extend(remove_buffs)
         return bufff_s 
     
     def un_focus(self, state):
@@ -470,21 +470,18 @@ class Hero():
         return buff_obj
 
     def add_buff(self, buff_id,  buff_key, param, buff_percent=None): # 增加普通buff
+        print(buff_id,  buff_key, param, buff_percent)
         buff = Buff.create_buff(self, buff_id, buff_key, param, buff_percent=buff_percent)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)
         return buff
 
     def check_buff(self): # 回合结束后，检查buff的加成
-        remove_buff_action = [] 
         for each in self.__buff:
             if not each.is_avaliable:
                 each.make_invalid(self)
-                remove_buff_action.append(
-                    {"action_type": f"EFFECT_{each.buff_id}_REMOVE", "buff":None}
-                )
                 self.__buff.remove(each)
-        return remove_buff_action
+        return self
     
     def add_unit_buff(self, buff_id, buff_key, param): # 增加连携buff
         buff = Buff.create_buff(self, buff_id, buff_key, param)
@@ -565,22 +562,22 @@ class Hero():
     def is_alive(self):
         return not self.is_death
     
-    def get_inactive_Skills(self): # 获取主动 1 or 被动技能 0
+    def get_back_attack_Skills(self): # 获取反击攻击技能
         skill = []
-        for _ in self.__skills:
-            if not _.is_active_skill():
+        for _ in self.skills:
+            if _.is_back_attack_skill():
                 skill.append(_)
         return skill
     
     def get_back_skills(self, enemy, attach_skill): # 获取反击技能
         skill = []
-        for _ in self.get_inactive_Skills():
+        for _ in self.get_back_attack_Skills():
             if "ATK_BACK" in _.avaliable_effects() and ("IS_HIT" in _.avaliable_effects() or "IS_DEFAULT_HIT" in _.avaliable_effects()):
                 # 是默认技能， 默认技能攻击时候触发
-                if int(attach_skill.DefaultSkills) == 1 and "IS_DEFAULT_HIT" in _.avaliable_effects():
+                if attach_skill.is_default_skill() and "IS_DEFAULT_HIT" in _.avaliable_effects():
                     skill.append(_)
                 # 不是默认技能，其他技能攻击时候触发
-                if int(attach_skill.DefaultSkills) == 0 and "IS_DEFAULT_HIT"  not in _.avaliable_effects():
+                if not attach_skill.is_default_skill() and "IS_DEFAULT_HIT" not in _.avaliable_effects():
                     skill.append(_)
             if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
                 effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
@@ -592,7 +589,7 @@ class Hero():
     def load_init_unActiveSkill(self): # load  buff
         # 初始的时候，增加非主动，非被动触发的技能, 不是被普通攻击 , 不是连携技能
         buffs_unit_dis = []
-        for each_skill in self.get_inactive_Skills():
+        for each_skill in self.skills:
             if each_skill.is_buff(): 
                 for each in each_skill.effects:
                     buff = self.add_buff(buff_id=each.id, buff_key=each.key, param=each.param)
@@ -602,7 +599,7 @@ class Hero():
 
     def get_unit_skill(self): # 获取连携攻击
         unit_skills = []
-        for each_skill in self.get_inactive_Skills():
+        for each_skill in self.skills:
             if each_skill.is_unit_skill(): 
                unit_skills.append(each_skill)
         return unit_skills
@@ -780,14 +777,14 @@ class Hero():
                     each.add_buff_object(copy.deepcopy(buff))
         return self
 
-    def before_be_attacked(self, skill):           # 被攻击之前，加载被动技能(作为被攻击对象)
-        for each_skill in self.get_inactive_Skills():
-            if "IS_HIT" in each_skill.avaliable_effects() : # 被动触发的技能
-                if "IS_DEFAULT_HIT" in each_skill.avaliable_effects(): # 被默认技能攻击
-                    if int(skill.DefaultSkills) == 1: # 技能是默认技能
+    def before_be_attacked(self, skill):                # 被攻击之前，加载被动技能(作为被攻击对象)
+        for each_skill in self.skills:
+            if each_skill.is_back_NA_skill():           # 加载反应技能
+                if each_skill.is_default_skill():       # 被默认技能攻击
+                    if skill.is_default_skill():        # 技能是默认技能
                         each_skill.make_effective(self)
-                if "IS_SKILL_HIT": # 不是被默认攻击时候出发
-                    if int(skill.DefaultSkills) == 0: # 技能不是默认技能
+                else: # 不是被默认攻击时候出发
+                    if not skill.is_default_skill(): # 技能不是默认技能
                         each_skill.make_effective(self)
         return self
     
@@ -797,15 +794,15 @@ class Hero():
         return self
 
     def dont_move(self): # 移动不移动
-        for each_skill in self.get_inactive_Skills():
-            if "IS_HIT" not in each_skill.avaliable_effects():  # 非被动触发的技能
+        for each_skill in self.skills:
+            if each_skill.is_move_skill(): # 判断移动技能
                 if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
                     each_skill.make_effective(self)
         return self
     
     # 被动技能使攻击失效
     def is_miss_hit(self):
-        for each_skill in self.get_inactive_Skills():
+        for each_skill in self.skills:
             if "IS_DEFAULT_HIT" in each_skill.avaliable_effects() and\
                "BUFF_MISS_HIT" in each_skill.avaliable_effects():
                effect = each_skill.get_effect_by_key("BUFF_MISS_HIT")
@@ -868,19 +865,34 @@ class Hero():
                     return True
         return True
 
-    def func_attack(self, enemys=[], skill=None, attack_point=[], state={}, is_back_atk=False): #技能攻击
+    def back_attack(self, enemy, skill=None, attack_point=[]):
+        """ 反击
+            @enemys       被攻击敌人对象列表
+            @skill        使用的技能对象
+            @attack_point 技能释放点位
+        """
+        print("(^ ^)反击(^ ^)")
+        result = {}
+        self.prepare_attack(skill)  # 做攻击之前，加载skill相关
+        _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
+        self.Hp_damage(_res) # 敌人掉血攻击
+        result[self] = copy.deepcopy(_res)
+        return result
+
+
+    def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
         """
             @enemys       被攻击敌人对象列表
             @skill        使用的技能对象
             @attack_point 技能释放点位
             @map_obj map_obj
-            is_back_atk 是不是反击
         """
         # TODO 调用攻击伤害函数
         # self 自己属性的改表
         # 敌人属性的改变
         # 地块的改变
         result = {}
+        # self.check_buff()           # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
@@ -888,27 +900,24 @@ class Hero():
                 return
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
-            _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num)
-            if not is_back_atk:
-                if each.is_miss_hit(): # 被动技能使攻击失效
-                    for _ in _res:
-                        _["damage"] = 0
-                    result[each] = copy.deepcopy(_res)
-                    print(f"~~~~ {each.HeroID} 的被动技能使攻击无效～", _res)
-                    continue
+            _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
+            if each.is_miss_hit(): # 被动技能使攻击失效 # TODO 彬哥 
+                for _ in _res:
+                    _["damage"] = 0
+                result[each] = copy.deepcopy(_res)
+                print(f"~~~~ {each.HeroID} 的被动技能使攻击无效～", _res)
+                continue
             result[each] = copy.deepcopy(_res)
-            print("(^ ^)反击(^ ^)" if is_back_atk else "攻击")
             each.Hp_damage(_res) # 敌人掉血攻击
-            # if not is_back_atk: # 不是反击技能
-            #     self.Hp_suck(_res.get("damage"))   # 攻击者吸血
             if each.is_death:
                 each.leve_game(state)
                 continue
-            if not is_back_atk and each.is_alive: # 不是反击攻击， 并且没有被打死，可以发动反击
+            if each.is_alive: # 没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     if self.is_in_backskill_range(each_back_skill, self, state):
-                        each.func_attack(enemys=[self], skill=each_back_skill, 
-                                         attack_point=self.position, state=state, is_back_atk=True)
+                        result.update(
+                            each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
+                            )
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         return result
     
@@ -929,11 +938,8 @@ class Hero():
             result[each] = copy.deepcopy(_res)
             # TODO
             each.Hp_add(_res)
-        #self.reduce_buff_round_action() # 减少buff的round action
         return result
     
     def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
-        buff_obj = buff_dic.get("buff")
-        if isinstance(buff_obj, Buff):
-            buff_obj.make_effective(self)
+        buff_dic.get("buff").make_effective(self)
         return self
