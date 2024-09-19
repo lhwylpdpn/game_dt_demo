@@ -30,7 +30,7 @@ class Node:
             if performance is not None:
                 performance.event_start(self.name)
             res=self.action()
-            log_manager.add_log({'stepname': '决策树-某次轮到查找轮到的节点是', 'action': self.name, 'result': res})
+            log_manager.add_log({'stepname': 'evaluate执行动作', 'action': self.name, 'result_len': len(res)})
             if performance is not None:
                 performance.event_end(self.name)
             return res,self
@@ -48,6 +48,7 @@ class Node:
                     if performance is not None:
                         performance.event_start("selection_"+str(s))
                     res.append(s())
+                    log_manager.add_log({'stepname': 'evaluate执行判断', 'selection': str(s), 'result_len': str(res[-1])})
                     if performance is not None:
                         performance.event_end("selection_"+str(s))
 
@@ -162,10 +163,10 @@ def make_decision(hero,state,performance=None):
     if performance is not None:
         performance.event_start('evaluate')
     res,end_node=root.evaluate(performance=performance)
-    log_manager.add_log({'stepname': '决策树-一次查找最终选择', 'result': res,'action':end_node.name})
+    log_manager.add_log({'stepname': '决策树-首次查找最终选择', 'result_len': len(res),'action':end_node.name})
     if len(res)==0:
         res,end_node=dfs(node=end_node,performance=performance)
-        log_manager.add_log({'stepname': '决策树-多次查找最终选择', 'result': res,'action':end_node.name})
+        log_manager.add_log({'stepname': '决策树-多次查找最终选择', 'result_len': len(res),'action':end_node.name})
     if performance is not None:
         performance.event_end('evaluate')
     print('决策树耗时:',time.time()-a)

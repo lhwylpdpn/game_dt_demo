@@ -196,6 +196,7 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 h.draw_action(self.screen, action['action_type'])
+
                                 self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),h.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 print('完整的state变化',i['state'])
@@ -258,6 +259,7 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 m.draw_action(self.screen, action['action_type'])
+
                                 self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),m.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 for change in i['state'][action_num]:
