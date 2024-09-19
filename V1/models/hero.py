@@ -473,7 +473,6 @@ class Hero():
         return buff_obj
 
     def add_buff(self, buff_id,  buff_key, param, buff_percent=None): # 增加普通buff
-        print(buff_id,  buff_key, param, buff_percent)
         buff = Buff.create_buff(self, buff_id, buff_key, param, buff_percent=buff_percent)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)

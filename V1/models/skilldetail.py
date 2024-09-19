@@ -221,7 +221,7 @@ class SkillDetail():
                         hero_or_monster.set_Atk(hero_or_monster.Atk + hero_or_monster.AtkBase * (1 + int(each.param[1])/100.0))
                     else:
                         pass
-            elif each.key in ['ADD_VELOCITY', 'ADD_JUMP_HEIGHT', 'ADD_HP_FORMULA_1', 'ADD_HP_FORMULA_2']:
+            elif each.key in ['ADD_VELOCITY', 'ADD_JUMP_HEIGHT', 'ADD_HP_FORMULA_1', 'ADD_HP_FORMULA_2', "ADD_ROLE_EXP"]:
                 if each.key == "ADD_VELOCITY":#
                     hero_or_monster.set_Velocity(hero_or_monster.Velocity + each.param[0])
                 elif each.key == "ADD_HP_FORMULA_1":#
@@ -235,7 +235,11 @@ class SkillDetail():
                 elif each.key == "ADD_TEAM_ROLE_EXP":#
                     print("ADD_TEAM_ROLE_EXP: 没有Exp，暂时不实现")
                 elif each.key == "ADD_TEAM_BASE_EXP":#
-                    print("ADD_TEAM_BASE_EXP: 没有Exp，暂时不实现")    
+                    print("ADD_TEAM_BASE_EXP: 没有Exp，暂时不实现") 
+                elif each.key == "ADD_ROLE_EXP":#
+                    print("ADD_ROLE_EXP: 没有Exp，暂时不实现") 
+                elif each.key == "ADD_ROUND_ACTION":#
+                    hero_or_monster.set_RoundAction(hero_or_monster.RoundAction + each.param[0])
                 else:
                     pass
             elif each.key in ['REMOVE_DEBUFF']:

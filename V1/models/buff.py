@@ -167,6 +167,9 @@ class Buff():
             hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDefBase * (1 + int(self.buff_value)/100.0))
         elif self.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             hero_or_monster.set_RoundAction(self.buff_value)
+        elif self.buff_key == "ADD_HP_FORMULA_2": # 恢复体力上限的{0}%，并持续{0}行动回合
+            hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(self.buff_value)/100.0
+            hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
         else:
             pass
         return hero_or_monster
