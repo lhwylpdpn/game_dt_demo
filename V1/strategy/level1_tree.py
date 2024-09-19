@@ -12,12 +12,16 @@ class Node:
         self.action = action
         self.probability = probability
         self.selection=selection if selection is not None else []
+        self.parent=None
         self.true_child=None
         self.false_child=None
     def add_true_child(self, child_node):
         self.true_child = child_node
+        self.true_child.parent=self
     def add_false_child(self, child_node):
         self.false_child = child_node
+        self.false_child.parent=self
+
 
     def evaluate(self,performance=None):
         # 是行动节点直接行动
@@ -26,10 +30,10 @@ class Node:
             if performance is not None:
                 performance.event_start(self.name)
             res=self.action()
-            log_manager.add_log({'stepname': '决策树-通用决策最终选择的行动', 'action': self.name, 'result': res})
+            log_manager.add_log({'stepname': '决策树-某次轮到查找轮到的节点是', 'action': self.name, 'result': res})
             if performance is not None:
                 performance.event_end(self.name)
-            return res
+            return res,self
         #非行动节点判断概率，如果需要随机，就随机选择一个子节点
         if random.random() < 1-self.probability:
             #随机选择一个子节点
@@ -48,17 +52,50 @@ class Node:
                         performance.event_end("selection_"+str(s))
 
                 if all(res):
-                    log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了T子节点', 'action': self.true_child.name})
+                    #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了T子节点', 'action': self.true_child.name})
                     return self.true_child.evaluate(performance=performance)
                 else:
-                    log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点', 'action': self.false_child.name})
+                    #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点', 'action': self.false_child.name})
                     return self.false_child.evaluate(performance=performance)
 
 
             else:
-                log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点,因为没有条件', 'action': self.false_child.name})
+                #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点,因为没有条件', 'action': self.false_child.name})
                 return self.false_child.evaluate(performance=performance)
 
+
+
+
+def dfs(node, performance,visited=None):
+    if node.parent is None:
+        return [],None
+    if visited is None:
+        visited = set()
+    if node in visited:
+        return [],None
+    visited.add(node)
+    result,_ = node.evaluate(performance=performance)
+    if len(result)>0:#就是有步骤
+        #log_manager.add_log({'stepname': '通用决策树最终选择', 'result': result})
+        return result,_
+
+    # print('dfs节点执行到', node.name)
+
+    # 如果返回 None，尝试下一个兄弟节点
+    siblings = []
+    if node.true_child is not node:
+        siblings.append(node.true_child)
+    if node.false_child is not node:
+        siblings.append(node.false_child)
+
+    for sibling in siblings:
+        if sibling:
+            result,_ = dfs(sibling,performance,visited)
+            if len(result)>0:#就是有步骤
+                #log_manager.add_log({'stepname': '通用决策树最终选择', 'result': result})
+                return result,_
+
+    return dfs(node.parent,performance,visited)
 
 
 def plot_tree(node, x=0, y=0, layer=1):
@@ -124,7 +161,11 @@ def make_decision(hero,state,performance=None):
     a=time.time()
     if performance is not None:
         performance.event_start('evaluate')
-    res=root.evaluate(performance=performance)
+    res,end_node=root.evaluate(performance=performance)
+    log_manager.add_log({'stepname': '决策树-一次查找最终选择', 'result': res,'action':end_node.name})
+    if len(res)==0:
+        res,end_node=dfs(node=end_node,performance=performance)
+        log_manager.add_log({'stepname': '决策树-多次查找最终选择', 'result': res,'action':end_node.name})
     if performance is not None:
         performance.event_end('evaluate')
     print('决策树耗时:',time.time()-a)
@@ -133,8 +174,10 @@ def make_decision(hero,state,performance=None):
 def show_plot_tree():
     from buildpatrol import BuildPatrol
     state = BuildPatrol("../data.json").load_data()
+    state['hero'][0].set_RoundAction(100000)
     hero=state['hero'][0].dict()
     root=create_decision_tree(hero,state)
+    print(make_decision(hero,state))
     plt.figure(figsize=(10, 10))
     plot_tree(root)
     plt.axis('off')
@@ -175,7 +218,11 @@ def create_decision_tree(hero,state):
     is_have_boss_node.add_true_child(move_to_boss_node)
     is_have_boss_node.add_false_child(move_to_wait_node)
 
+
+
     return root
+
+
 
 if __name__ == '__main__':
     show_plot_tree()

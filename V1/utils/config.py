@@ -1,13 +1,13 @@
 
 demo_skill = {}
-demo_skill['战士劈砍'] = 78
-demo_skill['战士普攻'] = 77
-demo_skill['战士迎击姿态']=79
-demo_skill['战士守护之甲']=80
-demo_skill['战士反击斩'] = 81
-demo_skill['战士坚韧之力']=82
-demo_skill['战士战士的斗志']=83
-demo_skill['战士不动如山']=84
+demo_skill['战士劈砍'] = 78 # 不通过,等修改
+demo_skill['战士普攻'] = 77 # ok
+demo_skill['战士迎击姿态']=79# 没开发
+demo_skill['战士守护之甲']=80 # 等升级再说
+demo_skill['战士反击斩'] = 81 # 不通过
+demo_skill['战士坚韧之力']=82 #等升级再说
+demo_skill['战士战士的斗志']=83#等升级再说
+demo_skill['战士不动如山']=84 #
 demo_skill['战士连携']=85
 
 demo_skill['弓手普攻'] = 86

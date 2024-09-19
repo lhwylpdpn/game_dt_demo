@@ -24,7 +24,6 @@ class Piece:
 
     def move(self, new_position):
         self.position = new_position
-
     def set_hp(self,hp):
         self.hp=hp
         self.max_hp = hp
@@ -109,7 +108,7 @@ class game:
         #self.screen.blit(self.broad, (0, 0))  # 绘制原地图
         self.screen.blit(self.overlay, (0, 0))  # 绘制遮罩层
         pygame.display.flip()  # 更新显示
-        pygame.time.delay(200)
+        pygame.time.delay(300)
 
     def game_init(self):
         self.generate_state()
@@ -145,9 +144,9 @@ class game:
         print('开始游戏')
         all_data=json.loads(json_data)
 
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1920, 0)
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (1920, 10)
 
-        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.HEIGHT))
+        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.HEIGHT),pygame.NOFRAME)
         self.screen.fill(self.WHITE)
         self.screen.blit(self.broad, (0, 0))
         font = pygame.font.Font(None, 15)
@@ -469,3 +468,4 @@ if __name__ == '__main__':
     k=1
     #取到bass_class的k对应的key
     print(list(bass_class.keys())[list(bass_class.values()).index(k)])
+    #测试下

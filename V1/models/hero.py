@@ -37,7 +37,7 @@ class Hero():
         self.__skills =  kwargs.get("skills", [])                  # 技能
         self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
         self.__BaseClassID = kwargs.get("BaseClassID", None)       # 职业
-        self.__LineUpClassID = kwargs.get("LineUpClassID", None)    # 职业
+        self.__BaseClass = BaseClass(**kwargs.get("BaseClass", None)) # 职业
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
@@ -77,7 +77,7 @@ class Hero():
         self.__buff = []                                                       # 带的buff
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "DogBase", "BaseClassID", "LineUpClassID", "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
+            "DogBase", "BaseClassID", "BaseClass", "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", "Quality", "team",
             "Luck", "position", "buff",
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
@@ -148,7 +148,7 @@ class Hero():
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
-        for s_f in ["skills", "buff" ]:
+        for s_f in ["skills", "buff"]:
             if s_f in fields:
                 data[s_f] = []
                 fields.remove(s_f)
@@ -161,6 +161,8 @@ class Hero():
                 data["team"] = self.team.dict()
             else:
                 data["team"] = []
+        if "BaseClass" in fields:
+            data["BaseClass"]  = self.__BaseClass.dict()
         # if for_view:
         #     data['position'] = list(trans_postion(*data["position"]))
         return data         
@@ -370,11 +372,11 @@ class Hero():
         return self
     
     @property
-    def LineUpClassID(self):
-        return self.__LineUpClassID
+    def BaseClass(self):
+        return self.__BaseClass
     
-    def set_LineUpClassID(self, v):
-        self.__LineUpClassID = v
+    def set_BaseClass(self, v):
+        self.__BaseClass = v
         return self
 
     @property
@@ -393,8 +395,9 @@ class Hero():
                 if abs(x) + abs(z) <= self.__DogBase:
                     try:
                         p_x, p_z = self.x + x, self.z + z
-                        land = map_object.get_land_from_xz(p_x, p_z)
-                        drange.append(tuple([p_x, land.y, p_z]))
+                        p_y = map_object.get_y_from_xz(p_x, p_z)
+                        if p_y is not None:
+                            drange.append(tuple([p_x, land.y, p_z]))
                     except Exception:
                         pass
         return drange
@@ -470,7 +473,6 @@ class Hero():
         return buff_obj
 
     def add_buff(self, buff_id,  buff_key, param, buff_percent=None): # 增加普通buff
-        print(buff_id,  buff_key, param, buff_percent)
         buff = Buff.create_buff(self, buff_id, buff_key, param, buff_percent=buff_percent)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)
@@ -561,6 +563,12 @@ class Hero():
     @property
     def is_alive(self):
         return not self.is_death
+    
+    def remove_debuff(self):
+        for each in self.buff:
+            if each.buff_key in ["DEBUFF_ROUND_ACTION_BACK"] :
+                each.make_invalid(self)
+        return self
     
     def get_back_attack_Skills(self): # 获取反击攻击技能
         skill = []
@@ -679,7 +687,7 @@ class Hero():
             else:
                 pass
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
-            move_y = map_obj.get_land_from_xz(move_x, move_z).y
+            move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
                 total_step = move_value if position_ok is None else total_step
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
@@ -718,7 +726,7 @@ class Hero():
             else:
                 pass
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
-            move_y = map_obj.get_land_from_xz(move_x, move_z).y
+            move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
                 total_step = move_value if position_ok is None else total_step
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
@@ -774,6 +782,11 @@ class Hero():
                 buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id,
                        buff_key="BUFF_ADD_HP", param=effect.param[1:], buff_percent=effect.param[0])
                 for each in friends:
+                    each.add_buff_object(copy.deepcopy(buff))
+        if "ADD_HP_FORMULA_2" in skill.avaliable_effects():
+            effect = skill.get_effect_by_key("ADD_HP_FORMULA_2")
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", param=effect.param)
+            for each in friends:
                     each.add_buff_object(copy.deepcopy(buff))
         return self
 
