@@ -17,7 +17,7 @@ class LogManager:
     def add_log(self, log_data):
         self.counter+=1
         # 获取当前时间戳
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"_{}".format(self.counter)
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f') + "_{}".format(self.counter)
         # 构造要记录的数据
         log_entry = {timestamp: log_data}
         # 将日志记录到文件中
