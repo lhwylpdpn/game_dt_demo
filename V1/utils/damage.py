@@ -130,7 +130,7 @@ def damage_calc(attacker, defender, skill):
     print('damage', damage)
     pre_damage = damage
 
-    st = "ADV" if attacker_Atk_bonusCoefficient > defender_ATK_bonusCoefficient else "DISADV" if attacker_Atk_bonusCoefficient < defender_ATK_bonusCoefficient else "EQU"
+    st = "Advantage" if attacker_Atk_bonusCoefficient > defender_ATK_bonusCoefficient else "DisAdvantage" if attacker_Atk_bonusCoefficient < defender_ATK_bonusCoefficient else "Equal"
 
     # ####-------------------------------------------------------------------
 

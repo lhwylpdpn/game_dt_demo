@@ -147,7 +147,7 @@ class ActionWeight(object):
             score += _score * atk_target["max_def"][WEIGHT]
 
         # exclusive类型 TODO #####
-        print(f"atk_target: {round(score, 4)}")
+        # print(f"atk_target: {round(score, 4)}")
 
         return score
 
@@ -174,7 +174,7 @@ class ActionWeight(object):
 
 
         # exclusive类型 TODO #####
-        print(f"atk_type: {round(score, 4)}")
+        # print(f"atk_type: {round(score, 4)}")
 
         return score
 
@@ -208,7 +208,7 @@ class ActionWeight(object):
                 self.heightGapNum
             )
             score += _score * move_position["high"][WEIGHT]
-        print(f"move_position: {round(score, 4)}")
+        # print(f"move_position: {round(score, 4)}")
         return score
 
     def move_path(self, move_step):
@@ -228,7 +228,7 @@ class ActionWeight(object):
                 self.enemiesWainingPoint
             )
             score += _score * move_path["no_warning"][WEIGHT]
-        print(f"move_path: {round(score, 4)}")
+        # print(f"move_path: {round(score, 4)}")
         return score
 
     def assist(self, step):
@@ -264,7 +264,7 @@ class ActionWeight(object):
 
         if isinstance(self.strategy_params, dict):
             for each in atk_data:
-                print("-----WEIGHT-----")
+                # print("-----WEIGHT-----")
                 _weight = 0
                 skill = each["skill"]
                 move_path = each["route"]
@@ -283,7 +283,7 @@ class ActionWeight(object):
                 if "move_path" in self.strategy_params:
                     _weight += self.move_path(move_path)
 
-                print(f"_weight: {round(_weight, 2)}")
+                # print(f"_weight: {round(_weight, 2)}")
                 if _weight > weight:  # 筛选出权重最大的
                     pick_data = each
 

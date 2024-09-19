@@ -414,9 +414,9 @@ class Range(Data):
         if pick_data["hero_pos"] != Data.value("position", self.role):
             action_step += self.move_step_handler(pick_data["route"])
         action_step.append(
-            {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "atk_range": pick_data["skill_range"],
-             "atk_position": pick_data["skill_pos"], "attack_enemies": pick_data["target"],
-             "release_range": pick_data["release_range"]})
+            {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "skill_range": pick_data["skill_range"],
+             "skill_pos": pick_data["skill_pos"], "target": pick_data["target"],
+             "release_range": pick_data["release_range"], "type": pick_data["type"]})
 
         return action_step
 

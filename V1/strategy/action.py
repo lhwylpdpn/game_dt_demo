@@ -57,7 +57,7 @@ class Action(object):
         if "SKILL_" in step["action_type"]:
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
 
-            if step["action_type"] == "ATK":
+            if step["type"] == "ATK":
                 attack_enemies_ids = [_["HeroID"] for _ in step["target"]]
                 attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
                 atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
@@ -67,7 +67,7 @@ class Action(object):
                 res["release_range"] = step["release_range"]
                 res["damage"] = self.calc_damage(atk_res)
 
-            if step["action_type"] == "HEAl":
+            if step["type"] == "HEAl":
                 target_ids = [_["HeroID"] for _ in step["attack_enemies"]]
                 target = [e for e in state["monster"] if e.HeroID in target_ids]
                 heal_res = hero.heal(target, skill, step["skill_pos"], state)
