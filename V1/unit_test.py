@@ -195,19 +195,26 @@ def single_skill_test_main(basecalssid,skill_id,pygame_init=True):
     if pygame_init:
         obj_.game_run()
 
+def main():
+    obj_=test_process()
+    obj_.pygame_init()
+    obj_.run()
+    obj_.game_run()
+    time.sleep(100)
 
 if __name__ == '__main__':
-    skill_list=[77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103]
-    #暂时有bug的技能
-    skill_list.remove(78)
-    skill_list.remove(97)
-    skill_list.remove(98)
-    skill_list.remove(99)
-    skill_list.remove(100)
-    skill_list.remove(101)
-    skill_list.remove(102)
-    skill_list.remove(103)
-
-
-    for skill_id in skill_list:
-        single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
+    # skill_list=[77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103]
+    # #暂时有bug的技能
+    # skill_list.remove(78)
+    # skill_list.remove(97)
+    # skill_list.remove(98)
+    # skill_list.remove(99)
+    # skill_list.remove(100)
+    # skill_list.remove(101)
+    # skill_list.remove(102)
+    # skill_list.remove(103)
+    #
+    #
+    # for skill_id in skill_list:
+    #     single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
+    main()
