@@ -152,7 +152,7 @@ class test_process:
                 update_hero.append(self.state['hero'][i])
         #删除掉其他敌人,只留下精英怪
         for i in range(len(self.state['monster'])):
-            if self.state['monster'][i].dict()['Quality']==int(1):
+            if self.state['monster'][i].dict()['Quality']==int(2):
                 update_monster.append(self.state['monster'][i])
 
         self.state['hero']=update_hero
