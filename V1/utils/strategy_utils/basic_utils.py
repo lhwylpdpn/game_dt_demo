@@ -3,15 +3,10 @@
 # @Time    : 2024/8/30 18:32
 import heapq
 import sys
-from functools import lru_cache
 from itertools import product
+from collections import OrderedDict
 
 from utils.strategy_utils.basic_data import Data
-
-from collections import OrderedDict
-from functools import wraps
-import hashlib
-import json
 
 
 class DictLRUCache:
@@ -58,14 +53,11 @@ class DictLRUCache:
             self.current_size -= sys.getsizeof(evicted_value)
 
 
-# @DictLRUCache(max_size_mb=128)
 def get_maps_point(xz, map):
     y = map[xz]["y"]
     return xz[0], y, xz[1]
 
 
-# @lru_cache(maxsize=128)
-# @DictLRUCache(max_size_mb=128)
 def is_atk_distance(point1, point2, distance):
     # 攻击是否受到高低差影响
     if abs(point1[1] - point2[1]) <= int(distance):
@@ -73,7 +65,6 @@ def is_atk_distance(point1, point2, distance):
     return False
 
 
-# @DictLRUCache(max_size_mb=128)
 def is_reach(start, end, jump_height, block_type=None):
     # 是否可到达
     if not block_type:
@@ -85,31 +76,43 @@ def is_reach(start, end, jump_height, block_type=None):
     return False
 
 
-# @DictLRUCache(max_size_mb=128)
 def get_damage_skills(role):
     # 获取主动的可用的攻击技能
     s = []
     available_skills = role.get("AvailableSkills", [])
     for skill in role["skills"]:
         if skill["SkillId"] in available_skills:
-            if skill["ActiveSkills"] == 1:
+            if skill["SkillClass"] == 1 and skill["SkillCalc"] == 1 and 1 in skill["SkillGoals"]:
                 if "ATK_DISTANCE" in skill["effects"]:
                     if skill["DefaultSkills"] == 1:  # 普攻
                         s.append(skill)
                     else:
-                        if int(skill["use_count"]) > 1:
+                        if int(skill["use_count"]) > 1 or skill["use_count"] == -1:
                             s.append(skill)
     return s
 
 
-# @DictLRUCache(max_size_mb=128)
+def get_heal_skills(role):
+    # 获取主动的可用的治疗技能
+    s = []
+    available_skills = role.get("AvailableSkills", [])
+    for skill in role["skills"]:
+        if skill["SkillId"] in available_skills:
+            if skill["SkillClass"] == 1 and skill["SkillCalc"] == 5:
+                if 4 in skill["SkillGoals"] or 3 in skill["SkillGoals"]:
+                    if "ATK_DISTANCE" in skill["effects"]:
+                        if int(skill["use_count"]) > 1 or skill["use_count"] == -1:
+                            s.append(skill)
+    return s
+
+
+
 def manhattan_distance(point1, point2):
     # 曼哈顿距离计算 （ 只计算xz
     point1, point2 = tuple(point1), tuple(point2)
     return abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
 
 
-# @DictLRUCache(max_size_mb=128)
 def h_manhattan_distance(point1, point2, gap, h_effect):
     # 受高度差影响的曼哈顿距离
     base_distance = manhattan_distance(point1, point2)

@@ -11,7 +11,7 @@ from utils.strategy_utils.action_weight import ActionWeight
 
 from utils.strategy_utils.basic_data import Data
 from utils.strategy_utils.basic_utils import get_attack_range, find_shortest_path, skill_effect_range, \
-    skill_release_range, get_manhattan_path, manhattan_distance, get_damage_skills, is_reach
+    skill_release_range, get_manhattan_path, manhattan_distance, get_damage_skills, is_reach, get_heal_skills
 
 
 class Range(Data):
@@ -201,7 +201,7 @@ class Range(Data):
         round_action = Data.value("RoundAction", hero)
         attack_pos_dict = {}
 
-        move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1, 2, 3], self.map)[: round_action + 1]
+        move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1], self.map)[: round_action + 1]
         return move_steps
 
         # for xz in self.map:
@@ -278,11 +278,12 @@ class Range(Data):
                         {
                             "hero_pos": move_pos,
                             "skill_pos": point,
-                            "atk_range": attack_range,
+                            "skill_range": attack_range,
                             "release_range": release_range,
-                            "enemies_in_range": enemies_in_range,
+                            "target": enemies_in_range,
                             "route": paths,
-                            "skill": skill
+                            "skill": skill,
+                            "type": "ATK"
                         }
                     )
         return results
@@ -296,6 +297,32 @@ class Range(Data):
         attacks = self.find_enemies_in_range(move_pos, skill, paths)
         all_attacks.extend(attacks)
         return all_attacks
+
+    def get_all_possible_heal(self, move_pos, skill, paths):
+        """
+        获取英雄在某个位置可以施放技能并且治疗到队友
+        :param move_pos: 英雄可以移动到的位置
+        """
+        release_range = skill_release_range(move_pos, skill, self.map)
+        results = []
+        for point in release_range:
+            skill_range = skill_effect_range(self.role, point, skill, self.map)
+            t_in_range = [t for t in self.teammates if Data.value("position", t) in skill_range]
+            if tuple(point) in [Data.value("position", e) for e in t_in_range]:
+                if len(t_in_range) > 0:  # 技能范围内>0的目标才返回
+                    results.append(
+                        {
+                            "hero_pos": move_pos,
+                            "skill_pos": point,
+                            "skill_range": skill_range,
+                            "release_range": release_range,
+                            "target": t_in_range,
+                            "route": paths,
+                            "skill": skill,
+                            "type": "HEAL"
+                        }
+                    )
+        return results
 
     def find_targets_within_atk_range(self):
         # 获取在攻击范围内的目标选项
@@ -313,14 +340,51 @@ class Range(Data):
             for skill in skills:
                 pick_list += self.get_all_possible_attacks(move, skill, paths)
 
-        # if pick_list:
-        #     state = {"map": self.map,
-        #              "hero": self.teammates + [self.role],
-        #              "monster": self.enemies}
-        #     tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
-        #     print(f"log tmp: {tmp}")
+        if pick_list:
+            state = {"map": self.map,
+                     "hero": self.teammates + [self.role],
+                     "monster": self.enemies}
+            tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+            print(f"log tmp: {tmp}")
         print(f"[ATK]攻击可选择数量为: {len(pick_list)}")
         return pick_list
+
+    def find_targets_within_heal_range(self):
+        # 获取在可治疗的释放范围内的目标选项
+        pick_list = []
+        skills = get_heal_skills(self.role)
+        max_step = Data.value("RoundAction", self.role)
+        position = Data.value("position", self.role)
+        jump_height = Data.value("JumpHeight", self.role)
+        move_positions = get_manhattan_path(*position, max_step, jump_height, self.map)  # 英雄可移动到的点位
+
+        for move, paths in move_positions.items():
+            for skill in skills:
+                pick_list += self.get_all_possible_heal(move, skill, paths)
+
+        print(f"[HEAl]治疗可选择数量为: {len(pick_list)}")
+        return pick_list
+
+    def find_heal_target(self):
+        pick_list = self.find_targets_within_heal_range()
+        if pick_list:
+            pick = ActionWeight(
+                self.role,
+                self.teammates,
+                self.enemies,
+                self.map
+            ).select_assist_strategy(pick_list)
+        else:
+            return []
+
+        pick_data = pick["data"]
+        action_step = []
+        if pick_data["hero_pos"] != Data.value("position", self.role):
+            action_step += self.move_step_handler(pick_data["route"])
+        action_step.append(
+            {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "skill_range": pick_data["skill_range"],
+             "skill_pos": pick_data["skill_pos"], "target": pick_data["target"], "release_range": pick_data["release_range"]})
+        return action_step
 
     def find_attack_target(self):
         # 确定攻击目标
@@ -334,6 +398,8 @@ class Range(Data):
                 self.enemies,
                 self.map
             ).select_attack_strategy(pick_list)
+        else:
+            return []
 
         # for each in pick_list:
         #     _weight = Weight().clac_skill_weight(each)
@@ -348,8 +414,8 @@ class Range(Data):
         if pick_data["hero_pos"] != Data.value("position", self.role):
             action_step += self.move_step_handler(pick_data["route"])
         action_step.append(
-            {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "atk_range": pick_data["atk_range"],
-             "atk_position": pick_data["skill_pos"], "attack_enemies": pick_data["enemies_in_range"],
+            {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "atk_range": pick_data["skill_range"],
+             "atk_position": pick_data["skill_pos"], "attack_enemies": pick_data["target"],
              "release_range": pick_data["release_range"]})
 
         return action_step
@@ -434,6 +500,25 @@ class Range(Data):
         # 本轮行动WAIT
         return [{"action_type": "WAIT"}]
 
+    def is_heal(self, k1, k2, k3):
+        skills = get_heal_skills(self.role)
+
+        if skills:
+            doge_base = Data.value("DogBase", self.role)
+            role_position = Data.value("position", self.role)
+            for t in self.teammates:
+                t_position = Data.value("position", t)
+                if manhattan_distance(role_position, t_position) <= doge_base:
+                    if self.is_in_combat(t, self.enemies):
+                        # TODO if 防守型角色
+                        if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k2:
+                            return True
+                    else:
+                        if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k3:
+                            return True
+
+        return False
+
     def simple_strategy(self):
         # 返回当前可行动的步骤
         steps = {
@@ -443,8 +528,10 @@ class Range(Data):
         }
 
         atk = []
+        heal = []
 
         skills = get_damage_skills(self.role)
+        heal_skills = get_heal_skills(self.role)
         hero_position = Data.value("position", self.role)
         jump_height = Data.value("JumpHeight", self.role)
         print(f"role position: {hero_position}")
@@ -464,13 +551,20 @@ class Range(Data):
             atk += self.get_all_possible_attacks(hero_position, skill, [])
 
         for _ in atk:
-            steps["ATK"].append({"action_type": f"SKILL_{_['skill']['SkillId']}", "atk_range": _["atk_range"],
-                                 "atk_position": _["skill_pos"], "attack_enemies": _["enemies_in_range"],
-                                 "release_range": _["release_range"]})
+            steps["ATK"].append({"action_type": f"SKILL_{_['skill']['SkillId']}", "skill_range": _["skill_range"],
+                                 "skill_pos": _["skill_pos"], "target": _["target"], "release_range": _["release_range"], "type": _["type"]})
 
-        # ### 可治疗选择
-        # pprint(steps)
+        # 可治疗选择
+        for skill in heal_skills:
+            heal += self.get_all_possible_heal(hero_position, skill, [])
+
+        for _ in heal:
+            steps["HEAL"].append({"action_type": f"SKILL_{_['skill']['SkillId']}", "skill_range": _["skill_range"],
+                                 "skill_pos": _["skill_pos"], "target": _["target"], "release_range": _["release_range"], "type": _["type"]})
+
         return steps
+
+
 
 
 if __name__ == '__main__':

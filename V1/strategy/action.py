@@ -20,6 +20,16 @@ class Action(object):
             d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st]])
         return d
 
+    def calc_heal(self, heal_data):
+        d = []
+        for each in heal_data:
+            heal = [_["heal"] for _ in heal_data[each]]
+            pre_damage = [_["pre_heal"] for _ in heal_data[each]]
+            st = [_["st"] for _ in heal_data[each]]
+
+            d.extend([[[each.__class__.__name__.lower(), each.HeroID], heal, pre_damage, st]])
+        return d
+
     def move_step_handler(self, move_queue):
         res = []
         move = GameUtils.generate_pairs(move_queue)
@@ -44,31 +54,28 @@ class Action(object):
         if "EFFECT_" in step["action_type"]:
             hero.trigger_buff(step)
 
-        # if step["action_type"] in ("SKILL_97", "SKILL_98", "SKILL_99"):  # 治疗
-        #     targets = []  # TODO
-        #     skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
-        #     heal_res = hero.friend_treatment(targets, skill, step["atk_position"], state)
-        # else:
-        #     skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
-        #     attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
-        #     attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
-        #     atk_res = hero.func_attack(attack_enemies, skill, step["atk_position"], state)
-        #
-        #     res["atk_range"] = step["atk_range"]
-        #     res["atk_position"] = step["atk_position"]
-        #     res["release_range"] = step["release_range"]
-        #     res["damage"] = self.calc_damage(atk_res)
-
         if "SKILL_" in step["action_type"]:
-            attack_enemies_ids = [_["HeroID"] for _ in step["attack_enemies"]]
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
-            attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
-            atk_res = hero.func_attack(attack_enemies, skill, step["atk_position"], state)
 
-            res["atk_range"] = step["atk_range"]
-            res["atk_position"] = step["atk_position"]
-            res["release_range"] = step["release_range"]
-            res["damage"] = self.calc_damage(atk_res)
+            if step["action_type"] == "ATK":
+                attack_enemies_ids = [_["HeroID"] for _ in step["target"]]
+                attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
+                atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
+
+                res["atk_range"] = step["skill_range"]
+                res["atk_position"] = step["skill_pos"]
+                res["release_range"] = step["release_range"]
+                res["damage"] = self.calc_damage(atk_res)
+
+            if step["action_type"] == "HEAl":
+                target_ids = [_["HeroID"] for _ in step["attack_enemies"]]
+                target = [e for e in state["monster"] if e.HeroID in target_ids]
+                heal_res = hero.heal(target, skill, step["skill_pos"], state)
+
+                res["atk_range"] = step["skill_range"]
+                res["atk_position"] = step["skill_pos"]
+                res["release_range"] = step["release_range"]
+                res["damage"] = self.calc_heal(heal_res)
 
         if step["action_type"] == "WAIT":  # TODO
             hero.dont_move()
@@ -82,9 +89,8 @@ class Action(object):
         if atk_pick["hero_pos"] != hero_position:
             action_step += self.move_step_handler(atk_pick["route"])
         action_step.append(
-            {"action_type": f"SKILL_{atk_pick['skill']['SkillId']}", "atk_range": atk_pick["atk_range"],
-             "atk_position": atk_pick["skill_pos"], "attack_enemies": atk_pick["enemies_in_range"], "release_range": atk_pick["release_range"]})
-        # print('action_step: ----->', action_step)
+            {"action_type": f"SKILL_{atk_pick['skill']['SkillId']}", "atk_range": atk_pick["skill_range"],
+             "atk_position": atk_pick["skill_pos"], "attack_enemies": atk_pick["target"], "release_range": atk_pick["release_range"]})
         return action_step
 
     # def move(self, hero, enemies, maps):
