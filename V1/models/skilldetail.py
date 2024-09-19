@@ -7,8 +7,20 @@ import copy
 from utils.tools import random_choices
 from collections import namedtuple
 
+SKILL_DEFAULT = namedtuple("SKILL_DEFAULT", ['NORMAL', 'DEFAULT'])
+skill_default = SKILL_DEFAULT(0, 1)
+
 SKILL_GOALS = namedtuple("SKILL_GOALS", ['ENEMY','LAND','SELF', 'FRIENDS'])
 skill_goals = SKILL_GOALS(1, 2, 3, 4)
+
+SKILL_CLASS = namedtuple("SKILL_CLASS", ['ACTIVE', 'SUPPORT', 'MOVE', 'BACK'])
+skill_class = SKILL_CLASS(1, 2, 3, 4)
+
+SKILL_CALC = namedtuple("SKILL_CALC", ['NA', 'ATTACK', 'HALO', 'TRIGGER', 'OUT', 'TREATMENT'])
+skill_calc = SKILL_CALC(0, 1, 2, 3, 4, 5)
+
+SKILL_ELEMENT = namedtuple("SKILL_ELEMENT", ['NA', 'WATER', 'FIRE', 'EARTH', 'MUDD', 'LIGHT', 'DARK', 'PHYSIC'])
+skill_element = SKILL_ELEMENT(0, 1, 2, 3, 4, 5, 6, 7)
 
 
 class SkillDetail():
@@ -17,13 +29,16 @@ class SkillDetail():
         self.__SkillId = kwargs.get("SkillId", None)
         self.__SkillLev = kwargs.get("SkillLev", None)
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
-        self.__ActiveSkills	= kwargs.get("ActiveSkills", 0)        # 0，1  1 主动技能，0被动技能
-        self.__SkillGoals =[int(_) for _ in kwargs.get("SkillGoals", [])]       # 1敌人  2地格  3自身  4友方
+        self.__SkillClass = kwargs.get("SkillClass", None)         # 技能类别 1:主动技能 2:支援技能 3:移动技能 4:反应技能
+        self.__SkillCalc = kwargs.get("SkillCalc", 0)              # 计算类别 0: 无， 1:攻击， 2:光环， 3:触发， 4:局外，5:治疗
+        self.__SkillElement = kwargs.get("SkillElement", 0)        # 元素属性 0:无， 1:水， 2:火，3:地， 4:木，5:光，6:暗， 7:物理
+        self.__SkillGoals =[int(_) for _ in kwargs.get("SkillGoals", [])]       #技能目标  1敌人  2地格  3自身  4友方
+        
         self.__effects = []
         self.__use_count = None
         self.__max_use_count = self.__use_count
-        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "SkillGoals", "effects", "max_use_count", "use_count"]
-        #self.fields = ["SkillId", "SkillLev", "DefaultSkills", "ActiveSkills", "effects", "max_use_count"]
+        self.fields = ["SkillId", "SkillLev", "DefaultSkills", "SkillClass",  "SkillCalc",  "SkillElement",
+                        "SkillGoals", "effects", "max_use_count", "use_count"]
 
     def dict(self, fields=[], for_view=False, **kwargs):
         if not fields:
@@ -50,6 +65,8 @@ class SkillDetail():
         print(f"Warn: {key} not exit in skill {self.SkillId}, so return None")
         return None
     
+    # 是单体技能还是攻击技能
+    
     @property
     def use_count(self):
         if self.__use_count is None:
@@ -69,7 +86,31 @@ class SkillDetail():
     def set_SkillId(self, v):
         self.__SkillId = v
         return self
+
+    @property
+    def SkillClass(self):
+        return self.__SkillClass
     
+    def set_SkillClass(self, v):
+        self.__SkillClass = v
+        return self
+    
+    @property
+    def SkillCalc(self):
+        return self.__SkillCalc
+    
+    def set_SkillCalc(self, v):
+        self.__SkillCalc = v
+        return self
+
+    @property
+    def SkillElement(self):
+        return self.__SkillElement
+    
+    def set_SkillElement(self, v):
+        self.__SkillElement = v
+        return self
+
     @property
     def SkillGoals(self):
         return self.__SkillGoals
@@ -89,13 +130,6 @@ class SkillDetail():
     @property
     def DefaultSkills(self):
         return self.__DefaultSkills
-
-    @property
-    def ActiveSkills(self):
-        return self.__ActiveSkills
-    
-    def is_active_skill(self): #是否是主动技能
-        return int(self.ActiveSkills) == 1
     
     @property
     def effects(self):
@@ -129,22 +163,31 @@ class SkillDetail():
             return self.__use_count > 0 
     
     def is_default_skill(self):
-        return self.__DefaultSkills == 1
+        return self.__DefaultSkills == skill_default.DEFAULT
+
+    def is_active_skill(self):
+        return self.__SkillClass == skill_class.ACTIVE
     
     def is_medical_skill(self): # 是否是治疗技能
-        if self.is_active_skill():
-            if skill_goals.LAND in self.skillGoals or skill_goals.SELF in self.skillGoals:
-                return True
-        return False
+        return self.__SkillCalc == skill_calc.TREATMENT
+
+    def is_move_skill(self): # 是否是移动技能
+        return self.__SkillClass == skill_class.MOVE
     
-    def is_attack_skill(self): # 是否是攻击技能
-        if self.is_active_skill():
-            if skill_goals.ENEMY in self.skill_goals:
-                return True
-        return False
+    def is_back_NA_skill(self): # 反应技能（加属性的）
+        # 反应技能，技能类型是 NA
+        return self.__SkillClass == skill_class.BACK and self.__SkillCalc == skill_calc.NA
+
+    def is_back_attack_skill(self): # 被动反击技能
+        # 反应技能，技能类型是攻击
+        return self.__SkillClass == skill_class.BACK and self.__SkillCalc == skill_calc.ATTACK
+    
+    def is_active_attack_skill(self): # 主动攻击技能
+        return self.__SkillClass == skill_class.ACTIVE and self.__SkillCalc == skill_calc.ATTACK
     
     def is_buff(self): # BUFF: 非主动，非被动触发的技能, 不是被普通攻击 , 不是连携, 不是被普攻时候出发
         if  not self.is_active_skill() and\
+            "IS_VICTORY" not in self.avaliable_effects() and\
             "IS_HIT" not in self.avaliable_effects() and\
             "IS_SKILL_HIT" not in self.avaliable_effects() and\
             "IS_WAIT" not in self.avaliable_effects() and\

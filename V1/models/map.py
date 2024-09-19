@@ -41,19 +41,26 @@ class Map(): # 地图
         z = 0 if z < 0 else z
         return x, z
 
-    def get_land_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
+    def get_y_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
         if x >=0 and x <= self.x and z >= 0 and z <= self.z:
-            return np.max(self.map[x, :, z], axis=0)
+            position = np.max(self.map[x, :, z], axis=0)
+            if isinstance(land, Land):
+                return land.y
+            else:
+                return None
         else:
             raise Exception(f"{x}, {z} is wrong")
 
     def land_can_pass(self, x, y, z): # 判断地图是否可以通过
-        land = self.map[x,y,z]
-        if isinstance(land, Land):
-            if land.Block is None:
-                return False
-            return int(land.Block) == 1 #(0 不可以，1 可以)
-        return False
+        try:
+            land = self.map[x,y,z]
+            if isinstance(land, Land):
+                if land.Block is None:
+                    return False
+                return int(land.Block) == 1 #(0 不可以，1 可以)
+            return False
+        except Exception:
+            return False
     
     def view_from_y_dict(self):
         data = {}
