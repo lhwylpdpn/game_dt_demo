@@ -33,7 +33,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 300
+        self.timeout_tick = 500
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}#测试用
@@ -94,18 +94,18 @@ class schedule:
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state,self.performance)
                     #print('tick',self.tick,'调度获得的行动list: 英雄', alive_hero_id,actions)
-                    log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
+                    #log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state,self.performance)
                     #print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id,actions)
-                    log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
+                    #log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 un_focus = hero.un_focus(state)
                 actions = focus + actions + un_focus
                 #print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
-                log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
+                #log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
 
                     #print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,action)
@@ -116,10 +116,10 @@ class schedule:
                         action_result=self.game.monster_action(hero, action)
                     self.performance.event_end('game_action')
                     #print('调度行动-接到动作结果',self.tick,'id',alive_hero_id,'class',alive_hero,action_result)
-                    log_manager.add_log({'stepname':'调度行动-接到动作结果','tick':self.tick,'hero':alive_hero_id,'action':action,'class':alive_hero_class,'action_result':action_result})
+                    log_manager.add_log({'stepname':'调度行动-接到动作结果','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'action_result':action_result})
                     if not action_result: #如果动作失败，直接跳出本次动作链路
                         #print('调度行动-接到动作失败',self.tick,'id',alive_hero_id,'class',alive_hero)
-                        log_manager.add_log({'stepname':'调度行动-接到动作失败','tick':self.tick,'hero':alive_hero_id,'action':action,'class':alive_hero_class})
+                        log_manager.add_log({'stepname':'调度行动-接到动作失败','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class})
                         break
 
                     self.performance.event_start('get_current_state')

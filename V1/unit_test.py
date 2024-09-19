@@ -1,3 +1,4 @@
+import os
 import time
 
 # from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
@@ -150,7 +151,7 @@ class test_process:
         for i in range(len(self.state['hero'])):
             if self.state['hero'][i].dict()['BaseClassID']==int(basecalssid):
                 update_hero.append(self.state['hero'][i])
-        #删除掉其他敌人,只留下精英怪
+
         for i in range(len(self.state['monster'])):
             if self.state['monster'][i].dict()['Quality']==int(2):
                 update_monster.append(self.state['monster'][i])
@@ -168,7 +169,7 @@ class test_process:
                 hero_random_JumpHeight = [random.randint(15,15)]
                 hero_random_DogBase = random.randint(100,100)
                 hero_random_HP = random.randint(100000,100000)
-                hero_random_Atk = random.randint(200,200)
+                hero_random_Atk = random.randint(150,150)
                 self.state['hero'][i].set_RoundAction(hero_random_RoundAction)
                 self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
                 self.state['hero'][i].set_DogBase(hero_random_DogBase)
@@ -179,7 +180,7 @@ class test_process:
         self.state['monster'][0].set_x(self.state['hero'][0].dict()['position'][0]+1)
         self.state['monster'][0].set_y(self.state['hero'][0].dict()['position'][1])
         self.state['monster'][0].set_z(self.state['hero'][0].dict()['position'][2])
-        self.state['monster'][0].set_Atk(200)
+        self.state['monster'][0].set_Atk(50)
 
 
 
@@ -203,18 +204,28 @@ def main():
     time.sleep(100)
 
 if __name__ == '__main__':
-    # skill_list=[77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103]
-    # #暂时有bug的技能
-    # skill_list.remove(78)
-    # skill_list.remove(97)
-    # skill_list.remove(98)
-    # skill_list.remove(99)
-    # skill_list.remove(100)
-    # skill_list.remove(101)
-    # skill_list.remove(102)
-    # skill_list.remove(103)
+
+    #清空log文件
+    log_file_path = os.getcwd()+'/log/logs.json'
+    with open(log_file_path, 'w') as f:
+        f.write('')
+
     #
     #
-    # for skill_id in skill_list:
-    #     single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
-    main()
+    #
+    # skill_list=list(demo_skill.values())
+    skill_list=[77]
+    # # #暂时有bug的技能
+    # # skill_list.remove(78)
+    # # skill_list.remove(97)
+    # # skill_list.remove(98)
+    # # skill_list.remove(99)
+    # # skill_list.remove(100)
+    # # skill_list.remove(101)
+    # # skill_list.remove(102)
+    # # skill_list.remove(103)
+    # #
+    # #
+    for skill_id in skill_list:
+         single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
+    #main()
