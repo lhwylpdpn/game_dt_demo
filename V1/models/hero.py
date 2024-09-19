@@ -37,7 +37,7 @@ class Hero():
         self.__skills =  kwargs.get("skills", [])                  # 技能
         self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
         self.__BaseClassID = kwargs.get("BaseClassID", None)       # 职业
-        self.__LineUpClassID = kwargs.get("LineUpClassID", None)    # 职业
+        self.__BaseClass = BaseClass(**kwargs.get("BaseClass", None)) # 职业
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
@@ -77,7 +77,7 @@ class Hero():
         self.__buff = []                                                       # 带的buff
 
         self.fields =  ["HeroID", "protagonist", "AvailableSkills", "RoundAction", "JumpHeight", "skills",
-            "DogBase", "BaseClassID", "LineUpClassID", "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
+            "DogBase", "BaseClassID", "BaseClass", "Hp", "HpBase", "Atk",  "Def", "MagicalAtk",
             "MagicalDef",  "Agile",  "Velocity", "Quality", "team",
             "Luck", "position", "buff",
             "avali_move_p_list", "shoot_p_list", "atk_effect_p_list"
@@ -148,7 +148,7 @@ class Hero():
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
-        for s_f in ["skills", "buff" ]:
+        for s_f in ["skills", "buff"]:
             if s_f in fields:
                 data[s_f] = []
                 fields.remove(s_f)
@@ -161,6 +161,8 @@ class Hero():
                 data["team"] = self.team.dict()
             else:
                 data["team"] = []
+        if "BaseClass" in fields:
+            data["BaseClass"]  = self.__BaseClass.dict()
         # if for_view:
         #     data['position'] = list(trans_postion(*data["position"]))
         return data         
@@ -370,11 +372,11 @@ class Hero():
         return self
     
     @property
-    def LineUpClassID(self):
-        return self.__LineUpClassID
+    def BaseClass(self):
+        return self.__BaseClass
     
-    def set_LineUpClassID(self, v):
-        self.__LineUpClassID = v
+    def set_BaseClass(self, v):
+        self.__BaseClass = v
         return self
 
     @property

@@ -8,15 +8,26 @@ import copy
 
 from collections import namedtuple
 
+CARREER_TYPE = namedtuple("CARREER_TYPE", ['FRONT_DEFEND', 'BACK_DENFEND'])  # 职业详细类别
+carrer_type = CARREER_TYPE(1, 2)
+
+POSITION = namedtuple("POSITION", ['FRONT', 'BACK'])  # 位置类别
+carrer_position = POSITION(1, 2)
+
+FUNCTIONAL = namedtuple("FUNCTIONAL", ['DEFEND', 'ATTACK', 'MEDICAL']) # 职能类别
+carrer_functional = FUNCTIONAL(1, 2, 3)
+
+ATTACK_TYPE = namedtuple("ATTACK_TYPE", ['NEAR_CONTINUE', 'FAR', 'NEAR_OUTBREAK', 'MAGIC', 'MEDICAL']) # 职能类别
+attack_type = ATTACK_TYPE(1, 2, 3, 4, 5)
 
 class BaseClass():
     
     def __init__(self, sn=None, Name=None, desc=None, 
-                 ClassType1=None,  # 职业详细类别 前卫防守型 1 ； 后卫防守型 2
-                 ClassType2=None,  # 位置类别    前卫      1  ； 后卫     2
-                 ClassType3=None,  # 职能类别    防守      1  ； 攻击     2； 治疗 3
-                 ClassType4=None,  # 攻击方式类别 近身持续输出 1； 远程输出 2； 近身爆发输出 3； 魔法输出 4； 治疗辅助 5
-                 ClassType5=None,  # 预留
+                 ClassType1=None,   # 职业详细类别 前卫防守型 1 ; 后卫防守型 2
+                 ClassType2=None,   # 位置类别    前卫      1  ; 后卫     2
+                 ClassType3=None,   # 职能类别    防守      1  ; 攻击     2;  治疗 3
+                 ClassType4=None,   # 攻击方式类别 近身持续输出 1;  远程输出 2; 近身爆发输出 3; 魔法输出 4; 治疗辅助 5
+                 ClassType5=None,   # 预留
                  ClassType6=None,   # 预留
                  **kwargs):
         self.__sn = sn
@@ -29,7 +40,10 @@ class BaseClass():
         self.__ClassType5 = ClassType5
         self.__ClassType6 = ClassType6
 
-        self.fields = ["sn", "Name", "desc", "ClassType1", "ClassType2", "ClassType3", "ClassType4"]
+        self.__fields = ["sn", 
+                       #"Name", "desc", 
+                       "ClassType1", "ClassType2", "ClassType3", "ClassType4"
+                       ]
     
     def dict(self): 
         return {_:self.__getattribute__(_) for _ in self.__fields} 
