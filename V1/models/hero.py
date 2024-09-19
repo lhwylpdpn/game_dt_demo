@@ -393,8 +393,9 @@ class Hero():
                 if abs(x) + abs(z) <= self.__DogBase:
                     try:
                         p_x, p_z = self.x + x, self.z + z
-                        land = map_object.get_land_from_xz(p_x, p_z)
-                        drange.append(tuple([p_x, land.y, p_z]))
+                        p_y = map_object.get_y_from_xz(p_x, p_z)
+                        if p_y is not None:
+                            drange.append(tuple([p_x, land.y, p_z]))
                     except Exception:
                         pass
         return drange
@@ -679,7 +680,7 @@ class Hero():
             else:
                 pass
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
-            move_y = map_obj.get_land_from_xz(move_x, move_z).y
+            move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
                 total_step = move_value if position_ok is None else total_step
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
@@ -718,7 +719,7 @@ class Hero():
             else:
                 pass
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
-            move_y = map_obj.get_land_from_xz(move_x, move_z).y
+            move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
                 total_step = move_value if position_ok is None else total_step
                 position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
