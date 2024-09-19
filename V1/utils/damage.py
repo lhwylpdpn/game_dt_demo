@@ -47,7 +47,7 @@ def damage_calc(attacker, defender, skill):
     attacker_skill_coefficient = 1  # 技能伤害系数
     if skill.SkillId == demo_skill['战士普攻']:
         attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 100%物理伤害
-    if skill.SkillId == demo_skill['战士劈砍']:
+    if skill.SkillId == demo_skill['战士横扫']:
         attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 85%物理伤害
     if skill.SkillId == demo_skill['弓手普攻']:
         attacker_skill_coefficient = float(skill.get_effect_by_key('ATK_FORMULA_1').param[1]) / 100  # 65%(物理+敏捷)的物理伤害
