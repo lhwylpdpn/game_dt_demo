@@ -152,7 +152,7 @@ class test_process:
                 update_hero.append(self.state['hero'][i])
         #删除掉其他敌人,只留下精英怪
         for i in range(len(self.state['monster'])):
-            if self.state['monster'][i].dict()['Quality']==int(2):
+            if self.state['monster'][i].dict()['Quality']==int(1):
                 update_monster.append(self.state['monster'][i])
 
         self.state['hero']=update_hero
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     skill_list.remove(101)
     skill_list.remove(102)
     skill_list.remove(103)
-
+    skill_list=[77]
 
     for skill_id in skill_list:
         single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
