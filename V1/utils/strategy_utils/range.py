@@ -334,7 +334,8 @@ class Range(Data):
                 self.enemies,
                 self.map
             ).select_attack_strategy(pick_list)
-
+        else:
+            return []
         # for each in pick_list:
         #     _weight = Weight().clac_skill_weight(each)
         #     if not pick:
@@ -477,11 +478,10 @@ if __name__ == '__main__':
     tmp = "2024-09-06 10:44:11"
     # print(log_manager.get_log(tmp))
 
-    tmp_data = eval(log_manager.get_log(tmp))
-    print(tmp_data.keys())
+    from buildpatrol import BuildPatrol
 
-    state = tmp_data["state"]
-    role = tmp_data["role"]
-
+    state = BuildPatrol("../../data.json").load_data()
+    role = state['hero'][0].dict()
     r = Range(role, state)
-    r.simple_strategy()
+    res=r.simple_strategy()
+    print(3333,res)
