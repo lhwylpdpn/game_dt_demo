@@ -15,6 +15,7 @@ class Node:
         self.parent=None
         self.true_child=None
         self.false_child=None
+        self.evaluate_result=None
     def add_true_child(self, child_node):
         self.true_child = child_node
         self.true_child.parent=self
@@ -25,7 +26,8 @@ class Node:
 
     def evaluate(self,performance=None):
         # 是行动节点直接行动
-
+        if self.evaluate_result is not None:
+            return self.evaluate_result,self
         if self.action:
             if performance is not None:
                 performance.event_start(self.name)
@@ -33,6 +35,7 @@ class Node:
             log_manager.add_log({'stepname': 'evaluate执行动作', 'action': self.name, 'result_len': len(res)})
             if performance is not None:
                 performance.event_end(self.name)
+            self.evaluate_result=res
             return res,self
         #非行动节点判断概率，如果需要随机，就随机选择一个子节点
         if random.random() < 1-self.probability:
@@ -48,7 +51,7 @@ class Node:
                     if performance is not None:
                         performance.event_start("selection_"+str(s))
                     res.append(s())
-                    log_manager.add_log({'stepname': 'evaluate执行判断', 'selection': str(s), 'result_len': str(res[-1])})
+                    log_manager.add_log({'stepname': 'evaluate执行判断', 'selection': str(self.name), 'result_len': str(res[-1])})
                     if performance is not None:
                         performance.event_end("selection_"+str(s))
 
@@ -68,19 +71,24 @@ class Node:
 
 
 def dfs(node, performance,visited=None):
-    if node.parent is None:
+    if node is None:
         return [],None
     if visited is None:
         visited = set()
+
     if node in visited:
         return [],None
+
+    if len(visited)==0:
+        result=[]
+    else:
+        result, _ = node.evaluate(performance=performance)
+
     visited.add(node)
-    result,_ = node.evaluate(performance=performance)
     if len(result)>0:#就是有步骤
         #log_manager.add_log({'stepname': '通用决策树最终选择', 'result': result})
         return result,_
 
-    # print('dfs节点执行到', node.name)
 
     # 如果返回 None，尝试下一个兄弟节点
     siblings = []
@@ -165,7 +173,7 @@ def make_decision(hero,state,performance=None):
     res,end_node=root.evaluate(performance=performance)
     log_manager.add_log({'stepname': '决策树-首次查找最终选择', 'result_len': len(res),'action':end_node.name})
     if len(res)==0:
-        res,end_node=dfs(node=end_node,performance=performance)
+        res,end_node=dfs(node=end_node.parent,performance=performance)
         log_manager.add_log({'stepname': '决策树-多次查找最终选择', 'result_len': len(res),'action':end_node.name})
     if performance is not None:
         performance.event_end('evaluate')
