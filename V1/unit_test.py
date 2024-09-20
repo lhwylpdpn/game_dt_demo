@@ -210,22 +210,28 @@ if __name__ == '__main__':
     with open(log_file_path, 'w') as f:
         f.write('')
 
-    # #
-    # #
-    # #
-    # # skill_list=list(demo_skill.values())
-    # skill_list=[77]
-    # # # #暂时有bug的技能
-    # # # skill_list.remove(78)
-    # # # skill_list.remove(97)
-    # # # skill_list.remove(98)
-    # # # skill_list.remove(99)
-    # # # skill_list.remove(100)
-    # # # skill_list.remove(101)
-    # # # skill_list.remove(102)
-    # # # skill_list.remove(103)
-    # # #
-    # # #
-    # for skill_id in skill_list:
-    #      single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=True)
-    main()
+    #
+    #
+    #
+    skill_list=list(demo_skill.values())
+    print(skill_list)
+    #skill_list=[77]
+    # # #暂时有bug的技能
+    skill_list.remove(78)
+    skill_list.remove(77)
+
+    # # skill_list.remove(78)
+    # # skill_list.remove(97)
+    # # skill_list.remove(98)
+    # # skill_list.remove(99)
+    # # skill_list.remove(100)
+    # # skill_list.remove(101)
+    # # skill_list.remove(102)
+    # # skill_list.remove(103)
+
+
+
+
+    for skill_id in skill_list:
+         single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
+    #main()
