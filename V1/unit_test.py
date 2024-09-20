@@ -174,8 +174,11 @@ class test_process:
                 self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
                 self.state['hero'][i].set_DogBase(hero_random_DogBase)
                 self.state['hero'][i].set_Hp(hero_random_HP)
+                self.state['hero'][i].set_HpBase(hero_random_HP)
                 self.state['hero'][i].set_Atk(hero_random_Atk)
-                self.state['hero'][i].set_AvailableSkills([skill_id])
+                if type(skill_id)!=list:
+                    skill_id=[skill_id]
+                self.state['hero'][i].set_AvailableSkills(skill_id)
 
         self.state['monster'][0].set_x(self.state['hero'][0].dict()['position'][0]+1)
         self.state['monster'][0].set_y(self.state['hero'][0].dict()['position'][1])
@@ -217,8 +220,19 @@ if __name__ == '__main__':
     print(skill_list)
     #skill_list=[77]
     # # #暂时有bug的技能
-    skill_list.remove(78)
+    skill_list.remove(79)
+    skill_list.remove(81)
+    skill_list.remove(88)
+
+    #通过的技能
     skill_list.remove(77)
+    skill_list.remove(78)
+    skill_list.remove(80)
+    skill_list.remove(83)
+    skill_list.remove(84)
+
+    skill_list.remove(85)
+    skill_list.remove(86)
 
     # # skill_list.remove(78)
     # # skill_list.remove(97)
@@ -230,8 +244,9 @@ if __name__ == '__main__':
     # # skill_list.remove(103)
 
 
+    skill_list=[88]
 
 
     for skill_id in skill_list:
-         single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
+         single_skill_test_main(basecalssid=2,skill_id=skill_id,pygame_init=True)
     #main()
