@@ -44,7 +44,7 @@ class Map(): # 地图
     def get_y_from_xz(self, x, z):  # 从y俯视图中，根据 x,z 来确定 地块
         if x >=0 and x <= self.x and z >= 0 and z <= self.z:
             position = np.max(self.map[x, :, z], axis=0)
-            if isinstance(land, Land):
+            if isinstance(position, Land):
                 return land.y
             else:
                 return None
