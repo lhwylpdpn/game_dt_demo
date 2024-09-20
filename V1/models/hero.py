@@ -238,7 +238,11 @@ class Hero():
     
     @property
     def skills(self):
-        return self.__skills
+        skills = []
+        for each in self.__skills: # 通过 AvailableSkills 判断
+            if each.SkillId in self.AvailableSkills:
+                skills.append(each)
+        return skills
     
     def set_skills(self, v):
         self.__skills = v
