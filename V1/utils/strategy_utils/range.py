@@ -201,7 +201,7 @@ class Range(Data):
         round_action = Data.value("RoundAction", hero)
         attack_pos_dict = {}
 
-        move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1], self.map)[: round_action + 1]
+        move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1, 2, 3], self.map)[: round_action + 1]
         return move_steps
 
         # for xz in self.map:
@@ -486,7 +486,7 @@ class Range(Data):
         if closest_enemy_position:
             closest_enemy_position = closest_enemy_position[0]
             move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
-            print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}")
+            print(f"[MOVE]BOSS位置为{closest_enemy_position['position']}", move_steps)
             if move_steps:
                 print(
                     f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动,本次移动{move_steps}")
@@ -498,6 +498,11 @@ class Range(Data):
 
     def wait(self):
         # 本轮行动WAIT
+        # state = {"map": self.map,
+        #          "hero": self.teammates + [self.role],
+        #          "monster": self.enemies}
+        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}))
+        # print(f"wait: log tmp: {tmp}")
         return [{"action_type": "WAIT"}]
 
     def is_heal(self, k1, k2, k3):
