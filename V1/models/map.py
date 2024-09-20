@@ -45,7 +45,7 @@ class Map(): # 地图
         if x >=0 and x <= self.x and z >= 0 and z <= self.z:
             position = np.max(self.map[x, :, z], axis=0)
             if isinstance(position, Land):
-                return land.y
+                return position.y
             else:
                 return None
         else:
