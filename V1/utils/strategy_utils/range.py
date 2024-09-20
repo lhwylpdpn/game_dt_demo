@@ -2,6 +2,7 @@
 # @Author  : Bin
 # @Time    : 2024/8/21 16:06
 import time
+from collections import deque
 from copy import deepcopy
 from itertools import product
 
@@ -201,8 +202,34 @@ class Range(Data):
         round_action = Data.value("RoundAction", hero)
         attack_pos_dict = {}
 
-        move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1, 2, 3], self.map)[: round_action + 1]
-        return move_steps
+        # move_steps = find_shortest_path(hero_position, enemy_position, jump_height, [1, 2, 3], self.map)[: round_action + 1]
+        # return move_steps
+
+        queue = deque([hero_position])
+        visited = set()  # 用来存储已经访问过的点
+        visited.add(hero_position)
+        # #
+        while queue:
+            x, y, z = queue.popleft()
+            point = tuple(self.map[(x, z)]["position"])
+            _hero = deepcopy(hero)
+            _hero["position"] = point
+
+            stk_range = get_attack_range(self.role, point, self.map)
+            if enemy_position in stk_range:
+                move_steps = find_shortest_path(hero_position, point, jump_height, [1, 2, 3], self.map)[
+                             : round_action + 1]
+                if move_steps:
+                    return move_steps
+
+            for dx, dz in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                nx, nz = x + dx, z + dz
+                if (nx, nz) in self.map:
+                    _p = tuple(self.map[(nx, nz)]["position"])
+                    if _p not in visited:
+                        queue.append(_p)
+                        visited.add(_p)
+        return []
 
         # for xz in self.map:
         #     point = tuple(self.map[xz]["position"])
@@ -219,10 +246,9 @@ class Range(Data):
         # if attack_pos_dict:
         #     closest_pos = min(attack_pos_dict.keys(), key=lambda k: manhattan_distance(k, hero_position))
         #     steps = attack_pos_dict[closest_pos]
-        #     return closest_pos, steps
+        #     return steps
         # else:
-        #     return None, None
-
+        #     return []
     def find_closest_enemy(self):
         # 获取距离最近的敌人
         closest_enemy = None
@@ -498,11 +524,11 @@ class Range(Data):
 
     def wait(self):
         # 本轮行动WAIT
-        # state = {"map": self.map,
-        #          "hero": self.teammates + [self.role],
-        #          "monster": self.enemies}
-        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}))
-        # print(f"wait: log tmp: {tmp}")
+        state = {"map": self.map,
+                 "hero": self.teammates + [self.role],
+                 "monster": self.enemies}
+        tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}))
+        print(f"wait: log tmp: {tmp}")
         return [{"action_type": "WAIT"}]
 
     def is_heal(self, k1, k2, k3):
@@ -515,13 +541,15 @@ class Range(Data):
                 t_position = Data.value("position", t)
                 if manhattan_distance(role_position, t_position) <= doge_base:
                     if self.is_in_combat(t, self.enemies):
-                        # TODO if 防守型角色
+                        if Data.value("ClassType3", t) == 1:
+                            if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k1:
+                                return True
+
                         if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k2:
                             return True
                     else:
                         if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k3:
                             return True
-
         return False
 
     def simple_strategy(self):
