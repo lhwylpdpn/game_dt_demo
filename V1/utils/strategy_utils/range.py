@@ -298,20 +298,20 @@ class Range(Data):
         for point in release_range:
             attack_range = skill_effect_range(self.role, point, skill, self.map)
             enemies_in_range = [enemy for enemy in self.enemies if Data.value("position", enemy) in attack_range]
-            if tuple(point) in [Data.value("position", e) for e in enemies_in_range]:
-                if len(enemies_in_range) > 0:  # 技能范围内>0的敌人才返回
-                    results.append(
-                        {
-                            "hero_pos": move_pos,
-                            "skill_pos": point,
-                            "skill_range": attack_range,
-                            "release_range": release_range,
-                            "target": enemies_in_range,
-                            "route": paths,
-                            "skill": skill,
-                            "type": "ATK"
-                        }
-                    )
+            # if tuple(point) in [Data.value("position", e) for e in enemies_in_range]:
+            if len(enemies_in_range) > 0:  # 技能范围内>0的敌人才返回
+                results.append(
+                    {
+                        "hero_pos": move_pos,
+                        "skill_pos": point,
+                        "skill_range": attack_range,
+                        "release_range": release_range,
+                        "target": enemies_in_range,
+                        "route": paths,
+                        "skill": skill,
+                        "type": "ATK"
+                    }
+                )
         return results
 
     def get_all_possible_attacks(self, move_pos, skill, paths):
@@ -366,12 +366,12 @@ class Range(Data):
             for skill in skills:
                 pick_list += self.get_all_possible_attacks(move, skill, paths)
 
-        if pick_list:
-            state = {"map": self.map,
-                     "hero": self.teammates + [self.role],
-                     "monster": self.enemies}
-            tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
-            print(f"log tmp: {tmp}")
+        # if pick_list:
+        # state = {"map": self.map,
+        #          "hero": self.teammates + [self.role],
+        #          "monster": self.enemies}
+        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+        # print(f"log tmp: {tmp}")
         print(f"[ATK]攻击可选择数量为: {len(pick_list)}")
         return pick_list
 

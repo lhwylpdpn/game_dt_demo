@@ -232,6 +232,8 @@ def range_mht_hollow_circle(point, o, i, gap, effect, map):
         m_pos = map[m]["position"]
         if h_manhattan_distance(point, m_pos, gap, effect) in atk_limit:
             atk_range.append(m_pos)
+    if i == 1:
+        atk_range.append(point)
     return atk_range
 
 
