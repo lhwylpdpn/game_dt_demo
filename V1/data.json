@@ -335,7 +335,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 4,
-          "SkillCalc": 0,
+          "SkillCalc": 3,
           "SkillElement": 5,
           "SkillGoals": [3],
           "effects": [
@@ -389,7 +389,7 @@
               "param": [],
               "tag": "",
               "Priority": 10,
-              "TriggerTime": 1,
+              "TriggerTime": 4,
               "Target": 2
             },
             {
@@ -410,7 +410,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 2,
-          "SkillCalc": 4,
+          "SkillCalc": 6,
           "SkillElement": 0,
           "SkillGoals": [3, 4],
           "effects": [
@@ -732,7 +732,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 4,
-          "SkillCalc": 0,
+          "SkillCalc": 3,
           "SkillElement": 0,
           "SkillGoals": [3],
           "effects": [
@@ -764,7 +764,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 4,
-          "SkillCalc": 0,
+          "SkillCalc": 3,
           "SkillElement": 7,
           "SkillGoals": [1],
           "effects": [
@@ -841,7 +841,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 2,
-          "SkillCalc": 4,
+          "SkillCalc": 6,
           "SkillElement": 0,
           "SkillGoals": [3],
           "effects": [
@@ -1229,7 +1229,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 4,
-          "SkillCalc": 0,
+          "SkillCalc": 3,
           "SkillElement": 0,
           "SkillGoals": [1],
           "effects": [
@@ -1262,7 +1262,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 4,
-          "SkillCalc": 0,
+          "SkillCalc": 3,
           "SkillElement": 0,
           "SkillGoals": [1],
           "effects": [
@@ -1315,7 +1315,7 @@
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 2,
-          "SkillCalc": 4,
+          "SkillCalc": 6,
           "SkillElement": 0,
           "SkillGoals": [3, 4],
           "effects": [
@@ -1325,7 +1325,7 @@
               "param": [],
               "tag": "",
               "Priority": 10,
-              "TriggerTime": 1,
+              "TriggerTime": 4,
               "Target": 2
             },
             {

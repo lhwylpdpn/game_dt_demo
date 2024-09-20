@@ -584,18 +584,21 @@ class Hero():
     def get_back_skills(self, enemy, attach_skill): # 获取反击技能
         skill = []
         for _ in self.get_back_attack_Skills():
-            if "ATK_BACK" in _.avaliable_effects() and ("IS_HIT" in _.avaliable_effects() or "IS_DEFAULT_HIT" in _.avaliable_effects()):
+            if "ATK_BACK" in _.avaliable_effects():
                 # 是默认技能， 默认技能攻击时候触发
-                if attach_skill.is_default_skill() and "IS_DEFAULT_HIT" in _.avaliable_effects():
-                    skill.append(_)
+                if attach_skill.is_default_skill():
+                    if _.is_default_hit() or _.is_hit():
+                        skill.append(_)
                 # 不是默认技能，其他技能攻击时候触发
-                if not attach_skill.is_default_skill() and "IS_DEFAULT_HIT" not in _.avaliable_effects():
-                    skill.append(_)
-            if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and "IS_HIT" in _.avaliable_effects():
+                if not attach_skill.is_default_skill():
+                    if _.is_skill_hit() or _.is_hit():
+                        skill.append(_)
+            if "DEBUFF_ROUND_ACTION_BACK" in _.avaliable_effects() and _.is_hit():
                 effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
                 if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
                     enemy.add_buff(buff_id=effect.id, buff_key="DEBUFF_ROUND_ACTION_BACK",
                                    param=effect.param[1:], buff_percent=effect.param[0])
+        print("get back skill:", len(skill), skill)
         return skill
 
     def load_init_unActiveSkill(self): # load  buff
@@ -792,16 +795,22 @@ class Hero():
             buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", param=effect.param)
             for each in friends:
                     each.add_buff_object(copy.deepcopy(buff))
+        if "BUFF_MAGICAL_DEF" in skill.avaliable_effects(): 
+            print("use: BUFF_MAGICAL_DEF")
+            effect = skill.get_effect_by_key("BUFF_ADD_HP")
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_ADD_HP", param=effect.param)
+            for each in friends:
+                each.add_buff_object(copy.deepcopy(buff))
         return self
 
     def before_be_attacked(self, skill):                # 被攻击之前，加载被动技能(作为被攻击对象)
         for each_skill in self.skills:
             if each_skill.is_back_NA_skill():           # 加载反应技能
-                if each_skill.is_default_skill():       # 被默认技能攻击
-                    if skill.is_default_skill():        # 技能是默认技能
+                if skill.is_default_skill():            # 技能是默认技能
+                    if each_skill.is_default_hit() or each_skill.is_hit():  # 被默认技能攻击 or 被攻击 
                         each_skill.make_effective(self)
-                else: # 不是被默认攻击时候出发
-                    if not skill.is_default_skill(): # 技能不是默认技能
+                if not skill.is_default_skill():        # 不是默认技能攻击
+                    if each_skill.is_hit() or each_skill.is_skill_hit() :   # 被技能攻击时候触发  or 被攻击 
                         each_skill.make_effective(self)
         return self
     
@@ -929,12 +938,17 @@ class Hero():
             if each.is_death:
                 each.leve_game(state)
                 continue
-            if each.is_alive: # 没有被打死，可以发动反击
+            else: # 没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
+                    print("use back skill:", each_back_skill.SkillId)
                     if self.is_in_backskill_range(each_back_skill, self, state):
+                        print("start back....")
                         result.update(
                             each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
                             )
+                        print("end back....")
+                    else:
+                        print("not in backskill range ")
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         return result
     
@@ -955,6 +969,7 @@ class Hero():
             result[each] = copy.deepcopy(_res)
             # TODO
             each.Hp_add(_res)
+        self.after_medical_skill(friends, skill, state)
         return result
     
     def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP

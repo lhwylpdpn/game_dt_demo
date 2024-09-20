@@ -16,8 +16,8 @@ skill_goals = SKILL_GOALS(1, 2, 3, 4)
 SKILL_CLASS = namedtuple("SKILL_CLASS", ['ACTIVE', 'SUPPORT', 'MOVE', 'BACK'])
 skill_class = SKILL_CLASS(1, 2, 3, 4)
 
-SKILL_CALC = namedtuple("SKILL_CALC", ['NA', 'ATTACK', 'HALO', 'TRIGGER', 'OUT', 'TREATMENT'])
-skill_calc = SKILL_CALC(0, 1, 2, 3, 4, 5)
+SKILL_CALC = namedtuple("SKILL_CALC", ['NA', 'ATTACK', 'HALO', 'TRIGGER', 'OUT', 'TREATMENT', 'SETTLEMENT'])
+skill_calc = SKILL_CALC(0, 1, 2, 3, 4, 5, 6)
 
 SKILL_ELEMENT = namedtuple("SKILL_ELEMENT", ['NA', 'WATER', 'FIRE', 'EARTH', 'MUDD', 'LIGHT', 'DARK', 'PHYSIC'])
 skill_element = SKILL_ELEMENT(0, 1, 2, 3, 4, 5, 6, 7)
@@ -30,7 +30,7 @@ class SkillDetail():
         self.__SkillLev = kwargs.get("SkillLev", None)
         self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
         self.__SkillClass = kwargs.get("SkillClass", None)         # 技能类别 1:主动技能 2:支援技能 3:移动技能 4:反应技能
-        self.__SkillCalc = kwargs.get("SkillCalc", 0)              # 计算类别 0: 无， 1:攻击， 2:光环， 3:触发， 4:局外，5:治疗
+        self.__SkillCalc = kwargs.get("SkillCalc", 0)              # 计算类别 0: 无， 1:攻击， 2:光环， 3:触发， 4:局外，5:治疗 6:结算
         self.__SkillElement = kwargs.get("SkillElement", 0)        # 元素属性 0:无， 1:水， 2:火，3:地， 4:木，5:光，6:暗， 7:物理
         self.__SkillGoals =[int(_) for _ in kwargs.get("SkillGoals", [])]       #技能目标  1敌人  2地格  3自身  4友方
         
@@ -180,7 +180,16 @@ class SkillDetail():
 
     def is_back_attack_skill(self): # 被动反击技能
         # 反应技能，技能类型是攻击
-        return self.__SkillClass == skill_class.BACK and self.__SkillCalc == skill_calc.ATTACK
+        return self.__SkillClass == skill_class.BACK and self.__SkillCalc == skill_calc.TRIGGER
+    
+    def is_default_hit(self): # 反应技能，默认技能攻击时候触发
+        return "IS_DEFAULT_HIT" in self.avaliable_effects()
+    
+    def is_hit(self):  # 反应技能，被攻击时候触发
+        return "IS_HIT"  in self.avaliable_effects()
+
+    def is_skill_hit(self):  # 反应技能，被技能攻击时候触发
+        return "IS_SKILL_HIT"  in self.avaliable_effects()
     
     def is_active_attack_skill(self): # 主动攻击技能
         return self.__SkillClass == skill_class.ACTIVE and self.__SkillCalc == skill_calc.ATTACK
