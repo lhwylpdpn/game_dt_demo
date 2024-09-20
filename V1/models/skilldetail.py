@@ -190,6 +190,9 @@ class SkillDetail():
 
     def is_skill_hit(self):  # 反应技能，被技能攻击时候触发
         return "IS_SKILL_HIT"  in self.avaliable_effects()
+
+    def is_miss_damage(self):
+        return "MISS_DAMAGE" in self.avaliable_effects()
     
     def is_active_attack_skill(self): # 主动攻击技能
         return self.__SkillClass == skill_class.ACTIVE and self.__SkillCalc == skill_calc.ATTACK

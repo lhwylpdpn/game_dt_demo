@@ -827,12 +827,24 @@ class Hero():
         return self
     
     # 被动技能使攻击失效
-    def is_miss_hit(self):
+    def is_miss_hit(self, attach_skill):
+        
+        def __is_miss(skill):
+            effect = skill.get_effect_by_key("MISS_DAMAGE")
+            return random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0})
+
         for each_skill in self.skills:
-            if "IS_DEFAULT_HIT" in each_skill.avaliable_effects() and\
-               "BUFF_MISS_HIT" in each_skill.avaliable_effects():
-               effect = each_skill.get_effect_by_key("BUFF_MISS_HIT")
-               return random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0})
+            if each_skill.is_miss_damage(): # 是使攻击失效技能
+                # 默认技能
+                if each_skill.is_default_hit() and attach_skill.is_default_skill():
+                   return __is_miss(each_skill)
+                # 都是非默认技能
+                if (not each_skill.is_default_hit()) and (not attach_skill.is_default_skill()):
+                    return __is_miss(each_skill)
+                # 被攻击
+                if each_skill.is_hit():
+                    return __is_miss(each_skill)
+        
         return False
     
     def is_in_hitline_range(self, range_line_value,  enemy, state): # 
@@ -927,7 +939,7 @@ class Hero():
             each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
             _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
-            if each.is_miss_hit(): # 被动技能使攻击失效 # TODO 彬哥 
+            if each.is_miss_hit(skill): # 被动技能使攻击失效 # TODO 彬哥 
                 for _ in _res:
                     _["damage"] = 0
                 result[each] = copy.deepcopy(_res)
