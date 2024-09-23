@@ -410,7 +410,7 @@ class Range(Data):
             action_step += self.move_step_handler(pick_data["route"])
         action_step.append(
             {"action_type": f"SKILL_{pick_data['skill']['SkillId']}", "skill_range": pick_data["skill_range"],
-             "skill_pos": pick_data["skill_pos"], "target": pick_data["target"], "release_range": pick_data["release_range"]})
+             "skill_pos": pick_data["skill_pos"], "target": pick_data["target"], "release_range": pick_data["release_range"], "type": "HEAL"})
         return action_step
 
     def find_attack_target(self):
