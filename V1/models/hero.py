@@ -789,13 +789,17 @@ class Hero():
     def after_medical_skill(self, friends=[], skill=None, state=None): # 使用治疗技能之后
         self.__use_skill(skill)
         if "BUFF_ADD_HP" in skill.avaliable_effects(): 
-            print("use: BUFF_ADD_HP 持续治疗")
             effect = skill.get_effect_by_key("BUFF_ADD_HP")
             if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
                 buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id,
                        buff_key="BUFF_ADD_HP", param=effect.param[1:], buff_percent=effect.param[0])
                 for each in friends:
                     each.add_buff_object(copy.deepcopy(buff))
+        if "BUFF_HP" in skill.avaliable_effects(): 
+            effect = skill.get_effect_by_key("BUFF_HP")
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_HP", param=effect.param, buff_percent=effect.param[0])
+            for each in friends:
+                each.add_buff_object(copy.deepcopy(buff))
         if "ADD_HP_FORMULA_2" in skill.avaliable_effects():
             effect = skill.get_effect_by_key("ADD_HP_FORMULA_2")
             buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", param=effect.param)
@@ -803,8 +807,8 @@ class Hero():
                     each.add_buff_object(copy.deepcopy(buff))
         if "BUFF_MAGICAL_DEF" in skill.avaliable_effects(): 
             print("use: BUFF_MAGICAL_DEF")
-            effect = skill.get_effect_by_key("BUFF_ADD_HP")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_ADD_HP", param=effect.param)
+            effect = skill.get_effect_by_key("BUFF_MAGICAL_DEF")
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_MAGICAL_DEF", param=effect.param)
             for each in friends:
                 each.add_buff_object(copy.deepcopy(buff))
         return self
