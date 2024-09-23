@@ -25,9 +25,9 @@ class Action(object):
         for each in heal_data:
             heal = [_["heal"] for _ in heal_data[each]]
             pre_damage = [_["pre_heal"] for _ in heal_data[each]]
-            st = [_["st"] for _ in heal_data[each]]
+            # st = [_["st"] for _ in heal_data[each]]
 
-            d.extend([[[each.__class__.__name__.lower(), each.HeroID], heal, pre_damage, st]])
+            d.extend([[[each.__class__.__name__.lower(), each.HeroID], heal, pre_damage]])
         return d
 
     def move_step_handler(self, move_queue):
