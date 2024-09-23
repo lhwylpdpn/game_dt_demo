@@ -820,6 +820,17 @@ class Hero():
                         each_skill.make_effective(self)
         return self
     
+    def after_be_attacked(self, skill):                # 被攻击之后，卸载被动技能(作为被攻击对象)
+        for each_skill in self.skills:
+            if each_skill.is_back_NA_skill():           # 卸载反应技能
+                if skill.is_default_skill():            # 技能是默认技能
+                    if each_skill.is_default_hit() or each_skill.is_hit():  # 被默认技能攻击 or 被攻击 
+                        each_skill.make_invalid(self)
+                if not skill.is_default_skill():        # 不是默认技能攻击
+                    if each_skill.is_hit() or each_skill.is_skill_hit() :   # 被技能攻击时候触发  or 被攻击 
+                        each_skill.make_invalid(self)
+        return self
+    
     def reduce_buff_round_action(self): # 每次行动后，减少buff中的round_action
         for each in self.__buff:
             each.reduce_round_action()
@@ -884,7 +895,7 @@ class Hero():
             map_obj = state.get("maps")
             effect = back_skill.get_effect_by_key("ATK_DISTANCE")
             atk_distance = effect.param[1]
-            l_in_range,r_in_range = False, False
+            l_in_range,r_in_range,cross_in_range = False, False, False
             # 高度影响攻击范围, 高低差每{0}格，最大攻击范围加{0}格, 暂时不处理
             # if "ADD_ATK_DISTANCE" in back_skill.avaliable_effects():
             #     pass
@@ -892,11 +903,14 @@ class Hero():
                 _eff = back_skill.get_effect_by_key("HIT_LINE")
                 range_line_value =  _eff.param[1] + 1
                 l_in_range = self.is_in_hitline_range(range_line_value,  enemy, state)
-            if "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
-                _eff = back_skill.get_effect_by_key("HIT_LINE")
+            elif "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
+                _eff = back_skill.get_effect_by_key("HIT_RANGE")
                 gap, radis = _eff.param[0], _eff.param[1] 
                 r_in_range = self.is_in_hit_range(gap, radis, enemy, state)
-            if not l_in_range and not r_in_range: # 没有在范围内
+            else:# 自己为中心点，十字一格
+                gap, radis = effect.param[0], effect.param[1] 
+                cross_in_range = self.is_in_hit_range(int(gap), int(radis), enemy, state)
+            if not l_in_range and not r_in_range and not cross_in_range: # 没有在范围内
                 return False
             else:
                 if "IS_ATK_DISTANCE" in back_skill.avaliable_effects(): # 攻击范围限制高度，高低差{0}内生效
@@ -915,11 +929,11 @@ class Hero():
             @skill        使用的技能对象
             @attack_point 技能释放点位
         """
-        print("(^ ^)反击(^ ^)")
+        print(self.HeroID ,"(^ ^)反击(^ ^)")
         result = {}
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
-        self.Hp_damage(_res) # 敌人掉血攻击
+        enemy.Hp_damage(_res) # 敌人掉血攻击
         result[self] = copy.deepcopy(_res)
         return result
 
@@ -959,7 +973,7 @@ class Hero():
             else: # 没有被打死，可以发动反击
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     print("use back skill:", each_back_skill.SkillId)
-                    if self.is_in_backskill_range(each_back_skill, self, state):
+                    if each.is_in_backskill_range(each_back_skill, self, state):
                         print("start back....")
                         result.update(
                             each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
@@ -967,6 +981,7 @@ class Hero():
                         print("end back....")
                     else:
                         print("not in backskill range ")
+            each.after_be_attacked(skill) # 被攻击者添加被动skill
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         return result
     
