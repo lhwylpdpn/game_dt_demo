@@ -244,6 +244,12 @@ class Hero():
                 skills.append(each)
         return skills
     
+    def get_skill_by_id(self, skill_id):
+        for each in self.skills:
+            if each.SkillId == skill_id:
+                return each
+        return None
+    
     def set_skills(self, v):
         self.__skills = v
         return self

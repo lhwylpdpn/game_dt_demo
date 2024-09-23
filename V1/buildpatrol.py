@@ -77,42 +77,13 @@ if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
     state["maps"] = state["map"]
     # print(len(state.get("monster")))
-    hero = state.get("hero")[0]
+    hero = state.get("hero")[1] #
     # print(hero.hero_or_monster())
     # print(hero.BaseClassID)
     monster = state.get("monster")[0]
-    print(hero.hero_or_monster())
-    print(monster.hero_or_monster())
-    print(monster.dict())
-    # print(monster.team)
-    # print(monster.team.get_dog_range(state))
-    # print(monster.hero_or_monster())
-    # print(monster.BaseClassID)
-    # state["maps"] = state["map"]
-    # monster.move_back(hero, [3], state)
-    # monster.skill_move_to_position(hero, [1], state)
-    # TeamFlag.search_teammate(state.get("monster"))
-    # TeamFlag.search_teammate(state.get("hero"))
-
-    #map = BuildPatrol.build_map(origin_map_data)    # map
-    #heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    # monster = BuildPatrol.build_monster(origin_monster_data)# monster 
-    # each_back_skill = heros[0].get_back_skills(monster[0], SkillDetail(**{"DefaultSkills":1}))
-    # print(each_back_skill)
-    # if each_back_skill:
-    #     state = {"hero": heros, "monster":monster, "maps": map}
-    #     heros[0].func_attack(enemys=[monster[0]], skill=each_back_skill[0], attack_point=monster[0].position, state=state, is_back_atk=True)
-    #map.list_land_postion()
-    #map.set_land_pass(8,1,5)
-    #print(heros[0].dict())
-    #heros[0].move_position(8,1,5,map)
-    #print(heros[1].dict(for_view=True))
-    #print(heros[1].is_death)
-    #print(heros[1].is_alive)
-    #print(monster[0].dict())
-    #print(monster[1].dict())
-    #print(map.dict())
-    #print(map.dict(for_view=True))
-    #print(map.get_land_from_xz(11, 11).position)
-    #print(map.view_from_y_dict())
+    skill = monster.get_skill_by_id(137)
+    monster.func_attack(enemys=[hero], 
+                        skill=skill, 
+                        attack_point=hero.position, 
+                        state=state)
     
