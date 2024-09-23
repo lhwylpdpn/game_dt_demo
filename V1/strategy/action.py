@@ -69,7 +69,7 @@ class Action(object):
 
             if step["type"] == "HEAl":
                 target_ids = [_["HeroID"] for _ in step["attack_enemies"]]
-                target = [e for e in state["monster"] if e.HeroID in target_ids]
+                target = [e for e in state["monster"] + state["hero"] if e.HeroID in target_ids]
                 heal_res = hero.heal(target, skill, step["skill_pos"], state)
 
                 res["atk_range"] = step["skill_range"]
