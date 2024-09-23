@@ -404,6 +404,7 @@ class Range(Data):
             return []
 
         pick_data = pick["data"]
+        print(f"[HEAL]本次治疗选择", pick_data)
         action_step = []
         if pick_data["hero_pos"] != Data.value("position", self.role):
             action_step += self.move_step_handler(pick_data["route"])
@@ -537,19 +538,23 @@ class Range(Data):
         if skills:
             doge_base = Data.value("DogBase", self.role)
             role_position = Data.value("position", self.role)
-            for t in self.teammates:
+            for t in self.teammates + [self.role]:
                 t_position = Data.value("position", t)
                 if manhattan_distance(role_position, t_position) <= doge_base:
                     if self.is_in_combat(t, self.enemies):
                         if Data.value("ClassType3", t) == 1:
                             if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k1:
+                                print(f"[HEAL]存在可治疗角色, 有战斗中前卫防守型角色血量低于{k1 * 100}%: {Data.value('HeroID', t)}")
                                 return True
 
                         if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k2:
+                            print(f"[HEAL]存在可治疗角色, 任何战斗中角色血量低于{k2 * 100}%: {Data.value('HeroID', t)}")
                             return True
                     else:
                         if float(Data.value("Hp", t) / Data.value("HpBase", t)) < k3:
+                            print(f"[HEAL]存在可治疗角色, 任何非战斗中角色血量低于{k3 * 100}%: {Data.value('HeroID', t)}")
                             return True
+        print("[HEAL]无可治疗角色")
         return False
 
     def simple_strategy(self):
