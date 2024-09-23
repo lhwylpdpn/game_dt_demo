@@ -227,7 +227,6 @@ class SkillDetail():
         for each in self.effects:
             if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
                 each.set_random(random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}))
-                each.set_random(True)
                 if each.random: # 几率判断
                     if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
                         hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(each.param[1])/100.0
