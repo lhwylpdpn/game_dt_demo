@@ -67,15 +67,15 @@ class Action(object):
                 res["release_range"] = step["release_range"]
                 res["damage"] = self.calc_damage(atk_res)
 
-            if step["type"] == "HEAl":
-                target_ids = [_["HeroID"] for _ in step["attack_enemies"]]
+            if step["type"] == "HEAL":
+                target_ids = [_["HeroID"] for _ in step["target"]]
                 target = [e for e in state["monster"] + state["hero"] if e.HeroID in target_ids]
-                heal_res = hero.heal(target, skill, step["skill_pos"], state)
+                heal_res = hero.friend_treatment(target, skill, step["skill_pos"], state)
 
                 res["atk_range"] = step["skill_range"]
                 res["atk_position"] = step["skill_pos"]
                 res["release_range"] = step["release_range"]
-                res["damage"] = self.calc_heal(heal_res)
+                res["heal"] = self.calc_heal(heal_res)
 
         if step["action_type"] == "WAIT":  # TODO
             hero.dont_move()
