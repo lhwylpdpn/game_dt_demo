@@ -148,6 +148,8 @@ def wait(obj):
 def action_eascape(obj):
     return lambda : obj.get_furthest_position()
 
+def action_find_heal_target(obj):
+    return lambda : obj.find_heal_target()
 
 ###=------- 所有判断函数
 def lambda_is_health_below_threshold(obj,N):
@@ -163,6 +165,11 @@ def lambda_have_targets_within_atk_range(obj):
     return lambda : True if len(obj.find_targets_within_atk_range())>0 else False
 def lambda_is_have_boss(obj):
     return lambda : obj.is_boss()
+
+
+#20240923 增加一个恢复判定的函数
+def lambda_is_need_to_healing(obj,k1,k2,k3):
+    return lambda : obj.is_heal(k1,k2,k3)
 
 
 def make_decision(hero,state,performance=None):
@@ -200,13 +207,17 @@ def create_decision_tree(hero,state):
     # 创建决策树
 
     #所有判断节点
-    root = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,1)],probability=1)
+
+
+    root=Node("判断是否满足恢复判定", action=None, selection=[lambda_is_need_to_healing(range_obj,0.9,0.9,0.9)],probability=1)
+    is_need_to_escape = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,1)],probability=1)
     is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(range_obj,1)],probability=1)
     is_have_targets_within_atk_range_node=Node("判断是否有敌人在攻击范围内",action=None,selection=[lambda_have_targets_within_atk_range(range_obj)],probability=1)
     is_have_allies_within_range_node=Node("判断是否有友军在战斗",action=None,selection=[lambda_is_fight_allies(range_obj)],probability=1)
     is_have_boss_node=Node("判断是否有boss",action=None,selection=[lambda_is_have_boss(range_obj)],probability=1)
 
     #所有叶子节点
+    action_find_heal_target_node=Node("寻找治疗目标",action=action_find_heal_target(range_obj),probability=1)
     action_escape_node = Node("逃跑", action=action_eascape(range_obj))
     move_to_enemies_node=Node("移动到敌人附近",action=move_to_enemie(range_obj),probability=1)
     move_to_allies_node=Node("移动到友军附近",action=move_to_allies(range_obj),probability=1)
@@ -216,8 +227,10 @@ def create_decision_tree(hero,state):
 
 
     #构建关系
-    root.add_true_child(action_escape_node)
-    root.add_false_child(is_have_enemie_within_range_node)
+    root.add_true_child(action_find_heal_target_node)
+    root.add_false_child(is_need_to_escape)
+    is_need_to_escape.add_true_child(action_escape_node)
+    is_need_to_escape.add_false_child(is_have_enemie_within_range_node)
     is_have_enemie_within_range_node.add_true_child(is_have_targets_within_atk_range_node)
     is_have_enemie_within_range_node.add_false_child(is_have_allies_within_range_node)
     is_have_targets_within_atk_range_node.add_true_child(move_and_attack_node)
