@@ -1010,9 +1010,8 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        self.prepare_attack(skill)  # 做攻击之前，加载skill相关
-        if self not in friends:
-            friends.append(self)
+        # if self not in friends:
+        #     friends.append(self)
         for each in friends:
             _res = heal(caster=self, target=each, skill=skill)
             result[each] = copy.deepcopy(_res)

@@ -14,7 +14,7 @@ class Buff():
                        is_need_trigger=False, is_before_action=True):
         self.__buff_id = buff_id
         self.__buff_key = buff_key
-        self.__buff_value = buff_value
+        self.__buff_value = float(buff_value)
         self.__buff_round_action = int(buff_round_action)
         self.__total_buff_round_action = int(buff_round_action)   # 总 round_action
         self.__buff_back = buff_back                 # 用在buff失效后，用来恢复原始值
@@ -60,7 +60,7 @@ class Buff():
                 buff = Buff(buff_id, buff_key, buff_value, buff_round_action, buff_from=buff_from, buff_percent=buff_percent).set_buff_back(hero_or_monster.RoundAction)
         else:
             buff = Buff(buff_id, buff_key, buff_value, buff_round_action, buff_from=buff_from, buff_percent=buff_percent)
-            if buff_key == "BUFF_AD_HP":
+            if buff_key in ["BUFF_AD_HP", "BUFF_HP"]:
                 buff.set_is_need_trigger(True)
         return buff
     
@@ -125,20 +125,20 @@ class Buff():
 
     def make_invalid(self, hero_or_monster): # 减小buff数值, 使buff失效
         if self.buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
-            hero_or_monster.set_RoundAction(hero_or_monster.RoundAction - int(self.buff_value))
+            hero_or_monster.set_RoundAction(hero_or_monster.RoundAction - self.buff_value)
         elif self.buff_key == "BUFF_UNIT_DISTANCE": # # 增加连携{0}，并持续{0}行动回合
-            hero_or_monster.set_UnitDistance(hero_or_monster.UnitDistance - int(self.buff_value))
+            hero_or_monster.set_UnitDistance(hero_or_monster.UnitDistance - self.buff_value)
         elif self.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
-            hero_or_monster.set_JumpHeight([hero_or_monster.JumpHeight[0] - int(self.buff_value)])
+            hero_or_monster.set_JumpHeight([hero_or_monster.JumpHeight[0] - self.buff_value])
         elif self.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            hero_or_monster.set_Def(hero_or_monster.Def -  hero_or_monster.DefBase* int(self.buff_value)/100.0)
+            hero_or_monster.set_Def(hero_or_monster.Def -  hero_or_monster.DefBase * self.buff_value/100.0)
         elif self.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            hero_or_monster.set_Atk(hero_or_monster.Atk -  hero_or_monster.AtkBase *  int(self.buff_value)/100.0)
+            hero_or_monster.set_Atk(hero_or_monster.Atk -  hero_or_monster.AtkBase *  self.buff_value/100.0)
         # elif self.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
         #     hp = hero_or_monster.Hp -  hero_or_monster.HpBase * int(self.buff_value)/100.0
         #     hero_or_monster.set_Hp(hp if hp >= 1 else 1)
         elif self.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - hero_or_monster.MagicalDefBase * int(self.buff_value)/100.0)
+            hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - hero_or_monster.MagicalDefBase * self.buff_value/100.0)
         elif self.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             hero_or_monster.set_RoundAction(self.buff_back)
         else:
@@ -147,26 +147,26 @@ class Buff():
     
     def make_effective(self, hero_or_monster): # 增加buff数值, 使buff生效
         if self.buff_key == "BUFF_ROUND_ACTION": # # 增加移动力{0}格，并持续{0}行动回合
-            hero_or_monster.set_RoundAction(hero_or_monster.RoundAction + int(self.buff_value))
+            hero_or_monster.set_RoundAction(hero_or_monster.RoundAction + self.buff_value)
         elif self.buff_key == "BUFF_UNIT_DISTANCE": # # 增加连携{0}，并持续{0}行动回合
-            hero_or_monster.set_UnitDistance(hero_or_monster.UnitDistance + int(self.buff_value))
+            hero_or_monster.set_UnitDistance(hero_or_monster.UnitDistance + self.buff_value)
         elif self.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
-            hero_or_monster.set_JumpHeight([hero_or_monster.JumpHeight[0] + int(self.buff_value)])
+            hero_or_monster.set_JumpHeight([hero_or_monster.JumpHeight[0] + self.buff_value])
         elif self.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            hero_or_monster.set_Def(hero_or_monster.DefBase * (1 + int(self.buff_value)/100.0))
+            hero_or_monster.set_Def(hero_or_monster.DefBase * (1 + self.buff_value/100.0))
         elif self.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            hero_or_monster.set_Atk(hero_or_monster.AtkBase * (1 + int(self.buff_value)/100.0))
+            hero_or_monster.set_Atk(hero_or_monster.AtkBase * (1 + self.buff_value/100.0))
         elif self.buff_key == "BUFF_ADD_HP": # 自动回血 {0}机率回血{0}，并持续{0}行动回合
-            hero_or_monster.set_Hp(hero_or_monster.Hp +  hero_or_monster.HpBase * int(self.buff_value)/100.0)
+            hero_or_monster.set_Hp(hero_or_monster.Hp +  hero_or_monster.HpBase * self.buff_value/100.0)
         elif self.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
-            hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(self.buff_value)/100.0
+            hp = hero_or_monster.Hp +  hero_or_monster.HpBase * self.buff_value/100.0
             hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
         elif self.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDefBase * (1 + int(self.buff_value)/100.0))
+            hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDefBase * (1 + self.buff_value/100.0))
         elif self.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             hero_or_monster.set_RoundAction(self.buff_value)
         elif self.buff_key == "ADD_HP_FORMULA_2": # 恢复体力上限的{0}%，并持续{0}行动回合
-            hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(self.buff_value)/100.0
+            hp = hero_or_monster.Hp +  hero_or_monster.HpBase * self.buff_value/100.0
             hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
         else:
             pass

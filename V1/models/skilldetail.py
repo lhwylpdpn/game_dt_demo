@@ -270,11 +270,9 @@ class SkillDetail():
     
     def make_invalid(self, hero_or_monster): # 失效
         for each in self.effects:
-            if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
+            if each.key in ['ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
                 if each.random :# 几率判断
-                    if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
-                        pass
-                    elif each.key == "ADD_DEF": # 
+                    if each.key == "ADD_DEF": # 
                         hero_or_monster.set_Def(hero_or_monster.Def - hero_or_monster.DefBase * int(each.param[1])/100.0)
                     elif each.key == "ADD_MAGICAL_DEF": # 
                         hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - hero_or_monster.MagicalDefBase * int(each.param[1])/100.0)
