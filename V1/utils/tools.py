@@ -28,7 +28,9 @@ class performance:
         df=pd.DataFrame(self.result.items(),columns=['event','time'])
         #合并每个事件的次数
         df['count']=df['event'].apply(lambda x:self.event_count[x])
-        df['avg_time']=df['time']/df['count']
+        df['avg_time']=round(df['time']/df['count'],2)
+        df['time']=round(df['time'],2)
+        df=df.sort_values(by=['time'],ascending=False)
         print(df)
 
 def Deepdiff_modify(before,after):
