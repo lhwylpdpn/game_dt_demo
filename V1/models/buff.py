@@ -49,7 +49,7 @@ class Buff():
             buff_from = hero_or_monster
         buff = None
         buff_value = param[0]
-        buff_round_action = param[0] if len(param) >1 else -1
+        buff_round_action = param[1] if len(param) >1 else -1
         if buff_key == "DEBUFF_ROUND_ACTION_BACK": # 这个同类别的，后一个覆盖前一个效果
             for each in hero_or_monster.buff:
                 if each.buff_key == "DEBUFF_ROUND_ACTION_BACK":
