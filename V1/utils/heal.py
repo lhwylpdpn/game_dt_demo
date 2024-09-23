@@ -12,13 +12,13 @@ def heal(caster, target, skill):
     caster_magical_atk = caster.MagicalAtk
 
     # 受动者属性
-    target_hp = target.Hp
+    target_hpbase = target.HpBase
 
     if skill.SkillId == demo_skill['治疗大型治疗']:
         heal_amount = float(caster_magical_atk * 2.4)  # 240%
 
     if skill.SkillId == demo_skill['治疗持续治疗']:
-        heal_amount = float(target_hp * 0.083)  # 8.3%
+        heal_amount = float(target_hpbase * 0.083)  # 8.3%
 
     if skill.SkillId == demo_skill['治疗强力治愈']:
         heal_amount = float(caster_magical_atk * 1.5)  # 150%
