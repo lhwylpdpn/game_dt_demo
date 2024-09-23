@@ -333,7 +333,7 @@ class Range(Data):
         results = []
         for point in release_range:
             skill_range = skill_effect_range(self.role, point, skill, self.map)
-            t_in_range = [t for t in self.teammates if Data.value("position", t) in skill_range]
+            t_in_range = [t for t in self.teammates + [self.role] if Data.value("position", t) in skill_range]  # 治疗对象为队友+自己
             if tuple(point) in [Data.value("position", e) for e in t_in_range]:
                 if len(t_in_range) > 0:  # 技能范围内>0的目标才返回
                     results.append(
@@ -534,6 +534,12 @@ class Range(Data):
 
     def is_heal(self, k1, k2, k3):
         skills = get_heal_skills(self.role)
+        # state = {"map": self.map,
+        #              "hero": self.teammates + [self.role],
+        #              "monster": self.enemies}
+        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+        # print(f"HEAL log tmp: {tmp}")
+        print(f'[HEAL]可用治疗技能数量: {len(skills)}')
 
         if skills:
             doge_base = Data.value("DogBase", self.role)
