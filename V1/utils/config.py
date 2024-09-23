@@ -1,14 +1,14 @@
 
 demo_skill = {}
-demo_skill['战士横扫'] = 78 # 不通过,等修改
-demo_skill['战士普攻'] = 77 # ok
-demo_skill['战士迎击姿态']=79# 没开发
+demo_skill['战士横扫'] = 78
+demo_skill['战士普攻'] = 77
+demo_skill['战士迎击姿态']=79
 demo_skill['战士投石']=80
-demo_skill['战士守护之甲']=81 # 等升级再说
-demo_skill['战士反击斩'] = 82 # 不通过
-demo_skill['战士全金属']=83 #等升级再说
-demo_skill['战士经验增幅']=84#等升级再说
-demo_skill['战士不动如山']=85 #
+demo_skill['战士守护之甲']=81
+demo_skill['战士反击斩'] = 82
+demo_skill['战士全金属']=83
+demo_skill['战士经验增幅']=84
+demo_skill['战士不动如山']=85
 demo_skill['战士移动UP']=86
 
 demo_skill['弓手普攻'] = 87
@@ -30,6 +30,7 @@ demo_skill['治疗伤害减免'] = 101
 demo_skill['治疗升级跳跃'] = 102
 demo_skill['治疗全员连携'] = 103
 demo_skill['治疗自动回复'] = 104
+
 demo_skill['直射']=137
 
 
