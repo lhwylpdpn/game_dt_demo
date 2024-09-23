@@ -874,6 +874,17 @@ class Hero():
             if abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(range_line_value): # 在范围内
                 return True
         return False
+    
+    def is_in_hitcross_range(self,  gap, radis, enemy, state): # 
+        """
+        range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
+        enemy 目标敌人，即方向
+        """
+        map_obj = state.get("maps")
+        if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
+            if int(gap)<= abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(radis): # 在范围内
+                return True
+        return False
  
     def is_in_hit_range(self, gap, radis, enemy, state):
         map_obj = state.get("maps")
@@ -903,13 +914,14 @@ class Hero():
                 _eff = back_skill.get_effect_by_key("HIT_LINE")
                 range_line_value =  _eff.param[1] + 1
                 l_in_range = self.is_in_hitline_range(range_line_value,  enemy, state)
-            elif "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
+            if "HIT_RANGE" in back_skill.avaliable_effects(): # 高度影响范围
                 _eff = back_skill.get_effect_by_key("HIT_RANGE")
                 gap, radis = _eff.param[0], _eff.param[1] 
                 r_in_range = self.is_in_hit_range(gap, radis, enemy, state)
-            else:# 自己为中心点，十字一格
+            if "HIT_LINE" not in back_skill.avaliable_effects() and\
+                "HIT_RANGE" not in back_skill.avaliable_effects():# 自己为中心点，十字x格
                 gap, radis = effect.param[0], effect.param[1] 
-                cross_in_range = self.is_in_hit_range(int(gap), int(radis), enemy, state)
+                cross_in_range = self.is_in_hitcross_range(int(gap), int(radis), enemy, state)
             if not l_in_range and not r_in_range and not cross_in_range: # 没有在范围内
                 return False
             else:
@@ -985,7 +997,7 @@ class Hero():
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         return result
     
-    def friend_treatment(self, friends=[], skill=None, state=[]): # 对队友释放治疗技能
+    def friend_treatment(self, friends=[], skill=None, attack_point=[], state=[]): # 对队友释放治疗技能
         """
             @friends      治疗的对象列表
             @skill        使用的技能对象
