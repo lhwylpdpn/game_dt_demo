@@ -17,6 +17,7 @@ from utils.strategy_utils.basic_utils import get_attack_range, find_shortest_pat
 
 class Range(Data):
     def __init__(self, role=None, state=None):
+
         if role:
             self.role = role
             if not isinstance(self.role, dict):
@@ -47,6 +48,11 @@ class Range(Data):
                     if Data.value("Hp", _) > 0:
                         _["warning_range"] = self.enemies_in_warning_range(_)
                         self.enemies.append(_)
+        # state = {"map": self.map,
+        #              "hero": self.teammates + [self.role],
+        #              "monster": self.enemies}
+        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+        # print(f"start-log-tmp: {tmp}")
 
     def generate_pairs(self, lst):
         # 返回相邻数组  [1, 2, 3] > [[1, 2], [2, 3]]
@@ -293,7 +299,7 @@ class Range(Data):
 
     def find_enemies_in_range(self, move_pos, skill, paths):
         # 获取技能释放范围内的所有点
-        release_range = skill_release_range(move_pos, skill, self.map)
+        release_range = skill_release_range(move_pos, skill, self.map, self.role)
         results = []
         for point in release_range:
             attack_range = skill_effect_range(self.role, point, skill, self.map)
@@ -329,7 +335,7 @@ class Range(Data):
         获取英雄在某个位置可以施放技能并且治疗到队友
         :param move_pos: 英雄可以移动到的位置
         """
-        release_range = skill_release_range(move_pos, skill, self.map)
+        release_range = skill_release_range(move_pos, skill, self.map, self.role)
         results = []
         for point in release_range:
             skill_range = skill_effect_range(self.role, point, skill, self.map)
@@ -534,13 +540,7 @@ class Range(Data):
 
     def is_heal(self, k1, k2, k3):
         skills = get_heal_skills(self.role)
-        # state = {"map": self.map,
-        #              "hero": self.teammates + [self.role],
-        #              "monster": self.enemies}
-        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
-        # print(f"HEAL log tmp: {tmp}")
         print(f'[HEAL]可用治疗技能数量: {len(skills)}')
-
         if skills:
             doge_base = Data.value("DogBase", self.role)
             role_position = Data.value("position", self.role)

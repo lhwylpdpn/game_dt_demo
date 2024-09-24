@@ -99,10 +99,13 @@ def get_heal_skills(role):
     for skill in role["skills"]:
         if skill["SkillId"] in available_skills:
             if skill["SkillClass"] == 1 and skill["SkillCalc"] == 5:
-                if 4 in skill["SkillGoals"] or 3 in skill["SkillGoals"]:
+                if 4 in skill["SkillGoals"]:
                     if "ATK_DISTANCE" in skill["effects"]:
                         if int(skill["use_count"]) > 1 or skill["use_count"] == -1:
                             s.append(skill)
+                if 3 in skill["SkillGoals"]:
+                    if int(skill["use_count"]) > 1 or skill["use_count"] == -1:
+                        s.append(skill)
     return s
 
 
@@ -238,8 +241,10 @@ def range_mht_hollow_circle(point, o, i, gap, effect, map):
 
 
 # @DictLRUCache(max_size_mb=128)
-def skill_release_range(position, skill, map):
+def skill_release_range(position, skill, map, role):
     # 获取某个技能施放范围（射程
+    if "ATK_DISTANCE" not in skill["effects"]:
+        return [Data.value("position", role)]
     range = skill["effects"]["ATK_DISTANCE"]["param"]
     if "ADD_ATK_DISTANCE" in skill["effects"]:
         gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], \
@@ -309,7 +314,7 @@ def get_attack_range(role, position, map):
     attack_range = []
     skills = get_damage_skills(role)
     for skill in skills:
-        release_range = skill_release_range(position, skill, map)
+        release_range = skill_release_range(position, skill, map, role=role)
         for point in release_range:
             attack_range += skill_effect_range(role, point, skill, map)
     return set(tuple(attack_range))
