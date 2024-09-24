@@ -174,6 +174,12 @@ class SkillDetail():
     def is_move_skill(self): # 是否是移动技能
         return self.__SkillClass == skill_class.MOVE
     
+    def is_dont_move_media_self_skill(self): # 是否是不移动技能, 治疗自己技能
+        if self.__SkillClass == skill_class.MOVE and self.__SkillCalc == skill_calc.TRIGGER:
+            if [skill_goals.SELF] == self.SkillGoals: # 起作用的只是自己
+                return True
+        return False
+    
     def is_back_NA_skill(self): # 反应技能（加属性的）
         # 反应技能，技能类型是 TRIGGER
         if self.__SkillClass == skill_class.BACK and self.__SkillCalc == skill_calc.TRIGGER:

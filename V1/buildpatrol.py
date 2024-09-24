@@ -77,13 +77,47 @@ if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
     state["maps"] = state["map"]
     # print(len(state.get("monster")))
-    hero = state.get("hero")[1] #
+    # hero = state.get("hero")[0] #
+    # hero2 = state.get("hero")[2]
+    # hero2.move_position(3,1,4, state=state)
+    # hero.move_position(3,1,3, state=state)
     # print(hero.hero_or_monster())
     # print(hero.BaseClassID)
-    monster = state.get("monster")[0]
-    skill = monster.get_skill_by_id(137)
-    monster.func_attack(enemys=[hero], 
+    # monster = state.get("monster")[0]
+    # monster.move_position(3,1,4, state=state)
+    
+    # monster.func_attack(enemys=[hero], 
+    #                     skill=skill, 
+    #                     attack_point=hero.position, 
+    #                     state=state)
+    
+    # print("use skill_104 test:", skill)
+    # skill = hero.get_skill_by_id(104)
+    # hero.focus(state=state)
+    # print(hero.Hp)
+    # hero.set_Hp(100)
+    # print(hero.Hp)
+    # for e in hero.un_focus(state=state):
+    #     hero.trigger_buff(e)
+    # print(hero.Hp)
+
+    #hero = state.get("hero")[1]
+    hero = state.get("hero")[1]
+    monster = state.get("monster")[-1]
+    # hero2.set_AvailableSkills([82])
+    print(hero.skills)
+
+    skill = monster.get_skill_by_id(77)
+   
+    hero.move_position(3,1,4, state=state)
+    monster.move_position(3,1,3, state=state)
+    print("use skill_82 test:", skill)
+    print( monster.func_attack(enemys=[hero], 
                         skill=skill, 
                         attack_point=hero.position, 
-                        state=state)
+                        state=state))
+
+    
+
+
     

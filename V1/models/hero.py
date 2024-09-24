@@ -89,6 +89,8 @@ class Hero():
         self.__UnitDistance = kwargs.get("UnitDistance", 1)                     # 连携距离
         # 自己的数据统计
         self.__focus_times = 0                                                  # 被选中的次数
+        # 回合内是否移动变量
+        self.is_move = False
 
     def hero_or_monster(self):
         "HERO or MONSER"
@@ -111,6 +113,7 @@ class Hero():
     def focus(self, state):
         # 被选中
         self.__focus_times += 1     # 被选中次数 + 1
+        self.is_move = False
         self.check_buff()           # 减少buff
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=True):
@@ -123,6 +126,16 @@ class Hero():
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=False):
             bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
+        if not self.is_move: # 回合内是否移动了
+            for each in self.skills:
+                if each.is_dont_move_media_self_skill():
+                    for each_e in each.effects:
+                        tmp_buff = None
+                        if "ADD_HP" == each_e.key:
+                            tmp_buff = Buff.create_buff(self, buff_id=each_e.id, buff_key=each_e.key, param=each_e.param[1:])
+                        if tmp_buff:
+                            bufff_s.append({"action_type": f"EFFECT_{tmp_buff.buff_id}", "buff":tmp_buff}) 
+        self.is_move = False
         return bufff_s
     
     def __get_friends(self, state):
@@ -559,6 +572,7 @@ class Hero():
         map_obj.set_land_pass(*self.position)             # 出发地块设置为可通过
         map_obj.set_land_no_pass(x,y,z, self.Block)       # 抵达地块设置为不可通过
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
+        self.is_move = True
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
         self.remove_unit_buff(state)          # 先卸载连携buff
         self.load_unit_buff(state)            # 加载新的连携buff
@@ -946,12 +960,12 @@ class Hero():
             @attack_point 技能释放点位
         """
         print(self.HeroID ,"(^ ^)反击(^ ^)")
-        result = {}
+        # result = {}
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
         enemy.Hp_damage(_res) # 敌人掉血攻击
-        result[self] = copy.deepcopy(_res)
-        return result
+        # result[self] = copy.deepcopy(_res)
+        return _res
 
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
@@ -990,10 +1004,11 @@ class Hero():
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     print("use back skill:", each_back_skill.SkillId)
                     if each.is_in_backskill_range(each_back_skill, self, state):
-                        print("start back....")
-                        result.update(
-                            each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
-                            )
+                        back_result = each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
+                        if self not in result.keys():
+                            result[self] = back_result
+                        else:
+                            result[self].append(back_result)
                         print("end back....")
                     else:
                         print("not in backskill range ")
@@ -1014,6 +1029,7 @@ class Hero():
         #     friends.append(self)
         for each in friends:
             _res = heal(caster=self, target=each, skill=skill)
+            print(_res)
             result[each] = copy.deepcopy(_res)
             # TODO
             each.Hp_add(_res)
