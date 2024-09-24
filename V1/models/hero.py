@@ -855,10 +855,10 @@ class Hero():
         return self
 
     def dont_move(self): # 移动不移动
-        for each_skill in self.skills:
-            if each_skill.is_move_skill(): # 判断移动技能
-                if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
-                    each_skill.make_effective(self)
+        # for each_skill in self.skills:
+        #     if each_skill.is_move_skill(): # 判断移动技能
+        #         if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
+        #             each_skill.make_effective(self)
         return self
     
     # 被动技能使攻击失效
