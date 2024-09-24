@@ -146,8 +146,27 @@ class ActionWeight(object):
             )
             score += _score * atk_target["max_def"][WEIGHT]
 
-        # exclusive类型 TODO #####
-        # print(f"atk_target: {round(score, 4)}")
+        if "career_support" in atk_target:
+            if Data.value("ClassType3", enemy) == 3:
+                score += atk_target["career_support"]["score"][1] * atk_target["career_support"][WEIGHT]
+
+        if "career_attack" in atk_target:
+            if Data.value("ClassType3", enemy) == 2:
+                score += atk_target["career_attack"]["score"][1] * atk_target["career_attack"][WEIGHT]
+
+        if "career_defense" in atk_target:
+            if Data.value("ClassType3", enemy) == 1:
+                score += atk_target["career_defense"]["score"][1] * atk_target["career_defense"][WEIGHT]
+
+        if "non_elite" in atk_target:
+            if Data.value("Quality", enemy) != 2:
+                score += atk_target["non_elite"]["score"][1] * atk_target["non_elite"][WEIGHT]
+
+        if "elite" in atk_target:
+            if Data.value("Quality", enemy) == 2:
+                score += atk_target["elite"]["score"][1] * atk_target["elite"][WEIGHT]
+
+        # exclusive类型 TODO #####  尽量不攻击敌人, 避免在非战斗状态下攻击敌人
 
         return score
 
@@ -162,7 +181,6 @@ class ActionWeight(object):
         if "normal" in atk_type:
             _score = 1 if self.is_default_skill(skill) else 0
             score += _score * atk_type["normal"][WEIGHT]
-        # print('---->skill:', skill)
         if "HIT_LINE" not in skill["effects"] and "HIT_RANGE" not in skill["effects"]:
             if len(enemies) == 1:
                 if "single_max_atk" in atk_type:
@@ -171,10 +189,15 @@ class ActionWeight(object):
                 if "single_max_def" in atk_type:
                     if enemies[0]["HeroID"] == self.maxDefEnemy:
                         score += atk_type["single_max_def"][WEIGHT] * atk_type["single_max_def"]["score"][1]
-
-
-        # exclusive类型 TODO #####
-        # print(f"atk_type: {round(score, 4)}")
+                if "single_career_support" in atk_type:
+                    if Data.value("ClassType3", enemies[0]) == 3:
+                        score += atk_type["single_career_support"][WEIGHT] * atk_type["single_career_support"]["score"][1]
+                if "single_career_attack" in atk_type:
+                    if Data.value("ClassType3", enemies[0]) == 2:
+                        score += atk_type["single_career_attack"][WEIGHT] * atk_type["single_career_attack"]["score"][1]
+                if "single_career_defense" in atk_type:
+                    if Data.value("ClassType3", enemies[0]) == 1:
+                        score += atk_type["single_career_defense"][WEIGHT] * atk_type["single_career_defense"]["score"][1]
 
         return score
 
@@ -241,11 +264,22 @@ class ActionWeight(object):
         if "group_heal" in assist:
             if "HIT_LINE" in skill["effects"] or "HIT_RANGE" in skill["effects"]:
                 score += assist["group_heal"][WEIGHT] * assist["group_heal"]["score"][1]
-        # TODO 持续治疗 / 职业判断   -3
+
+        # TODO 持续治疗
+
+        if "career_defense" in assist:
+            for r in step["target"]:
+                if Data.value("ClassType3", r) == 1:
+                    score += assist["career_defense"][WEIGHT] * assist["career_defense"]["score"][1]
+
+        if "career_attack" in assist:
+            for r in step["target"]:
+                if Data.value("ClassType3", r) == 2:
+                    score += assist["career_attack"][WEIGHT] * assist["career_attack"]["score"][1]
+
         if "self_heal" in assist:
             score += assist["self_heal"][WEIGHT] * assist["self_heal"]["score"][1]
         return score
-
 
     def select_attack_strategy(self, atk_data):
         weight = 0
@@ -323,4 +357,4 @@ if __name__ == '__main__':
 
     f = ActionWeight(r.role, r.teammates, r.enemies)
 
-    print("pick: ", f.select_attack_strategy(data))
+    print("pick: ", f.select_attack_strategy({}))

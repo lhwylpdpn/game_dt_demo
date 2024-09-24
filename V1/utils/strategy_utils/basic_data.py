@@ -16,7 +16,7 @@ class Data(object):
         elif key in ("team_id", ):
             return data["team"][key]
 
-        elif key in ("skills", "HeroID", "Hp", "HpBase"):
+        elif key in ("skills", "HeroID", "Hp", "HpBase", "Quality"):
             return data[key]
         else:
             raise Exception(f"Key Error! key={key}")
