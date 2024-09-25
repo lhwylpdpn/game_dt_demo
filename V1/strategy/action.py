@@ -7,6 +7,7 @@ from models.buff import Buff
 from strategy.game_utils import GameUtils
 from strategy.handler.attack import Attack
 from strategy.handler.move import Move
+from utils.strategy_utils.range import Range
 
 
 class Action(object):
@@ -61,7 +62,8 @@ class Action(object):
             res["move_position"] = step["move_position"]
 
         if step["action_type"] == "MOVE_START":
-            return step
+            res["move_start"] = Range(hero, state).role_move_start()
+            return res
 
         if "EFFECT_" in step["action_type"]:
             hero.trigger_buff(step)
