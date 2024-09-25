@@ -51,7 +51,7 @@ class Node:
                     if performance is not None:
                         performance.event_start("selection_"+str(s))
                     res.append(s())
-                    log_manager.add_log({'stepname': 'evaluate执行判断', 'selection': str(self.name), 'result_len': str(res[-1])})
+                    log_manager.add_log({'stepname': 'evaluate执行判断', 'selection': str(self.name)+'_'+str(s), 'result_len': str(res[-1])})
                     if performance is not None:
                         performance.event_end("selection_"+str(s))
 

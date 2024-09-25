@@ -87,9 +87,10 @@ class schedule:
             #print('once_tick',self.tick,once_tick)
             if self.tick % once_tick == 0:
                 focus = hero.focus(state)
+                #增加特定初始动作，用于显示移动情况
+                move_=[{"action_type": "MOVE_START"}]
+                #查看hero的队列
 
-                # 查看hero的队列
-                #print('tttttt',alive_hero_id,alive_hero_class)
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state,self.performance)
@@ -103,7 +104,7 @@ class schedule:
                     #log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 un_focus = hero.un_focus(state)
-                actions = focus + actions + un_focus
+                actions = focus + move_ + actions + un_focus
                 #print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
                 #log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
@@ -150,11 +151,9 @@ class schedule:
 
     #增加一个state静态化的方法
     def state_to_dict(self,state):
-        self.performance.event_start('__deepcopy')
         map=copy.deepcopy(state['map'])
         hero=copy.deepcopy(state['hero'])
         monster=copy.deepcopy(state['monster'])
-        self.performance.event_end('__deepcopy')
         if type(map)!=list:
             map=[map]
         if type(hero)!=list:
@@ -165,15 +164,12 @@ class schedule:
         map_dict={}
         hero_dict={}
         monster_dict={}
-        self.performance.event_start('get_current_state_to_dict')
         for i in range(len(map)):
             map_dict[i]=map[i].dict(for_view=True)
         for h in hero:
             hero_dict[h.HeroID]=h.dict(for_view=True)
         for m in monster:
             monster_dict[m.HeroID]=m.dict(for_view=True)
-        self.performance.event_end('get_current_state_to_dict')
-        #self.performance.event_end('get_current_state_to_dict')
         res={'map':map_dict,'hero':hero_dict,'monster':monster_dict}
         return res
 
@@ -200,7 +196,6 @@ class schedule:
             hero_dict[h.HeroID]=h.dict(for_view=True)
         for m in monster:
             monster_dict[m.HeroID]=m.dict(for_view=True)
-        #self.performance.event_end('get_current_state_to_dict')
         res = json.dumps({'map': map_dict, 'hero': hero_dict, 'monster': monster_dict})
         return json.loads(res)
     def _record(self,action,before_state,after_state):
