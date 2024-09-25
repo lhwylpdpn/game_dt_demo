@@ -19,14 +19,16 @@ def heal(caster, target, skill):
     if skill.SkillId == demo_skill['战士迎击姿态']:
         heal_amount = float(caster_hpbase * 0.3)  # 30%
 
-    if skill.SkillId == demo_skill['治疗大型治疗']:
+    elif skill.SkillId == demo_skill['治疗大型治疗']:
         heal_amount = float(caster_magical_atk * 2.4)  # 240%
 
-    if skill.SkillId == demo_skill['治疗持续治疗']:
+    elif skill.SkillId == demo_skill['治疗持续治疗']:
         heal_amount = float(target_hpbase * 0.083)  # 8.3%
 
-    if skill.SkillId == demo_skill['治疗强力治愈']:
+    elif skill.SkillId == demo_skill['治疗强力治愈']:
         # heal_amount = float(caster_magical_atk * 1.5)  # 150%
         heal_amount = float(caster_atk * 1.5)  # 150%
+    else:
+        return [{'heal': heal_amount, "pre_heal": heal_amount, "msg": f"治疗函数未处理此技能:{skill.SkillId}"}]
 
     return [{'heal': heal_amount, "pre_heal": heal_amount}]
