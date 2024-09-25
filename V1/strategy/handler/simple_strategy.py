@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/9/6 15:20
+from utils.strategy_utils.basic_data import Data
+from utils.strategy_utils.basic_utils import get_damage_skills, get_heal_skills, manhattan_distance
 
 step_dict = {
     "action": {
@@ -8,8 +10,8 @@ step_dict = {
             "normal": bool,
             "skill": {
                 "any_attack": bool,
-                "attack": [0, 1],  # 0单体，1群体
-                "de_buff": [0, 1],  # 0单体，1群体
+                "attack": int,  # 0单体，1群体
+                "de_buff": int,  # 0单体，1群体
                 "select": []  # 技能ID
             },
             "item": {
@@ -21,8 +23,8 @@ step_dict = {
         "us": {
             "skill": {
                 "any": bool,  # 可以对我方释放的技能
-                "any_heal": [0, 1],  # 0单体，1群体
-                "any_buff": [0, 1],  # 0单体，1群体
+                "any_heal": int,  # 0单体，1群体
+                "any_buff": int,  # 0单体，1群体
                 "select": []  # 技能ID
             },
             "item": {
@@ -37,12 +39,12 @@ step_dict = {
     "target": {
         "character": {
             "any": bool,
-            "type": ["any", "前卫", "后卫"],
-            "geo": ["any", "攻击型..."],
-            "role": [],
-            "select": []  # 指定类型
+            "type": int, # ["any", "前卫", "后卫"] 1 2 3
+            "geo": int, # ["any", "攻击型..."] 1 2 3
+            "role": int,
+            "select": []  # 指定类型?
         },
-        "role_type": []  # 精英，boss，普通
+        "role_type": int   # 精英，boss，普通
 
     },
     "filter": {
@@ -55,8 +57,8 @@ step_dict = {
             "hp_above": float
         },
         "status": {
-            "any_buff": [],
-            "any_de_buff": [],
+            "any_buff": [], # BUFF_ADD_HP , BUFF_HP, 护盾暂无,BUFF_ATK,  ADD_ATK, ADD_DEF, BUFF_DEF，ADD_MAGICAL_DEF，BUFF_MAGICAL_DEF,BUFF_ROUND_ACTION
+            "any_de_buff": [], # 暂时没有
             "no_status": bool
         },
         "distance": str,  # MIN / MAX
@@ -66,7 +68,7 @@ step_dict = {
             "m_attack": str,  # MIN / MAX
             "p_defense": str,  # MIN / MAX
             "m_defense": str,  # MIN / MAX
-            "speed": []  # TODO ？
+            "speed": str,  # MIN / MAX
         },
         "limit": {
             # TODO 行为限制
@@ -81,54 +83,131 @@ class SimpleStrategy(object):
         self.enemies = enemies
         self.teammates = teammates
         self.maps = maps
+        self.damage_skills = get_damage_skills(role)
+        self.heal_skills = get_heal_skills(role)
 
-    def atk_skills(self):
-        s = []
-        available_skills = self.role.get("AvailableSkills", [])
-        for skill in self.role["skills"]:
-            if skill["SkillId"] in available_skills:
-                if skill["ActiveSkills"] == 1:
-                    if "ATK_DISTANCE" in skill["effects"]:
-                        if skill["DefaultSkills"] == 1:  # 普攻
-                            s.append(skill)
-                        else:
-                            if int(skill["use_count"]) > 1:
-                                s.append(skill)
-        self.atk_skills = s
+    def _buff_key(self, role):
+        return [_["buff_key"] for _ in Data.value("buff", role)]
 
-    def available_skills(self, nums):
-        for s in self.atk_skills:
-            if 1 in nums:  # 单体技能
-                if "HIT_LINE" in s["effects"] and "HIT_RANGE" in s["effects"]:
-                    self.atk_skills.remove(s)
+    def action_enemy(self, enemy_dict, ):
+        if "normal" in enemy_dict:
+            if enemy_dict["normal"]:
+                self.damage_skills = [s for s in self.role["skills"] if s["DefaultSkills"] == 1]
+        if "skill" in enemy_dict:
+            for k, v in enemy_dict["skill"].items():
+                if k == "any_attack":
+                    pass
+                if k == "attack":
+                    if v == 0:
+                        self.damage_skills = [s for s in self.damage_skills if "HIT_LINE" not in s["effects"] and "HIT_RANGE" not in s["effects"]]
+                    if v == 0:
+                        self.damage_skills = [s for s in self.damage_skills if "HIT_LINE"  in s["effects"] or "HIT_RANGE"  in s["effects"]]
+                if k == "de_buff":  # TODO debuff
+                    pass
+                if k == "select":
+                    self.damage_skills = [s for s in self.damage_skills if s["SkillId"] in v]
+        if "item" in enemy_dict:  # TODO 使用物品
+            pass
 
-            if 2 in nums:  # 群体技能
-                if "HIT_LINE" not in s["effects"] and "HIT_RANGE" not in s["effects"]:
-                    self.atk_skills.remove(s)
+    def action_us(self, us_dict):
+        if "skill" in us_dict:
+            for k, v in us_dict["skill"].items():
+                if k == "any_attack":
+                    pass
+                if k == "attack":
+                    if v == 0:
+                        self.heal_skills = [s for s in self.heal_skills if "HIT_LINE" not in s["effects"] and "HIT_RANGE" not in s["effects"]]
+                    if v == 0:
+                        self.heal_skills = [s for s in self.heal_skills if "HIT_LINE"  in s["effects"] or "HIT_RANGE"  in s["effects"]]
+                if k == "de_buff":  # TODO debuff
+                    pass
+                if k == "select":
+                    self.heal_skills = [s for s in self.heal_skills if s["SkillId"] in v]
+        if "item" in us_dict:  # TODO 使用物品
+            pass
 
-            if 3 in nums:  # 战士劈砍
-                self.atk_skills = [_ for _ in self.atk_skills if _["SkillId"] == 78]
+    def target(self, tar_dict):
+        if "character" in tar_dict:
+            for k, v in tar_dict["character"].items():
+                if k == "any":
+                    return
+                if k == "type":
+                    if v == "any":
+                        return
+                    else:
+                        self.enemies = [e for e in self.enemies if Data.value("ClassType2", e) == v]
+                if k == "geo":
+                    if v == "any":
+                        return
+                    else:
+                        self.enemies = [e for e in self.enemies if Data.value("ClassType3", e) == v]
+                if k == "role":
+                    if v == "any":
+                        return
+                    else:
+                        self.enemies = [e for e in self.enemies if Data.value("ClassType4", e) == v]
 
-    def action_enemy(self, action_enemy, ):
-        if "normal" in action_enemy:
-            if action_enemy["normal"]:
-                self.atk_skills = "普攻"  # ## ## TODO
+        if "role_type" in tar_dict:
+            self.enemies = [e for e in self.enemies if Data.value("Quality", e) == tar_dict["role_type"]]
 
-    def filter_hp(self, hp_dict, roles):
+    def filter_hp(self, filter_dict, roles):
         select = []
-        if "max_hp" in hp_dict:
-            select = max(roles, key=lambda x: x['Hp'])
-        if "min_hp" in hp_dict:
-            select = min(roles, key=lambda x: x['Hp'])
-        if "max_perc_hp" in hp_dict:
-            select = max(roles, key=lambda x: x['Hp'] / x['HpBase'])
-        if "min_perc_hp" in hp_dict:
-            select = min(roles, key=lambda x: x['Hp'] / x['HpBase'])
-        if "hp_below" in hp_dict:
-            select = [entry for entry in roles if (entry['hp'] / entry['hp_base']) > hp_dict["hp_below"]]
-        if "hp_above" in hp_dict:
-            select = [entry for entry in roles if (entry['hp'] / entry['hp_base']) < hp_dict["hp_below"]]
+        if "hp" in filter_dict:
+            hp_dict = filter_dict["hp"]
+            if "max_hp" in hp_dict:
+                select = max(roles, key=lambda x: x['Hp'])
+            if "min_hp" in hp_dict:
+                select = min(roles, key=lambda x: x['Hp'])
+            if "max_perc_hp" in hp_dict:
+                select = max(roles, key=lambda x: x['Hp'] / x['HpBase'])
+            if "min_perc_hp" in hp_dict:
+                select = min(roles, key=lambda x: x['Hp'] / x['HpBase'])
+            if "hp_below" in hp_dict:
+                select = [entry for entry in roles if (entry['hp'] / entry['hp_base']) > hp_dict["hp_below"]]
+            if "hp_above" in hp_dict:
+                select = [entry for entry in roles if (entry['hp'] / entry['hp_base']) < hp_dict["hp_below"]]
+
+        if "status" in filter_dict:
+            if "any_buff" in filter_dict["status"]:
+                select = [r for r in roles if bool(set(self._buff_key(r)) & set(filter_dict["status"]["any_buff"]))]
+            if "any_de_buff" in filter_dict["status"]:  # TODO de-buff
+                pass
+            if "no_status" in filter_dict["status"]:
+                select = [r for r in roles if not r["buff"]]
+
+        if "distance" in filter_dict:
+            _d = 0
+            for r in roles:
+                if manhattan_distance(Data.value("position", self.role), Data.value("position", r)) > _d:
+                    select = [r]
+
+        if "count" in filter_dict:
+            if len(roles) < filter_dict["count"]:
+                return []
+
+        if "value" in filter_dict:
+            for k, v in filter_dict["value"].items():
+                if k == "p_attack":
+                    select = max(roles, key=lambda x: x['Atk']) if v == "MAX" else min(roles, key=lambda x: x['Atk'])
+                if k == "m_attack":
+                    select = max(roles, key=lambda x: x['MagicalAtk']) if v == "MAX" else min(roles, key=lambda x: x['MagicalAtk'])
+                if k == "p_defense":
+                    select = max(roles, key=lambda x: x['Def']) if v == "MAX" else min(roles, key=lambda x: x['Def'])
+                if k == "m_defense":
+                    select = max(roles, key=lambda x: x['MagicalDef']) if v == "MAX" else min(roles, key=lambda x: x['MagicalDef'])
+                if k == "speed":
+                    select = max(roles, key=lambda x: x['Velocity']) if v == "MAX" else min(roles, key=lambda x: x['Velocity'])
+
+        if "limit" in filter_dict:  # TODO 行为限制
+            pass
+
         return select
+
+
+
+
+
+
 
 
 

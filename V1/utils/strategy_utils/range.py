@@ -74,6 +74,13 @@ class Range(Data):
         else:
             raise Exception(f"invalid move, {pos1} > {pos2}")
 
+    def role_move_start(self):
+        # 获取角色当前点位可移动的所有点位
+        role_position = Data.value("position", self.role)
+        round_action = Data.value("RoundAction", self.role)
+        jump_height = Data.value("JumpHeight", self.role)
+        return list(set(get_manhattan_path(*role_position, round_action, jump_height, self.map).keys()))
+
     def move_step_handler(self, move_queue):
         res = []
         move = self.generate_pairs(move_queue)

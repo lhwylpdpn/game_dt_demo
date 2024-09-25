@@ -10,6 +10,8 @@ def damage_calc(attacker, defender, skill):
     # ####这里负责取值，不负责计算
 
     # 英雄的属性
+    attacker_id = attacker.HeroID
+    attacker_type = attacker.__class__.__name__.lower()
     attacker_HP = attacker.Hp
     attacker_PhysicalAtk = attacker.Atk
     attacker_PhysicalDef = defender.Def
@@ -165,9 +167,14 @@ def damage_calc(attacker, defender, skill):
     if skill.SkillId == demo_skill['战士反击斩']:
         res = random_choices({0: 0.5, 1: 0.5})  # 0 反击生效  1 反击不生效
         if res == 1:
-            return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage, "st": st}]
+            eff = {
+                "role":  attacker_type,
+                "role_id": attacker_id,
+                "effect_id": 84  # HIT_BACK
+            }
+            return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage, "st": st, "effects": [eff]}]
 
-    res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage, "st": st}]
+    res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage, "st": st, "effects": []}]
     return res
 
 

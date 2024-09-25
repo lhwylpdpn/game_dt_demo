@@ -20,6 +20,15 @@ class Action(object):
             d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st]])
         return d
 
+    def calc_effect(self, effect_data):
+        d = []
+        for each in effect_data:
+            for e in effect_data[each]:
+                if e["effects"]:
+                    eff = [_["effect_id"] for _ in e["effects"]]
+                    d.extend([[[each.__class__.__name__.lower(), each.HeroID], eff, []]])
+        return d
+
     def calc_heal(self, heal_data):
         d = []
         for each in heal_data:
@@ -51,6 +60,9 @@ class Action(object):
             hero.move_position(*step["move_position"], state)
             res["move_position"] = step["move_position"]
 
+        if step["action_type"] == "MOVE_START":
+            return step
+
         if "EFFECT_" in step["action_type"]:
             hero.trigger_buff(step)
 
@@ -66,14 +78,15 @@ class Action(object):
                 res["atk_position"] = step["skill_pos"]
                 res["release_range"] = step["release_range"]
                 res["damage"] = self.calc_damage(atk_res)
+                res["effects"] = self.calc_effect(atk_res)
 
             if step["type"] == "HEAL":
                 target_ids = [_["HeroID"] for _ in step["target"]]
                 target = [e for e in state["monster"] + state["hero"] if e.HeroID in target_ids]
                 heal_res = hero.friend_treatment(target, skill, step["skill_pos"], state)
 
-                res["atk_range"] = step["skill_range"]
-                res["atk_position"] = step["skill_pos"]
+                res["heal_range"] = step["skill_range"]
+                res["heal_position"] = step["skill_pos"]
                 res["release_range"] = step["release_range"]
                 res["heal"] = self.calc_heal(heal_res)
 
