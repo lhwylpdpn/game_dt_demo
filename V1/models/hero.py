@@ -132,7 +132,10 @@ class Hero():
                     for each_e in each.effects:
                         tmp_buff = None
                         if "ADD_HP" == each_e.key:
-                            tmp_buff = Buff.create_buff(self, buff_id=each_e.id, buff_key=each_e.key, param=each_e.param[1:])
+                            tmp_buff = Buff.create_buff(self, buff_id=each_e.id, buff_key=each_e.key, param=each_e.param[1:], BuffType=each_e.BuffType)
+                        else:
+                            if each_e.key != "IS_WAIT":
+                                print("[ERROR] need add ", each_e.key)
                         if tmp_buff:
                             bufff_s.append({"action_type": f"EFFECT_{tmp_buff.buff_id}", "buff":tmp_buff}) 
         self.is_move = False
@@ -161,13 +164,18 @@ class Hero():
         if not fields:
             fields = copy.deepcopy(self.fields)
         data = {}
-        for s_f in ["skills", "buff"]:
-            if s_f in fields:
-                data[s_f] = []
-                fields.remove(s_f)
-                for each in self.__getattribute__(s_f):
-                    if each.is_avaliable():
-                        data[s_f].append(each.dict(for_view=for_view))
+        if "skills" in fields:
+            data["skills"] = []
+            fields.remove("skills")
+            for each in self.__getattribute__("skills"):
+                if each.is_avaliable():
+                    data["skills"].append(each.dict(for_view=for_view))
+        if "buff" in fields:
+            data["buff"] = []
+            fields.remove("buff")
+            for each in self.__getattribute__("buff"):
+                if each.is_avaliable() and each.is_buff():
+                    data["buff"].append(each.dict(for_view=for_view))
         data.update({field: self.__getattribute__(field) for field in fields})
         if "team" in fields:
             if self.team:
@@ -495,8 +503,8 @@ class Hero():
         self.__buff.append(buff_obj)
         return buff_obj
 
-    def add_buff(self, buff_id,  buff_key, param, buff_percent=None): # 增加普通buff
-        buff = Buff.create_buff(self, buff_id, buff_key, param, buff_percent=buff_percent)
+    def add_buff(self, buff_id,  buff_key, param, buff_percent=None, BuffType=None): # 增加普通buff
+        buff = Buff.create_buff(self, buff_id, buff_key, param, buff_percent=buff_percent, BuffType=BuffType)
         buff.make_effective(self) # buff生效
         self.__buff.append(buff)
         return buff
@@ -508,8 +516,8 @@ class Hero():
                 self.__buff.remove(each)
         return self
     
-    def add_unit_buff(self, buff_id, buff_key, param): # 增加连携buff
-        buff = Buff.create_buff(self, buff_id, buff_key, param)
+    def add_unit_buff(self, buff_id, buff_key, param, BuffType=None): # 增加连携buff
+        buff = Buff.create_buff(self, buff_id, buff_key, param, BuffType=BuffType)
         buff.make_effective(self)
         self.__unit_skill_buff.append(buff)
         return buff
@@ -617,7 +625,7 @@ class Hero():
                 effect = _.get_effect_by_key("DEBUFF_ROUND_ACTION_BACK")
                 if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
                     enemy.add_buff(buff_id=effect.id, buff_key="DEBUFF_ROUND_ACTION_BACK",
-                                   param=effect.param[1:], buff_percent=effect.param[0])
+                                   param=effect.param[1:], buff_percent=effect.param[0], BuffType=effect.BuffType)
         print("get back skill:", len(skill), skill)
         return skill
 
@@ -627,7 +635,7 @@ class Hero():
         for each_skill in self.skills:
             if each_skill.is_buff(): 
                 for each in each_skill.effects:
-                    buff = self.add_buff(buff_id=each.id, buff_key=each.key, param=each.param)
+                    buff = self.add_buff(buff_id=each.id, buff_key=each.key, param=each.param, BuffType=each.BuffType)
                     if "BUFF_UNIT_DISTANCE" == each.key: # 寻找可以全队连携的buff
                         buffs_unit_dis.append(buff)
         return buffs_unit_dis
@@ -674,8 +682,8 @@ class Hero():
         return unit_num
                          
     def prepare_attack(self, skill): # 被攻击之前，加载主动技能 (作为 施动者 )
-        skill.make_effective(self)
-        return self
+        effect_ids = skill.make_effective(self)
+        return effect_ids
 
     def judge_direction(self, enemy): # 判断敌人在 上下左右，一级斜
         if enemy.x == self.x: # x 轴相等
@@ -806,37 +814,49 @@ class Hero():
             effect = skill.get_effect_by_key("BUFF_ADD_HP")
             if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
                 buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id,
-                       buff_key="BUFF_ADD_HP", param=effect.param[1:], buff_percent=effect.param[0])
+                       buff_key="BUFF_ADD_HP", param=effect.param[1:], 
+                       buff_percent=effect.param[0], BuffType=effect.BuffType)
                 for each in friends:
                     each.add_buff_object(copy.deepcopy(buff))
         if "BUFF_HP" in skill.avaliable_effects(): 
             effect = skill.get_effect_by_key("BUFF_HP")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_HP", param=effect.param, buff_percent=effect.param[0])
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_HP", 
+                   param=effect.param, buff_percent=effect.param[0], BuffType=effect.BuffType)
             for each in friends:
                 each.add_buff_object(copy.deepcopy(buff))
         if "ADD_HP_FORMULA_2" in skill.avaliable_effects():
             effect = skill.get_effect_by_key("ADD_HP_FORMULA_2")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", param=effect.param)
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", 
+                   param=effect.param, BuffType=effect.BuffType)
             for each in friends:
                     each.add_buff_object(copy.deepcopy(buff))
         if "BUFF_MAGICAL_DEF" in skill.avaliable_effects(): 
             print("use: BUFF_MAGICAL_DEF")
             effect = skill.get_effect_by_key("BUFF_MAGICAL_DEF")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_MAGICAL_DEF", param=effect.param)
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_MAGICAL_DEF", 
+                   param=effect.param, BuffType=effect.BuffType)
+            for each in friends:
+                each.add_buff_object(copy.deepcopy(buff))
+        if "BUFF_DEF" in skill.avaliable_effects(): 
+            print("use: BUFF_DEF")
+            effect = skill.get_effect_by_key("BUFF_DEF")
+            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_DEF", 
+                   param=effect.param, BuffType=effect.BuffType)
             for each in friends:
                 each.add_buff_object(copy.deepcopy(buff))
         return self
 
     def before_be_attacked(self, skill):                # 被攻击之前，加载被动技能(作为被攻击对象)
+        effect_ids = []
         for each_skill in self.skills:
             if each_skill.is_back_NA_skill():           # 加载反应技能
                 if skill.is_default_skill():            # 技能是默认技能
                     if each_skill.is_default_hit() or each_skill.is_hit():  # 被默认技能攻击 or 被攻击 
-                        each_skill.make_effective(self)
+                        effect_ids.extend(each_skill.make_effective(self))
                 if not skill.is_default_skill():        # 不是默认技能攻击
                     if each_skill.is_hit() or each_skill.is_skill_hit() :   # 被技能攻击时候触发  or 被攻击 
-                        each_skill.make_effective(self)
-        return self
+                        effect_ids.extend(each_skill.make_effective(self))
+        return effect_ids
     
     def after_be_attacked(self, skill):                # 被攻击之后，卸载被动技能(作为被攻击对象)
         for each_skill in self.skills:
@@ -866,7 +886,7 @@ class Hero():
         
         def __is_miss(skill):
             effect = skill.get_effect_by_key("MISS_DAMAGE")
-            return random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0})
+            return effect.id, random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0})
 
         for each_skill in self.skills:
             if each_skill.is_miss_damage(): # 是使攻击失效技能
@@ -880,7 +900,7 @@ class Hero():
                 if each_skill.is_hit():
                     return __is_miss(each_skill)
         
-        return False
+        return None, False
     
     def is_in_hitline_range(self, range_line_value,  enemy, state): # 
         """
@@ -952,6 +972,14 @@ class Hero():
                 else: # 没有高度影响范围
                     return True
         return True
+    
+    @staticmethod
+    def effect_format_data(hero_or_monster, effect_id):
+        return {
+                    "role":  hero_or_monster.hero_or_monster().lower(),
+                    "role_id": hero_or_monster.HeroID,
+                    "effect_id": effect_id
+                }
 
     def back_attack(self, enemy, skill=None, attack_point=[]):
         """ 反击
@@ -961,8 +989,10 @@ class Hero():
         """
         print(self.HeroID ,"(^ ^)反击(^ ^)")
         # result = {}
-        self.prepare_attack(skill)  # 做攻击之前，加载skill相关
+        effect_ids = self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
+        for each_id in  effect_ids:
+            _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
         enemy.Hp_damage(_res) # 敌人掉血攻击
         # result[self] = copy.deepcopy(_res)
         return _res
@@ -986,10 +1016,15 @@ class Hero():
             if self.is_death: # 死亡了
                 self.leve_game(state)
                 return
-            each.before_be_attacked(skill) # 被攻击者添加被动skill
+            effect_ids = each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
             _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
-            if each.is_miss_hit(skill): # 被动技能使攻击失效 # TODO 彬哥 
+            # 添加被动技能的effect
+            for each_id in effect_ids:
+                _res[0]["effects"].append(Hero.effect_format_data(each, each_id))
+            miss_effect_id, is_miss = each.is_miss_hit(skill)
+            if is_miss: # 被动技能使攻击失效 # TODO 彬哥 
+                _res[0]["effects"].append(Hero.effect_format_data(each, miss_effect_id))
                 for _ in _res:
                     _["damage"] = 0
                 result[each] = copy.deepcopy(_res)
@@ -1014,6 +1049,7 @@ class Hero():
                         print("not in backskill range ")
             each.after_be_attacked(skill) # 被攻击者添加被动skill
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
+        print(result)
         return result
     
     def friend_treatment(self, friends=[], skill=None, attack_point=[], state=[]): # 对队友释放治疗技能

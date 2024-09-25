@@ -101,21 +101,24 @@ if __name__ == "__main__":
     #     hero.trigger_buff(e)
     # print(hero.Hp)
 
-    #hero = state.get("hero")[1]
-    hero = state.get("hero")[1]
-    monster = state.get("monster")[-1]
+    hero0 = state.get("hero")[1
+    ]
+    hero1 = state.get("hero")[0]
+    #monster = state.get("monster")[-1]
     # hero2.set_AvailableSkills([82])
-    print(hero.skills)
+    print(hero0.skills)
 
-    skill = monster.get_skill_by_id(77)
+    skill = hero0.get_skill_by_id(79)
    
-    hero.move_position(3,1,4, state=state)
-    monster.move_position(3,1,3, state=state)
-    print("use skill_82 test:", skill)
-    print( monster.func_attack(enemys=[hero], 
+    hero0.move_position(3,1,4, state=state)
+    hero1.move_position(3,1,3, state=state)
+    print("use skill_79 test:", skill)
+    print( hero0.friend_treatment(
+        friends=[hero1], 
                         skill=skill, 
-                        attack_point=hero.position, 
+                        attack_point=hero1.position, 
                         state=state))
+    print(hero1.dict())
 
     
 

@@ -11,7 +11,7 @@ class Buff():
     
     def __init__(self, buff_id, buff_key, buff_value, buff_round_action, 
                        buff_from=None, buff_back=None, buff_percent=None, 
-                       is_need_trigger=False, is_before_action=True):
+                       is_need_trigger=False, is_before_action=True, BuffType=None):
         self.__buff_id = buff_id
         self.__buff_key = buff_key
         self.__buff_value = float(buff_value)
@@ -22,6 +22,7 @@ class Buff():
         self.__buff_percent = buff_percent           # buff 是否触发的百分比（被创建的已经是触发的buff，此数据当前只在返回值用到）
         self.__is_need_trigger =  is_need_trigger    # 是否需要触发执行
         self.__is_before_action = is_before_action   # 是否为行动前需要触发, 默认是 True
+        self.__BuffType = BuffType	   # Buff类型  0 非buff  1为增益 2为减益
         self.__fields = ["buff_id", "buff_key", "buff_value", "buff_round_action", 
                          "total_buff_round_action", "buff_back", "is_before_action"]
 
@@ -42,9 +43,12 @@ class Buff():
         if self.__buff_round_action > 0:
             self.__buff_round_action = self.__buff_round_action - 1
         return self 
+
+    def is_buff(self):
+        return self.__BuffType in [1, 2]
     
     @staticmethod
-    def create_buff(hero_or_monster, buff_id, buff_key, param, buff_from=None, buff_percent=None):
+    def create_buff(hero_or_monster, buff_id, buff_key, param, buff_from=None, buff_percent=None, BuffType=None):
         if buff_from is None:
             buff_from = hero_or_monster
         buff = None
@@ -57,9 +61,11 @@ class Buff():
                     buff.set_buff_value(buff_value).set_buff_round_action(buff_round_action)
                     continue
             if buff is None: 
-                buff = Buff(buff_id, buff_key, buff_value, buff_round_action, buff_from=buff_from, buff_percent=buff_percent).set_buff_back(hero_or_monster.RoundAction)
+                buff = Buff(buff_id, buff_key, buff_value, buff_round_action, 
+                            buff_from=buff_from, buff_percent=buff_percent, BuffType=BuffType).set_buff_back(hero_or_monster.RoundAction)
         else:
-            buff = Buff(buff_id, buff_key, buff_value, buff_round_action, buff_from=buff_from, buff_percent=buff_percent)
+            buff = Buff(buff_id, buff_key, buff_value, buff_round_action, 
+                        buff_from=buff_from, buff_percent=buff_percent, BuffType=BuffType)
             if buff_key in ["BUFF_AD_HP", "BUFF_HP"]:
                 buff.set_is_need_trigger(True)
         return buff
@@ -82,6 +88,14 @@ class Buff():
 
     def set_buff_back(self, v):
         self.__buff_back = v
+        return self
+    
+    @property
+    def BuffType(self):
+        return self.__BuffType
+    
+    def set_BuffType(self, v):
+        self.__BuffType = v
         return self
 
     @property

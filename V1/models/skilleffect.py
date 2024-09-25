@@ -44,21 +44,21 @@ class SkillEffect():
     
     def __init__(self, **kwargs):
         self.__id = kwargs.get("id", None)                      # 名称	
-        self.__key = kwargs.get("key", "")        # key
+        self.__key = kwargs.get("key", "")                      # key
         self.__param = kwargs.get("param", [])
         self.__tag = kwargs.get("tag", "")
         # self.__name = kwargs.get("name", None) 	                  # 名称
         # self.__fanction = kwargs.get("fanction", None)	          # 效果描述 格式为 数值+持续时间 数值在前 持续时间在后
-        self.__Priority = kwargs.get("Priority", None)	          # 优先级 数字越大优先级越高
+        self.__Priority = kwargs.get("Priority", None)	              # 优先级 数字越大优先级越高
         self.__TriggerTime = kwargs.get("TriggerTime", None)	      # DEMO: 1、立即 2、回合结束 3、回合结束 4、战场结算
         self.__Target = kwargs.get("Target", None)	                  # DEMO: 1.敌方单位 2.自身 3：所有地格 4：友方单位（包括自己） 5：友方目标（不包括自己） 6：敌我单位
-        # self.__durationType = kwargs.get("durationType", None)	      # 持续时间类型 1.回合 2.步数 3.持续存在 4.立刻消失 5.离开地块 6.遭受一次攻击 7.进行一次攻击 8.遭受一次火属性攻击
+        # self.__durationType = kwargs.get("durationType", None)	  # 持续时间类型 1.回合 2.步数 3.持续存在 4.立刻消失 5.离开地块 6.遭受一次攻击 7.进行一次攻击 8.遭受一次火属性攻击
         # self.__mark = kwargs.get("mark", None)	                  # 标记  BUFF标记 1为燃烧效果 2为冰冻效果 3为淹死状态 4为冰冻状态
         # self.__hitEffect = kwargs.get("hitEffect", None)	          # 受击效果 1受击 2不受击
-        # self.__buffType = kwargs.get("buffType", None)	          # Buff类型 1为增益 2为减益
+        self.__BuffType = kwargs.get("BuffType", None)	              # Buff类型  0 非buff  1为增益 2为减益
         # self.__effectIcon = kwargs.get("effectIcon", None)	      # 效果icon
         # self.__buffEffect = kwargs.get("buffEffect", None)	      # BUFF效果  BUFF持续过程中的特效
-        # self.__buffTrigger	 = kwargs.get("buffTrigger", None)    # BUFF触发特效
+        # self.__buffTrigger = kwargs.get("buffTrigger", None)        # BUFF触发特效
         # self.__duration = kwargs.get("duration", None)              # 特效持续时间 持续到下次开始为 1
         self.__random = None                                          # 有概率情况下，是否在概率中
         self.fields = ["id", "key", "param", "tag", "Priority", "TriggerTime", "Target"]
@@ -67,6 +67,9 @@ class SkillEffect():
         if not fields:
             fields = self.fields
         return {field:self.__getattribute__(field) for field in fields}
+
+    def is_buff(self):
+        return self.__BuffType in [1, 2]
 
     @property
     def id(self):
@@ -169,13 +172,13 @@ class SkillEffect():
     #     self.__hitEffect = v
     #     return self
     
-    # @property
-    # def buffType(self):
-    #     return self.__buffType
+    @property
+    def BuffType(self):
+        return self.__BuffType
     
-    # def set_buffType(self, v):
-    #     self.__buffType = v
-    #     return self
+    def set_BuffType(self, v):
+        self.__BuffType = v
+        return self
     
     # @property
     # def effectIcon(self):

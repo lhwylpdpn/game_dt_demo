@@ -22,7 +22,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 92,
@@ -34,7 +35,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -45,7 +47,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -54,7 +57,8 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         },
@@ -77,7 +81,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 74,
@@ -89,7 +94,8 @@
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -100,7 +106,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -111,7 +118,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 94,
@@ -122,7 +130,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             },
             {
               "id": 104,
@@ -133,7 +142,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -156,7 +166,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -167,7 +178,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -178,7 +190,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 87,
@@ -190,7 +203,8 @@
               "tag": "",
               "Priority": 7,
               "TriggerTime": 2,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 1
             }
           ]
         },
@@ -213,7 +227,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 93,
@@ -225,7 +240,8 @@
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -236,7 +252,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -247,7 +264,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 94,
@@ -258,7 +276,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -281,7 +300,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 74,
@@ -293,7 +313,8 @@
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -304,7 +325,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -315,7 +337,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 105,
@@ -326,7 +349,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         },
@@ -346,7 +370,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 65,
@@ -358,7 +383,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             },
             {
               "id": 66,
@@ -370,7 +396,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -390,7 +417,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 4,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 107,
@@ -401,7 +429,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 4,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -423,7 +452,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -446,7 +476,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         }
@@ -496,7 +527,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 60,
@@ -508,7 +540,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -519,7 +552,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -528,7 +562,8 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         },
@@ -551,7 +586,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 60,
@@ -563,7 +599,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 61,
@@ -575,7 +612,8 @@
               "tag": "",
               "Priority": 5,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 62,
@@ -586,7 +624,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -597,7 +636,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -608,7 +648,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             }
           ]
         },
@@ -631,7 +672,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             },
             {
               "id": 85,
@@ -643,7 +685,8 @@
               "tag": "",
               "Priority": 7,
               "TriggerTime": 2,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 1
             },
             {
               "id": 88,
@@ -655,7 +698,8 @@
               "tag": "",
               "Priority": 7,
               "TriggerTime": 2,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 1
             },
             {
               "id": 59,
@@ -666,7 +710,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             }
           ]
         },
@@ -689,7 +734,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 60,
@@ -701,7 +747,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -712,7 +759,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -723,7 +771,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             }
           ]
         },
@@ -743,7 +792,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 65,
@@ -755,7 +805,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -775,7 +826,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 84,
@@ -787,7 +839,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -798,7 +851,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 57,
@@ -810,7 +864,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             }
           ]
         },
@@ -832,7 +887,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -854,7 +910,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -874,7 +931,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 64,
@@ -886,7 +944,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -908,7 +967,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         }
@@ -958,7 +1018,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 72,
@@ -970,7 +1031,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
@@ -981,7 +1043,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 73,
@@ -993,7 +1056,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -1002,7 +1066,8 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         },
@@ -1025,7 +1090,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 60,
@@ -1037,7 +1103,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 74,
@@ -1049,7 +1116,8 @@
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 73,
@@ -1061,7 +1129,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -1072,7 +1141,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 90,
@@ -1081,7 +1151,8 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         },
@@ -1104,7 +1175,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 73,
@@ -1116,7 +1188,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 76,
@@ -1127,7 +1200,8 @@
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 60,
@@ -1139,7 +1213,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -1150,7 +1225,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             }
           ]
         },
@@ -1173,7 +1249,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 60,
@@ -1185,7 +1262,8 @@
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 74,
@@ -1197,7 +1275,8 @@
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 59,
@@ -1208,7 +1287,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 73,
@@ -1220,7 +1300,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             }
           ]
         },
@@ -1240,7 +1321,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 77,
@@ -1253,7 +1335,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 2,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 2
             }
           ]
         },
@@ -1273,7 +1356,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 78,
@@ -1284,7 +1368,8 @@
               "tag": "",
               "Priority": 7,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 1
             }
           ]
         },
@@ -1306,7 +1391,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -1326,7 +1412,8 @@
               "tag": "",
               "Priority": 10,
               "TriggerTime": 4,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 107,
@@ -1337,7 +1424,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 4,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             },
             {
               "id": 108,
@@ -1346,7 +1434,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 4,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         },
@@ -1368,7 +1457,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             },
             {
               "id": 103,
@@ -1379,7 +1469,8 @@
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 4
+              "Target": 4,
+              "BuffType": 0
             }
           ]
         }

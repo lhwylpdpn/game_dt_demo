@@ -230,7 +230,10 @@ class SkillDetail():
         return False
         
     def make_effective(self, hero_or_monster): # 生效
+        effect_ids = []
         for each in self.effects:
+            if not each.is_buff():
+                effect_ids.append(each.id)
             if each.key in ['ADD_HP', 'ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
                 each.set_random(random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}))
                 if each.random: # 几率判断
@@ -272,7 +275,7 @@ class SkillDetail():
                     hero_or_monster.remove_debuff()        
             else:
                 continue
-        return hero_or_monster
+        return effect_ids
     
     def make_invalid(self, hero_or_monster): # 失效
         for each in self.effects:
