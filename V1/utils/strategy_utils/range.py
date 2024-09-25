@@ -31,6 +31,13 @@ class Range(Data):
                 else:
                     self.map = state["map"]
 
+            if "maps" in state:
+                if not isinstance(state["maps"], dict):
+                    self.map = state["maps"]
+                    self.map = Data.convert_maps_xz(self.map.view_from_y_dict())
+                else:
+                    self.map = state["maps"]
+
             if "hero" in state:
                 self.teammates = []
                 for _ in state["hero"]:
