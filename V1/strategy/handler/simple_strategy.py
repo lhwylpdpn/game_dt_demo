@@ -147,20 +147,20 @@ class SimpleStrategy(object):
         if "character" in tar_dict:
             for k, v in tar_dict["character"].items():
                 if k == "any":
-                    return
+                    return roles
                 if k == "type":
                     if v == "any":
-                        return
+                        return roles
                     else:
                         roles = [e for e in roles if Data.value("ClassType2", e) == v]
                 if k == "geo":
                     if v == "any":
-                        return
+                        return roles
                     else:
                         roles = [e for e in roles if Data.value("ClassType3", e) == v]
                 if k == "role":
                     if v == "any":
-                        return
+                        return roles
                     else:
                         roles = [e for e in roles if Data.value("ClassType4", e) == v]
 
@@ -228,12 +228,13 @@ class SimpleStrategy(object):
     def choice(self, strategy, target_type):
         if target_type == "enemy":
             self.action_enemy(strategy)
-            roles = self.target(self.teammates + [self.role], strategy)
+            roles = self.target(self.enemies, strategy)
             self.enemies = self.filter(roles, strategy)
 
         elif target_type == "team":
             self.action_us(strategy)
-            roles = self.target(self.enemies, strategy)
+            roles = self.target(self.teammates + [self.role], strategy)
+
             self.teammates = self.filter(roles, strategy)
 
         else:
