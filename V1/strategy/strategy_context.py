@@ -44,10 +44,6 @@ class strategy_params:
         self.action_strategy["atk_target"]["non_elite"] = {'score': [0,1], 'desc': '优先攻击非精英单位', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先攻击精英单位
         self.action_strategy["atk_target"]["elite"] = {'score': [0,1], 'desc': '优先攻击精英单位', 'weight': 0.2, 'clac_type': 'exclusive'}
-        ####尽量不攻击敌人
-        self.action_strategy["atk_target"]["no_atk"] = {'score': [0,float('-inf')], 'desc': '尽量不攻击敌人', 'weight': 0.2, 'clac_type': 'exclusive'}
-        ###避免在非战斗状态下攻击敌人
-        self.action_strategy["atk_target"]["no_combat_no_atk"] = {'score': [0,float('-inf')], 'desc': '避免在非战斗状态下攻击敌人', 'weight': 0.2, 'clac_type': 'exclusive'}
 
         ###选择攻击方式的策略================================================================================================
         self.action_strategy["atk_type"] = {}
@@ -102,8 +98,6 @@ class strategy_params:
 
         real_action_strategy  =copy.deepcopy(self.action_strategy)
         real_selection_strategy = copy.deepcopy(self.selection_strategy)
-        #print('real_action_strategy',real_action_strategy)
-        #print('real_selection_strategy',real_selection_strategy)
         if base_class_value in (1,2,3):
             real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
             w_tmp = {}
@@ -117,6 +111,82 @@ class strategy_params:
         else:
             real_action_strategy,real_selection_strategy = None,None
         return real_action_strategy,real_selection_strategy
+
+
+    def get_special_case_1(self):
+        #做一个全部weight是none的，开始手动填写，最后检查是否还有none
+        real_action_strategy  =copy.deepcopy(self.action_strategy)
+        real_selection_strategy = copy.deepcopy(self.selection_strategy)
+        for i in real_action_strategy.keys():
+            for j in real_action_strategy[i].keys():
+                real_action_strategy[i][j]['weight'] =None
+        ####逃跑血量
+        real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
+        ####优先攻击最近的敌人
+        real_action_strategy["atk_target"]["nearest"]['weight'] = 0.2
+        ####优先攻击百分比血量最少的敌人
+        real_action_strategy["atk_target"]["min_hp"]['weight'] = 0.2
+        ####优先攻击攻击力最高的敌人
+        real_action_strategy["atk_target"]["max_atk"]['weight'] = 0.2
+        ####优先攻击防御力最低的敌人
+        real_action_strategy["atk_target"]["min_def"]['weight'] = 0.2
+        ####优先攻击支援型职业
+        real_action_strategy["atk_target"]["career_support"]['weight'] = 0.2
+        ####优先攻击攻击型职业
+        real_action_strategy["atk_target"]["career_attack"]['weight'] = 0.2
+        ####优先攻击防御型职业
+        real_action_strategy["atk_target"]["career_defense"]['weight'] = 0.2
+        ####优先攻击非精英单位
+        real_action_strategy["atk_target"]["non_elite"]['weight'] = 0.2
+        ####优先攻击精英单位
+        real_action_strategy["atk_target"]["elite"]['weight'] = 0.2
+        ####优先使用技能攻击
+        real_action_strategy["atk_type"]["skill"]['weight'] = 0.2
+        ####优先使用普通攻击
+        real_action_strategy["atk_type"]["normal"]['weight'] = 0.2
+        ####优先对攻击力最高的敌人使用单体攻击技能
+        real_action_strategy["atk_type"]["single_max_atk"]['weight'] = 0.2
+        ####优先对防御力最高的敌人使用单体攻击技能
+        real_action_strategy["atk_type"]["single_max_def"]['weight'] = 0.2
+        ####优先对支援型职业使用单体攻击技能
+        real_action_strategy["atk_type"]["single_career_support"]['weight'] = 0.2
+        ####优先对攻击型职业使用单体攻击技能
+        real_action_strategy["atk_type"]["single_career_attack"]['weight'] = 0.2
+        ####优先对防御型职业使用单体攻击技能
+        real_action_strategy["atk_type"]["single_career_defense"]['weight'] = 0.2
+        ####优先移动到普通攻击可以攻击到更多敌人的位置
+        real_action_strategy["move_position"]["atk_multi"]['weight'] = 0.2
+        ####优先移动到不会被更多敌人攻击的位置
+        real_action_strategy["move_position"]["no_atk"]['weight'] = 0.2
+        ####优先占领制高点，目标地点-当前地点的高度差越大，分数越高
+        real_action_strategy["move_position"]["high"]['weight'] = 0.2
+        ####优先最短路线
+        real_action_strategy["move_path"]["shortest"]['weight'] = 0.2
+        ####优先不进入敌人的警戒范围
+        ###进入敌人警戒范围的点越多，分值越低
+
+        real_action_strategy["move_path"]["no_warning"]['weight'] = 0.2
+        ####优先使用单体治疗技能
+        real_action_strategy["assist"]["single_heal"]['weight'] = 0.2
+        ####优先使用群体治疗技能
+        real_action_strategy["assist"]["group_heal"]['weight'] = 0.2
+        ####优先使用持续治疗技能
+        real_action_strategy["assist"]["sustain_heal"]['weight'] = 0.2
+        ####优先针对防守型职业使用治疗技能
+        real_action_strategy["assist"]["career_defense"]['weight'] = 0.2
+        ####优先针对攻击型职业使用治疗技能
+        real_action_strategy["assist"]["career_attack"]['weight'] = 0.2
+        ####优先针对自己加血
+        real_action_strategy["assist"]["self_heal"]['weight'] = 0.2
+
+        #检查所有key的weight是不是都不是none
+        for i in real_action_strategy.keys():
+            for j in real_action_strategy[i].keys():
+                if real_action_strategy[i][j]['weight'] == None:
+                    print('存在未配置都项,[',str(i),'],[',str(j),']')
+
+
+
 if __name__ == '__main__':
     obj= strategy_params()
-    print(obj.get_strategy_params(2))
+    obj.get_special_case_1()
