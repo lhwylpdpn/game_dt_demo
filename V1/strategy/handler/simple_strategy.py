@@ -81,12 +81,12 @@ step_dict = {
 class SimpleStrategy(object):
     # def __init__(self, role=None, teammates=None, enemies=None, maps=None):
     def __init__(self, role, state):
-        r = Range(role, state)
+        self.r = Range(role, state)
 
-        self.role = r.role
-        self.enemies = r.enemies
-        self.teammates = r.teammates
-        self.maps = r.map
+        self.role = self.r.role
+        self.enemies = self.r.enemies
+        self.teammates = self.r.teammates
+        self.maps = self.r.map
         self.damage_skills = get_damage_skills(role)
         self.heal_skills = get_heal_skills(role)
 
@@ -230,12 +230,19 @@ class SimpleStrategy(object):
             self.action_enemy(strategy)
             roles = self.target(self.enemies, strategy)
             self.enemies = self.filter(roles, strategy)
+            self.r.enemies = self.enemies
+            pick = self.r.find_attack_target()
+            print("enemy本次选择：", pick)
 
         elif target_type == "team":
             self.action_us(strategy)
             roles = self.target(self.teammates + [self.role], strategy)
-
             self.teammates = self.filter(roles, strategy)
+            self.teammates = [_ for _ in self.teammates if _["HeroID"] != self.role["HeroID"]]
+            self.r.teammates = self.teammates
+            pick = self.r.find_heal_target()
+            print("team本次选择：", pick)
+
 
         else:
             raise Exception(f"No Target.{target_type}")
