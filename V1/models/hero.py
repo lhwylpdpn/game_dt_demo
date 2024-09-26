@@ -991,11 +991,11 @@ class Hero():
         # result = {}
         effect_ids = self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
-        for each_id in  effect_ids:
-            _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
+        # for each_id in  effect_ids:
+        #     _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
         enemy.Hp_damage(_res) # 敌人掉血攻击
         # result[self] = copy.deepcopy(_res)
-        return _res
+        return effect_ids
 
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
@@ -1039,11 +1039,13 @@ class Hero():
                 for each_back_skill in each.get_back_skills(self, skill): # 发动反击
                     print("use back skill:", each_back_skill.SkillId)
                     if each.is_in_backskill_range(each_back_skill, self, state):
-                        back_result = each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
-                        if self not in result.keys():
-                            result[self] = back_result
-                        else:
-                            result[self].append(back_result)
+                        back_effect_ids = each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
+                        for each_id in back_effect_ids:
+                            _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
+                        # if self not in result.keys():
+                        #     result[self] = back_result
+                        # else:
+                        #     result[self].append(back_result)
                         print("end back....")
                     else:
                         print("not in backskill range ")
