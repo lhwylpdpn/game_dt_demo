@@ -3,6 +3,7 @@
 # @Time    : 2024/9/6 15:20
 from utils.strategy_utils.basic_data import Data
 from utils.strategy_utils.basic_utils import get_damage_skills, get_heal_skills, manhattan_distance
+from utils.strategy_utils.range import Range
 
 step_dict = {
     "action": {
@@ -78,18 +79,28 @@ step_dict = {
 
 
 class SimpleStrategy(object):
-    def __init__(self, role=None, teammates=None, enemies=None, maps=None):
-        self.role = role
-        self.enemies = enemies
-        self.teammates = teammates
-        self.maps = maps
+    # def __init__(self, role=None, teammates=None, enemies=None, maps=None):
+    def __init__(self, role, state, strategy, target_type):
+        r = Range(role, state)
+
+        self.role = r.role
+        self.enemies = r.enemies
+        self.teammates = r.teammates
+        self.maps = r.map
         self.damage_skills = get_damage_skills(role)
         self.heal_skills = get_heal_skills(role)
+
+        self.strategy = strategy
+        self.target_type = target_type
 
     def _buff_key(self, role):
         return [_["buff_key"] for _ in Data.value("buff", role)]
 
-    def action_enemy(self, enemy_dict, ):
+    def action_enemy(self):
+        if not self.strategy.get("action", {}).get("enemy"):
+            return
+
+        enemy_dict = self.strategy["action"]["enemy"]
         if "normal" in enemy_dict:
             if enemy_dict["normal"]:
                 self.damage_skills = [s for s in self.role["skills"] if s["DefaultSkills"] == 1]
@@ -109,7 +120,12 @@ class SimpleStrategy(object):
         if "item" in enemy_dict:  # TODO 使用物品
             pass
 
-    def action_us(self, us_dict):
+    def action_us(self):
+        if not self.strategy.get("action", {}).get("us"):
+            return
+
+        us_dict = self.strategy["action"]["us"]
+
         if "skill" in us_dict:
             for k, v in us_dict["skill"].items():
                 if k == "any_attack":
@@ -126,7 +142,11 @@ class SimpleStrategy(object):
         if "item" in us_dict:  # TODO 使用物品
             pass
 
-    def target(self, tar_dict):
+    def target(self, roles):
+        if not self.strategy.get("target", {}):
+            return roles
+
+        tar_dict = self.strategy["target"]
         if "character" in tar_dict:
             for k, v in tar_dict["character"].items():
                 if k == "any":
@@ -135,23 +155,28 @@ class SimpleStrategy(object):
                     if v == "any":
                         return
                     else:
-                        self.enemies = [e for e in self.enemies if Data.value("ClassType2", e) == v]
+                        roles = [e for e in roles if Data.value("ClassType2", e) == v]
                 if k == "geo":
                     if v == "any":
                         return
                     else:
-                        self.enemies = [e for e in self.enemies if Data.value("ClassType3", e) == v]
+                        roles = [e for e in roles if Data.value("ClassType3", e) == v]
                 if k == "role":
                     if v == "any":
                         return
                     else:
-                        self.enemies = [e for e in self.enemies if Data.value("ClassType4", e) == v]
+                        roles = [e for e in roles if Data.value("ClassType4", e) == v]
 
         if "role_type" in tar_dict:
-            self.enemies = [e for e in self.enemies if Data.value("Quality", e) == tar_dict["role_type"]]
+            roles = [e for e in roles if Data.value("Quality", e) == tar_dict["role_type"]]
 
-    def filter_hp(self, filter_dict, roles):
+        return roles
+
+    def filter(self, roles):
         select = []
+        if not self.strategy.get("filter"):
+            return roles
+        filter_dict = self.strategy["filter"]
         if "hp" in filter_dict:
             hp_dict = filter_dict["hp"]
             if "max_hp" in hp_dict:
@@ -202,6 +227,21 @@ class SimpleStrategy(object):
             pass
 
         return select
+
+    def choice(self):
+        if self.target_type == "enemy":
+            self.action_enemy()
+            roles = self.target(self.teammates + [self.role])
+            self.enemies = self.filter(roles)
+
+        elif self.target_type == "team":
+            self.action_us()
+            roles = self.target(self.enemies)
+            self.teammates = self.filter(roles)
+
+        else:
+            raise Exception(f"No Target.{self.target_type}")
+
 
 
 
