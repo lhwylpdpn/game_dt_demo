@@ -5,6 +5,8 @@ from utils.strategy_utils.range import Range
 from strategy.strategy_context import strategy_params as sp
 import time
 from log.log import log_manager
+from V1.strategy.strategy_context import simple_strategy_params
+from V1.strategy.handler.simple_strategy import SimpleStrategy
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):
         self.name = name
@@ -101,8 +103,8 @@ def plot_tree(node, x=0, y=0, layer=1):
 
 
 
-def lambda_select_fun(params_list):
-    return lambda: []
+def lambda_select_fun(obj,strategy,type):
+    return lambda: obj.choice(strategy,type)
 
 def wait():
     return False
@@ -139,34 +141,33 @@ def show_plot_tree():
     plt.show()
 def create_decision_tree(hero,state):
     BaseClassID=hero.get("BaseClassID")
+    HeroID=int(hero.get("HeroID"))
     sp_obj=sp()
     eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
     range_obj=Range(hero,state)
+    simple_obj=simple_strategy_params()
+    param_list=simple_obj.get_strategy_params(HeroID)
     # 创建决策树
 
     #所有判断节点
-    root = Node("1_判断_单体技能_支援_血最少", action=None, selection=[lambda_select_fun([1,3,4])],probability=1)
-    p_2  = Node("2_判断_劈砍_全部单位_攻击目标", action=None, selection=[lambda_select_fun([2,9,5])],probability=1)
-    p_3  = Node("3_使用突刺_不含后卫_防御最高",action=None,selection=[lambda_select_fun([3,6,7])],probability=1)
-
-    p1_action_node= Node("行动1_用某个技能攻击某个点", action=action_fun)
-    p2_action_node= Node("行动2_用某个技能攻击某个点", action=action_fun)
-    p3_action_node= Node("行动3_用某个技能攻击某个点", action=action_fun)
-
+    node_dict={}
+    node_action_dict={}
+    SimpleStrategy_obj=SimpleStrategy(hero,state)
     wait_node=Node("等待",action=wait)
 
-    #构建关系
-    root.add_true_child(p1_action_node)
-    root.add_false_child(p_2)
-    p_2.add_true_child(p2_action_node)
-    p_2.add_false_child(p_3)
-    p_3.add_true_child(p3_action_node)
-    p_3.add_false_child(wait_node)
+    for i in range(len(param_list)):
+        node_dict['p_'+str(i)]=Node("p_"+str(i),action=None,selection=[lambda_select_fun(SimpleStrategy_obj,param_list[i],'enemy')],probability=1)
+        node_action_dict['p_action_'+str(i)]=Node("p_"+str(i),action=action_fun)
+        node_dict['p_' + str(i)].add_true_child(node_action_dict['p_action_'+str(i)])
+    for i in range(len(param_list)):
+        if i==len(param_list)-1:
+            node_dict['p_' + str(i)].add_false_child(wait_node)
+        else:
+            node_dict['p_' + str(i)].add_false_child(node_dict['p_' + str(i+1)])
 
 
 
-
-    return root
+    return node_dict['p_0']
 
 
 if __name__ == '__main__':

@@ -185,9 +185,6 @@ class test_process:
         self.state['monster'][0].set_z(self.state['hero'][0].dict()['position'][2])
         self.state['monster'][0].set_Atk(100)
 
-
-
-
 def single_skill_test_main(basecalssid,skill_id,pygame_init=True):
     obj_=test_process()
 
@@ -204,7 +201,7 @@ def main():
     obj_.pygame_init()
     obj_.run()
     obj_.game_run()
-    #time.sleep(100)
+    time.sleep(100)
 
 if __name__ == '__main__':
 

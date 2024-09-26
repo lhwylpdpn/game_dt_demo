@@ -186,7 +186,134 @@ class strategy_params:
                     print('存在未配置都项,[',str(i),'],[',str(j),']')
 
 
+class simple_strategy_params:
+    def __init__(self):
+        self.demo_step_dict = {
+            "action": {
+                "enemy": {
+                    "normal": bool,
+                    "skill": {
+                        "any_attack": bool,
+                        "attack": int,  # 0单体，1群体
+                        "de_buff": int,  # 0单体，1群体
+                        "select": []  # 技能ID
+                    },
+                    "item": {
+                        "attack": [0, 1],
+                        "de_buff": [0, 1],
+                        "select": []
+                    }
+                },
+                "us": {
+                    "skill": {
+                        "any": bool,  # 可以对我方释放的技能
+                        "any_heal": int,  # 0单体，1群体
+                        "any_buff": int,  # 0单体，1群体
+                        "select": []  # 技能ID
+                    },
+                    "item": {
+                        "any": bool,
+                        "any_heal": [0, 1],
+                        "any_buff": [0, 1],
+                        "select": []  # 物品ID
+
+                    }
+                }
+            },
+            "target": {
+                "character": {
+                    "any": bool,
+                    "type": int,  # ["any", "前卫", "后卫"] 1 2 3
+                    "geo": int,  # ["any", "攻击型..."] 1 2 3
+                    "role": int,
+                    "select": []  # 指定类型?
+                },
+                "role_type": int  # 精英，boss，普通
+
+            },
+            "filter": {
+                "hp": {
+                    "max_hp": bool,
+                    "min_hp": bool,
+                    "max_perc_hp": bool,
+                    "min_perc_hp": bool,
+                    "hp_below": float,
+                    "hp_above": float
+                },
+                "status": {
+                    "any_buff": [],
+                    # BUFF_ADD_HP , BUFF_HP, 护盾暂无,BUFF_ATK,  ADD_ATK, ADD_DEF, BUFF_DEF，ADD_MAGICAL_DEF，BUFF_MAGICAL_DEF,BUFF_ROUND_ACTION
+                    "any_de_buff": [],  # 暂时没有
+                    "no_status": bool
+                },
+                "distance": str,  # MIN / MAX
+                "count": int,
+                "value": {
+                    "p_attack": str,  # MIN / MAX
+                    "m_attack": str,  # MIN / MAX
+                    "p_defense": str,  # MIN / MAX
+                    "m_defense": str,  # MIN / MAX
+                    "speed": str,  # MIN / MAX
+                },
+                "limit": {
+                    # TODO 行为限制
+                }
+            }
+        }
+
+    def get_strategy_params(self,hero_id:int):
+        _res_list=[]
+        if hero_id in (5002,5001):
+            res_dict = {}
+            res_dict['action']={}
+            res_dict['action']['enemy']={}
+            res_dict['action']['enemy']['skill']={}
+            res_dict['action']['enemy']['skill']['select']=[78]
+            res_dict['target']={}
+            res_dict['target']['character']={}
+            res_dict['target']['character']['any']=True
+            res_dict['filter']={}
+            res_dict['filter']['count']=2
+            _res_list.append(res_dict)
+            res_dict = {}
+            res_dict['action'] = {}
+            res_dict['action']['enemy'] = {}
+            res_dict['action']['enemy']['skill'] = {}
+            res_dict['action']['enemy']['skill']['select'] = [78]
+            res_dict['target'] = {}
+            res_dict['target']['character'] = {}
+            res_dict['target']['character']['any'] = True
+            res_dict['filter'] = {}
+            res_dict['filter']['count'] = 2
+            _res_list.append(res_dict)
+        if hero_id==5003:
+            res_dict={}
+            res_dict['action']={}
+            res_dict['action']['enemy']={}
+            res_dict['action']['enemy']['skill']={}
+            res_dict['action']['enemy']['skill']['select']=[88]
+            res_dict['target']={}
+            res_dict['target']['character']={}
+            res_dict['target']['character']['any']=True
+            res_dict['filter']={}
+            res_dict['filter']['hp']={}
+            res_dict['filter']['hp']['hp_below']=0.5
+            _res_list.append(res_dict)
+            res_dict = {}
+            res_dict['action'] = {}
+            res_dict['action']['enemy'] = {}
+            res_dict['action']['enemy']['skill'] = {}
+            res_dict['action']['enemy']['skill']['select'] = [88]
+            res_dict['target'] = {}
+            res_dict['target']['character'] = {}
+            res_dict['target']['character']['any'] = True
+            res_dict['filter'] = {}
+            res_dict['filter']['hp'] = {}
+            res_dict['filter']['hp']['hp_below'] = 0.5
+            _res_list.append(res_dict)
+        return _res_list
+
 
 if __name__ == '__main__':
-    obj= strategy_params()
-    obj.get_special_case_1()
+    obj= simple_strategy_params()
+    print(obj.get_strategy_params(5003))
