@@ -263,7 +263,7 @@ class simple_strategy_params:
 
     def get_strategy_params(self,hero_id:int):
         _res_list=[]
-        if hero_id in (5002,5001):
+        if hero_id==5002:
             res_dict = {}
             res_dict['action']={}
             res_dict['action']['enemy']={}
