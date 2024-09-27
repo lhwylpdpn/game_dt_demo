@@ -185,9 +185,9 @@ class SimpleStrategy(object):
             if "min_perc_hp" in hp_dict:
                 select = min(roles, key=lambda x: x['Hp'] / x['HpBase'])
             if "hp_below" in hp_dict:
-                select = [entry for entry in roles if (entry['Hp'] / entry['HpBase']) > hp_dict["HpBase"]]
+                select = [entry for entry in roles if (entry['Hp'] / entry['HpBase']) > hp_dict["hp_below"]]
             if "hp_above" in hp_dict:
-                select = [entry for entry in roles if (entry['Hp'] / entry['HpBase']) < hp_dict["HpBase"]]
+                select = [entry for entry in roles if (entry['Hp'] / entry['HpBase']) < hp_dict["hp_above"]]
 
         if "status" in filter_dict:
             if "any_buff" in filter_dict["status"]:
