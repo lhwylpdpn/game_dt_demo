@@ -275,17 +275,7 @@ class simple_strategy_params:
             res_dict['filter']={}
             res_dict['filter']['count']=2
             _res_list.append(res_dict)
-            res_dict = {}
-            res_dict['action'] = {}
-            res_dict['action']['enemy'] = {}
-            res_dict['action']['enemy']['skill'] = {}
-            res_dict['action']['enemy']['skill']['select'] = [78]
-            res_dict['target'] = {}
-            res_dict['target']['character'] = {}
-            res_dict['target']['character']['any'] = True
-            res_dict['filter'] = {}
-            res_dict['filter']['count'] = 2
-            _res_list.append(res_dict)
+
         if hero_id==5003:
             res_dict={}
             res_dict['action']={}
@@ -299,18 +289,7 @@ class simple_strategy_params:
             res_dict['filter']['hp']={}
             res_dict['filter']['hp']['hp_below']=0.5
             _res_list.append(res_dict)
-            res_dict = {}
-            res_dict['action'] = {}
-            res_dict['action']['enemy'] = {}
-            res_dict['action']['enemy']['skill'] = {}
-            res_dict['action']['enemy']['skill']['select'] = [88]
-            res_dict['target'] = {}
-            res_dict['target']['character'] = {}
-            res_dict['target']['character']['any'] = True
-            res_dict['filter'] = {}
-            res_dict['filter']['hp'] = {}
-            res_dict['filter']['hp']['hp_below'] = 0.5
-            _res_list.append(res_dict)
+
         return _res_list
 
 

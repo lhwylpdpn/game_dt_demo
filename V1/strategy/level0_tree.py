@@ -15,34 +15,32 @@ class Node:
         self.selection=selection if selection is not None else []
         self.true_child=None
         self.false_child=None
-        self.selection_result=None
+        self.evaluate_result=None
     def add_true_child(self, child_node):
         self.true_child = child_node
     def add_false_child(self, child_node):
         self.false_child = child_node
 
-    def evaluate(self,performance=None, params=None):
+    def evaluate(self,performance=None):
         # 是行动节点直接行动
-
+        if self.evaluate_result is not None:
+            return self.evaluate_result,self
         if self.action:
             if performance is not None:
                 performance.event_start(self.name)
-            if self.selection_result:
-                res=self.action(self.selection_result)
-            else:
-                res=self.action()
-                log_manager.add_log(
-            log_manager.add_log({'stepname': '决策树-个人偏好最终选择的行动', 'action': self.name, 'result': res}))
+            res=self.action()
+            log_manager.add_log({'stepname': '偏好_evaluate执行动作', 'action': self.name, 'result_len': len(res)})
             if performance is not None:
                 performance.event_end(self.name)
-            return res
+            self.evaluate_result=res
+            return res,self
         #非行动节点判断概率，如果需要随机，就随机选择一个子节点
         if random.random() < 1-self.probability:
             #随机选择一个子节点
             child = random.choice([self.true_child, self.false_child])
             return child.evaluate(performance=performance)
         else:
-            #有判断节点走判断节点，无判断节点直接走右节点
+
             if self.selection:
                 res=[]
 
@@ -50,30 +48,19 @@ class Node:
                     if performance is not None:
                         performance.event_start("selection_"+str(s))
                     res.append(s())
+                    log_manager.add_log({'stepname': '偏好_evaluate执行判断', 'selection': str(self.name)+'_'+str(s), 'result_len': str(res[-1])})
                     if performance is not None:
                         performance.event_end("selection_"+str(s))
-                params_=[]
-                #判断是不是返回都都是空列表
-                for r in res:
-                    #如果不是列表，转换成列表
-                    if not isinstance(r,list):
-                        r=[r]
-                    if len(r)>0:
-                        params_.extend(r)
-                #T 走左节点，F走右节点
-                if len(params_)>0:
 
-                    log_manager.add_log({'stepname': '决策树-个人偏好选择的行动，选择了T子节点，因为[aramas]不为空', 'action': self.true_child.name, 'result': params_})
-                    self.true_child.selection_result=params_
+                if all(res):
+                    #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了T子节点', 'action': self.true_child.name})
                     return self.true_child.evaluate(performance=performance)
                 else:
-                    log_manager.add_log({'stepname': '决策树-个人偏好选择的行动，选择了F子节点，因为[aramas]为空', 'action': self.false_child.name, 'result': params_})
-                    self.false_child.selection_result=params_
+                    #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点', 'action': self.false_child.name})
                     return self.false_child.evaluate(performance=performance)
 
-
             else:
-                log_manager.add_log({'stepname': '决策树-个人偏好选择的行动，选择了F子节点，因为没有判断条件', 'action': self.false_child.name})
+                #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了F子节点,因为没有条件', 'action': self.false_child.name})
                 return self.false_child.evaluate(performance=performance)
 
 
@@ -107,14 +94,11 @@ def lambda_select_fun(obj,strategy,type):
     return lambda: obj.choice(strategy,type)
 
 def wait():
-    return False
+    return []
 
 
 
-#向某个点释放某个技能:
-def action_fun(params):
-    print(f"执行函数: {params}")
-    return 333333
+
 def make_decision(hero,state,performance=None):
     root= create_decision_tree(hero,state)
     a=time.time()
@@ -123,7 +107,7 @@ def make_decision(hero,state,performance=None):
     res=root.evaluate(performance=performance)
     if performance is not None:
         performance.event_end('evaluate')
-    print('决策树耗时:',time.time()-a)
+    print('偏好_决策树耗时:',time.time()-a)
     return res
 
 def show_plot_tree():
@@ -147,17 +131,19 @@ def create_decision_tree(hero,state):
     range_obj=Range(hero,state)
     simple_obj=simple_strategy_params()
     param_list=simple_obj.get_strategy_params(HeroID)
+    wait_node = Node("等待", action=wait)
+    if len(param_list)==0:#没有任何偏好设置
+        return wait_node
     # 创建决策树
-
     #所有判断节点
     node_dict={}
     node_action_dict={}
     SimpleStrategy_obj=SimpleStrategy(hero,state)
-    wait_node=Node("等待",action=wait)
+
 
     for i in range(len(param_list)):
-        node_dict['p_'+str(i)]=Node("p_"+str(i),action=None,selection=[lambda_select_fun(SimpleStrategy_obj,param_list[i],'enemy')],probability=1)
-        node_action_dict['p_action_'+str(i)]=Node("p_"+str(i),action=action_fun)
+        node_dict['p_'+str(i)]=Node("p_"+str(i)+"_select",action=None,selection=[lambda_select_fun(SimpleStrategy_obj,param_list[i],'enemy')],probability=1)
+        node_action_dict['p_action_'+str(i)]=Node("p_"+str(i)+"_action",action=lambda_select_fun(SimpleStrategy_obj,param_list[i],'enemy'))
         node_dict['p_' + str(i)].add_true_child(node_action_dict['p_action_'+str(i)])
     for i in range(len(param_list)):
         if i==len(param_list)-1:
