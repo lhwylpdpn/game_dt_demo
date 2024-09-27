@@ -233,6 +233,7 @@ class SimpleStrategy(object):
             self.r.enemies = self.enemies
             pick = self.r.find_attack_target()
             print("enemy本次选择：", pick)
+            return pick
 
         elif target_type == "team":
             self.action_us(strategy)
@@ -242,6 +243,7 @@ class SimpleStrategy(object):
             self.r.teammates = self.teammates
             pick = self.r.find_heal_target()
             print("team本次选择：", pick)
+            return pick
 
 
         else:
