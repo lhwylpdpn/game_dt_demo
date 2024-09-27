@@ -6,7 +6,7 @@ import time
 # from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
 from buildpatrol import BuildPatrol
 import schedule
-from V1.test.demo_show import game
+from test.demo_show import game
 import random
 import copy
 import pandas as pd
@@ -15,7 +15,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 # 显示每一列的全部内容
 pd.set_option('display.max_colwidth', 1000)
-from V1.utils.config import demo_skill
+# from V1.xutils.config import demo_skill
 
 class test_process:
     def __init__(self):
