@@ -1,5 +1,7 @@
 import copy
 from utils.config import bass_class
+import pandas as pd
+import os
 #生成一个固定对参数字典,然后每个英雄都用这个字典产生一个参数字典
 #再网上都是针对这个字典的模版封装
 #最终每个英雄和怪物都有一个字典，作为英雄的属性初始化进去
@@ -12,8 +14,11 @@ from utils.config import bass_class
 #action_strategy: 选择行动策略用于函数内
 #selection_strategy: 选择tree上的判断策略 用于tree上
 #####
-
-
+def get_data_from_csv(filename):
+    df=pd.DataFrame()
+    df=pd.read_csv(filename)
+    return df
+df_weight=get_data_from_csv(os.getcwd()+'/strategy/weight.csv')
 
 class strategy_params:
     def __init__(self):
@@ -21,6 +26,7 @@ class strategy_params:
         self.base_class = bass_class
         self.action_strategy = {}
         self.selection_strategy = {}
+        self.team_strategy = '快速完成关卡'
         ####选择逃跑策略================================================================================================
         self.selection_strategy["escape"] = {}
         self.selection_strategy["escape"]["is_health_below_threshold"]={'weight': 0.4} #0.4代表40%
@@ -94,11 +100,13 @@ class strategy_params:
         ####优先针对自己加血
         self.action_strategy["assist"]["self_heal"] = {'score': [0,1], 'desc': '优先针对自己加血', 'weight': 0.2, 'clac_type': 'exclusive'}
 
+    def set_team_strategy_type(self,type_name):
+        self.team_strategy_type = type_name
     def get_strategy_params(self,base_class_value:int):
 
         real_action_strategy  =copy.deepcopy(self.action_strategy)
         real_selection_strategy = copy.deepcopy(self.selection_strategy)
-        if base_class_value in (1,2,3):
+        if base_class_value ==10000:
             real_selection_strategy["escape"]["is_health_below_threshold"]['weight'] = 0.4
             w_tmp = {}
             k_count_1=len(real_action_strategy.keys())
@@ -108,9 +116,30 @@ class strategy_params:
                 for k1 in real_action_strategy[k].keys():
                     real_action_strategy[k][k1]['weight'] =round(w_tmp[k]/k_count_2,4)
 
+        elif base_class_value in (1,2,3,4,5):
+
+            df=df_weight
+            df['hero']  = df['hero'].astype(int)
+            df = df[df['hero'].isin([1,2,3,4,5])]
+            df=df[df['hero']==base_class_value]
+            df=df[df['type']==self.team_strategy]
+            for k in self.selection_strategy:
+                for k1 in self.selection_strategy[k]:
+                    if k1 in df.columns:
+                        real_selection_strategy[k][k1]['weight'] = df[k1].iloc[0]
+                        continue
+
+            for k in self.action_strategy:
+                for k1 in self.action_strategy[k]:
+                    if k1 in df.columns:
+                        real_action_strategy[k][k1]['weight'] = df[k1].iloc[0]
+                        continue
+
         else:
             real_action_strategy,real_selection_strategy = None,None
         return real_action_strategy,real_selection_strategy
+
+
 
 
     def get_special_case_1(self):
@@ -293,6 +322,9 @@ class simple_strategy_params:
         return _res_list
 
 
+
+
+
 if __name__ == '__main__':
-    obj= simple_strategy_params()
-    print(obj.get_strategy_params(5003))
+    obj= strategy_params()
+    print(obj.get_strategy_params(3))
