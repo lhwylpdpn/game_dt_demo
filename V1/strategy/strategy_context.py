@@ -18,7 +18,7 @@ def get_data_from_csv(filename):
     df=pd.DataFrame()
     df=pd.read_csv(filename)
     return df
-df_weight=get_data_from_csv(os.getcwd()+'/strategy/weight.csv')
+df_weight=get_data_from_csv(os.path.dirname(os.path.abspath(__file__))+'/weight.csv')
 
 class strategy_params:
     def __init__(self):
