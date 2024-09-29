@@ -94,11 +94,12 @@ class strategy_params:
         ####优先使用持续治疗技能
         self.action_strategy["assist"]["sustain_heal"] = {'score': [0,1], 'desc': '优先使用持续治疗技能', 'weight': 0.2, 'clac_type': 'normalized', 'data_type': 2}
         ####优先针对防守型职业使用治疗技能
-        self.action_strategy["assist"]["career_defense"] = {'score': [0,1], 'desc': '优先针对防守型职业使用治疗技能', 'weight': 0.2, 'clac_type': 'exclusive'}
+        self.action_strategy["assist"]["assist_career_defense"] = {'score': [0,1], 'desc': '优先针对防守型职业使用治疗技能', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先针对攻击型职业使用治疗技能
-        self.action_strategy["assist"]["career_attack"] = {'score': [0,1], 'desc': '优先针对攻击型职业使用治疗技能', 'weight': 0.2, 'clac_type': 'exclusive'}
+        self.action_strategy["assist"]["assist_career_attack"] = {'score': [0,1], 'desc': '优先针对攻击型职业使用治疗技能', 'weight': 0.2, 'clac_type': 'exclusive'}
         ####优先针对自己加血
         self.action_strategy["assist"]["self_heal"] = {'score': [0,1], 'desc': '优先针对自己加血', 'weight': 0.2, 'clac_type': 'exclusive'}
+
 
     def set_team_strategy_type(self,type_name):
         self.team_strategy_type = type_name
@@ -123,17 +124,18 @@ class strategy_params:
             df = df[df['hero'].isin([1,2,3,4,5])]
             df=df[df['hero']==base_class_value]
             df=df[df['type']==self.team_strategy]
-            for k in self.selection_strategy:
-                for k1 in self.selection_strategy[k]:
-                    if k1 in df.columns:
-                        real_selection_strategy[k][k1]['weight'] = df[k1].iloc[0]
-                        continue
-
+            # for k in self.selection_strategy:
+            #     for k1 in self.selection_strategy[k]:
+            #         if k1 in df.columns:
+            #             real_selection_strategy[k][k1]['weight'] = df[k1].iloc[0]
+            #             continue
+            #强制逃跑0.4先
             for k in self.action_strategy:
                 for k1 in self.action_strategy[k]:
                     if k1 in df.columns:
                         real_action_strategy[k][k1]['weight'] = df[k1].iloc[0]
                         continue
+
 
         else:
             real_action_strategy,real_selection_strategy = None,None
