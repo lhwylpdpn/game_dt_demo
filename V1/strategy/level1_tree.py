@@ -178,10 +178,10 @@ def make_decision(hero,state,performance=None):
     if performance is not None:
         performance.event_start('evaluate')
     res,end_node=root.evaluate(performance=performance)
-    log_manager.add_log({'stepname': '决策树-首次查找最终选择', 'result_len': len(res),'action':end_node.name})
+    log_manager.add_log({'stepname': '决策树-首次查找最终选择', 'result_len': len(res),'action':end_node.name,'hero':hero['HeroID']})
     if len(res)==0:
         res,end_node=dfs(node=end_node.parent,performance=performance)
-        log_manager.add_log({'stepname': '决策树-多次查找最终选择', 'result_len': len(res),'action':end_node.name})
+        log_manager.add_log({'stepname': '决策树-多次查找最终选择', 'result_len': len(res),'action':end_node.name,'hero':hero['HeroID']})
     if performance is not None:
         performance.event_end('evaluate')
     print('决策树耗时:',time.time()-a)
@@ -191,6 +191,7 @@ def show_plot_tree():
     from buildpatrol import BuildPatrol
     state = BuildPatrol("../data.json").load_data()
     state['hero'][0].set_RoundAction(100000)
+    print(state['hero'][0].HeroID)
     hero=state['hero'][0].dict()
     root=create_decision_tree(hero,state)
     print(make_decision(hero,state))
@@ -209,7 +210,7 @@ def create_decision_tree(hero,state):
     #所有判断节点
 
 
-    root=Node("判断是否满足恢复判定", action=None, selection=[lambda_is_need_to_healing(range_obj,0.9,0.9,0.9)],probability=1)
+    root=Node("判断是否满足恢复判定", action=None, selection=[lambda_is_need_to_healing(range_obj,0.6,0.5,0.8)],probability=1)
     is_need_to_escape = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,1)],probability=1)
     is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(range_obj,1)],probability=1)
     is_have_targets_within_atk_range_node=Node("判断是否有敌人在攻击范围内",action=None,selection=[lambda_have_targets_within_atk_range(range_obj)],probability=1)

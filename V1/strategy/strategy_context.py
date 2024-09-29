@@ -329,4 +329,4 @@ class simple_strategy_params:
 
 if __name__ == '__main__':
     obj= strategy_params()
-    print(obj.get_strategy_params(3))
+    print(obj.get_strategy_params(2))

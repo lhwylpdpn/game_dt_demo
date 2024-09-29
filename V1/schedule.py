@@ -80,6 +80,8 @@ class schedule:
             # hero是一个对象，想获得它的类名
             #print('tick',self.tick,'调度当前拿到的活着hero', hero.__class__.__name__.lower(), hero.HeroID,)
             #log_manager.add_log({'stepname':'拿到的存活的英雄','tick':self.tick,'hero':hero.HeroID,'class':hero.__class__.__name__.lower()})
+            if hero.is_death: #同一个tick里也可能，后轮到的英雄被先轮到的打死
+                continue
             alive_hero_class = hero.__class__.__name__.lower()
             alive_hero_id=hero.HeroID
             #向上取整
