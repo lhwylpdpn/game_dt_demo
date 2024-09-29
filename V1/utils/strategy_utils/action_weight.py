@@ -318,7 +318,7 @@ class ActionWeight(object):
                     _weight += self.move_path(move_path)
 
                 # print(f"_weight: {round(_weight, 2)}")
-                if _weight > weight:  # 筛选出权重最大的
+                if _weight >= weight:  # 筛选出权重最大的
                     pick_data = each
 
         # return pick_data
@@ -333,7 +333,7 @@ class ActionWeight(object):
                 if "assist" in self.strategy_params:
                     _weight += self.assist(each)
 
-                if _weight > weight:  # 筛选出权重最大的
+                if _weight >= weight:  # 筛选出权重最大的
                     pick_data = each
 
         return {"weight": weight, "data": pick_data}
@@ -342,19 +342,4 @@ class ActionWeight(object):
 if __name__ == '__main__':
     from utils.strategy_utils.range import Range
 
-    tmp = "2024-09-14 15:54:43_499"
-    # print(log_manager.get_log(tmp))
-
-    tmp_data = eval(log_manager.get_log(tmp))
-    # print(tmp_data.keys())
-
-    state = tmp_data["state"]
-    role = tmp_data["role"]
-    print('==>', role)
-
-    r = Range(role, state)
-    print(r.find_targets_within_atk_range())
-
-    f = ActionWeight(r.role, r.teammates, r.enemies)
-
-    print("pick: ", f.select_attack_strategy({}))
+    s = strategy_params().get_strategy_params(2)[0]
