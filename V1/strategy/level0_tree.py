@@ -104,10 +104,10 @@ def make_decision(hero,state,performance=None):
     a=time.time()
     if performance is not None:
         performance.event_start('evaluate')
-    res=root.evaluate(performance=performance)
+    res,end_node=root.evaluate(performance=performance)
     if performance is not None:
         performance.event_end('evaluate')
-    print('偏好_决策树耗时:',time.time()-a)
+    log_manager.add_log({'stepname': '决策树-偏好决策', 'result_len': len(res),'action':end_node.name,'hero':hero['HeroID']})
     return res
 
 def show_plot_tree():
@@ -117,7 +117,7 @@ def show_plot_tree():
     root=create_decision_tree(hero,state)
 
     res = root.evaluate()
-    print('action node 结果',res)
+    print('action node 结果',res[0],res[1].name)
 
     plt.figure(figsize=(20, 10))
     plot_tree(root)
