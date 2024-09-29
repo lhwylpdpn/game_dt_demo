@@ -267,15 +267,15 @@ class ActionWeight(object):
 
         # TODO 持续治疗
 
-        if "career_defense" in assist:
+        if "assist_career_defense" in assist:
             for r in step["target"]:
                 if Data.value("ClassType3", r) == 1:
-                    score += assist["career_defense"][WEIGHT] * assist["career_defense"]["score"][1]
+                    score += assist["assist_career_defense"][WEIGHT] * assist["assist_career_defense"]["score"][1]
 
-        if "career_attack" in assist:
+        if "assist_career_attack" in assist:
             for r in step["target"]:
                 if Data.value("ClassType3", r) == 2:
-                    score += assist["career_attack"][WEIGHT] * assist["career_attack"]["score"][1]
+                    score += assist["assist_career_attack"][WEIGHT] * assist["assist_career_attack"]["score"][1]
 
         if "self_heal" in assist:
             score += assist["self_heal"][WEIGHT] * assist["self_heal"]["score"][1]
