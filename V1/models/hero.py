@@ -12,6 +12,7 @@ from utils.damage import damage
 from utils.heal import heal
 # from utils.transposition import trans_postion
 from utils.tools import random_choices
+from utils.tools import round_up_2_integer
 from .map import Map, Land
 from .buff import Buff
 from .teamflag import TeamFlag
@@ -300,7 +301,7 @@ class Hero():
         return self.__Hp
     
     def set_Hp(self, Hp):
-        self.__Hp = Hp
+        self.__Hp = round_up_2_integer(Hp)
         print(self.HeroID ,"Hp ", self.__Hp)
         return self
     
@@ -331,7 +332,7 @@ class Hero():
         return self.__Atk
     
     def set_Atk(self, Atk):
-        self.__Atk = Atk
+        self.__Atk = round_up_2_integer(Atk)
         return self
     
     @property
@@ -343,7 +344,7 @@ class Hero():
         return self.__Def
     
     def set_Def(self, Def):
-        self.__Def = Def
+        self.__Def = round_up_2_integer(Def)
         return self
 
     @property
@@ -355,7 +356,7 @@ class Hero():
         return self.__MagicalAtk
     
     def set_MagicalAtk(self, v):
-        self.__MagicalAtk = v
+        self.__MagicalAtk = round_up_2_integer(v)
         return self
     
     @property
@@ -367,7 +368,7 @@ class Hero():
         return self.__MagicalDef
     
     def set_MagicalDef(self, MagicalDef):
-        self.__MagicalDef = MagicalDef
+        self.__MagicalDef = round_up_2_integer(MagicalDef)
         return self
     
     @property
@@ -379,7 +380,7 @@ class Hero():
         return self.__Agile
     
     def set_Agile(self, Agile):
-        self.__Agile = Agile
+        self.__Agile = round_up_2_integer(Agile)
         return self
     
     @property
@@ -391,7 +392,7 @@ class Hero():
         return self.__Velocity
     
     def set_Velocity(self, Velocity):
-        self.__Velocity = Velocity
+        self.__Velocity = round_up_2_integer(Velocity)
         return self
 
     @property
@@ -991,6 +992,9 @@ class Hero():
         # result = {}
         effect_ids = self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
+        for _ in _res: # 向上取整
+            _["damage"] = round_up_2_integer(_["damage"])
+            _["pre_damage"] = round_up_2_integer(_["pre_damage"])
         # for each_id in  effect_ids:
         #     _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
         enemy.Hp_damage(_res) # 敌人掉血攻击
@@ -1019,6 +1023,9 @@ class Hero():
             effect_ids = each.before_be_attacked(skill) # 被攻击者添加被动skill
             unit_num = self.__get_unit_num(skill=skill, state=state)
             _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
+            for _ in _res: # 向上取整
+                _["damage"] = round_up_2_integer(_["damage"])
+                _["pre_damage"] = round_up_2_integer(_["pre_damage"])
             # 添加被动技能的effect
             for each_id in effect_ids:
                 _res[0]["effects"].append(Hero.effect_format_data(each, each_id))
@@ -1067,6 +1074,9 @@ class Hero():
         #     friends.append(self)
         for each in friends:
             _res = heal(caster=self, target=each, skill=skill)
+            for _ in _res: # 向上取整
+                _["heal"] = round_up_2_integer(_["heal"])
+                _["pre_heal"] = round_up_2_integer(_["pre_heal"])
             print(_res)
             result[each] = copy.deepcopy(_res)
             # TODO

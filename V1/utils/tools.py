@@ -2,6 +2,7 @@ import dictdiffer
 import time
 import pandas as pd
 import random
+import math
 
 
 class performance:
@@ -122,6 +123,12 @@ def random_choices(dict_):
 
     res=random.choices(choice_res,choice_p)[0]
     return res
+
+
+def round_up_2_integer(src_num):
+    # 向上取整 
+    return math.ceil(float(src_num))
+
 
 if __name__ == '__main__':
     dict_= {0: 0.6, 1: 0.4}
