@@ -163,6 +163,7 @@ def damage_calc(attacker, defender, skill):
         damage = 0
 
     print('miss', miss)
+    crit = "Crit" if attacker_critBase else "Default"  # 判断暴击返回
 
     if skill.SkillId == demo_skill['战士反击斩']:
         res = random_choices({0: 0.5, 1: 0.5})  # 0 反击生效  1 反击不生效
@@ -172,9 +173,9 @@ def damage_calc(attacker, defender, skill):
                 "role_id": attacker_id,
                 "effect_id": 84  # HIT_BACK
             }
-            return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage, "st": st, "effects": [eff]}]
+            return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage, "st": st, "effects": [eff], "crit": crit}]
 
-    res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage, "st": st, "effects": []}]
+    res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage, "st": st, "effects": [], "crit": crit}]
     return res
 
 

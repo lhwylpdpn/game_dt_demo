@@ -15,8 +15,9 @@ class Action(object):
             damage = [_["damage"] for _ in damage_data[each]]
             pre_damage = [_["pre_damage"] for _ in damage_data[each]]
             st = [_["st"] for _ in damage_data[each]]
+            crit = [_["crit"] for _ in damage_data[each]]
 
-            d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st]])
+            d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
         return d
 
     def calc_effect(self, effect_data):
