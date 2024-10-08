@@ -17,7 +17,6 @@ from utils.strategy_utils.basic_utils import get_attack_range, find_shortest_pat
 
 class Range(Data):
     def __init__(self, role=None, state=None):
-
         if role:
             self.role = role
             if not isinstance(self.role, dict):
@@ -165,7 +164,8 @@ class Range(Data):
 
     def is_in_combat(self, role, enemies):
         # 角色是否处于战斗状态
-        if self.enemies_in_warning_range_count(role, enemies) or self.is_role_in_enemies_warning_range(role, enemies):
+        # if self.enemies_in_warning_range_count(role, enemies) or self.is_role_in_enemies_warning_range(role, enemies):
+        if self.is_role_in_enemies_warning_range(role, enemies):
             return True
         return False
 
