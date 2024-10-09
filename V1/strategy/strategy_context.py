@@ -15,8 +15,12 @@ import os
 #selection_strategy: 选择tree上的判断策略 用于tree上
 #####
 def get_data_from_csv(filename):
+    #team_strategy='快速完成关卡'  # 请自行更改为所需的team_strategy
+    team_strategy='目标取得高分'
+    #team_strategy='谨慎稳步推进'
     df=pd.DataFrame()
     df=pd.read_csv(filename)
+    df = df[df['type'] == team_strategy]
     return df
 df_weight=get_data_from_csv(os.path.dirname(os.path.abspath(__file__))+'/weight.csv')
 
@@ -26,7 +30,7 @@ class strategy_params:
         self.base_class = bass_class
         self.action_strategy = {}
         self.selection_strategy = {}
-        self.team_strategy = '快速完成关卡'
+        #self.team_strategy = '快速完成关卡'
         ####选择逃跑策略================================================================================================
         self.selection_strategy["escape"] = {}
         self.selection_strategy["escape"]["is_health_below_threshold"]={'weight': 0.4} #0.4代表40%
@@ -101,8 +105,8 @@ class strategy_params:
         self.action_strategy["assist"]["self_heal"] = {'score': [0,1], 'desc': '优先针对自己加血', 'weight': 0.2, 'clac_type': 'exclusive'}
 
 
-    def set_team_strategy_type(self,type_name):
-        self.team_strategy_type = type_name
+    def set_team_strategy(self,type_name):
+        self.team_strategy = type_name
     def get_strategy_params(self,base_class_value:int):
 
         real_action_strategy  =copy.deepcopy(self.action_strategy)
@@ -123,7 +127,7 @@ class strategy_params:
             df['hero']  = df['hero'].astype(int)
             df = df[df['hero'].isin([1,2,3,4,5])]
             df=df[df['hero']==base_class_value]
-            df=df[df['type']==self.team_strategy]
+
             # for k in self.selection_strategy:
             #     for k1 in self.selection_strategy[k]:
             #         if k1 in df.columns:

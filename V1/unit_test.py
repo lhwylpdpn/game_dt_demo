@@ -10,12 +10,11 @@ from V1.test.demo_show import game
 import random
 import copy
 import pandas as pd
-
+import json
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 # 显示每一列的全部内容
 pd.set_option('display.max_colwidth', 1000)
-from V1.utils.config import demo_skill
 
 class test_process:
     def __init__(self):
@@ -35,10 +34,10 @@ class test_process:
 
             #
             # hero_random_RoundAction = random.randint(20,20)
-            # hero_random_JumpHeight = [random.randint(15,15)]
+            hero_random_JumpHeight = [random.randint(15,15)]
             # hero_random_DogBase = random.randint(100,100)
             # hero_random_HP = random.randint(1000,10000)
-            # hero_random_Atk = random.randint(100,1000)
+            hero_random_Atk = random.randint(250,250)
             #
             # p = random.choice(p_all)
             # p_all.remove(p)
@@ -66,10 +65,10 @@ class test_process:
             # self.state['hero'][i].set_RoundAction(hero_random_RoundAction)
             #
             #
-            # self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
+            self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
             # self.state['hero'][i].set_DogBase(hero_random_DogBase)
             # self.state['hero'][i].set_Hp(hero_random_HP)
-            # self.state['hero'][i].set_Atk(hero_random_Atk)
+            self.state['hero'][i].set_Atk(hero_random_Atk)
             # # #随机选地图的一个位置给到英雄
             # # print('p', p)
             # self.state['hero'][i].set_x(p[0])
@@ -79,10 +78,10 @@ class test_process:
         for i in range(len(self.state['monster'])):
 
             monster_random_RoundAction = random.randint(20,30)
-            monster_random_JumpHeight = [random.randint(20,20)]
+            monster_random_JumpHeight = [random.randint(5,5)]
             monster_random_DogBase = random.randint(10,10 )
             monster_random_HP = random.randint(1350, 1350)
-            monster_random_Atk = random.randint(150, 200)
+            monster_random_Atk = random.randint(88, 88)
             monster_random_Def = random.randint(10, 10)
             p = random.choice(p_all)
             p_all.remove(p)
@@ -103,7 +102,7 @@ class test_process:
 
             #self.state['monster'][i].set_AvailableSkills(tmp_skills)
             # self.state['monster'][i].set_RoundAction(monster_random_RoundAction)
-            # self.state['monster'][i].set_JumpHeight(monster_random_JumpHeight)
+            self.state['monster'][i].set_JumpHeight(monster_random_JumpHeight)
             # self.state['monster'][i].set_DogBase(monster_random_DogBase)
             # self.state['monster'][i].set_Hp(monster_random_HP)
             self.state['monster'][i].set_Atk(monster_random_Atk)
@@ -133,7 +132,9 @@ class test_process:
         sch.performance.static()
         return res
 
-    def game_run(self):
+    def game_run(self,json=None):
+        if json!=None:
+            self.return_data=json
         self.game_obj.run(self.return_data)
         self.game_obj.over_state()
 
@@ -198,6 +199,9 @@ def single_skill_test_main(basecalssid,skill_id,pygame_init=True):
         obj_.game_run()
 
 def main():
+    log_file_path = os.getcwd() + '/log/logs.json'
+    with open(log_file_path, 'w') as f:
+        f.write('')
     obj_=test_process()
     obj_.data_init()
     obj_.pygame_init()
@@ -205,12 +209,21 @@ def main():
     #obj_.game_run()
     #time.sleep(100)
 
+
+def replay():
+    obj_=test_process()
+    obj_.data_init()
+    obj_.pygame_init()
+
+    #从文件里读取转成json
+    with open('for_qiangye.json', 'r', encoding='utf-8') as file:
+        json_reload = file.read()
+    obj_.game_run(json=json_reload)
+
 if __name__ == '__main__':
 
     #清空log文件
-    log_file_path = os.getcwd()+'/log/logs.json'
-    with open(log_file_path, 'w') as f:
-        f.write('')
+
 
     # # #
     # # #
@@ -257,3 +270,4 @@ if __name__ == '__main__':
     # for skill_id in skill_list:
     #      single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
     main()
+    #replay()

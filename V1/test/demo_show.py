@@ -137,7 +137,10 @@ class game:
         self.add_color_effect(position)
         print('攻击效果',position,selfposition)
 
-
+    def heal(self, position,selfposition):
+        # 假设 position 是治��的地块的坐标
+        self.add_color_effect(position)
+        print('治疗效果',position,selfposition)
     def run(self,json_data):
 
 
@@ -196,8 +199,12 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 h.draw_action(self.screen, action['action_type'])
+                                print(action)
+                                if 'atk_position' in action:
+                                    self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),h.position)
+                                if 'heal_position' in action:
+                                    self.heal(self.position_change_to_pygame(action['heal_position'][0],action['heal_position'][2]),h.position)
 
-                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),h.position)
                                 print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 print('完整的state变化',i['state'])
                                 w=0

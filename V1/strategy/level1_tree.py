@@ -218,7 +218,7 @@ def create_decision_tree(hero,state):
     is_have_boss_node=Node("判断是否有boss",action=None,selection=[lambda_is_have_boss(range_obj)],probability=1)
 
     #所有叶子节点
-    action_find_heal_target_node=Node("寻找治疗目标",action=action_find_heal_target(range_obj),probability=1)
+    action_find_heal_target_node=Node("寻找治疗目标并治疗",action=action_find_heal_target(range_obj),probability=1)
     action_escape_node = Node("逃跑", action=action_eascape(range_obj))
     move_to_enemies_node=Node("移动到敌人附近",action=move_to_enemie(range_obj),probability=1)
     move_to_allies_node=Node("移动到友军附近",action=move_to_allies(range_obj),probability=1)
