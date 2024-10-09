@@ -17,7 +17,7 @@ class Action(object):
             st = [_["st"] for _ in damage_data[each]]
             crit = [_["crit"] for _ in damage_data[each]]
 
-            d.extend([[[each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
+            d.extend([["ATK", [each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
         return d
 
     def calc_effect(self, effect_data):
@@ -36,7 +36,7 @@ class Action(object):
             pre_damage = [_["pre_heal"] for _ in heal_data[each]]
             # st = [_["st"] for _ in heal_data[each]]
 
-            d.extend([[[each.__class__.__name__.lower(), each.HeroID], heal, pre_damage]])
+            d.extend([["HEAL", [each.__class__.__name__.lower(), each.HeroID], heal, pre_damage]])
         return d
 
     def move_step_handler(self, move_queue):
