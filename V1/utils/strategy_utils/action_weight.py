@@ -319,6 +319,7 @@ class ActionWeight(object):
 
                 # print(f"_weight: {round(_weight, 2)}")
                 if _weight >= weight:  # 筛选出权重最大的
+                    weight = _weight
                     pick_data = each
 
         # return pick_data
