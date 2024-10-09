@@ -269,5 +269,5 @@ if __name__ == '__main__':
     # #
     # for skill_id in skill_list:
     #      single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
-    main()
-    #replay()
+    #main()
+    replay()

@@ -205,7 +205,7 @@ class game:
                                 if 'heal_position' in action:
                                     self.heal(self.position_change_to_pygame(action['heal_position'][0],action['heal_position'][2]),h.position)
 
-                                print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
+                                #print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
                                 print('完整的state变化',i['state'])
                                 w=0
                                 for _ in i['state']:
@@ -239,7 +239,7 @@ class game:
                                                         m.move((m.position[0], m.position[1] + self.HEIGHT // self.BOARD_HEIGHT))
                                                         p_change+=1
                                     if change[1][2]=='Hp':
-                                        print('英雄'+str(action['atk_position'])+'血量变化:',change)
+                                        #print('英雄'+str(action['atk_position'])+'血量变化:',change)
                                         for m in self.monster_piece:
                                             if m.piece_id==change[1][1]:
                                                 m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
@@ -266,9 +266,10 @@ class game:
                             #如果是SKILL_开头的动作
                             if action['action_type'].startswith('SKILL_'):
                                 m.draw_action(self.screen, action['action_type'])
-
-                                self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),m.position)
-                                print(str(action['id'])+"使用技能"+str(action['action_type'])+"攻击了"+str(action['atk_position'])+"位置")
+                                if 'atk_position' in action:
+                                    self.attack(self.position_change_to_pygame(action['atk_position'][0],action['atk_position'][2]),m.position)
+                                if 'heal_position' in action:
+                                    self.heal(self.position_change_to_pygame(action['heal_position'][0],action['heal_position'][2]),m.position)
                                 for change in i['state'][action_num]:
                                     if change[1][2] == 'position' and change[1][0] == 'hero':
                                         print('英雄位置变化', change)
