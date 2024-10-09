@@ -6,7 +6,7 @@ from collections import deque
 from copy import deepcopy
 from itertools import product
 
-from log.log import log_manager
+from log.log import log_manager, LogManager
 from strategy.handler.weight import Weight
 from utils.strategy_utils.action_weight import ActionWeight
 
@@ -57,7 +57,7 @@ class Range(Data):
         # state = {"map": self.map,
         #              "hero": self.teammates + [self.role],
         #              "monster": self.enemies}
-        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
+        # tmp = LogManager("log_2.json").add_log(log_data=str({"role": self.role, "state": state}) )
         # print(f"start-log-tmp: {tmp}")
 
     def generate_pairs(self, lst):
@@ -301,7 +301,7 @@ class Range(Data):
             enemy_atk_range = self.enemies_in_warning_range(enemy)
             if role_position in enemy_atk_range:
                 _count += 1
-        return num >= _count
+        return num <= _count
 
     def enemies_in_warning_range_count(self, role, enemies):
         # 警戒范围内的敌人数量
@@ -314,11 +314,13 @@ class Range(Data):
     def find_enemies_in_range(self, move_pos, skill, paths):
         # 获取技能释放范围内的所有点
         release_range = skill_release_range(move_pos, skill, self.map, self.role)
+        # release_range = [(16, 1, 3)]
         results = []
         for point in release_range:
             attack_range = skill_effect_range(self.role, point, skill, self.map)
             enemies_in_range = [enemy for enemy in self.enemies if Data.value("position", enemy) in attack_range]
             # if tuple(point) in [Data.value("position", e) for e in enemies_in_range]:
+
             if len(enemies_in_range) > 0:  # 技能范围内>0的敌人才返回
                 results.append(
                     {
