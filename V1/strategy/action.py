@@ -86,10 +86,10 @@ class Action(object):
                 target = [e for e in state["monster"] + state["hero"] if e.HeroID in target_ids]
                 heal_res = hero.friend_treatment(target, skill, step["skill_pos"], state)
 
-                res["heal_range"] = step["skill_range"]
-                res["heal_position"] = step["skill_pos"]
+                res["atk_range"] = step["skill_range"]
+                res["atk_position"] = step["skill_pos"]
                 res["release_range"] = step["release_range"]
-                res["heal"] = self.calc_heal(heal_res)
+                res["damage"] = self.calc_heal(heal_res)
 
         if step["action_type"] == "WAIT":  # TODO
             hero.dont_move()
