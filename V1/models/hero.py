@@ -699,6 +699,22 @@ class Hero():
                 return "LEFT"
         return "OTHER"
 
+
+    def move_direction(self, direction, move_value): # 向某个方向移动几步的，返回新位置 
+        move_x, move_y, move_z = self.position
+        if direction == "UP":
+            move_z = move_z + move_value 
+        elif direction == "DOWN":
+            move_z = move_z - move_value
+        elif direction == "RIGHT":
+            move_x = move_x + move_value
+        elif direction == "LEFT":
+            move_x = move_x - move_value
+        else:
+            pass
+        return move_x, move_y, move_z
+
+
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
         move_value = int(value[0])
@@ -711,17 +727,7 @@ class Hero():
             print("不在十字位置，不移动")
             return self
         while move_value:
-            move_x, move_y, move_z = self.position
-            if direction == "UP":
-                move_z = move_z + move_value # 我的z减小
-            elif direction == "DOWN":
-                move_z = move_z - move_value
-            elif direction == "RIGHT":
-                move_x = move_x + move_value
-            elif direction == "LEFT":
-                move_x = move_x - move_value
-            else:
-                pass
+            move_x, move_y, move_z = self.move_direction(direction, move_value)
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
@@ -738,29 +744,18 @@ class Hero():
             print(f"{self.HeroID} 实际从{self.position} 走向 {target.position} 方向 0 步")
         return self
     
-    def move_back(self, enemy, move_value, state): # 敌人的攻击使我后退x格
+    def move_back(self, enemy, move_value, state, direction): # 敌人的攻击使我后退x格, direction 后退的方向
         map_obj = state.get('maps')
         move_value = int(move_value[0])
-        print(f"{self.HeroID} 计划从{self.position}后退 {move_value} 步, 此时敌人位置{enemy.position}")
+        print(f"{self.HeroID} 计划从{self.position}后退 {move_value} 步 ，后退方向{direction}, 此时敌人位置{enemy.position}")
         position_ok = None
         move_x, move_y, move_z = None, None, None
         total_step = move_value
-        direction = self.judge_direction(enemy)
         if direction == "OTHER":
-            print("不在十字位置，不移动")
+            print("攻击点位置在斜，不在十字位置，不移动")
             return self
         while move_value:
-            move_x, move_y, move_z = self.position
-            if direction == "UP":
-                move_z = move_z - move_value 
-            elif direction == "DOWN":
-                move_z = move_z + move_value
-            elif direction == "RIGHT": # 敌人在右侧, 我向左侧走
-                move_x = move_x - move_value
-            elif direction == "LEFT":  # 敌人在左侧, 我向右侧走
-                move_x = move_x + move_value
-            else:
-                pass
+            move_x, move_y, move_z = self.move_direction(direction, move_value)
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
@@ -784,29 +779,23 @@ class Hero():
     
     def after_atk_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用攻击技能后
         self.__use_skill(skill)
-        enemy = None
-        for each_e in enemys: # 只有技能落点的敌人移动
-            if tuple(each_e.position) == tuple(attack_point):
-                enemy = each_e
-                continue
-        if enemy is None:
-            return self
-        map_obj = state.get("maps")
-        # 判断自己是否向敌人移动 #TODO
-        if "MOVE_SELF2TARGET" in skill.avaliable_effects():
-            print("use: MOVE_SELF2TARGET 自己向敌人移动")
-            move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
-            self.skill_move_to_position(target=enemy, value=move_value, state=state)
-        # 判断敌人是否向自己移动 
-        if "MOVE_TARGET2SELF" in skill.avaliable_effects():
-            print("use: MOVE_TARGET2SELF 敌人向自己移动")
-            move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
-            enemy.skill_move_to_position(target=self, value=move_value, state=state)
-        # 击退几格
-        if "REPEL_TARGET" in skill.avaliable_effects():
-            print("use: REPEL_TARGET 被击退几格")
-            move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
-            enemy.move_back(self, move_value, state)
+        for each_e in enemys: # 找到技能落点的敌人
+            # 判断自己是否向敌人移动 #TODO
+            if "MOVE_SELF2TARGET" in skill.avaliable_effects():
+                print("use: MOVE_SELF2TARGET 自己向敌人移动")
+                move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
+                self.skill_move_to_position(target=enemy, value=move_value, state=state)
+            # 判断敌人是否向自己移动 
+            if "MOVE_TARGET2SELF" in skill.avaliable_effects():
+                print("use: MOVE_TARGET2SELF 敌人向自己移动")
+                move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
+                each_e.skill_move_to_position(target=self, value=move_value, state=state)
+            # 击退几格
+            if "REPEL_TARGET" in skill.avaliable_effects():
+                print("use: REPEL_TARGET 被击退几格")
+                direction = self.judge_direction(self, Hero(position=attack_point)) # 攻击点即敌人在的方向
+                move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
+                each_e.move_back(self, move_value, state, direction)
         return self
          
     def after_medical_skill(self, friends=[], skill=None, state=None): # 使用治疗技能之后
