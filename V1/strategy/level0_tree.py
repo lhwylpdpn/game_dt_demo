@@ -27,11 +27,11 @@ class Node:
             return self.evaluate_result,self
         if self.action:
             if performance is not None:
-                performance.event_start(self.name)
+                performance.event_start("schedule_choose_action｜action-"+self.name)
             res=self.action()
             log_manager.add_log({'stepname': '偏好_evaluate执行动作', 'action': self.name, 'result_len': len(res)})
             if performance is not None:
-                performance.event_end(self.name)
+                performance.event_end("schedule_choose_action｜action-"+self.name)
             self.evaluate_result=res
             return res,self
         #非行动节点判断概率，如果需要随机，就随机选择一个子节点
@@ -46,11 +46,11 @@ class Node:
 
                 for s in self.selection:
                     if performance is not None:
-                        performance.event_start("selection_"+str(s))
+                        performance.event_start("schedule_choose_action｜selection-"+str(self.name))
                     res.append(s())
                     log_manager.add_log({'stepname': '偏好_evaluate执行判断', 'selection': str(self.name)+'_'+str(s), 'result_len': str(res[-1])})
                     if performance is not None:
-                        performance.event_end("selection_"+str(s))
+                        performance.event_end("schedule_choose_action｜selection-"+str(self.name))
 
                 if all(res):
                     #log_manager.add_log({'stepname': '决策树-通用决策的选择,选择了T子节点', 'action': self.true_child.name})
@@ -100,13 +100,13 @@ def wait():
 
 
 def make_decision(hero,state,performance=None):
+    if performance is not None:
+        performance.event_start('schedule_choose_action | create_decision_tree')
     root= create_decision_tree(hero,state)
+    if performance is not None:
+        performance.event_end('schedule_choose_action | create_decision_tree')
     a=time.time()
-    if performance is not None:
-        performance.event_start('evaluate')
     res,end_node=root.evaluate(performance=performance)
-    if performance is not None:
-        performance.event_end('evaluate')
     log_manager.add_log({'stepname': '决策树-偏好决策', 'result_len': len(res),'action':end_node.name,'hero':hero['HeroID']})
     return res
 

@@ -3,7 +3,7 @@ import time
 import pandas as pd
 import random
 import math
-
+import os
 
 class performance:
     def __init__(self):
@@ -32,7 +32,11 @@ class performance:
         df['avg_time']=round(df['time']/df['count'],2)
         df['time']=round(df['time'],2)
         df=df.sort_values(by=['time'],ascending=False)
-        print(df)
+        pd.set_option('display.max_colwidth', None)
+        pd.set_option('display.width', 1000)
+        print(df.to_string(index=False))
+        df.to_csv(os.path.dirname(os.path.abspath(__file__))+'/../log/time_static.txt', sep='\t', index=False)
+
 
 def Deepdiff_modify(before,after):
     #
