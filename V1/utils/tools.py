@@ -11,6 +11,7 @@ class performance:
         self.result = {}
         self.tag_time={}
         self.event_count={}
+        self.tick=0
     def event_start(self, event_name):
         self.tag_time[event_name]=time.time()
     def event_end(self, event_name):
@@ -31,11 +32,16 @@ class performance:
         df['count']=df['event'].apply(lambda x:self.event_count[x])
         df['avg_time']=round(df['time']/df['count'],2)
         df['time']=round(df['time'],2)
+
+
         df=df.sort_values(by=['time'],ascending=False)
+
+        new_row = pd.Series(['tick',self.tick,'',''] , index=df.columns)
+        df = df.append(new_row, ignore_index=True)
         pd.set_option('display.max_colwidth', None)
         pd.set_option('display.width', 1000)
         print(df.to_string(index=False))
-        df.to_csv(os.path.dirname(os.path.abspath(__file__))+'/../log/time_static.txt', sep='\t', index=False)
+        df.to_csv(os.path.dirname(os.path.abspath(__file__))+'/../log/time_static.csv', index=False)
 
 
 def Deepdiff_modify(before,after):
