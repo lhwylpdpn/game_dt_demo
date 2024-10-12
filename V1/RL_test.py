@@ -30,10 +30,6 @@ class test_process:
         for p in self.state['map'].view_from_y_dict().keys():
             if self.state['map'].view_from_y_dict()[p]['Block'] != 1:
                 p_all.remove(p)
-
-
-
-        #限制英雄和敌人的数量
         print(self.state['hero'],self.state['monster'])
         self.state['hero'] =[_ for _ in self.state['hero'] if _.HeroID==5002]
         self.state['monster'] = [_ for _ in self.state['monster'] if _.Quality==2]
@@ -41,7 +37,6 @@ class test_process:
 
         for i in range(len(self.state['hero'])):
 
-            #
             hero_random_RoundAction = random.randint(5,5)
             hero_random_JumpHeight = [random.randint(15,15)]
             hero_random_DogBase = random.randint(5,5)
