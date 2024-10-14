@@ -23,17 +23,29 @@ from log.log import log_manager
 # step5 检查游戏是否结束
 # step6 如果游戏结束，产生内容序列
 
+import redis
+import configparser
+cf = configparser.ConfigParser()
+cf.read('config/conf.ini', encoding='utf-8')
+
+redis_host=cf.get('redis', 'host')
+redis_port=cf.get('redis', 'port')
+redis_db_index=cf.get('redis', 'index')
+redis_client = redis.Redis(host=redis_host, port=redis_port, db=redis_db_index,decode_responses=True)
+
 class schedule:
 
-    def __init__(self, state):
+    def __init__(self, state,battle_id=0):
 
+        self.battle_id = battle_id
+        self.redis_expiration_time = 7 * 24 * 60 * 60
         self.hero_list = state['hero']
         self.state = state['map']
         self.monster_list = state['monster']
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 20
+        self.timeout_tick = 100
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}#测试用
@@ -216,15 +228,11 @@ class schedule:
         self.record_update_dict[self.tick]['action'].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick']=self.tick
+        self.save_result_to_redis(self.record_update_dict[self.tick],self.tick)
 
-
-    def send_update(self,out_file_name):
+    def send_update(self,out_file_name='for_qiangye.json'):
 
         self.performance.event_start('send_update')
-
-        #增加测试对比 record_update_dict 和 record_update_dict_update的内容是否完全一样
-
-
         result=[i for i in self.record_update_dict.values()]
         result={'init_state':self.init_state,'update':result}
         result=json.dumps(result)
@@ -233,12 +241,19 @@ class schedule:
         self.performance.event_end('send_update')
         return result
 
+    def save_result_to_redis(self,record_update_dict,tick):
 
-def main(state):
-    sch = schedule(state)
+            redis_key="battle_id:"+str(self.battle_id)+":tick:"+str(tick)
+            redis_key_2="battle_id:"+str(self.battle_id)
+            redis_client.set(redis_key,json.dumps(record_update_dict),ex=self.redis_expiration_time)
+            redis_client.rpush(redis_key_2,json.dumps(record_update_dict))
+
+
+def main(state,battle_id,out_file_name):
+    sch = schedule(state,battle_id)
     sch.start()
     sch.run()
-    update = sch.send_update()
+    update = sch.send_update(out_file_name)
     sch.performance.static()
     return update
 
@@ -254,23 +269,12 @@ if __name__ == '__main__':
     a=time.time()
     src_path = sys.argv[1] if len(sys.argv) > 2 else "data.json"        # 源文件地址
     result_file = sys.argv[2] if len(sys.argv) >= 3 else "result.json"   # result地址
-
+    battle_id= sys.argv[3] if len(sys.argv) >= 4 else 0   # battle_id
     state = BuildPatrol(src_path).load_data()                          # 初始化对象
-
-    # map = BuildPatrol.build_map(origin_map_data)  # map
-    # heros = BuildPatrol.build_heros(origin_hero_data)  # heros
-    # monster = BuildPatrol.build_monster(origin_monster_data)
-    # # heros[0].set_x(1)
-    # # heros[0].set_y(1)
-    # # heros[0].set_z(1)
-    # # heros[0].set_Atk(1000)
-    # # heros[0].set_RoundAction(1)
-
-
     # state={"map": map, "hero": heros, "monster": monster}
-    result = main(state)
-    save_result_to_view(result, result_file)
-    print('总时间',time.time()-a)
+    main(state,battle_id,result_file)
+    #save_result_to_view(result, result_file)
+    #print('总时间',time.time()-a)
 
 
 
