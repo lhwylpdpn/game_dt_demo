@@ -1,7 +1,7 @@
 {
   "hero": [
     {
-      "position": [4, 1, 2],
+      "position": [3, 1, 2],
       "skills": [
         {
           "SkillId": 96,
@@ -15,10 +15,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -28,10 +25,7 @@
             {
               "id": 92,
               "key": "ATK_FORMULA_2",
-              "param": [
-                "100",
-                "90"
-              ],
+              "param": ["100", "90"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -41,9 +35,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -74,10 +66,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "4"
-              ],
+              "param": ["0", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -87,10 +76,7 @@
             {
               "id": 74,
               "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
+              "param": ["0", "2"],
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
@@ -100,9 +86,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -112,9 +96,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
+              "param": ["10"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -124,9 +106,7 @@
             {
               "id": 94,
               "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "240"
-              ],
+              "param": ["240"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -136,9 +116,7 @@
             {
               "id": 104,
               "key": "REMOVE_DEBUFF",
-              "param": [
-                "-1"
-              ],
+              "param": ["-1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -159,10 +137,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
+              "param": ["0", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -172,9 +147,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -184,9 +157,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
+              "param": ["10"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -196,10 +167,7 @@
             {
               "id": 87,
               "key": "BUFF_HP",
-              "param": [
-                "8.33",
-                "3"
-              ],
+              "param": ["8.33", "3"],
               "tag": "",
               "Priority": 7,
               "TriggerTime": 2,
@@ -220,10 +188,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "2"
-              ],
+              "param": ["0", "2"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -233,10 +198,7 @@
             {
               "id": 93,
               "key": "HIT_SQUARE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
@@ -246,9 +208,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -258,9 +218,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
+              "param": ["10"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -270,9 +228,7 @@
             {
               "id": 94,
               "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "150"
-              ],
+              "param": ["150"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -293,10 +249,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
+              "param": ["0", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -306,10 +259,7 @@
             {
               "id": 74,
               "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
@@ -319,9 +269,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -331,9 +279,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -343,9 +289,7 @@
             {
               "id": 105,
               "key": "ATK_FORMULA_3",
-              "param": [
-                "120"
-              ],
+              "param": ["120"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -376,10 +320,7 @@
             {
               "id": 65,
               "key": "ADD_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
+              "param": ["100", "30"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -389,10 +330,7 @@
             {
               "id": 66,
               "key": "ADD_MAGICAL_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
+              "param": ["100", "30"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -423,9 +361,7 @@
             {
               "id": 107,
               "key": "ADD_TEAM_ROLE_EXP",
-              "param": [
-                "50"
-              ],
+              "param": ["50"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 4,
@@ -446,9 +382,7 @@
             {
               "id": 97,
               "key": "ADD_UNIT_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -469,10 +403,7 @@
             {
               "id": 64,
               "key": "ADD_HP",
-              "param": [
-                "100",
-                "5"
-              ],
+              "param": ["100", "5"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -506,7 +437,7 @@
       "BaseClassID": 3
     },
     {
-      "position": [4, 1, 3],
+      "position": [4, 1, 2],
       "skills": [
         {
           "SkillId": 77,
@@ -520,10 +451,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -533,10 +461,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
+              "param": ["100", "130"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -546,9 +471,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -579,10 +502,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -592,10 +512,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "85"
-              ],
+              "param": ["100", "85"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -605,10 +522,7 @@
             {
               "id": 61,
               "key": "HIT_LINE",
-              "param": [
-                "-1",
-                "1"
-              ],
+              "param": ["-1", "1"],
               "tag": "",
               "Priority": 5,
               "TriggerTime": 1,
@@ -618,9 +532,7 @@
             {
               "id": 62,
               "key": "REPEL_TARGET",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -630,9 +542,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -642,9 +552,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -665,10 +573,7 @@
             {
               "id": 64,
               "key": "ADD_HP",
-              "param": [
-                "100",
-                "30"
-              ],
+              "param": ["100", "30"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -678,10 +583,7 @@
             {
               "id": 85,
               "key": "BUFF_DEF",
-              "param": [
-                "125",
-                "1"
-              ],
+              "param": ["125", "1"],
               "tag": "",
               "Priority": 7,
               "TriggerTime": 2,
@@ -691,10 +593,7 @@
             {
               "id": 88,
               "key": "BUFF_MAGICAL_DEF",
-              "param": [
-                "125",
-                "1"
-              ],
+              "param": ["125", "1"],
               "tag": "",
               "Priority": 7,
               "TriggerTime": 2,
@@ -704,9 +603,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -727,10 +624,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
+              "param": ["0", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -740,10 +634,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "25",
-                "90"
-              ],
+              "param": ["25", "90"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -753,9 +644,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
+              "param": ["10"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -765,9 +654,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -798,10 +685,7 @@
             {
               "id": 65,
               "key": "ADD_DEF",
-              "param": [
-                "25",
-                "25"
-              ],
+              "param": ["25", "25"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -832,10 +716,7 @@
             {
               "id": 84,
               "key": "ATK_BACK",
-              "param": [
-                "50",
-                "100"
-              ],
+              "param": ["50", "100"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -845,9 +726,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -857,10 +736,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -881,9 +757,7 @@
             {
               "id": 98,
               "key": "ADD_EQUIPMENT",
-              "param": [
-                "0"
-              ],
+              "param": ["0"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -904,9 +778,7 @@
             {
               "id": 99,
               "key": "ADD_ROLE_EXP",
-              "param": [
-                "30"
-              ],
+              "param": ["30"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -937,10 +809,7 @@
             {
               "id": 64,
               "key": "ADD_HP",
-              "param": [
-                "100",
-                "5"
-              ],
+              "param": ["100", "5"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -961,9 +830,7 @@
             {
               "id": 100,
               "key": "ADD_ROUND_ACTION",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -997,7 +864,7 @@
       "BaseClassID": 1
     },
     {
-      "position": [4, 1, 4],
+      "position": [5, 1, 2],
       "skills": [
         {
           "SkillId": 87,
@@ -1011,10 +878,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1024,10 +888,7 @@
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1037,9 +898,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -1049,10 +908,7 @@
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1083,10 +939,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
+              "param": ["2", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1096,10 +949,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "150"
-              ],
+              "param": ["100", "150"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1109,10 +959,7 @@
             {
               "id": 74,
               "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
@@ -1122,10 +969,7 @@
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1135,9 +979,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -1168,10 +1010,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "5"
-              ],
+              "param": ["2", "5"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1181,10 +1020,7 @@
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1194,9 +1030,7 @@
             {
               "id": 76,
               "key": "MOVE_TARGET2SELF",
-              "param": [
-                "4"
-              ],
+              "param": ["4"],
               "tag": "",
               "Priority": 3,
               "TriggerTime": 1,
@@ -1206,10 +1040,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "50"
-              ],
+              "param": ["100", "50"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1219,9 +1050,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -1242,10 +1071,7 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
+              "param": ["2", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1255,10 +1081,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
+              "param": ["100", "130"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -1268,10 +1091,7 @@
             {
               "id": 74,
               "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
+              "param": ["0", "2"],
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
@@ -1281,9 +1101,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -1293,10 +1111,7 @@
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1327,11 +1142,7 @@
             {
               "id": 77,
               "key": "DEBUFF_ROUND_ACTION_BACK",
-              "param": [
-                "25",
-                "1",
-                "3"
-              ],
+              "param": ["25", "1", "3"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 2,
@@ -1362,9 +1173,7 @@
             {
               "id": 78,
               "key": "MISS_DAMAGE",
-              "param": [
-                "50"
-              ],
+              "param": ["50"],
               "tag": "",
               "Priority": 7,
               "TriggerTime": 1,
@@ -1385,9 +1194,7 @@
             {
               "id": 98,
               "key": "ADD_EQUIPMENT",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1418,9 +1225,7 @@
             {
               "id": 107,
               "key": "ADD_TEAM_BASE_EXP",
-              "param": [
-                "50"
-              ],
+              "param": ["50"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 4,
@@ -1451,9 +1256,7 @@
             {
               "id": 102,
               "key": "ADD_JUMP_HEIGHT",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1463,9 +1266,7 @@
             {
               "id": 103,
               "key": "ADD_VELOCITY",
-              "param": [
-                "10"
-              ],
+              "param": ["10"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -1501,476 +1302,6 @@
   ],
   "monster": [
     {
-      "position": [7, 1, 6],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [1],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1
-            }
-          ]
-        }
-      ],
-      "HeroID": 716666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [137],
-      "RoundAction": 3,
-      "JumpHeight": [1],
-      "Hp": 350,
-      "Atk": 1,
-      "MagicalAtk": 1,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2
-    },
-    {
-      "position": [8, 1, 6],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [1],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1
-            }
-          ]
-        }
-      ],
-      "HeroID": 816666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [137],
-      "RoundAction": 3,
-      "JumpHeight": [1],
-      "Hp": 350,
-      "Atk": 1,
-      "MagicalAtk": 1,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2
-    },
-    {
-      "position": [8, 1, 7],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [1],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1
-            }
-          ]
-        }
-      ],
-      "HeroID": 817666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [137],
-      "RoundAction": 3,
-      "JumpHeight": [1],
-      "Hp": 350,
-      "Atk": 1,
-      "MagicalAtk": 1,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2
-    },
-    {
-      "position": [7, 1, 15],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [1],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1
-            }
-          ]
-        }
-      ],
-      "HeroID": 7115666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [137],
-      "RoundAction": 3,
-      "JumpHeight": [1],
-      "Hp": 350,
-      "Atk": 1,
-      "MagicalAtk": 1,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2
-    },
-    {
-      "position": [6, 1, 15],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [1],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1
-            }
-          ]
-        }
-      ],
-      "HeroID": 6115666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [137],
-      "RoundAction": 3,
-      "JumpHeight": [1],
-      "Hp": 350,
-      "Atk": 1,
-      "MagicalAtk": 1,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2
-    },
-    {
       "position": [13, 7, 13],
       "skills": [
         {
@@ -1985,49 +1316,42 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -2036,7 +1360,8 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         }
@@ -2079,49 +1404,42 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -2130,7 +1448,8 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         }
@@ -2159,7 +1478,7 @@
       "BaseClassID": 2
     },
     {
-      "position": [18, 7, 13],
+      "position": [8, 1, 15],
       "skills": [
         {
           "SkillId": 137,
@@ -2173,49 +1492,42 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -2224,12 +1536,13 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         }
       ],
-      "HeroID": 18713666,
+      "HeroID": 8115666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 2,
@@ -2253,7 +1566,7 @@
       "BaseClassID": 2
     },
     {
-      "position": [18, 1, 4],
+      "position": [12, 1, 6],
       "skills": [
         {
           "SkillId": 137,
@@ -2267,49 +1580,42 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 73,
               "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
+              "param": ["2", "1"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -2318,12 +1624,13 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         }
       ],
-      "HeroID": 1814666,
+      "HeroID": 1216666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 2,
@@ -2347,101 +1654,7 @@
       "BaseClassID": 2
     },
     {
-      "position": [18, 1, 3],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [1],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1
-            }
-          ]
-        }
-      ],
-      "HeroID": 1813666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [137],
-      "RoundAction": 3,
-      "JumpHeight": [1],
-      "Hp": 350,
-      "Atk": 1,
-      "MagicalAtk": 1,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2
-    },
-    {
-      "position": [18, 7, 14],
+      "position": [16, 7, 14],
       "skills": [
         {
           "SkillId": 77,
@@ -2455,37 +1668,32 @@
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 2
+              "Target": 2,
+              "BuffType": 0
             },
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
+              "param": ["100", "130"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             },
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
-              "Target": 3
+              "Target": 3,
+              "BuffType": 0
             },
             {
               "id": 89,
@@ -2494,12 +1702,13 @@
               "tag": "",
               "Priority": 8,
               "TriggerTime": 1,
-              "Target": 1
+              "Target": 1,
+              "BuffType": 0
             }
           ]
         }
       ],
-      "HeroID": 18714666,
+      "HeroID": 16714666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 1,
@@ -2520,6 +1729,592 @@
       "Velocity": 140,
       "Luck": 75,
       "Quality": 2,
+      "BaseClassID": 1
+    },
+    {
+      "position": [14, 1, 6],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 73,
+              "key": "ADD_ATK_DISTANCE",
+              "param": ["2", "1"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 1416666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137],
+      "RoundAction": 3,
+      "JumpHeight": [1],
+      "Hp": 350,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2
+    },
+    {
+      "position": [6, 1, 15],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 73,
+              "key": "ADD_ATK_DISTANCE",
+              "param": ["2", "1"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 6115666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137],
+      "RoundAction": 3,
+      "JumpHeight": [1],
+      "Hp": 350,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2
+    },
+    {
+      "position": [5, 1, 6],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 73,
+              "key": "ADD_ATK_DISTANCE",
+              "param": ["2", "1"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 516666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137],
+      "RoundAction": 3,
+      "JumpHeight": [1],
+      "Hp": 350,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2
+    },
+    {
+      "position": [7, 1, 6],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 73,
+              "key": "ADD_ATK_DISTANCE",
+              "param": ["2", "1"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 716666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137],
+      "RoundAction": 3,
+      "JumpHeight": [1],
+      "Hp": 350,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2
+    },
+    {
+      "position": [6, 1, 6],
+      "skills": [
+        {
+          "SkillId": 77,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "130"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 616666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "AvailableSkills": [77],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 600,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 94,
+      "Def": 50,
+      "MagicalDef": 50,
+      "Velocity": 140,
+      "Luck": 75,
+      "Quality": 1,
+      "BaseClassID": 1
+    },
+    {
+      "position": [13, 1, 6],
+      "skills": [
+        {
+          "SkillId": 77,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "130"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 1316666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "AvailableSkills": [77],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 600,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 94,
+      "Def": 50,
+      "MagicalDef": 50,
+      "Velocity": 140,
+      "Luck": 75,
+      "Quality": 1,
+      "BaseClassID": 1
+    },
+    {
+      "position": [7, 1, 15],
+      "skills": [
+        {
+          "SkillId": 77,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "130"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 7115666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "AvailableSkills": [77],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 600,
+      "Atk": 1,
+      "MagicalAtk": 1,
+      "Agile": 94,
+      "Def": 50,
+      "MagicalDef": 50,
+      "Velocity": 140,
+      "Luck": 75,
+      "Quality": 1,
       "BaseClassID": 1
     }
   ],
@@ -2556,36 +2351,6 @@
     },
     {
       "position": [4, 1, 10],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [5, 1, 10],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [6, 1, 10],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [6, 1, 11],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
@@ -2646,36 +2411,6 @@
     },
     {
       "position": [4, 1, 9],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [5, 1, 9],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [6, 1, 9],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [6, 1, 8],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
@@ -2885,46 +2620,6 @@
       "effects": []
     },
     {
-      "position": [5, 1, 8],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [5, 1, 7],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [6, 1, 7],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [7, 1, 7],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
       "position": [7, 1, 6],
       "sn": 1,
       "Ap": 0,
@@ -3025,27 +2720,7 @@
       "effects": []
     },
     {
-      "position": [7, 1, 11],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [7, 1, 10],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [7, 1, 9],
+      "position": [7, 2, 9],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
@@ -3455,17 +3130,7 @@
       "effects": []
     },
     {
-      "position": [18, 1, 5],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
-      "position": [19, 1, 5],
+      "position": [18, 1, 4],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
@@ -3555,7 +3220,7 @@
       "effects": []
     },
     {
-      "position": [18, 1, 4],
+      "position": [18, 1, 5],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
@@ -4125,16 +3790,6 @@
       "effects": []
     },
     {
-      "position": [7, 5, 8],
-      "sn": 1,
-      "Ap": 0,
-      "Block": 1,
-      "DestroyEffectsId": [],
-      "DestroyState": [1],
-      "DestroyHp": 0,
-      "effects": []
-    },
-    {
       "position": [3, 3, 13],
       "sn": 1,
       "Ap": 0,
@@ -4585,7 +4240,7 @@
       "effects": []
     },
     {
-      "position": [16, 1, 10],
+      "position": [16, 5, 10],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
@@ -4595,7 +4250,7 @@
       "effects": []
     },
     {
-      "position": [16, 1, 11],
+      "position": [16, 5, 11],
       "sn": 1,
       "Ap": 0,
       "Block": 1,
