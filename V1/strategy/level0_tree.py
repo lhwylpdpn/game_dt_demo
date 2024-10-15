@@ -5,8 +5,9 @@ from utils.strategy_utils.range import Range
 from strategy.strategy_context import strategy_params as sp
 import time
 from log.log import log_manager
-from V1.strategy.strategy_context import simple_strategy_params
-from V1.strategy.handler.simple_strategy import SimpleStrategy
+from strategy.strategy_context import simple_strategy_params
+from strategy.handler.simple_strategy import SimpleStrategy
+
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):
         self.name = name

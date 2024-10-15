@@ -22,8 +22,6 @@ from log.log import log_manager
 # step4.5 调用棋盘执行行动
 # step5 检查游戏是否结束
 # step6 如果游戏结束，产生内容序列
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 import redis
 import configparser
 cf = configparser.ConfigParser()
