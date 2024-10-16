@@ -22,26 +22,35 @@ class Game(object):
             "maps": self.map,
         }
 
-        self.hero_copy = hero
-        self.monster_copy = monster
-        self.map_copy = maps
-        self.hero_state_copy = {
-            "hero": self.hero_copy,
-            "monster": self.monster_copy,
-            "maps": self.map_copy,
-        }
-        self.monster_state_copy = {
-            "hero": self.monster_copy,
-            "monster": self.hero_copy,
-            "maps": self.map_copy,
-        }
+        self.hero_copy = copy.deepcopy(hero)
+        self.monster_copy = copy.deepcopy(monster)
+        self.map_copy = copy.deepcopy(maps)
+        # self.hero_state_copy = {
+        #     "hero": self.hero_copy,
+        #     "monster": self.monster_copy,
+        #     "maps": self.map_copy,
+        # }
+        # self.monster_state_copy = {
+        #     "hero": self.monster_copy,
+        #     "monster": self.hero_copy,
+        #     "maps": self.map_copy,
+        # }
 
     def reset(self):
-        self.map = self.map_copy
-        self.monster = self.monster_copy
-        self.map = self.map_copy
-        self.hero_state = self.hero_state_copy
-        self.monster_state = self.monster_state_copy
+        self.hero = copy.deepcopy(self.hero_copy)
+        self.monster = copy.deepcopy(self.monster_copy)
+        self.map = copy.deepcopy(self.map_copy)
+        self.hero_state = {
+            "hero": self.hero,
+            "monster": self.monster,
+            "maps": self.map,
+        }
+        self.monster_state = {
+            "hero": self.monster,
+            "monster": self.hero,
+            "maps": self.map,
+        }
+
 
     def _check_position(self):
         # 检查敌我双方位置是否在表面上

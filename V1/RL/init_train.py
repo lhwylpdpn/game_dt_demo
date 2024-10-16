@@ -143,7 +143,7 @@ def train_agent(num_episodes):
     sch=schedule(state_init)
     sch.agent_1 = Q_Agent()
     sch.agent_2 = Random_Agent()
-    sch.timeout_tick=1
+    sch.timeout_tick=500
     battle_res = []
 
 
@@ -170,6 +170,7 @@ def train_agent(num_episodes):
         if game_res==2: # 平局
             sch.agent_1.update_q_value(reward=-1)#去更新 .update_q_value(reward= -1)
         battle_res.append(game_res)
+        sch.tick = 0
     print('总共训练到的state类别是:',len(sch.agent_1.q_table.keys()))
     print('总共训练到的各个类别的平均分是:',sum(sch.agent_1.q_table.values())/len(sch.agent_1.q_table.keys()))
 
