@@ -38,7 +38,7 @@ class Hero():
         self.__skills =  kwargs.get("skills", [])                  # 技能
         self.__DogBase = kwargs.get("DogBase", None)               # 警戒-初始
         self.__BaseClassID = kwargs.get("BaseClassID", None)       # 职业
-        self.__BaseClass = BaseClass(**kwargs.get("BaseClass", None)) # 职业
+        self.__BaseClass = BaseClass(**kwargs.get("BaseClass", {})) # 职业
         # 初始数值
         self.__HpBase = kwargs.get("Hp", None)                       #生命-初始
         self.__Hp = kwargs.get("Hp", None)                           #生命
