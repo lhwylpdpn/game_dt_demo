@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/22 10:59
+import copy
+
 from strategy.action import Action
 
 
@@ -19,17 +21,10 @@ class Game(object):
             "monster": self.hero,
             "maps": self.map,
         }
-        self._initial_state = {
-            'hero': self.hero,
-            'monster': self.monster,
-            'map': self.map,
-            'hero_state': self.hero_state,
-            'monster_state': self.monster_state,
-        }
+        self._initial_state = copy.deepcopy(self.__dict__)
 
     def reset(self):
-        for key, value in self._initial_state.items():
-            setattr(self, key, value)
+        self.__dict__ = copy.deepcopy(self._initial_state)
 
     def _check_position(self):
         # 检查敌我双方位置是否在表面上
