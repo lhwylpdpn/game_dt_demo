@@ -25,7 +25,8 @@ from log.log import log_manager
 import redis
 import configparser
 cf = configparser.ConfigParser()
-cf.read('config/conf.ini', encoding='utf-8')
+path=os.path.abspath(os.path.join(os.path.dirname(__file__)))
+cf.read(path+'/config/conf.ini', encoding='utf-8')
 
 redis_host=cf.get('redis', 'host')
 redis_port=cf.get('redis', 'port')

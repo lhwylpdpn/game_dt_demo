@@ -24,10 +24,6 @@ class Agent(object):
     def choice_hero_act(self, hero, state,performance=None):
         print('------------------------------')
         hero = hero.dict()
-        # enemies = [_.dict() for _ in state["monster"]]
-        # maps = state["map"].view_from_y_dict()
-        # maps = Attack().convert_maps(maps)
-        # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
         res =level0_make_decision(hero, state,performance=performance)
         if len(res)==0:
             res = level1_make_decision(hero, state,performance=performance)
@@ -36,10 +32,6 @@ class Agent(object):
     def choice_monster_act(self, hero, state,performance=None):
         state = self.swap_specific_keys(state, "hero", "monster")
         hero = hero.dict()
-        # enemies = [_.dict() for _ in state["monster"]]
-        # maps = state["map"].view_from_y_dict()
-        # maps = Attack().convert_maps(maps)
-        # teammates = [_.dict() for _ in state["hero"] if _.HeroID != hero["HeroID"]]
         res = level0_make_decision(hero, state,performance=performance)
         if len(res)==0:
             res = level1_make_decision(hero, state,performance=performance)

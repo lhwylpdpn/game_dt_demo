@@ -70,7 +70,7 @@ class Piece:
         screen.blit(damage_text, (hp_bar_x + bar_width + 5, hp_bar_y - 5))  # 在 HP 条旁边显示
 
     def draw_action(self, screen, action):
-        font = pygame.font.Font("utils/fireflysung.ttf", 20)
+        font = pygame.font.Font(os.path.abspath(os.path.join(os.path.dirname(__file__)))+'/../utils/fireflysung.ttf', 20)
 
         if int(action.replace('SKILL_','')) in demo_skill.values():
             action = list(demo_skill.keys())[list(demo_skill.values()).index(int(action.replace('SKILL_','')))]
@@ -301,7 +301,7 @@ class game:
                                             if m.piece_id==change[1][1]:
                                                 m.draw_hp_bar(self.screen,change[2][0]-change[2][1])
                             info_list.append('第'+str(i['tick'])+'tick:怪物'+str(m.piece_id)+'选择的行动:'+str(action_dict.get(action['action_type'],action['action_type'])))
-                    font = pygame.font.Font("utils/fireflysung.ttf", 20)
+                    font = pygame.font.Font(os.path.abspath(os.path.join(os.path.dirname(__file__)))+'/../utils/fireflysung.ttf', 20)
                     info_list=info_list[-15:]
                     for ii in range(len(info_list)):
                         if '英雄' in info_list[ii]:
@@ -384,7 +384,8 @@ class game:
 
             img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 0,255, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('utils/fireflysung.ttf', 15)
+            #print(os.path.abspath(os.path.join(os.path.dirname(__file__)))+'/../utils/fireflysung.ttf')
+            fnt = ImageFont.truetype(os.path.abspath(os.path.join(os.path.dirname(__file__)))+'/../utils/fireflysung.ttf', 15)
 
             d.text((0, 0), "H"+str(h['HeroID']), font=fnt, fill=(255, 255, 255))
 
@@ -403,7 +404,7 @@ class game:
             else:
                 img = Image.new('RGBA', (self.WIDTH // self.BOARD_WIDTH, self.HEIGHT // self.BOARD_HEIGHT),color=(0, 255, 0, 200))
             d = ImageDraw.Draw(img)
-            fnt = ImageFont.truetype('utils/fireflysung.ttf', 15)
+            fnt = ImageFont.truetype(os.path.abspath(os.path.join(os.path.dirname(__file__)))+'/../utils/fireflysung.ttf', 15)
             if m['Quality']==2:
                 d.ellipse([(0, 0), img.size], fill=(255, 0,0 ,200))
 
@@ -415,6 +416,7 @@ class game:
             self.monster_piece[-1].set_hp(m['Hp'])
             i += 1
     def generate_state(self):
+        print(self.state)
         self.map=self.state['map'].view_from_y_dict()
 
         x, y, z = 0, 0, 0
