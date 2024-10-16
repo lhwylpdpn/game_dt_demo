@@ -793,7 +793,7 @@ class Hero():
             # 击退几格
             if "REPEL_TARGET" in skill.avaliable_effects():
                 print("use: REPEL_TARGET 被击退几格")
-                direction = self.judge_direction(self, Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
+                direction = self.judge_direction(Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
                 move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
                 each_e.move_back(self, move_value, state, direction)
         return self
