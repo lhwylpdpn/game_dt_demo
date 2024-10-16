@@ -19,6 +19,17 @@ class Game(object):
             "monster": self.hero,
             "maps": self.map,
         }
+        self._initial_state = {
+            'hero': self.hero,
+            'monster': self.monster,
+            'map': self.map,
+            'hero_state': self.hero_state,
+            'monster_state': self.monster_state,
+        }
+
+    def reset(self):
+        for key, value in self._initial_state.items():
+            setattr(self, key, value)
 
     def _check_position(self):
         # 检查敌我双方位置是否在表面上
