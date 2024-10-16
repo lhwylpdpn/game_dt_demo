@@ -21,10 +21,27 @@ class Game(object):
             "monster": self.hero,
             "maps": self.map,
         }
-        self._initial_state = copy.deepcopy(self.__dict__)
+
+        self.hero_copy = hero
+        self.monster_copy = monster
+        self.map_copy = maps
+        self.hero_state_copy = {
+            "hero": self.hero_copy,
+            "monster": self.monster_copy,
+            "maps": self.map_copy,
+        }
+        self.monster_state_copy = {
+            "hero": self.monster_copy,
+            "monster": self.hero_copy,
+            "maps": self.map_copy,
+        }
 
     def reset(self):
-        self.__dict__ = copy.deepcopy(self._initial_state)
+        self.map = self.map_copy
+        self.monster = self.monster_copy
+        self.map = self.map_copy
+        self.hero_state = self.hero_state_copy
+        self.monster_state = self.monster_state_copy
 
     def _check_position(self):
         # 检查敌我双方位置是否在表面上
