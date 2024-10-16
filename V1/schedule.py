@@ -101,7 +101,11 @@ class schedule:
             once_tick=math.ceil(self.ap_limit/(hero.Velocity/self.ap_parm))
             #print('once_tick',self.tick,hero.Velocity,once_tick,hero.__class__.__name__.lower(), hero.HeroID,)
             if self.tick % once_tick == 0:
+                self.performance.event_start('focus')
+
                 focus = hero.focus(state)
+                self.performance.event_end('focus')
+
                 #增加特定初始动作，用于显示移动情况
                 move_=[{"action_type": "MOVE_START"}]
                 #查看hero的队列
@@ -118,9 +122,11 @@ class schedule:
                     print('tick',self.tick,'调度获得的行动list: 怪兽', alive_hero_id,actions)
                     #log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
+                self.performance.event_start('un_focus')
                 un_focus = hero.un_focus(state)
                 actions = focus + move_ + actions + un_focus
-                time.sleep(1)
+                self.performance.event_end('un_focus')
+
                 #print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
                 #log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
@@ -228,7 +234,7 @@ class schedule:
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick']=self.tick
         self.save_result_to_redis(self.record_update_dict[self.tick],self.tick)
-
+        #self.performance.event_end('record_detail')
     def send_update(self,out_file_name='for_qiangye.json'):
 
         self.performance.event_start('send_update')
@@ -242,9 +248,9 @@ class schedule:
 
     def save_result_to_redis(self,record_update_dict,tick):
 
-            redis_key="battle_id:"+str(self.battle_id)+":tick:"+str(tick)
+            #redis_key="battle_id:"+str(self.battle_id)+":tick:"+str(tick)
             redis_key_2="battle_id:"+str(self.battle_id)
-            redis_client.set(redis_key,json.dumps(record_update_dict),ex=self.redis_expiration_time)
+            #redis_client.set(redis_key,json.dumps(record_update_dict),ex=self.redis_expiration_time)
             redis_client.rpush(redis_key_2,json.dumps(record_update_dict))
 
 
