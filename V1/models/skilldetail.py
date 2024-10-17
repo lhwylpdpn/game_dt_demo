@@ -216,6 +216,8 @@ class SkillDetail():
             "IS_SKILL_HIT" not in self.avaliable_effects() and\
             "IS_WAIT" not in self.avaliable_effects() and\
             "IS_NEAR_HERO" not in self.avaliable_effects() and\
+            "TAG_CRIT" not in self.avaliable_effects() and\
+            "TAG_HIT" not in self.avaliable_effects() and\
             "IS_DEFAULT_HIT" not in self.avaliable_effects():
             return True
         return False
