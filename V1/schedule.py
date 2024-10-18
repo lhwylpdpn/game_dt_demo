@@ -45,7 +45,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 100
+        self.timeout_tick = 2000
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}#测试用
@@ -244,14 +244,14 @@ class schedule:
         result=json.dumps(result)
         #print('给强爷',result)
         save_result_to_view(result, out_file_name)
+        redis_key = "battle_id:" + str(self.battle_id) + ":status"
+        redis_client.set(redis_key,(self.tick), ex=self.redis_expiration_time)
         self.performance.event_end('send_update')
         return result
 
     def save_result_to_redis(self,record_update_dict,tick):
 
-            #redis_key="battle_id:"+str(self.battle_id)+":tick:"+str(tick)
             redis_key_2="battle_id:"+str(self.battle_id)
-            #redis_client.set(redis_key,json.dumps(record_update_dict),ex=self.redis_expiration_time)
             redis_client.rpush(redis_key_2,json.dumps(record_update_dict))
 
 
