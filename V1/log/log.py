@@ -4,11 +4,10 @@
 import json
 import os
 from datetime import datetime
-
-
+import uuid
+import time
 class LogManager:
-    def __init__(self, file_name="logs.json"):
-        # self.file_name = file_name
+    def __init__(self, file_name=''.join(str(uuid.uuid4()).split('-'))[0:10]+time.strftime('%Y_%m_%d_%H_%M_%s')+"logs.json"):
         current_directory = os.path.dirname(os.path.abspath(__file__))
         self.file_path = os.path.join(current_directory, file_name)
         #创建一个全局计数器
@@ -21,7 +20,7 @@ class LogManager:
         # 构造要记录的数据
         log_entry = {timestamp: log_data}
         # 将日志记录到文件中
-        self._write_log(log_entry)
+        #self._write_log(log_entry)
         return timestamp
 
     def _write_log(self, log_entry):

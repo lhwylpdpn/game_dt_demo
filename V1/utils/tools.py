@@ -41,7 +41,7 @@ class performance:
         pd.set_option('display.max_colwidth', None)
         pd.set_option('display.width', 1000)
         print(df.to_string(index=False))
-        df.to_csv(os.path.dirname(os.path.abspath(__file__))+'/../log/time_static.csv', index=False)
+        #df.to_csv(os.path.dirname(os.path.abspath(__file__))+'/../log/time_static.csv', index=False)
 
 
 def Deepdiff_modify(before,after):
