@@ -128,8 +128,8 @@ def create_decision_tree(hero,state):
     BaseClassID=hero.get("BaseClassID")
     HeroID=int(hero.get("HeroID"))
     sp_obj=sp()
-    eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
-    range_obj=Range(hero,state)
+    # eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
+    # range_obj=Range(hero,state)
     simple_obj=simple_strategy_params()
     param_list=simple_obj.get_strategy_params(HeroID)
     wait_node = Node("等待", action=wait)
