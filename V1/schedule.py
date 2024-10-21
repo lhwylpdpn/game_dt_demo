@@ -116,6 +116,8 @@ class schedule:
             once_tick = math.ceil(self.ap_limit / (hero.Velocity / self.ap_parm))
             # print('once_tick',self.tick,hero.Velocity,once_tick,hero.__class__.__name__.lower(), hero.HeroID,)
             if self.tick % once_tick == 0:
+                print(
+                    f"----------------------------------------- tick: {self.tick}, role: {hero.HeroID}  ----------------------------------------- ")
                 self.performance.event_start('focus')
 
                 focus = hero.focus(state)
@@ -187,13 +189,13 @@ class schedule:
                         self.hero_next_action_round.remove(h)
 
                 self.hero_next_action_round.sort(key=lambda x: x['speed'])
-                remaining_items = [target_item] + self.hero_next_action_round
+                self.hero_next_action_round = [target_item] + self.hero_next_action_round
 
-                action_order = [f"{_['id']}({_['speed']})" for _ in remaining_items]
+                action_order = [f"{_['id']}({_['speed']})" for _ in self.hero_next_action_round]
                 # print(f" ===>>>   所有英雄未来行动顺序: {', '.join(action_order)}")
 
                 # 2024-10-21 调整存储redis结构
-                self.record_update_dict[self.tick]['sequence'] = remaining_items
+                self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
                 #print(self.record_update_dict)
                 self.save_result_to_redis(self.record_update_dict[self.tick])
 
