@@ -47,7 +47,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 2000
+        self.timeout_tick = 200
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}  # 测试用
@@ -194,7 +194,7 @@ class schedule:
 
                 # 2024-10-21 调整存储redis结构
                 self.record_update_dict[self.tick]['sequence'] = remaining_items
-                print(self.record_update_dict)
+                #print(self.record_update_dict)
                 self.save_result_to_redis(self.record_update_dict[self.tick])
 
                 self.performance.event_start('check_game_over')
