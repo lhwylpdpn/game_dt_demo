@@ -245,7 +245,9 @@ class schedule:
         #print('给强爷',result)
         save_result_to_view(result, out_file_name)
         redis_key = "battle_id:" + str(self.battle_id) + ":status"
-        redis_client.set(redis_key,(self.tick,self.performance.result['total_time']), ex=self.redis_expiration_time)
+        res={'tick':self.tick,'total_time':self.performance.result['total_time']}
+        res=json.dumps(res)
+        redis_client.set(redis_key,res, ex=self.redis_expiration_time)
         self.performance.event_end('send_update')
         return result
 
