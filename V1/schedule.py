@@ -163,6 +163,13 @@ class schedule:
                     state_dict=self.state_to_dict(state)
                     self.performance.event_end('get_current_state')
 
+
+
+
+                #2024-10-21 调整存储redis结构
+                self.record_update_dict[self.tick]['彬哥']='NB'
+                self.save_result_to_redis(self.record_update_dict[self.tick])
+
                 self.performance.event_start('check_game_over')
                 if self.game.check_game_over()[0]:
                     #print('战斗结束了！！！！',self.game.check_game_over()[1])
@@ -234,7 +241,6 @@ class schedule:
         self.record_update_dict[self.tick]['action'].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick']=self.tick
-        self.save_result_to_redis(self.record_update_dict[self.tick],self.tick)
         #self.performance.event_end('record_detail')
     def send_update(self,out_file_name='for_qiangye.json'):
 
@@ -251,7 +257,7 @@ class schedule:
         self.performance.event_end('send_update')
         return result
 
-    def save_result_to_redis(self,record_update_dict,tick):
+    def save_result_to_redis(self,record_update_dict):
 
             redis_key_2="battle_id:"+str(self.battle_id)
             redis_client.rpush(redis_key_2,json.dumps(record_update_dict))
