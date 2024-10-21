@@ -195,7 +195,7 @@ class schedule:
                 # 2024-10-21 调整存储redis结构
                 self.record_update_dict[self.tick]['sequence'] = remaining_items
                 print(self.record_update_dict)
-                # self.save_result_to_redis(self.record_update_dict[self.tick])
+                self.save_result_to_redis(self.record_update_dict[self.tick])
 
                 self.performance.event_start('check_game_over')
                 if self.game.check_game_over()[0]:
