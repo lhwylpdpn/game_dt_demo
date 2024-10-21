@@ -292,6 +292,7 @@ class schedule:
     def save_result_to_redis(self, record_update_dict):
 
         redis_key_2 = "battle_id:" + str(self.battle_id)
+        print('rpush',json.dumps(record_update_dict))
         redis_client.rpush(redis_key_2, json.dumps(record_update_dict))
 
 
