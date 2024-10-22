@@ -203,14 +203,15 @@ class schedule:
                         {'stepname': '战斗结束了', 'tick': self.tick, 'game_over': self.game.check_game_over()[1]})
                     self.performance.event_end('check_game_over')
                     self.game_over = True
-                    self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
-                    self.save_result_to_redis(self.record_update_dict[self.tick])
+                    if self.record_update_dict.get(self.tick) is not None:
+                        self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
+                        self.save_result_to_redis(self.record_update_dict[self.tick])
 
                     return
                 self.performance.event_end('check_game_over')
-
-        self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
-        self.save_result_to_redis(self.record_update_dict[self.tick])
+        if self.record_update_dict.get(self.tick) is not None:
+            self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
+            self.save_result_to_redis(self.record_update_dict[self.tick])
 
     # 增加一个state静态化的方法
     def state_to_dict(self, state):
