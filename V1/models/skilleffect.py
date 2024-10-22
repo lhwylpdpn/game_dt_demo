@@ -55,7 +55,7 @@ class SkillEffect():
         # self.__durationType = kwargs.get("durationType", None)	  # 持续时间类型 1.回合 2.步数 3.持续存在 4.立刻消失 5.离开地块 6.遭受一次攻击 7.进行一次攻击 8.遭受一次火属性攻击
         # self.__mark = kwargs.get("mark", None)	                  # 标记  BUFF标记 1为燃烧效果 2为冰冻效果 3为淹死状态 4为冰冻状态
         # self.__hitEffect = kwargs.get("hitEffect", None)	          # 受击效果 1受击 2不受击
-        self.__BuffType = kwargs.get("BuffType", None)	              # Buff类型  0 非buff  1为增益 2为减益
+        self.__BuffType = kwargs.get("BuffType", 0)	                  # Buff类型  0 非buff  1为增益 2为减益
         # self.__effectIcon = kwargs.get("effectIcon", None)	      # 效果icon
         # self.__buffEffect = kwargs.get("buffEffect", None)	      # BUFF效果  BUFF持续过程中的特效
         # self.__buffTrigger = kwargs.get("buffTrigger", None)        # BUFF触发特效

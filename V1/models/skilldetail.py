@@ -28,7 +28,7 @@ class SkillDetail():
     def __init__(self, **kwargs):
         self.__SkillId = kwargs.get("SkillId", None)
         self.__SkillLev = kwargs.get("SkillLev", None)
-        self.__DefaultSkills = kwargs.get("DefaultSkills", None)   # 0，1 1代表默认，即普通攻击
+        self.__DefaultSkills = kwargs.get("DefaultSkills", 0)   # 0，1 1代表默认，即普通攻击
         self.__SkillClass = kwargs.get("SkillClass", None)         # 技能类别 1:主动技能 2:支援技能 3:移动技能 4:反应技能
         self.__SkillCalc = kwargs.get("SkillCalc", 0)              # 计算类别 0: 无， 1:攻击， 2:光环， 3:触发， 4:局外，5:治疗 6:结算
         self.__SkillElement = kwargs.get("SkillElement", 0)        # 元素属性 0:无， 1:水， 2:火，3:地， 4:木，5:光，6:暗， 7:物理
