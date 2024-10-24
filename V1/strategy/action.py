@@ -62,6 +62,7 @@ class Action(object):
 
         if step["action_type"] == "MOVE_START":
             res["move_start"] = Range(hero, state).role_move_start()
+            res["sequence"] = step["sequence"]
             return res
 
         if "EFFECT_" in step["action_type"]:

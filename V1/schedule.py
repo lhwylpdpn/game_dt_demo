@@ -123,10 +123,7 @@ class schedule:
                 focus = hero.focus(state)
                 self.performance.event_end('focus')
 
-                # 增加特定初始动作，用于显示移动情况
-                move_ = [{"action_type": "MOVE_START"}]
                 # 查看hero的队列
-
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state, self.performance)
@@ -141,13 +138,30 @@ class schedule:
                     self.performance.event_end('schedule_choose_action')
                 self.performance.event_start('un_focus')
                 un_focus = hero.un_focus(state)
+
+                # 计算行动顺序
+                target_item = None
+                for h in self.hero_next_action_round:
+                    if h["id"] == hero.HeroID:
+                        h["speed"] += once_tick
+                        target_item = h
+                        self.hero_next_action_round.remove(h)
+
+                self.hero_next_action_round.sort(key=lambda x: x['speed'])
+                self.hero_next_action_round = [target_item] + self.hero_next_action_round
+
+                # action_order = [f"{_['id']}({_['speed']})" for _ in self.hero_next_action_round]
+                # print(f" ===>>>   所有英雄未来行动顺序: {', '.join(action_order)}")
+
+                # 增加特定初始动作，用于显示移动情况
+                move_ = [{"action_type": "MOVE_START", "sequence": self.hero_next_action_round}]
+
                 actions = focus + move_ + actions + un_focus
                 self.performance.event_end('un_focus')
 
                 # print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
                 # log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
-
                     # print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,action)
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
@@ -181,18 +195,7 @@ class schedule:
                     state_dict = self.state_to_dict(state)
                     self.performance.event_end('get_current_state')
 
-                target_item = None
-                for h in self.hero_next_action_round:
-                    if h["id"] == hero.HeroID:
-                        h["speed"] += once_tick
-                        target_item = h
-                        self.hero_next_action_round.remove(h)
 
-                self.hero_next_action_round.sort(key=lambda x: x['speed'])
-                self.hero_next_action_round = [target_item] + self.hero_next_action_round
-
-                action_order = [f"{_['id']}({_['speed']})" for _ in self.hero_next_action_round]
-                # print(f" ===>>>   所有英雄未来行动顺序: {', '.join(action_order)}")
 
                 # 2024-10-21 调整存储redis结构
 
@@ -209,9 +212,9 @@ class schedule:
 
                     return
                 self.performance.event_end('check_game_over')
-        if self.record_update_dict.get(self.tick) is not None:
+        # if self.record_update_dict.get(self.tick) is not None:
             #self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
-            self.save_result_to_redis(self.record_update_dict[self.tick])
+            # self.save_result_to_redis(self.record_update_dict[self.tick])
 
     # 增加一个state静态化的方法
     def state_to_dict(self, state):
