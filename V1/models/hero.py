@@ -429,7 +429,7 @@ class Hero():
                         p_x, p_z = self.x + x, self.z + z
                         p_y = map_object.get_y_from_xz(p_x, p_z)
                         if p_y is not None:
-                            drange.append(tuple([p_x, land.y, p_z]))
+                            drange.append(tuple([p_x, p_y, p_z]))
                     except Exception:
                         pass
         return drange
@@ -777,24 +777,39 @@ class Hero():
             self.__AvailableSkills.remove(skill.skillId)
         return self
     
+    def sort_enemys(self, enemys, reverse=False): # 对敌人进行排序
+        """
+        reverse : "False" 由近到远排序, "True" 由远到近排序
+        """
+        
+        def distance(p1, p2):
+            return abs(p1.x - p2.x) + abs(p1.z - p2.z)
+
+        enemys.sort(key=lambda e_n:distance(self, e_n), reverse=reverse)
+        return enemys
+    
     def after_atk_skill(self, enemys=[], skill=None, attack_point=[], state=None): # 使用攻击技能后
         self.__use_skill(skill)
-        for each_e in enemys: # 找到技能落点的敌人
-            # 判断自己是否向敌人移动 #TODO
-            if "MOVE_SELF2TARGET" in skill.avaliable_effects():
-                print("use: MOVE_SELF2TARGET 自己向敌人移动")
-                move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
-                self.skill_move_to_position(target=enemy, value=move_value, state=state)
-            # 判断敌人是否向自己移动 
-            if "MOVE_TARGET2SELF" in skill.avaliable_effects():
-                print("use: MOVE_TARGET2SELF 敌人向自己移动")
-                move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
+        # 判断自己是否向敌人移动 #TODO
+        if "MOVE_SELF2TARGET" in skill.avaliable_effects():
+            print("use: MOVE_SELF2TARGET 自己向敌人移动")
+            move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
+            enemys = self.sort_enemys(enemys) #对敌人 由近及远排序
+            self.skill_move_to_position(target=enemys[0], value=move_value, state=state)
+        # 判断敌人是否向自己移动 
+        if "MOVE_TARGET2SELF" in skill.avaliable_effects():
+            print("use: MOVE_TARGET2SELF 敌人向自己移动")
+            move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
+            enemys = self.sort_enemys(enemys) #对敌人 由近及远排序
+            for each_e in enemys: # 找到技能落点的敌人
                 each_e.skill_move_to_position(target=self, value=move_value, state=state)
-            # 击退几格
-            if "REPEL_TARGET" in skill.avaliable_effects():
-                print("use: REPEL_TARGET 被击退几格")
-                direction = self.judge_direction(Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
-                move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
+        # 击退几格
+        if "REPEL_TARGET" in skill.avaliable_effects():
+            print("use: REPEL_TARGET 被击退几格")
+            direction = self.judge_direction(Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
+            move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
+            enemys = self.sort_enemys(enemys, reverse=True) #对敌人 由远及近排序
+            for each_e in enemys: # 找到技能落点的敌人
                 each_e.move_back(self, move_value, state, direction)
         return self
          
