@@ -147,7 +147,7 @@ class schedule:
                         target_item = h
                         self.hero_next_action_round.remove(h)
 
-                self.hero_next_action_round.sort(key=lambda x: x['speed'])
+                self.hero_next_action_round.sort(key=lambda x: (x['speed'], x['id']))
                 self.hero_next_action_round = [target_item] + self.hero_next_action_round
 
                 # action_order = [f"{_['id']}({_['speed']})" for _ in self.hero_next_action_round]

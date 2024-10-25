@@ -106,7 +106,8 @@ class Game(object):
         return False, 2
 
     def get_current_alive_hero(self):
-        return [h for h in self.hero if not h.is_death] + [m for m in self.monster if not m.is_death]
+        roles = [h for h in self.hero if not h.is_death] + [m for m in self.monster if not m.is_death]
+        return sorted(roles, key=lambda x: x.HeroID)
 
     def get_current_state(self):
         return {"hero": self.hero, "monster": self.monster, "map": self.map}
