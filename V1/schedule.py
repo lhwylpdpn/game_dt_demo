@@ -152,9 +152,9 @@ class schedule:
 
                 # action_order = [f"{_['id']}({_['speed']})" for _ in self.hero_next_action_round]
                 # print(f" ===>>>   所有英雄未来行动顺序: {', '.join(action_order)}")
-
+                sequence = copy.deepcopy(self.hero_next_action_round)
                 # 增加特定初始动作，用于显示移动情况
-                move_ = [{"action_type": "MOVE_START", "sequence": self.hero_next_action_round}]
+                move_ = [{"action_type": "MOVE_START", "sequence": sequence}]
 
                 actions = focus + move_ + actions + un_focus
                 self.performance.event_end('un_focus')
