@@ -166,10 +166,10 @@ class schedule:
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         action_result = self.game.hero_action(hero, action)
+
                     else:
                         action_result = self.game.monster_action(hero, action)
                     self.performance.event_end('game_action')
-                    # print('调度行动-接到动作结果',self.tick,'id',alive_hero_id,'class',alive_hero,action_result)
                     log_manager.add_log({'stepname': '调度行动-接到动作结果', 'tick': self.tick, 'hero': alive_hero_id,
                                          'class': alive_hero_class, 'action_result': action_result})
                     if not action_result:  # 如果动作失败，直接跳出本次动作链路
@@ -277,6 +277,7 @@ class schedule:
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick] = {'action': [], 'state': []}  # 初始化
         self.record_update_dict[self.tick]['action'].append(action)
+        print('record',self.record_update_dict[self.tick]['action'])
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick'] = self.tick
         # self.performance.event_end('record_detail')
