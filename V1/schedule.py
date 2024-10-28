@@ -103,6 +103,9 @@ class schedule:
         self.performance.event_end('get_current_alive_hero')
         # todo  同tick 的顺序问题，同tick的时候是不是有排序
 
+        alive_hero_ids = [_.HeroID for _ in alive_hero]
+        self.hero_next_action_round = [_ for _ in self.hero_next_action_round if _["id"] in alive_hero_ids]
+
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
             # print('tick',self.tick,'调度当前拿到的活着hero', hero.__class__.__name__.lower(), hero.HeroID,)
