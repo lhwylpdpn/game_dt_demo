@@ -81,9 +81,10 @@ class Q_Agent(QLearningAgent):
         return [res]
 
 
-class PPO_Agent(PPO):
+class PPO_Agent():
 
-
+    def __init__(self,ppo_agent):
+        self.agent=ppo_agent
     def action_transition(self,allow_actions):
         res=[]
         for key in allow_actions:
@@ -133,7 +134,7 @@ class PPO_Agent(PPO):
         state['map'] =state['map'].dict()
         train_actions=[json.dumps(action,sort_keys=True) for action in train_actions]
         state=json.dumps(state,sort_keys=True)
-        res = self.select_action(state)
+        res = self.agent.select_action(state)
         index = train_actions.index(res)
         res=actions[index]
         print('------------------------------')

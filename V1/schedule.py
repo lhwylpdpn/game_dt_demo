@@ -58,14 +58,11 @@ class schedule:
         self.game_over = False
         self.init_state = None  # 特定用于给强爷传输初始状态
         ##统计
+
+
+
         self.performance = performance()
 
-    def start(self):
-        self.performance.event_start('game_start')
-        self.game.start()
-        self.performance.event_end('game_start')
-
-    def run(self):
         self.performance.event_start('get_current_state')
         state = self.game.get_current_state()
         state_dict = self.state_to_dict(state)  # todo  优化性能
@@ -84,6 +81,13 @@ class schedule:
                     "class": hero.__class__.__name__.lower()
                 }
             )
+    def start(self):
+        self.performance.event_start('game_start')
+        self.game.start()
+        self.performance.event_end('game_start')
+
+    def run(self):
+
 
         while self.tick < self.timeout_tick and not self.game_over:
             self.tick += 1

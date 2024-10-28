@@ -7,6 +7,8 @@ from buildpatrol import BuildPatrol
 from schedule import schedule
 from strategy.single_RL_agent import Q_Agent
 from strategy.single_RL_agent import Random_Agent
+from strategy.single_RL_agent import PPO_Agent
+
 from V1.test.demo_show import game
 from PPO import PPO
 import copy
@@ -280,7 +282,7 @@ def train_ppo():
 
     ############# print all hyperparameters #############
     print("--------------------------------------------------------------------------------------------")
-    print("max training timesteps : ", max_training_timesteps)
+    # print("max training timesteps : ", max_training_timesteps)
     print("max timesteps per episode : ", max_ep_len)
     print("model saving frequency : " + str(save_model_freq) + " timesteps")
     print("log frequency : " + str(log_freq) + " timesteps")
@@ -333,9 +335,9 @@ def train_ppo():
     state_init = BuildPatrol(src_path).load_data()
     state_init=data_init(state_init)
     sch=schedule(state_init)
-    sch.agent_1 = ppo_agent()
+    sch.agent_1 = PPO_Agent(ppo_agent=ppo_agent)
     sch.agent_2 = Random_Agent()
-    sch.timeout_tick=100
+    sch.timeout_tick=200
     battle_res = []
 
     # training loop
@@ -350,7 +352,8 @@ def train_ppo():
         while sch.tick < sch.timeout_tick and not sch.game_over:
             sch.tick += 1
             sch.next()#todo 要每个行动算一个奖励
-
+            print(sch.state)
+            time.sleep(100)
         game_res = sch.game.check_game_over()[1]
         if game_res == 0:  # 怪兽胜利
             sch.agent_1.update_q_value(reward=-2)  # 去更新 .update_q_value(reward=-2)
@@ -443,6 +446,16 @@ def train_ppo():
     print("Total training time  : ", end_time - start_time)
     print("============================================================================================")
 
+
+
+
+
+def clac_rewards(state):
+    """
+
+    :param state: 传入整个state镜像
+    :return: 返回奖励制
+    """
 
 
 if __name__ == '__main__':
