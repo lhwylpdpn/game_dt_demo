@@ -226,17 +226,17 @@ class simple_strategy_params:
         self.demo_step_dict = {
             "action": {
                 "enemy": {
-                    "normal": bool,
+                    "normal": bool, #普通攻击
                     "skill": {
-                        "any_attack": bool,
-                        "attack": int,  # 0单体，1群体
-                        "de_buff": int,  # 0单体，1群体
-                        "select": []  # 技能ID
+                        "any_attack": bool,#任意可以对敌人释放的技能
+                        "attack": int,  # 0单体攻击技能，1群体攻击技能
+                        "de_buff": int,  # 0单体减益技能，1群体减益技能
+                        "select": []  # 指定对技能ID，可以是多个
                     },
                     "item": {
-                        "attack": [0, 1],
-                        "de_buff": [0, 1],
-                        "select": []
+                        "attack": [0, 1], # 0单体攻击物品 1群体攻击物品
+                        "de_buff": [0, 1], # 0单体减益物品 ，1 群体减益物品
+                        "select": [] #具体物品id
                     }
                 },
                 "us": {
@@ -257,13 +257,13 @@ class simple_strategy_params:
             },
             "target": {
                 "character": {
-                    "any": bool,
-                    "type": int,  # ["any", "前卫", "后卫"] 1 2 3
-                    "geo": int,  # ["any", "攻击型..."] 1 2 3
-                    "role": int,
-                    "select": []  # 指定类型?
+                    "any": bool,  #任意职业、位置
+                    "type": int,  # 传入具体int 1 2 3 代表 ["any", "前卫", "后卫"]
+                    "geo": int,  # 传入具体int  1 2 3 4 5 代表 ["any", "攻击型","防守型"，"治疗型"，"辅助型"]
+                    "role": int, #  传入具体int  1 2 3 4 5 代表 ["近身持续输出", "近身爆发输出"，"远程输出","魔法输出","治疗辅助"]
+                    "select": []  # baseclassID [1]代表战士
                 },
-                "role_type": int  # 精英，boss，普通
+                "role_type": int  # boss 0 普通 1
 
             },
             "filter": {
@@ -272,17 +272,22 @@ class simple_strategy_params:
                     "min_hp": bool,
                     "max_perc_hp": bool,
                     "min_perc_hp": bool,
-                    "hp_below": float,
-                    "hp_above": float
+                    "hp_below": float, # 0.3
+                    "hp_above": float # 0.7
                 },
                 "status": {
-                    "any_buff": [],
-                    # BUFF_ADD_HP , BUFF_HP, 护盾暂无,BUFF_ATK,  ADD_ATK, ADD_DEF, BUFF_DEF，ADD_MAGICAL_DEF，BUFF_MAGICAL_DEF,BUFF_ROUND_ACTION
-                    "any_de_buff": [],  # 暂时没有
-                    "no_status": bool
+                    "any_buff": [], #todo 定义bufferid ,定义每个buffer和类别对关系
+                    # BUFF_ADD_HP,
+                    # BUFF_ADD_ATK,
+                    # BUFF_ADD_DEF,
+                    # BUFF_ROUND_ACTION
+                    # 护盾暂无
+
+                    "any_de_buff": [],  # todo 待定
+                    "no_status": bool # 代表是否有任何buffer  ，
                 },
                 "distance": str,  # MIN / MAX
-                "count": int,
+                "count": int,# 1人以上，就传入 1
                 "value": {
                     "p_attack": str,  # MIN / MAX
                     "m_attack": str,  # MIN / MAX
