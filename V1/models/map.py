@@ -57,7 +57,7 @@ class Map(): # 地图
             if isinstance(land, Land):
                 if land.Block is None:
                     return False
-                return int(land.Block) == 1 #(0 不可以，1 可以)
+                return int(land.Block) == 0 #(0 可以，1不可以)
             return False
         except Exception:
             return False
@@ -90,7 +90,7 @@ class Map(): # 地图
     def set_land_pass(self, x, y, z): # 设置地块可以通过
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(1)       
+            land.set_Block(0)       
         return self
 
     def set_land_no_pass(self, x, y, z, block): # 设置地块不可以通过  block 站立英雄和monster分别为 2，3
