@@ -237,7 +237,7 @@ class Range(Data):
 
             stk_range = get_attack_range(self.role, point, self.map)
             if enemy_position in stk_range:
-                move_steps = find_shortest_path(hero_position, point, jump_height, [1, 2, 3], self.map)[
+                move_steps = find_shortest_path(hero_position, point, jump_height, [0, 2, 3], self.map)[
                              : round_action + 1]
                 if move_steps:
                     return move_steps
@@ -510,7 +510,7 @@ class Range(Data):
         if teammate_position:
             print(f"[MOVE]存在战斗状态的队友: {teammate_position}")
 
-            steps = find_shortest_path(position, teammate_position, jump_height, [1, 2, 3], self.map)[
+            steps = find_shortest_path(position, teammate_position, jump_height, [0, 2, 3], self.map)[
                     : round_action + 1]
             move_steps = self.get_block_step(steps, (1,), self.map)
             if len(move_steps) > 1:
@@ -602,7 +602,7 @@ class Range(Data):
             if next_coord in self.map:
                 next_pos = self.map[next_coord]
                 _block_cost = Data.block_score(next_pos)
-                if is_reach(self.role, next_pos, jump_height, [1]):
+                if is_reach(self.role, next_pos, jump_height, [0]):
                     print(f"可移动步骤：{hero_position} > {next_pos['position']}")
                     steps["MOVE"].append(self.move_step_handler([hero_position, next_pos["position"]]))
 

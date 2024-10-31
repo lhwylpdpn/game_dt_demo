@@ -68,7 +68,7 @@ def is_atk_distance(point1, point2, distance):
 def is_reach(start, end, jump_height, block_type=None):
     # 是否可到达
     if not block_type:
-        block_type = [1, 2, 3]
+        block_type = [0, 2, 3]
 
     if abs(start["position"][1] - end["position"][1]) <= int(jump_height):
         if end["Block"] in block_type:
@@ -221,11 +221,23 @@ def find_shortest_path(start, end, jump_height, block_type=None, map=None):
         return min(paths, key=lambda x: x[1])[0]
     return []
 
+def range_cross(point, o, i, gap, effect, map):
+    o = int(o) + 1
+    i = int(i) + 1
+    atk_range = []
+    positions = []
+    x, y, z = point
+    for r in [i, o]:
+        # 水平方向
+        for p in [(x + r, z), (x - r, z), (x, z + r), (x, z - r)]:
+            if p in map:
+                positions.append(map[p]["position"])
+    return positions
+
 
 # @DictLRUCache(max_size_mb=128)
 def range_mht_hollow_circle(point, o, i, gap, effect, map):
     # 获取空心菱形范围  o: 外圆范围 i: 内圆范围
-
     o = int(o) + 1
     i = int(i) + 1
     atk_limit = range(i, o)
@@ -243,15 +255,21 @@ def range_mht_hollow_circle(point, o, i, gap, effect, map):
 # @DictLRUCache(max_size_mb=128)
 def skill_release_range(position, skill, map, role):
     # 获取某个技能施放范围（射程
+    points = []
+    gap, effect = 0, 0
     if "ATK_DISTANCE" not in skill["effects"]:
         return [Data.value("position", role)]
-    range = skill["effects"]["ATK_DISTANCE"]["param"]
     if "ADD_ATK_DISTANCE" in skill["effects"]:
-        gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], \
-            skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
-    else:
-        gap, effect = 0, 0
-    points = range_mht_hollow_circle(position, int(range[1]), int(range[0]), gap, effect, map)
+        gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
+
+    if "ATK_DISTANCE" in skill["effects"]:
+        range = skill["effects"]["ATK_DISTANCE"]["param"]
+        points = range_mht_hollow_circle(position, int(range[1]), int(range[0]), gap, effect, map)
+
+    if "ATK_DISTANCE_CROSS" in skill["effects"]:
+        range = skill["effects"]["ATK_DISTANCE_CROSS"]["param"]
+        points = range_cross(position, int(range[1]), int(range[0]), gap, effect, map)
+
     return points
 
 

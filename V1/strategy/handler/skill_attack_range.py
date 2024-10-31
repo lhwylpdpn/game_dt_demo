@@ -40,7 +40,7 @@ class SkillRange:
                     if p not in maps:
                         continue
 
-                    if maps[p].get("Block") in (0, 2):
+                    if maps[p].get("Block") in (1, 2):
                         continue
                     point = GameUtils.get_maps_point(p, maps)
 

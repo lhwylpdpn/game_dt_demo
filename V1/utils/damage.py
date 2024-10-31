@@ -3,12 +3,41 @@ import random
 from utils.config import demo_skill
 
 
+def calculate_coefficient(attacker, defender, skill):
+    def restrains(ele1, ele2):
+        restrain_map = {
+            1: 2,  # 水克制火
+            2: 4,  # 火克制风
+            4: 3,  # 风克制地
+            3: 1,  # 地克制水
+            5: 6,  # 光克制暗
+            6: 5   # 暗克制光
+        }
+        # 检查属性是否有效
+        if ele1 in restrain_map and ele2 == restrain_map[ele1]:
+            return True
+        else:
+            return False
+
+    coefficient = 1
+    if restrains(attacker.Element, defender.Element):
+        coefficient += 0.25
+    elif restrains(defender.Element, attacker.Element):
+        coefficient -= 0.25
+
+    if restrains(skill.SkillElement, defender.Element):
+        coefficient += 0.25
+    elif restrains(defender.Element, skill.SkillElement):
+        coefficient -= 0.25
+
+    return coefficient
+
+
 # 准备一个计算伤害的函数，传入释动的对象，受动动对象，返回伤害值
 def damage_calc(attacker, defender, skill):
 
     # ####-------------------------------------------------------------------
     # ####这里负责取值，不负责计算
-
     # 英雄的属性
     attacker_id = attacker.HeroID
     attacker_type = attacker.__class__.__name__.lower()
@@ -45,6 +74,10 @@ def damage_calc(attacker, defender, skill):
 
     # ####-------------------------------------------------------------------
     # #这里负责封装二阶的变量
+    coefficient = calculate_coefficient(attacker, defender, skill)
+
+    print(f"Attacker:{attacker_id}[{attacker.Element}] 使用技能 {skill.SkillId}[{skill.SkillElement}]攻击 Defender:{defender.HeroID}[{defender.Element}], 属性加成系数为 [{coefficient}]")
+
 
     attacker_skill_coefficient = 1  # 技能伤害系数
     if skill.SkillId == demo_skill['战士普攻']:
@@ -120,6 +153,7 @@ def damage_calc(attacker, defender, skill):
     # ####-------------------------------------------------------------------
     # #这里负责封装三阶变量
     basedamage = attacker_ATK * attacker_skill_coefficient
+
     print('basedamage', basedamage)
 
     level2damage = (basedamage * (1 + attacker_Atk_bonusCoefficient) - defender_Def) * defender_DefenseCoefficient * (
