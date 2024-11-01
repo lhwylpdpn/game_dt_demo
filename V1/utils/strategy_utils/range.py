@@ -482,7 +482,7 @@ class Range(Data):
             print(f"[MOVE]警戒范围{doge_base}内存在敌人{closest_enemy_position['position']}")
             move_steps = self.find_closest_attack_position(self.role, closest_enemy_position["position"])
             if move_steps:
-                move_steps = self.get_block_step(move_steps, (1,), self.map)
+                move_steps = self.get_block_step(move_steps, (0,), self.map)
                 if len(move_steps) > 1:
                     # state = {"map": self.map,
                     #          "hero": self.teammates + [self.role],
@@ -512,7 +512,7 @@ class Range(Data):
 
             steps = find_shortest_path(position, teammate_position, jump_height, [0, 2, 3], self.map)[
                     : round_action + 1]
-            move_steps = self.get_block_step(steps, (1,), self.map)
+            move_steps = self.get_block_step(steps, (0,), self.map)
             if len(move_steps) > 1:
                 return self.move_step_handler(move_steps)
         return []
@@ -539,7 +539,7 @@ class Range(Data):
             if move_steps:
                 print(
                     f"[MOVE]{self.role['HeroID']}:{position}跳跃高度:{jump_height},警戒范围:{doge_base},本回合可移动{round_action},向敌人{closest_enemy_position['position']}移动,本次移动{move_steps}")
-                move_steps = self.get_block_step(move_steps, (1,), self.map)
+                move_steps = self.get_block_step(move_steps, (0,), self.map)
                 if len(move_steps) > 1:
                     return self.move_step_handler(move_steps)
 
