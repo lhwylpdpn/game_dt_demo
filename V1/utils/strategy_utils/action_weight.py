@@ -34,7 +34,7 @@ class ActionWeight(object):
 
     def is_default_skill(self, skill):
         if skill["DefaultSkills"] == 1:
-            return
+            return True
         return False
 
     def enemy_type(self):
