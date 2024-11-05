@@ -12,10 +12,10 @@ class Action(object):
     def calc_damage(self, damage_data):
         d = []
         for each in damage_data:
-            damage = [_["damage"] for _ in damage_data[each]]
-            pre_damage = [_["pre_damage"] for _ in damage_data[each]]
-            st = [_["st"] for _ in damage_data[each]]
-            crit = [_["crit"] for _ in damage_data[each]]
+            damage = [_["damage"] for _ in damage_data[each]["damage"]]
+            pre_damage = [_["pre_damage"] for _ in damage_data[each]["damage"]]
+            st = [_["st"] for _ in damage_data[each]["damage"]]
+            crit = [_["crit"] for _ in damage_data[each]["damage"]]
 
             d.extend([["ATK", [each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
         return d
@@ -23,7 +23,7 @@ class Action(object):
     def calc_effect(self, effect_data):
         d = []
         for each in effect_data:
-            for e in effect_data[each]:
+            for e in effect_data[each]["damage"]:
                 if e["effects"]:
                     eff = [_["effect_id"] for _ in e["effects"]]
                     d.extend([[[each.__class__.__name__.lower(), each.HeroID], eff, []]])
@@ -38,6 +38,10 @@ class Action(object):
 
             d.extend([["HEAL", [each.__class__.__name__.lower(), each.HeroID], heal, pre_damage]])
         return d
+
+    def atk_back(self, back_data):
+        if back_data:
+            pass
 
     def move_step_handler(self, move_queue):
         res = []
@@ -72,8 +76,10 @@ class Action(object):
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
 
             if step["type"] == "ATK":
-                attack_enemies_ids = [_["HeroID"] for _ in step["target"]]
+                attack_enemies_ids = [_.get("HeroID", _.get("sn")) for _ in step["target"]]
+                print("attack_enemies_ids: ", attack_enemies_ids)
                 attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
+                # attack_enemies += [e for e in state["attachment"] if e.sn in attack_enemies_ids]
                 atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
 
                 res["atk_range"] = step["skill_range"]
@@ -81,6 +87,7 @@ class Action(object):
                 res["release_range"] = step["release_range"]
                 res["damage"] = self.calc_damage(atk_res)
                 res["effects"] = self.calc_effect(atk_res)
+
 
             if step["type"] == "HEAL":
                 target_ids = [_["HeroID"] for _ in step["target"]]

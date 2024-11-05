@@ -44,7 +44,8 @@ class schedule:
         self.hero_list = state['hero']
         self.state = state['map']
         self.monster_list = state['monster']
-        self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list)
+        self.attachment = state['attachment']
+        self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment)
         self.agent_1 = agent()
         self.agent_2 = agent()
         self.timeout_tick = 2000
@@ -228,26 +229,33 @@ class schedule:
         map = copy.deepcopy(state['map'])
         hero = copy.deepcopy(state['hero'])
         monster = copy.deepcopy(state['monster'])
+        attachment = copy.deepcopy(state['attachment'])
         if type(map) != list:
             map = [map]
         if type(hero) != list:
             hero = [hero]
         if type(monster) != list:
             monster = [monster]
+        if type(attachment) != list:
+            attachment = [attachment]
 
         map_dict = {}
         hero_dict = {}
         monster_dict = {}
+        attachment_dict = {}
         for i in range(len(map)):
             map_dict[i] = map[i].dict(for_view=True)
         for h in hero:
             hero_dict[h.HeroID] = h.dict(for_view=True)
         for m in monster:
             monster_dict[m.HeroID] = m.dict(for_view=True)
+        for a in attachment:
+            attachment_dict[a.sn] = a.dict()
         del map
         del hero
         del monster
-        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict}
+        del attachment
+        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 'attachment': attachment_dict}
         return res
 
     # def state_to_dict_new(self,state):

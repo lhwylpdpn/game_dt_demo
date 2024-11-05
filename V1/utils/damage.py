@@ -19,7 +19,7 @@ def calculate_coefficient(attacker, defender, skill):
         else:
             return False
 
-    coefficient = 1
+    coefficient = 1 # 基础为 1 ，不受属性影响
     if restrains(attacker.Element, defender.Element):
         coefficient += 0.25
     elif restrains(defender.Element, attacker.Element):
@@ -81,19 +81,19 @@ def damage_calc(attacker, defender, skill):
 
     attacker_skill_coefficient = 1  # 技能伤害系数
     if skill.SkillId == demo_skill['战士普攻']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 100%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 100%物理伤害
     if skill.SkillId == demo_skill['战士横扫']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 85%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient # 85%物理伤害
     if skill.SkillId == demo_skill['弓手普攻']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK_FORMULA_1').param[1]) / 100  # 65%(物理+敏捷)的物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_1').param[1]) / 100) * coefficient  # 65%(物理+敏捷)的物理伤害
     if skill.SkillId == demo_skill['弓手穿杨']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 对范围内的敌人造成150%普攻的物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 对范围内的敌人造成150%普攻的物理伤害
     if skill.SkillId == demo_skill['弓手上前一步']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 给指定范围内的目标以50%的伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 给指定范围内的目标以50%的伤害
     if skill.SkillId == demo_skill['弓手箭雨']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK').param[1]) / 100  # 130%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
     if skill.SkillId == demo_skill['战士反击斩']:
-        attacker_skill_coefficient = float(skill.get_effect_by_key('ATK_BACK').param[1]) / 100  # 100%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_BACK').param[1]) / 100) * coefficient  # 100%物理伤害
     attacker_Def = attacker_PhysicalDef  # 防御值
     if False:  # todo 这里需要知道技能的是物理伤害还是魔法伤害，当前判断假设是物理伤害都
         attacker_Def = defender_MagicalDef
@@ -201,6 +201,7 @@ def damage_calc(attacker, defender, skill):
 
     if skill.SkillId == demo_skill['战士反击斩']:
         res = random_choices({0: 0.5, 1: 0.5})  # 0 反击生效  1 反击不生效
+        # res = 1  # TODO TEST
         if res == 1:
             eff = {
                 "role":  attacker_type,

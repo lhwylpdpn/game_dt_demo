@@ -105,7 +105,10 @@ def test_atk_bomb(stats):
 
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
-    test_atk_bomb(state)
+    print(state["attachment"])
+    for _ in state["attachment"]:
+        print("----------------")
+        pprint(_.dict())
     
     # state["maps"] = state["map"]
     # print(len(state.get("monster")))

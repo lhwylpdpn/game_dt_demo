@@ -7,48 +7,45 @@ from strategy.action import Action
 
 
 class Game(object):
-    def __init__(self, hero: list, monster: list, maps):
+    def __init__(self, hero: list, monster: list, maps, attachment):
         self.hero = hero
         self.monster = monster
         self.map = maps
+        self.attachment = attachment
         self.hero_state = {
             "hero": self.hero,
             "monster": self.monster,
             "maps": self.map,
+            "attachments": self.attachment,
         }
         self.monster_state = {
             "hero": self.monster,
             "monster": self.hero,
             "maps": self.map,
+            "attachments": self.attachment,
         }
 
         self.hero_copy = copy.deepcopy(hero)
         self.monster_copy = copy.deepcopy(monster)
         self.map_copy = copy.deepcopy(maps)
-        # self.hero_state_copy = {
-        #     "hero": self.hero_copy,
-        #     "monster": self.monster_copy,
-        #     "maps": self.map_copy,
-        # }
-        # self.monster_state_copy = {
-        #     "hero": self.monster_copy,
-        #     "monster": self.hero_copy,
-        #     "maps": self.map_copy,
-        # }
+        self.attachment_copy = copy.deepcopy(attachment)
 
     def reset(self):
         self.hero = copy.deepcopy(self.hero_copy)
         self.monster = copy.deepcopy(self.monster_copy)
         self.map = copy.deepcopy(self.map_copy)
+        self.attachment_copy = copy.deepcopy(self.attachment)
         self.hero_state = {
             "hero": self.hero,
             "monster": self.monster,
             "maps": self.map,
+            "attachments": self.attachment
         }
         self.monster_state = {
             "hero": self.monster,
             "monster": self.hero,
             "maps": self.map,
+            "attachments": self.attachment
         }
 
 
@@ -110,7 +107,7 @@ class Game(object):
         return sorted(roles, key=lambda x: x.HeroID)
 
     def get_current_state(self):
-        return {"hero": self.hero, "monster": self.monster, "map": self.map}
+        return {"hero": self.hero, "monster": self.monster, "map": self.map, "attachment": self.attachment}
 
     def start(self):
         for each in self.hero:
