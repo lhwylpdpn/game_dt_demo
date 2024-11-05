@@ -179,10 +179,10 @@ def train_agent(num_episodes):
     print('战场情况:失败次数--'+str(sum([1 for _ in battle_res if _==1])))
     print('战场情况:平局次数--'+str(sum([1 for _ in battle_res if _==2])))
 
-
+    sch.performance.end()
     res_json=sch.send_update()
     sch.performance.static()
-    #replay(state_init,res_json)
+    replay(state_init,res_json)
     return sch.agent_1.q_table
 #
 def replay(state,json_=os.path.abspath(os.path.join(os.path.dirname(__file__)))+'/../for_qiangye.json'):
@@ -349,9 +349,16 @@ def train_ppo():
         state_dict = sch.state_to_dict(state)
         sch.init_state = state_dict
 
+        #todo 这个地方需要完全自定义处理
+
+
+
+
+
         while sch.tick < sch.timeout_tick and not sch.game_over:
             sch.tick += 1
-            sch.next()#todo 要每个行动算一个奖励
+            sch.next()#
+            #todo 这个地方调用next,
             print(sch.state)
             time.sleep(100)
         game_res = sch.game.check_game_over()[1]
@@ -459,7 +466,8 @@ def clac_rewards(state):
 
 
 if __name__ == '__main__':
-    table=train_agent(num_episodes=1)
+    #table=train_agent(num_episodes=1)
+    train_ppo()
 
 
 
