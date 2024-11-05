@@ -114,7 +114,6 @@ class schedule:
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
             # print('tick',self.tick,'调度当前拿到的活着hero', hero.__class__.__name__.lower(), hero.HeroID,)
-
             # log_manager.add_log({'stepname':'拿到的存活的英雄','tick':self.tick,'hero':hero.HeroID,'class':hero.__class__.__name__.lower()})
             if hero.is_death:  # 同一个tick里也可能，后轮到的英雄被先轮到的打死
                 continue
@@ -123,14 +122,15 @@ class schedule:
             # 向上取整
             once_tick = math.ceil(self.ap_limit / (hero.Velocity / self.ap_parm))
             # print('once_tick',self.tick,hero.Velocity,once_tick,hero.__class__.__name__.lower(), hero.HeroID,)
+
             if self.tick % once_tick == 0:
                 print(
                     f"----------------------------------------- tick: {self.tick}, role: {hero.HeroID}  ----------------------------------------- ")
                 self.performance.event_start('focus')
+                print('focus',type(state),state)
 
                 focus = hero.focus(state)
                 self.performance.event_end('focus')
-
                 # 查看hero的队列
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
@@ -166,7 +166,6 @@ class schedule:
 
                 actions = focus + move_ + actions + un_focus
                 self.performance.event_end('un_focus')
-
                 # print('tick',self.tick,'合并后调度获得的行动list: 总', alive_hero_id,actions)
                 # log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
@@ -218,13 +217,14 @@ class schedule:
                         #self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
                         self.save_result_to_redis(self.record_update_dict[self.tick])
 
-                    return
+                    return state
                 self.performance.event_end('check_game_over')
         # if self.record_update_dict.get(self.tick) is not None:
             #self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
             # self.save_result_to_redis(self.record_update_dict[self.tick])
-
     # 增加一个state静态化的方法
+
+        return state
     def state_to_dict(self, state):
         map = copy.deepcopy(state['map'])
         hero = copy.deepcopy(state['hero'])
