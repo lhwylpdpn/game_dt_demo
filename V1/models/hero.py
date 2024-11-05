@@ -1130,4 +1130,4 @@ class Hero():
 
     def open_box(self, box_object):
         box_object.open(self)
-        pass
+        return self

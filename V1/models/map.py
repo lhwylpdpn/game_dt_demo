@@ -109,6 +109,12 @@ class Map(): # 地图
                     result_box.append(_at)
         return result_box
     
+    def set_land_no_pass(self, x,y,z, block):
+        land = self.map[x,y,z]
+        if isinstance(land, Land):
+            land.set_Block(block)
+        return self
+
     def exit(self, h_m_object): # 离开地块
         x,y,z = h_m_object.position
         land = self.map[x,y,z]
