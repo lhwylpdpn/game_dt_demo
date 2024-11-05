@@ -2,7 +2,11 @@ import game_info
 import agent
 
 def train_agent(num_episodes):
-    # 初始化游戏和agent
+
+
+
+
+
     game = game_info.game()
     agent_liu = agent.randomAgent('小刘', game)
     agent_qiang = agent.QLearningAgent('强爷', game)

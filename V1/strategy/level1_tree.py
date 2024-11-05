@@ -213,7 +213,7 @@ def create_decision_tree(hero,state):
 
 
     root=Node("判断是否满足恢复判定", action=None, selection=[lambda_is_need_to_healing(range_obj,0.6,0.5,0.8)],probability=1)
-    is_need_to_escape = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,1)],probability=1)
+    is_need_to_escape = Node("判断是否满足逃跑条件", action=None, selection=[lambda_is_health_below_threshold(range_obj,eascape_hp),lambda_nearby_enemy_count(range_obj,2)],probability=1)
     is_have_enemie_within_range_node = Node("判断警戒范围内是否有敌人", action=None, selection=[lambda_is_within_range(range_obj,1)],probability=1)
     is_have_targets_within_atk_range_node=Node("判断是否有敌人在攻击范围内",action=None,selection=[lambda_have_targets_within_atk_range(range_obj)],probability=1)
     is_have_allies_within_range_node=Node("判断是否有友军在战斗",action=None,selection=[lambda_is_fight_allies(range_obj)],probability=1)

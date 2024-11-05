@@ -20,11 +20,13 @@ class test_process:
     def __init__(self):
 
         self.state = BuildPatrol("data.json").load_data()
-        print('state',self.state)
 
     def data_init(self):
         p_all = self.state['map'].view_from_y_dict().keys()
         p_all = list(p_all)
+
+
+
         for p in self.state['map'].view_from_y_dict().keys():
             if self.state['map'].view_from_y_dict()[p]['Block'] != 1:
                 p_all.remove(p)
@@ -204,7 +206,7 @@ def main():
         f.write('')
     obj_=test_process()
     obj_.data_init()
-    obj_.pygame_init()
+    #obj_.pygame_init()
     obj_.run()
     #obj_.game_run()
     #time.sleep(100)
@@ -212,11 +214,11 @@ def main():
 
 def replay():
     obj_=test_process()
-    obj_.data_init()
+    #obj_.data_init()
     obj_.pygame_init()
 
     #从文件里读取转成json
-    with open('for_qiangye.json', 'r', encoding='utf-8') as file:
+    with open('result.json', 'r', encoding='utf-8') as file:
         json_reload = file.read()
     obj_.game_run(json=json_reload)
 
