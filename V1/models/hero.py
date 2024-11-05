@@ -1068,7 +1068,7 @@ class Hero():
         enemy.after_be_attacked(skill) # 被攻击者添加被动skill
         return result
     
-    def _atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
+    def __atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
         map_obj = state.get("map")
         map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
         return 
