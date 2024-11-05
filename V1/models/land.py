@@ -120,6 +120,10 @@ class Land(): # 地块
     @property
     def Block_Base(self): # 
         return self.__Block_Base
+
+    def set_Block_train(self, v):
+        self.__Block = v
+        return
     
     def set_Block(self):
         if self.__stand_object: # 站立了英雄ormonster

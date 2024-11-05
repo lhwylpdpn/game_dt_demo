@@ -109,10 +109,10 @@ class Map(): # 地图
                     result_box.append(_at)
         return result_box
     
-    def set_land_no_pass(self, x,y,z, block):
+    def set_land_no_pass(self, x,y,z, block): # 训练使用，实际情况用不到这个
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_Block(block)
+            land.set_Block_train(block)
         return self
 
     def exit(self, h_m_object): # 离开地块
