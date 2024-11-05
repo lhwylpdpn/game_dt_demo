@@ -9,13 +9,10 @@ from pprint import pprint
 from models.hero import Hero
 from models.monster import Monster
 from models.skill import Skill
-from models.skilldetail import SkillDetail
-from models.skilleffect import SkillEffect
+from models.effect import Effect
 from models.map import Map, Land
 from models.teamflag import TeamFlag
-# from test_hero_data import origin_hero_data
-# from test_map_data import origin_map_data
-# from test_monster_data import origin_monster_data
+from models.attachment import Attachment
 
 
 class BuildPatrol():
@@ -30,9 +27,12 @@ class BuildPatrol():
         monsters = self.build_object(src_json_data.get("monster"), hero_or_monster="monster")
         TeamFlag.search_teammate(heros)
         TeamFlag.search_teammate(monsters)
-        return {"map": self.build_map(src_json_data.get("map")), 
+        _map = self.build_map(src_json_data.get("map"))     # 初始化地图
+        attachments =  self.map_load_attachment(src_json_data, _map) # 地图加载附着物
+        return {"map": _map, 
                 "hero": heros,
-                "monster": monsters
+                "monster": monsters,
+                "attachment": attachments
                 }
 
     @staticmethod
@@ -44,11 +44,11 @@ class BuildPatrol():
             m_h_obj = Object_Class(**each)
             skills = []
             for skill in each.get("skills"):
-                skill_detail = SkillDetail(**skill)
-                for each_skill_effect in skill.get("effects"):
-                    skill_effect = SkillEffect(**each_skill_effect)
-                    skill_detail.effects_add(skill_effect)
-                skills.append(skill_detail)
+                _skill = Skill(**skill)
+                for each_effect in skill.get("effects"):
+                    _effect = Effect(**each_effect)
+                    _skill.effects_add(_effect)
+                skills.append(_skill)
             m_h_obj.set_skills(skills)
             buffs = m_h_obj.load_init_unActiveSkill() # 返回全队的连携
             buff_unit_dis.extend(buffs)
@@ -71,13 +71,44 @@ class BuildPatrol():
             map.load_land(*position, land)
         # pprint(map.view_from_y())
         return map
+    
+    @staticmethod
+    def map_load_attachment(origin_attachment_data, map_obj): # 加载地图附着物
+        # 第二层 无
+        # 第三层 地块的相关buff
+        # 第四层  拒马， 火药桶， 宝箱
+        attachments = []
+        for each in origin_attachment_data.get("map_3", []) + origin_attachment_data.get("map_4", []) : 
+            new_attach = Attachment(**each)
+            attachments.append(new_attach)
+            _effects = []
+            for each_effect in each.get("effects"):
+                _effect = Effect(**each_effect)
+                _effects.append(_effect)
+            new_attach.set_effects(_effects)
+            map_obj.load_attachment(new_attach)
+    
+        return attachments
 
-        
+
+def test_atk_bomb(stats):
+    hero = state.get("hero")[0] #
+    state["maps"] = state["map"]
+    hero.move_position(15,13,11, state=stats)
+    map_ = state.get("map")
+    bomb = state.get("attachment")[2]
+    map_.attack_attachment( wage_object=hero, 
+                            skill=hero.skills[0], 
+                            attachment=bomb, stats=stats)
+
+
+
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
-    state["maps"] = state["map"]
+    test_atk_bomb(state)
+    
+    # state["maps"] = state["map"]
     # print(len(state.get("monster")))
-    # hero = state.get("hero")[0] #
     # hero2 = state.get("hero")[2]
     # hero2.move_position(3,1,4, state=state)
     # hero.move_position(3,1,3, state=state)
@@ -101,24 +132,27 @@ if __name__ == "__main__":
     #     hero.trigger_buff(e)
     # print(hero.Hp)
 
-    hero0 = state.get("hero")[1
-    ]
-    hero1 = state.get("hero")[0]
-    #monster = state.get("monster")[-1]
+    # hero0 = state.get("hero")[1
+    # ]
+    # hero1 = state.get("hero")[0]
+    # monster0 = state.get("monster")[0]
+    # monster1 = state.get("monster")[1]
     # hero2.set_AvailableSkills([82])
-    print(hero0.skills)
+    # print(hero0.skills)
 
-    skill = hero0.get_skill_by_id(79)
+    # skill = hero0.get_skill_by_id(78)
    
-    hero0.move_position(3,1,4, state=state)
-    hero1.move_position(3,1,3, state=state)
-    print("use skill_79 test:", skill)
-    print( hero0.friend_treatment(
-        friends=[hero1], 
-                        skill=skill, 
-                        attack_point=hero1.position, 
-                        state=state))
-    print(hero1.dict())
+    # hero0.move_position(3,1,6, state=state)
+    # monster0.move_position(3,1,4, state=state)
+    # monster1.move_position(3,1,3, state=state)
+    # hero0.after_atk_skill(enemys=[monster0,monster1], skill=skill, attack_point=[3,1,5], state=state)
+    # print("use skill_79 test:", skill)
+    # print( hero0.friend_treatment(
+    #     friends=[hero1], 
+    #                     skill=skill, 
+    #                     attack_point=hero1.position, 
+    #                     state=state))
+    # print(hero1.dict())
 
     
 

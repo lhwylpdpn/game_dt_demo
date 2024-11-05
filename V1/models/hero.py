@@ -10,11 +10,11 @@ import traceback
 from itertools import product
 from utils.damage import damage
 from utils.heal import heal
-# from utils.transposition import trans_postion
 from utils.tools import random_choices
 from utils.tools import round_up_2_integer
 from .map import Map, Land
 from .buff import Buff
+from .attachment import Attachment
 from .teamflag import TeamFlag
 from .baseclass import BaseClass
 
@@ -98,6 +98,9 @@ class Hero():
         "HERO or MONSER"
         return self.__class__.__name__.upper()
     
+    def is_hero(self):
+        return True
+    
     def get_fields(self):
         return self.fields
     
@@ -117,6 +120,8 @@ class Hero():
         self.__focus_times += 1     # 被选中次数 + 1
         self.is_move = False
         self.check_buff()           # 减少buff
+        map_obj = state.get("map")
+        map_obj.h_m_focus(self)
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=True):
             bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
@@ -140,6 +145,8 @@ class Hero():
                                 print("[ERROR] need add ", each_e.key)
                         if tmp_buff:
                             bufff_s.append({"action_type": f"EFFECT_{tmp_buff.buff_id}", "buff":tmp_buff}) 
+        map_obj = state.get("map")
+        map_obj.h_m_unfocus(self)
         self.is_move = False
         return bufff_s
     
@@ -149,7 +156,8 @@ class Hero():
 
     def leve_game(self, state): # 退出战局
         map_obj = state.get('maps')
-        map_obj.set_land_pass(*self.position)
+        map_obj.exit(self)
+        # map_obj.set_land_pass(*self.position)
         self.team.leve_game(self)
         friends = self.__get_friends(state)
         # 由于我给加上的buff，都要去掉（主要是连携 NEAR）
@@ -252,19 +260,19 @@ class Hero():
         return self
     
     @property
-    def JumpHeight(self):
-        return self.__JumpHeight
-    
-    def set_JumpHeight(self, JumpHeight):
-        self.__JumpHeight = JumpHeight
-        return self
-    
-    @property
     def Element(self):
         return self.__Element
     
     def set_Element(self, Element):
         self.__Element = Element
+        return self
+    
+    @property
+    def JumpHeight(self):
+        return self.__JumpHeight
+    
+    def set_JumpHeight(self, JumpHeight):
+        self.__JumpHeight = JumpHeight
         return self
     
     @property
@@ -311,7 +319,6 @@ class Hero():
     
     def set_Hp(self, Hp):
         self.__Hp = round_up_2_integer(Hp)
-        print(self.HeroID ,"Hp ", self.__Hp)
         return self
     
     def Hp_damage(self, damage_res): # 被攻击，掉血
@@ -429,7 +436,7 @@ class Hero():
         return self
     
     def get_dog_range(self, state): # 警戒范围
-        map_object = state.get("maps")
+        map_object = state.get("map")
         drange = []
         if self.is_alive:
             for x, z in product(range(-self.__DogBase, self.__DogBase + 1), repeat=2):
@@ -587,8 +594,8 @@ class Hero():
         map_obj = state['maps']
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
-        map_obj.set_land_pass(*self.position)             # 出发地块设置为可通过
-        map_obj.set_land_no_pass(x,y,z, self.Block)       # 抵达地块设置为不可通过
+        map_obj.exit(self)            # 离开当前地块
+        map_obj.enter(x,y,z, self)    # 进入新地块, 返回宝箱
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
         self.is_move = True
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
@@ -725,7 +732,7 @@ class Hero():
 
 
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
-        map_obj = state.get("maps")
+        map_obj = state.get("map")
         move_value = int(value[0])
         print(f"{self.HeroID} 计划从{self.position} 走向 {target.position} 方向 {move_value} 步")
         position_ok = None
@@ -790,7 +797,7 @@ class Hero():
         """
         reverse : "False" 由近到远排序, "True" 由远到近排序
         """
-        
+
         def distance(p1, p2):
             return abs(p1.x - p2.x) + abs(p1.z - p2.z)
 
@@ -921,7 +928,7 @@ class Hero():
         range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
         enemy 目标敌人，即方向
         """
-        map_obj = state.get("maps")
+        #map_obj = state.get("maps")
         if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
             if abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(range_line_value): # 在范围内
                 return True
@@ -932,14 +939,14 @@ class Hero():
         range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
         enemy 目标敌人，即方向
         """
-        map_obj = state.get("maps")
+        #map_obj = state.get("maps")
         if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
             if int(gap)<= abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(radis): # 在范围内
                 return True
         return False
  
     def is_in_hit_range(self, gap, radis, enemy, state):
-        map_obj = state.get("maps")
+        #map_obj = state.get("maps")
         huff_dis = abs(self.x - enemy.x) + abs(self.z - enemy.z)
         if huff_dis <= int(radis) and huff_dis > gap:
             return True
@@ -955,9 +962,9 @@ class Hero():
         if "ATK_DISTANCE" not in back_skill.avaliable_effects(): # 没有攻击距离
             return True
         else: #有攻击距离 
-            map_obj = state.get("maps")
+            #map_obj = state.get("maps")
             effect = back_skill.get_effect_by_key("ATK_DISTANCE")
-            atk_distance = effect.param[1]
+            #atk_distance = effect.param[1]
             l_in_range,r_in_range,cross_in_range = False, False, False
             # 高度影响攻击范围, 高低差每{0}格，最大攻击范围加{0}格, 暂时不处理
             # if "ADD_ATK_DISTANCE" in back_skill.avaliable_effects():
@@ -977,9 +984,9 @@ class Hero():
             if not l_in_range and not r_in_range and not cross_in_range: # 没有在范围内
                 return False
             else:
-                if "IS_ATK_DISTANCE" in back_skill.avaliable_effects(): # 攻击范围限制高度，高低差{0}内生效
-                    _eff = back_skill.get_effect_by_key("IS_ATK_DISTANCE")
-                    if abs(enemy.y - self.y) <= _eff.param[0]:
+                if "CHANGE_ATK_DISTANCE" in back_skill.avaliable_effects(): # 攻击范围限制高度，高低差{0}内生效
+                    _eff = back_skill.get_effect_by_key("CHANGE_ATK_DISTANCE")
+                    if abs(enemy.y - self.y) <= int(_eff.param[0]):
                         return True
                     else:
                         return False
@@ -1001,6 +1008,19 @@ class Hero():
             @skill        使用的技能对象
             @attack_point 技能释放点位
         """
+
+
+        def back_data_format(res, skill, attack_point, effect_ids):
+            return {
+                    "action_type" : f"SKILL_{skill.SkillId}",
+                    "atk_range": [attack_point],  # 攻击范围
+                    "atk_position": [attack_point], # 攻击位置
+                    "release_range": [attack_point], # 释放范围
+                    "damage": res, 
+                    "effects": effect_ids
+                }
+             
+
         print(self.HeroID ,"(^ ^)反击(^ ^)")
         # result = {}
         effect_ids = self.prepare_attack(skill)  # 做攻击之前，加载skill相关
@@ -1008,12 +1028,51 @@ class Hero():
         for _ in _res: # 向上取整
             _["damage"] = round_up_2_integer(_["damage"])
             _["pre_damage"] = round_up_2_integer(_["pre_damage"])
-        # for each_id in  effect_ids:
-        #     _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
         enemy.Hp_damage(_res) # 敌人掉血攻击
         # result[self] = copy.deepcopy(_res)
-        return effect_ids
-
+        #return effect_ids
+        return back_data_format(_res, skill, attack_point, effect_ids)
+    
+    def __atk_enemy(self, enemy, skill, attack_point, state): # 攻击敌人
+        result = {"damage":None, "back_attck":None}
+        effect_ids = enemy.before_be_attacked(skill) # 被攻击者添加被动skill
+        unit_num = self.__get_unit_num(skill=skill, state=state)
+        _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
+        for _ in _res: # 向上取整
+            _["damage"] = round_up_2_integer(_["damage"])
+            _["pre_damage"] = round_up_2_integer(_["pre_damage"])
+        # 添加被动技能的effect
+        for each_id in effect_ids:
+            _res[0]["effects"].append(Hero.effect_format_data(enemy, each_id))
+        miss_effect_id, is_miss = enemy.is_miss_hit(skill)
+        if is_miss: # 被动技能使攻击失效 # TODO 彬哥 
+            _res[0]["effects"].append(Hero.effect_format_data(enemy, miss_effect_id))
+            for _ in _res:
+                _["damage"] = 0
+            result["damage"] = copy.deepcopy(_res)
+            print(f"~~~~ {enemy.HeroID} 的被动技能使攻击无效～", _res)
+            return result
+        result["damage"] = copy.deepcopy(_res)
+        enemy.Hp_damage(_res) # 敌人掉血攻击
+        if enemy.is_death:
+            enemy.leve_game(state)
+            return result
+        else: # 没有被打死，可以发动反击
+            for each_back_skill in enemy.get_back_skills(self, skill): # 发动反击
+                print("use back skill:", each_back_skill.SkillId)
+                if enemy.is_in_backskill_range(each_back_skill, self, state):
+                    result["back_attck"] = enemy.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
+                    print("end back....")
+                else:
+                    print("not in backskill range ")
+        enemy.after_be_attacked(skill) # 被攻击者添加被动skill
+        return result
+    
+    def _atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
+        map_obj = state.get("map")
+        map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
+        return 
+    
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
         """
@@ -1033,45 +1092,13 @@ class Hero():
             if self.is_death: # 死亡了
                 self.leve_game(state)
                 return
-            effect_ids = each.before_be_attacked(skill) # 被攻击者添加被动skill
-            unit_num = self.__get_unit_num(skill=skill, state=state)
-            _res = damage(attacker=self, defender=each, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
-            for _ in _res: # 向上取整
-                _["damage"] = round_up_2_integer(_["damage"])
-                _["pre_damage"] = round_up_2_integer(_["pre_damage"])
-            # 添加被动技能的effect
-            for each_id in effect_ids:
-                _res[0]["effects"].append(Hero.effect_format_data(each, each_id))
-            miss_effect_id, is_miss = each.is_miss_hit(skill)
-            if is_miss: # 被动技能使攻击失效 # TODO 彬哥 
-                _res[0]["effects"].append(Hero.effect_format_data(each, miss_effect_id))
-                for _ in _res:
-                    _["damage"] = 0
-                result[each] = copy.deepcopy(_res)
-                print(f"~~~~ {each.HeroID} 的被动技能使攻击无效～", _res)
-                continue
-            result[each] = copy.deepcopy(_res)
-            each.Hp_damage(_res) # 敌人掉血攻击
-            if each.is_death:
-                each.leve_game(state)
-                continue
-            else: # 没有被打死，可以发动反击
-                for each_back_skill in each.get_back_skills(self, skill): # 发动反击
-                    print("use back skill:", each_back_skill.SkillId)
-                    if each.is_in_backskill_range(each_back_skill, self, state):
-                        back_effect_ids = each.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
-                        for each_id in back_effect_ids:
-                            _res[0]["effects"].append(Hero.effect_format_data(self, each_id))
-                        # if self not in result.keys():
-                        #     result[self] = back_result
-                        # else:
-                        #     result[self].append(back_result)
-                        print("end back....")
-                    else:
-                        print("not in backskill range ")
-            each.after_be_attacked(skill) # 被攻击者添加被动skill
+            
+            if isinstance(each, Attachment):
+                result[each] = self.__atk_attachment(each, skill, attack_point, state)
+            else:
+                result[each] = self.__atk_enemy(each, skill, attack_point, state)
+
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
-        print(result)
         return result
     
     def friend_treatment(self, friends=[], skill=None, attack_point=[], state=[]): # 对队友释放治疗技能
@@ -1100,3 +1127,7 @@ class Hero():
     def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
         buff_dic.get("buff").make_effective(self)
         return self
+
+    def open_box(self, box_object):
+        box_object.open(self)
+        pass

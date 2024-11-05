@@ -54,15 +54,17 @@ class Buff():
         buff = None
         buff_value = param[0]
         buff_round_action = param[1] if len(param) >1 else -1
-        if buff_key == "DEBUFF_ROUND_ACTION_BACK": # 这个同类别的，后一个覆盖前一个效果
+        if buff_key in ["DEBUFF_ROUND_ACTION_BACK", "DEBUFF_PLOT_FIRE"]: # 这个同类别的，后一个覆盖前一个效果
             for each in hero_or_monster.buff:
-                if each.buff_key == "DEBUFF_ROUND_ACTION_BACK":
+                if each.buff_key in ["DEBUFF_ROUND_ACTION_BACK", "DEBUFF_PLOT_FIRE"]:
                     buff = each
                     buff.set_buff_value(buff_value).set_buff_round_action(buff_round_action)
                     continue
             if buff is None: 
                 buff = Buff(buff_id, buff_key, buff_value, buff_round_action, 
-                            buff_from=buff_from, buff_percent=buff_percent, BuffType=BuffType).set_buff_back(hero_or_monster.RoundAction)
+                            buff_from=buff_from, buff_percent=buff_percent, BuffType=BuffType)
+                if buff_key == "DEBUFF_ROUND_ACTION_BACK":
+                    buff.set_buff_back(hero_or_monster.RoundAction)
         else:
             buff = Buff(buff_id, buff_key, buff_value, buff_round_action, 
                         buff_from=buff_from, buff_percent=buff_percent, BuffType=BuffType)
@@ -185,6 +187,9 @@ class Buff():
         elif self.buff_key == "ADD_HP": # 恢复体力上限的{0}%，并持续{0}行动回合
             hp = hero_or_monster.Hp +  hero_or_monster.HpBase * self.buff_value/100.0
             hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
+        elif self.buff_key == "DEBUFF_PLOT_FIRE": #  fire 伤害 {0}，并持续{0}行动回合
+            hp = hero_or_monster.Hp - self.buff_value
+            hero_or_monster.set_Hp(hp)
         else:
             pass
         return hero_or_monster

@@ -5,11 +5,9 @@ import json
 import os
 from datetime import datetime
 import uuid
-import time
 class LogManager:
-    def __init__(self, file_name=''.join(str(uuid.uuid4()).split('-'))[0:10]+time.strftime('%Y_%m_%d_%H_%M_%s')+"logs.json"):
+    def __init__(self, file_name= ''.join(str(uuid.uuid4()).split('-')) + datetime.now().strftime('%Y_%m_%d_%H_%M_%S') + "logs.json"):
         current_directory = os.path.dirname(os.path.abspath(__file__))
-        self.file_path = os.path.join(current_directory, file_name)
         #创建一个全局计数器
         self.counter=0
 
