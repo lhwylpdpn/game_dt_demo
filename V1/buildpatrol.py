@@ -114,7 +114,7 @@ def pickle_state(state):
 
 
 if __name__ == "__main__":
-    # state = BuildPatrol("data.json").load_data()
+    state = BuildPatrol("data.json").load_data()
     file = "break.data"
     
     with open(file, "wb") as file_obj: 

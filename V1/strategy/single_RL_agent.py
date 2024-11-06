@@ -5,6 +5,7 @@ import time
 import random
 from RL.Q_lerning import QLearningAgent
 from RL.PPO import PPO
+import numpy as np
 class Q_Agent(QLearningAgent):
 
 
@@ -52,12 +53,15 @@ class Q_Agent(QLearningAgent):
         allow_actions = Range(state=state, role=hero).simple_strategy()
         actions,train_actions=self.action_transition(allow_actions)
         #随机选择train_actions中的某一个，然后用这个序号选择actions
-        state['hero'] = [_.dict() for _ in state['hero']]
-        state['monster']=[_.dict() for _ in state['monster']]
-        state['map'] =state['map'].dict()
+        state_={}
+
+        state_['hero'] = [_.dict() for _ in state['hero']]
+        state_['monster']=[_.dict() for _ in state['monster']]
+        state_['map'] =state['map'].dict()
+        state_['attachment']=[_.dict() for _ in state['attachment']]
         train_actions=[json.dumps(action,sort_keys=True) for action in train_actions]
-        state=json.dumps(state,sort_keys=True)
-        res = self.get_action(state=state, action_list=train_actions)
+        state_=json.dumps(state_,sort_keys=True)
+        res = self.get_action(state=state_, action_list=train_actions)
         index = train_actions.index(res)
         res=actions[index]
         print('------------------------------')
@@ -129,14 +133,20 @@ class PPO_Agent():
         allow_actions = Range(state=state, role=hero).simple_strategy()
         actions,train_actions=self.action_transition(allow_actions)
         #随机选择train_actions中的某一个，然后用这个序号选择actions
-        state['hero'] = [_.dict() for _ in state['hero']]
-        state['monster']=[_.dict() for _ in state['monster']]
-        state['map'] =state['map'].dict()
+        state_ = {}
+
+        state_['hero'] = [_.dict() for _ in state['hero']]
+        state_['monster'] = [_.dict() for _ in state['monster']]
+        state_['map'] = state['map'].dict()
+        state_['attachment'] = [_.dict() for _ in state['attachment']]
         train_actions=[json.dumps(action,sort_keys=True) for action in train_actions]
-        state=json.dumps(state,sort_keys=True)
-        res = self.agent.select_action(state)
+
+        state_=self.convert_state_to_tensor(state_)
+        res = self.agent.select_action(state_)
+        print(res)
         index = train_actions.index(res)
         res=actions[index]
+        print('选择的动作',res)
         print('------------------------------')
         return [res]
 
@@ -156,6 +166,31 @@ class PPO_Agent():
         print('返回的', res)
         print('------------------------------')
         return [res]
+
+    def convert_state_to_tensor(self,state_dict):
+        print(state_dict)
+
+        def flatten_dict(d, parent_key='', sep='_'):
+            items = []
+            if isinstance(d, list):
+                for index, item in enumerate(d):
+                    if isinstance(item, dict):
+                        items.extend(flatten_dict(item, f"{parent_key}{sep}{index}", sep=sep).items())
+                    elif isinstance(item, (int, float)):  # 直接保留数值
+                        items.append((f"{parent_key}{sep}{index}", item))
+            elif isinstance(d, dict):
+                for k, v in d.items():
+                    new_key = f"{parent_key}{sep}{k}" if parent_key else k
+                    if isinstance(v, (dict, list)):
+                        items.extend(flatten_dict(v, new_key, sep=sep).items())
+                    elif isinstance(v, (int, float)):  # 只保留数值类型
+                        items.append((new_key, v))
+            return dict(items)
+
+        flattened_dict = flatten_dict(state_dict)
+        values = [v for k, v in flattened_dict.items()]
+        return np.array(values, dtype=np.float32)
+
 
 class Random_Agent(object):
 

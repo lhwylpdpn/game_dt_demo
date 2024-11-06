@@ -14,6 +14,7 @@ class Agent(object):
 
         d2[key1], d2[key2] = d[key2], d[key1]
         d2["map"] = d["map"]
+        d2["attachment"] = d["attachment"]
         return d2
 
     def add_maps_block(self, state):

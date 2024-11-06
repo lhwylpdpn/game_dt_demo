@@ -1,3 +1,5 @@
+import time
+
 import torch
 import torch.nn as nn
 from torch.distributions import MultivariateNormal
@@ -12,9 +14,9 @@ if (torch.cuda.is_available()):
     torch.cuda.empty_cache()
     print("Device set to : " + str(torch.cuda.get_device_name(device)))
 
-elif torch.backends.mps.is_available() and torch.backends.mps.is_built():
-    device = torch.device('mps')
-    print("Device set to : MPS (Metal Performance Shaders)")
+# elif torch.backends.mps.is_available() and torch.backends.mps.is_built():
+#     device = torch.device('mps')
+#     print("Device set to : MPS (Metal Performance Shaders)")
 else:
     print("Device set to : cpu")
 print("============================================================================================")
@@ -91,7 +93,6 @@ class PPO:
 
 
     def select_action(self, state):
-
 
         with torch.no_grad():
             state = torch.FloatTensor(state).to(device)

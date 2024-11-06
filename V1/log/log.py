@@ -8,7 +8,8 @@ import uuid
 class LogManager:
     def __init__(self, file_name= ''.join(str(uuid.uuid4()).split('-')) + datetime.now().strftime('%Y_%m_%d_%H_%M_%S') + "logs.json"):
         current_directory = os.path.dirname(os.path.abspath(__file__))
-        #创建一个全局计数器
+        self.file_path = os.path.join(current_directory, file_name)
+        print(self.file_path)
         self.counter=0
 
     def add_log(self, log_data):
@@ -22,6 +23,7 @@ class LogManager:
         return timestamp
 
     def _write_log(self, log_entry):
+
         try:
             # 读取现有日志数据
             with open(self.file_path, "r") as file:

@@ -54,6 +54,16 @@ class Range(Data):
                     if Data.value("Hp", _) > 0:
                         _["warning_range"] = self.enemies_in_warning_range(_)
                         self.enemies.append(_)
+
+            if "attachment" in state:
+                self.attachments = []
+                for _ in state["attachment"]:
+                    if not isinstance(_, dict):
+                        _ = _.dict()
+                    if _.get("DestroyEffect", 0) > 0 and _.get("Selected", 0) == 1: # 血量 > 0 & 可以被选中
+                        _["Hp"] = _.get("DestroyEffect")
+                        self.attachments.append(_)
+
         # state = {"map": self.map,
         #              "hero": self.teammates + [self.role],
         #              "monster": self.enemies}
@@ -319,7 +329,7 @@ class Range(Data):
         for point in release_range:
             attack_range = skill_effect_range(self.role, point, skill, self.map)
             enemies_in_range = [enemy for enemy in self.enemies if Data.value("position", enemy) in attack_range]
-            # if tuple(point) in [Data.value("position", e) for e in enemies_in_range]:
+            # enemies_in_range += [attachment for attachment in self.attachments if Data.value("position", attachment) in attack_range]  # 增加攻击附着物的判断
 
             if len(enemies_in_range) > 0:  # 技能范围内>0的敌人才返回
                 results.append(
@@ -388,12 +398,6 @@ class Range(Data):
             for skill in skills:
                 pick_list += self.get_all_possible_attacks(move, skill, paths)
 
-        # if pick_list:
-        # state = {"map": self.map,
-        #          "hero": self.teammates + [self.role],
-        #          "monster": self.enemies}
-        # tmp = log_manager.add_log(log_data=str({"role": self.role, "state": state}) )
-        # print(f"log tmp: {tmp}")
         print(f"[ATK]攻击可选择数量为: {len(pick_list)}")
         return pick_list
 
