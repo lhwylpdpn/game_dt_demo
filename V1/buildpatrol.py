@@ -5,6 +5,7 @@
 """
 import json
 import copy
+import pickle
 from pprint import pprint
 from models.hero import Hero
 from models.monster import Monster
@@ -102,10 +103,39 @@ def test_atk_bomb(stats):
                             attachment=bomb, stats=stats)
 
 
+def pickle_state(state):
+    
+    file = "break.data"
+    # with open(file, "wb") as file_obj: 
+    #     state_pickle =  pickle.dump(state, file_obj)
+
+    with open(file, "rb") as file_obj:
+        new_state = pickle.load(file_obj)
+
 
 if __name__ == "__main__":
-    state = BuildPatrol("data.json").load_data()
-    test_atk_bomb(state)
+    # state = BuildPatrol("data.json").load_data()
+    file = "break.data"
+    
+    with open(file, "wb") as file_obj: 
+        state_pickle =  pickle.dump(state, file_obj)
+        
+    with open(file, "rb") as file_obj:
+        new_state = pickle.load(file_obj)
+
+    # state_pickle =  pickle.dumps(state)
+    # new_state = pickle.loads(state_pickle)  
+
+    print(new_state)
+
+    # state['maps'] = state['map']
+    # #test_atk_bomb(state)
+    # for each in state.get("hero") + state.get("monster"):
+    #     each.move_position(*each.position, state)
+    # map_ = state.get("map")
+    # for p in state['map'].view_from_y_dict().keys():
+    #     print(p, "land_can_pass", state['map'].land_can_pass(p[0],p[1],p[2]))
+
     
     # state["maps"] = state["map"]
     # print(len(state.get("monster")))
