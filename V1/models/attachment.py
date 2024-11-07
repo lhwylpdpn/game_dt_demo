@@ -31,7 +31,7 @@ class AttachmentHelper():
 class Attachment():
     
     def __init__(self, **kwargs):
-        self.__id = kwargs.get("id", None)
+        self.__MapID = kwargs.get("MapID", None)
         self.__sn = kwargs.get("sn", None)                                    # sn
         self.__position = kwargs.get("position", [])
         self.__effects = kwargs.get("effects", [])
@@ -45,7 +45,7 @@ class Attachment():
         self.__focus_object = []                                            # 计数器，先放置每次 focus 的(英雄) ID
 
     def dict(self):
-        fields = ["id", "sn", "position", "effects", "Layer", "Block", "Ap", "Selected", "DestroyEffect", "ExcludePlot"]
+        fields = ["MapID", "sn", "position", "effects", "Layer", "Block", "Ap", "Selected", "DestroyEffect", "ExcludePlot"]
         data = {}
         if "effects" in fields:
             data["effects"] = {}
@@ -95,11 +95,11 @@ class Attachment():
         return self 
     
     @property
-    def id(self): # 
-        return self.__id
+    def MapID(self): # 
+        return self.__MapID
     
-    def set_id(self, id_new):
-        self.__id = id_new
+    def set_MapID(self, id_new):
+        self.__MapID = id_new
         return self
     
     @property
