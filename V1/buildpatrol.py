@@ -30,10 +30,12 @@ class BuildPatrol():
         TeamFlag.search_teammate(monsters)
         _map = self.build_map(src_json_data.get("map"))     # 初始化地图
         attachments =  self.map_load_attachment(src_json_data, _map) # 地图加载附着物
+        setting = self.build_setting(src_json_data.get("setting", {})) # 初始化 setting
         return {"map": _map, 
                 "hero": heros,
                 "monster": monsters,
-                "attachment": attachments
+                "attachment": attachments,
+                "setting": setting
                 }
 
     @staticmethod
@@ -72,6 +74,13 @@ class BuildPatrol():
             map.load_land(*position, land)
         # pprint(map.view_from_y())
         return map
+
+    @staticmethod
+    def build_setting(origin_setting_data):  # 返回加载地块的MAP对象
+        setting = origin_setting_data
+        # TODO 
+        setting = {"team_strategy":1}
+        return setting
     
     @staticmethod
     def map_load_attachment(origin_attachment_data, map_obj): # 加载地图附着物

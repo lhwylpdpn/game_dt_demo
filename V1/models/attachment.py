@@ -4,6 +4,7 @@ author : HU
 date: 2024-10-25
 """
 import copy
+import random
 from .effect import Effect
 from collections import Counter
 
@@ -22,6 +23,7 @@ class AttachmentHelper():
         for each in example_attments:
             if each.sn == dst_att_sn:
                 new_att =  copy.deepcopy(each)
+                new_att.set_id(int(random.random() * 100000000))
                 return new_att
         return None
 
@@ -29,6 +31,7 @@ class AttachmentHelper():
 class Attachment():
     
     def __init__(self, **kwargs):
+        self.__id = kwargs.get("id", None)
         self.__sn = kwargs.get("sn", None)                                    # sn
         self.__position = kwargs.get("position", [])
         self.__effects = kwargs.get("effects", [])
@@ -42,7 +45,7 @@ class Attachment():
         self.__focus_object = []                                            # 计数器，先放置每次 focus 的(英雄) ID
 
     def dict(self):
-        fields = ["sn", "position", "effects", "Layer", "Block", "Ap", "Selected", "DestroyEffect", "ExcludePlot"]
+        fields = ["id", "sn", "position", "effects", "Layer", "Block", "Ap", "Selected", "DestroyEffect", "ExcludePlot"]
         data = {}
         if "effects" in fields:
             data["effects"] = {}
@@ -90,6 +93,14 @@ class Attachment():
     def set_sn(self, sn_new):
         self.__sn = sn_new
         return self 
+    
+    @property
+    def id(self): # 
+        return self.__id
+    
+    def set_id(self, id_new):
+        self.__id = id_new
+        return self
     
     @property
     def position(self): # 
