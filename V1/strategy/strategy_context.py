@@ -1,7 +1,11 @@
 import copy
+import time
+
 from utils.config import bass_class
 import pandas as pd
 import os
+import configparser
+
 #生成一个固定对参数字典,然后每个英雄都用这个字典产生一个参数字典
 #再网上都是针对这个字典的模版封装
 #最终每个英雄和怪物都有一个字典，作为英雄的属性初始化进去
@@ -15,14 +19,15 @@ import os
 #selection_strategy: 选择tree上的判断策略 用于tree上
 #####
 def get_data_from_csv(filename):
-    #team_strategy='快速完成关卡'  # 请自行更改为所需的team_strategy
-    team_strategy='目标取得高分'
-    #team_strategy='谨慎稳步推进'
+    cf = configparser.ConfigParser()
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+    cf.read(path + '/../config/conf.ini', encoding='utf-8')
+    team_strategy = cf.get('strategy', 'team_strategy')
     df=pd.DataFrame()
     df=pd.read_csv(filename)
     df = df[df['type'] == team_strategy]
     return df
-df_weight=get_data_from_csv(os.path.dirname(os.path.abspath(__file__))+'/weight.csv')
+
 
 class strategy_params:
     def __init__(self):
@@ -123,7 +128,7 @@ class strategy_params:
 
         elif base_class_value in (1,2,3,4,5):
 
-            df=df_weight
+            df=get_data_from_csv(os.path.dirname(os.path.abspath(__file__))+'/weight.csv')
             df['hero']  = df['hero'].astype(int)
             df = df[df['hero'].isin([1,2,3,4,5])]
             df=df[df['hero']==base_class_value]

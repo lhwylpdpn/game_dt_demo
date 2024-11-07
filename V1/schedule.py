@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import time
+import redis
+import configparser
 from strategy.game import Game as game_broad
 from strategy.agent import Agent as agent
 from buildpatrol import BuildPatrol
@@ -22,17 +24,17 @@ from log.log import log_manager
 # step4.5 调用棋盘执行行动
 # step5 检查游戏是否结束
 # step6 如果游戏结束，产生内容序列
-import redis
-import configparser
 
 cf = configparser.ConfigParser()
 path = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 cf.read(path + '/config/conf.ini', encoding='utf-8')
-
 redis_host = cf.get('redis', 'host')
 redis_port = cf.get('redis', 'port')
 redis_db_index = cf.get('redis', 'index')
 redis_client = redis.Redis(host=redis_host, port=redis_port, db=redis_db_index, decode_responses=True)
+
+
+# 需要在刷新了各项配置文件后，引用game，game里用到了配置文件的内容
 
 
 class schedule:
@@ -45,6 +47,10 @@ class schedule:
         self.state = state['map']
         self.monster_list = state['monster']
         self.attachment = state['attachment']
+        self.team_strategy=str(state['setting'].get('team_strategy',0))
+        cf.set('strategy', 'team_strategy',self.team_strategy)
+        with open(path + '/config/conf.ini', 'w') as configfile:
+            cf.write(configfile)
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment)
         self.agent_1 = agent()
         self.agent_2 = agent()
