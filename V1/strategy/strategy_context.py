@@ -24,8 +24,18 @@ def get_data_from_csv(filename):
     cf.read(path + '/../config/conf.ini', encoding='utf-8')
     team_strategy = cf.get('strategy', 'team_strategy')
     df=pd.DataFrame()
+    team_strategy_str=''
+    #1 快速完成关卡 2 目标取得高分 3 谨慎稳步推进
+    if str(team_strategy)=="1":
+        team_strategy_str="快速完成关卡"
+    elif str(team_strategy)=="2":
+        team_strategy_str="目标取得高分"
+    elif str(team_strategy)=="3":
+        team_strategy_str="谨慎稳步推进"
+    else:
+        pass
     df=pd.read_csv(filename)
-    df = df[df['type'] == team_strategy]
+    df = df[df['type'] == team_strategy_str]
     return df
 
 
@@ -132,7 +142,6 @@ class strategy_params:
             df['hero']  = df['hero'].astype(int)
             df = df[df['hero'].isin([1,2,3,4,5])]
             df=df[df['hero']==base_class_value]
-
             # for k in self.selection_strategy:
             #     for k1 in self.selection_strategy[k]:
             #         if k1 in df.columns:
