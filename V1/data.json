@@ -15,7 +15,7 @@
     {"position":[4,1,8],"effects":[
         {"id":120,"key":"DEBUFF_PLOT_FIRE","param":["25","3"],"tag":"","Priority":1,"TriggerTime":1,"Target":6,"BuffType":2}],
         "sn":35,"Layer":3,"Block":0,"DestroyEffect":1,"Selected":0,"ExcludePolt":[],"Ap":0}],
-    
+
     "map_4":[
         {"position":[14,7,11],"effects":[
             {"id":121,"key":"ATK_BOMB","param":["50"],"tag":"","Priority":1,"TriggerTime":5,"Target":6,"BuffType":0},
@@ -31,5 +31,7 @@
 
         {"position":[4,1,7],"effects":[],"sn":34,"Layer":4,"Block":1,"DestroyEffect":99,"Selected":1,"ExcludePolt":[],"Ap":0},
         {"position":[3,1,7],"effects":[],"sn":34,"Layer":4,"Block":1,"DestroyEffect":99,"Selected":1,"ExcludePolt":[],"Ap":0}
-    ]
+    ],
+    "setting":{"team_strategy":1}
+
 }
