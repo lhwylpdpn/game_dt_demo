@@ -23,7 +23,7 @@ class AttachmentHelper():
         for each in example_attments:
             if each.sn == dst_att_sn:
                 new_att =  copy.deepcopy(each)
-                new_att.set_id(int(random.random() * 100000000))
+                new_att.set_MapID(int(random.random() * 100000000))
                 return new_att
         return None
 
