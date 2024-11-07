@@ -115,6 +115,18 @@ def manhattan_distance(point1, point2):
     point1, point2 = tuple(point1), tuple(point2)
     return abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
 
+def square_distance_points(point, distances):
+    # 获取某个点位  正方形范围内的所有点位
+    x, z = point
+    points = set()  # 使用集合避免重复点
+    for distance in distances:
+        distance = int(distance)
+        for dx in range(-distance, distance + 1):
+            for dz in range(-distance, distance + 1):
+                points.add((x + dx, z + dz))
+
+    return list(points)
+
 
 def h_manhattan_distance(point1, point2, gap, h_effect):
     # 受高度差影响的曼哈顿距离

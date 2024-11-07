@@ -78,22 +78,44 @@ def damage_calc(attacker, defender, skill):
 
     print(f"Attacker:{attacker_id}[{attacker.Element}] 使用技能 {skill.SkillId}[{skill.SkillElement}]攻击 Defender:{defender.HeroID}[{defender.Element}], 属性加成系数为 [{coefficient}]")
 
-
+    skill_77_coefficient = 1.3 #  战士基础系数：1.3
+    skill_87_coefficient = 0.65 #  弓箭手基础系数：0.65
     attacker_skill_coefficient = 1  # 技能伤害系数
     if skill.SkillId == demo_skill['战士普攻']:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 100%物理伤害
     if skill.SkillId == demo_skill['战士横扫']:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient # 85%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient * skill_77_coefficient # 85%物理伤害
     if skill.SkillId == demo_skill['弓手普攻']:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_1').param[1]) / 100) * coefficient  # 65%(物理+敏捷)的物理伤害
     if skill.SkillId == demo_skill['弓手穿杨']:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 对范围内的敌人造成150%普攻的物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient * skill_87_coefficient  # 对范围内的敌人造成150%普攻的物理伤害
     if skill.SkillId == demo_skill['弓手上前一步']:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 给指定范围内的目标以50%的伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient * skill_87_coefficient  # 给指定范围内的目标以50%的伤害
     if skill.SkillId == demo_skill['弓手箭雨']:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient * skill_87_coefficient  # 130%物理伤害
     if skill.SkillId == demo_skill['战士反击斩']:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_BACK').param[1]) / 100) * coefficient  # 100%物理伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_BACK').param[1]) / 100) * coefficient * skill_77_coefficient  # 100%物理伤害
+
+    # 20241107 +怪兽技能
+    if skill.SkillId == 130:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
+    if skill.SkillId == 131:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_2').param[0]) / 100) * coefficient
+    if skill.SkillId == 132:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_11').param[0]) / 125) * coefficient
+    if skill.SkillId == 133:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
+    if skill.SkillId == 134:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_12').param[0]) / 125) * coefficient
+    if skill.SkillId == 135:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 90%物理伤害
+    if skill.SkillId == 136:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_10').param[0]) / 100) * coefficient  # 130%魔法伤害
+    if skill.SkillId == 137:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_1').param[1]) / 100) * coefficient  # 65%魔法伤害
+    if skill.SkillId == 138:
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 120%魔法伤害
+
     attacker_Def = attacker_PhysicalDef  # 防御值
     if False:  # todo 这里需要知道技能的是物理伤害还是魔法伤害，当前判断假设是物理伤害都
         attacker_Def = defender_MagicalDef
@@ -102,7 +124,7 @@ def damage_calc(attacker, defender, skill):
         defender_Def = defender_MagicalDef
 
     attacker_ATK = attacker_PhysicalAtk  # 攻击值  这里要根据不同技能增加
-    if skill.SkillId == demo_skill['弓手普攻']:
+    if skill.SkillId in (demo_skill['弓手普攻'], 137):
         attacker_ATK = (attacker_PhysicalAtk + attacker_Agile)
 
     # 被动防御加成

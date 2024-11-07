@@ -79,7 +79,7 @@ class Attachment():
     
     def box_open_distance(self): # 获取宝箱的开启距离
         if self.is_box():
-            return int(self.get_effect_by_key("OPEN_DISTANCE").param[1])
+            return self.get_effect_by_key("OPEN_DISTANCE").param
         else:
             return None
     
