@@ -1013,9 +1013,9 @@ class Hero():
         def back_data_format(res, skill, attack_point, effect_ids):
             return {
                     "action_type" : f"SKILL_{skill.SkillId}",
-                    "atk_range": [attack_point],  # 攻击范围
-                    "atk_position": [attack_point], # 攻击位置
-                    "release_range": [attack_point], # 释放范围
+                    "atk_range": [tuple(attack_point)],  # 攻击范围
+                    "atk_position": tuple(attack_point), # 攻击位置
+                    "release_range": [tuple(attack_point)], # 释放范围
                     "damage": res, 
                     "effects": effect_ids
                 }

@@ -76,7 +76,7 @@ def damage_calc(attacker, defender, skill):
     # #这里负责封装二阶的变量
     coefficient = calculate_coefficient(attacker, defender, skill)
 
-    print(f"Attacker:{attacker_id}[{attacker.Element}] 使用技能 {skill.SkillId}[{skill.SkillElement}]攻击 Defender:{defender.HeroID}[{defender.Element}], 属性加成系数为 [{coefficient}]")
+    print(f"Attacker: {attacker_id}[{attacker.Element}] 使用技能 {skill.SkillId}[{skill.SkillElement}]攻击 Defender:{defender.HeroID}[{defender.Element}], 属性加成系数为 [{coefficient}]")
 
     skill_77_coefficient = 1.3 #  战士基础系数：1.3
     skill_87_coefficient = 0.65 #  弓箭手基础系数：0.65
@@ -100,7 +100,7 @@ def damage_calc(attacker, defender, skill):
     if skill.SkillId == 130:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
     if skill.SkillId == 131:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_2').param[0]) / 100) * coefficient
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_12').param[0]) / 100) * coefficient
     if skill.SkillId == 132:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_11').param[0]) / 125) * coefficient
     if skill.SkillId == 133:
@@ -223,7 +223,7 @@ def damage_calc(attacker, defender, skill):
 
     if skill.SkillId == demo_skill['战士反击斩']:
         res = random_choices({0: 0.5, 1: 0.5})  # 0 反击生效  1 反击不生效
-        # res = 1  # TODO TEST
+        res = 1  # TODO TEST
         if res == 1:
             eff = {
                 "role":  attacker_type,
