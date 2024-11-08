@@ -10,9 +10,9 @@ import numpy as np
 import itertools
 from .land import Land
 from .attachment import Attachment, AttachmentHelper
+from utils.damage import damage
+from utils.tools import round_up_2_integer
 
-def xxx_damage(skill, wage_object, attachment):
-    return [{"damage":100, "pre_damage":100}]
 
 class Map(): # 地图
     """
@@ -229,6 +229,12 @@ class Map(): # 地图
                 self.unload_attachment(each)
         return self
     
+    def open_box(self, box_attachment):
+        if box_attachment.is_box():
+            box_attachment.open()
+            # TODO 
+        return self
+    
     def bomb_killed(self, wage_object, attachment, stats):
         # TODO 打击的范围
         new_death_att = []
@@ -276,13 +282,14 @@ class Map(): # 地图
         attachment    被攻击的对象
         stats         stats
         """
-        damage_res = xxx_damage(skill, wage_object, attachment)      # 附着物伤害函数
+        #damage_res = damage(skill, wage_object, attachment)      # 附着物伤害函数
+        damage_res = damage(attacker=wage_object, defender=attachment, skill=skill) 
+        damage_res = round_up_2_integer(damage_res)
         attachment.be_attacked(wage_object, skill, damage_res)
         
         attachment_list = [attachment]
         while attachment_list: # 循环去找被打击的对象
             each_attachment = attachment_list.pop(0)
-            print(each_attachment)
             new_att_l = self.judge_attachment_status(wage_object, skill, each_attachment, stats)
             if new_att_l:
                 each_attachment.extend(new_att_l)

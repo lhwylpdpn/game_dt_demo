@@ -251,6 +251,7 @@ class Attachment():
     
     def open(self): # 开宝箱
         if self.is_box():
+            self.set_DestroyEffect(0)
             print("Open Box !!!!!")
         return self
     

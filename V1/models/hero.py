@@ -21,14 +21,6 @@ from .baseclass import BaseClass
 class Hero():
     
     def __init__(self, **kwargs):
-        # 初始数据留存为后续重新初始化做准备
-        # 行动力增加自增的函数
-        # 移动 - 连带地块对hero属性营销
-        # 攻击地块，敌人 - 连带地块
-        #
-        # skill攻击 - 地块，敌人
-        # buff 
-
         # 基本属性
         self.__HeroID = int(kwargs.get("HeroID", None))
         self.__protagonist = kwargs.get("protagonist", 0)          # 是否是主角
@@ -66,10 +58,8 @@ class Hero():
         self.__Luck = kwargs.get("Luck", None)                       #运气
         self.__Quality = kwargs.get("Quality", 0)                    # 是否 boss
         self.__team = kwargs.get("team", None)                       # 所属队伍
-       
         
         # position 位置
-        # self.__position = list(trans_postion(*kwargs.get("position")))       #  坐标
         self.__position = kwargs.get("position")                               #  坐标
         self.__avali_move_p_list = kwargs.get("avali_move_p_list", [])         #  可移动范围
         self.__shoot_p_list = kwargs.get("shoot_p_list", [])                   #  可攻击范围
@@ -135,7 +125,7 @@ class Hero():
             bufff_s.append({"action_type": f"EFFECT_{each.buff_id}", "buff":each})
         if not self.is_move: # 回合内是否移动了
             for each in self.skills:
-                if each.is_dont_move_media_self_skill():
+                if each.is_dont_move_media_self_skill(): # 回合内不移动治疗自己
                     for each_e in each.effects:
                         tmp_buff = None
                         if "ADD_HP" == each_e.key:
@@ -157,7 +147,6 @@ class Hero():
     def leve_game(self, state): # 退出战局
         map_obj = state.get('maps')
         map_obj.exit(self)
-        # map_obj.set_land_pass(*self.position)
         self.team.leve_game(self)
         friends = self.__get_friends(state)
         # 由于我给加上的buff，都要去掉（主要是连携 NEAR）
@@ -896,10 +885,6 @@ class Hero():
         return self
 
     def dont_move(self): # 移动不移动
-        # for each_skill in self.skills:
-        #     if each_skill.is_move_skill(): # 判断移动技能
-        #         if "IS_WAIT" in each_skill.avaliable_effects(): # 不移动
-        #             each_skill.make_effective(self)
         return self
     
     # 被动技能使攻击失效
@@ -928,7 +913,6 @@ class Hero():
         range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
         enemy 目标敌人，即方向
         """
-        #map_obj = state.get("map")
         if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
             if abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(range_line_value): # 在范围内
                 return True
@@ -939,14 +923,12 @@ class Hero():
         range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
         enemy 目标敌人，即方向
         """
-        #map_obj = state.get("map")
         if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
             if int(gap)<= abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(radis): # 在范围内
                 return True
         return False
  
     def is_in_hit_range(self, gap, radis, enemy, state):
-        #map_obj = state.get("map")
         huff_dis = abs(self.x - enemy.x) + abs(self.z - enemy.z)
         if huff_dis <= int(radis) and huff_dis > gap:
             return True
@@ -962,9 +944,7 @@ class Hero():
         if "ATK_DISTANCE" not in back_skill.avaliable_effects(): # 没有攻击距离
             return True
         else: #有攻击距离 
-            #map_obj = state.get("map")
             effect = back_skill.get_effect_by_key("ATK_DISTANCE")
-            #atk_distance = effect.param[1]
             l_in_range,r_in_range,cross_in_range = False, False, False
             # 高度影响攻击范围, 高低差每{0}格，最大攻击范围加{0}格, 暂时不处理
             # if "ADD_ATK_DISTANCE" in back_skill.avaliable_effects():
@@ -1104,8 +1084,6 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        # if self not in friends:
-        #     friends.append(self)
         for each in friends:
             _res = heal(caster=self, target=each, skill=skill)
             for _ in _res: # 向上取整
@@ -1122,6 +1100,7 @@ class Hero():
         buff_dic.get("buff").make_effective(self)
         return self
 
-    def open_box(self, box_object):
-        box_object.open(self)
+    def open_box(self, box_object, state):
+        map_obj = state.get("map")
+        map_obj.open_box(box_object)
         return self
