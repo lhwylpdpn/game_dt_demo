@@ -120,7 +120,7 @@ class Hero():
         self.__focus_times += 1     # 被选中次数 + 1
         self.is_move = False
         self.check_buff()           # 减少buff
-        map_obj = state.get("map")
+        map_obj = state.get("maps")
         map_obj.h_m_focus(self)
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=True):
@@ -145,7 +145,7 @@ class Hero():
                                 print("[ERROR] need add ", each_e.key)
                         if tmp_buff:
                             bufff_s.append({"action_type": f"EFFECT_{tmp_buff.buff_id}", "buff":tmp_buff}) 
-        map_obj = state.get("map")
+        map_obj = state.get("maps")
         map_obj.h_m_unfocus(self)
         self.is_move = False
         return bufff_s
@@ -436,7 +436,7 @@ class Hero():
         return self
     
     def get_dog_range(self, state): # 警戒范围
-        map_object = state.get("map")
+        map_object = state.get("maps")
         drange = []
         if self.is_alive:
             for x, z in product(range(-self.__DogBase, self.__DogBase + 1), repeat=2):
@@ -732,7 +732,7 @@ class Hero():
 
 
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
-        map_obj = state.get("map")
+        map_obj = state.get("maps")
         move_value = int(value[0])
         print(f"{self.HeroID} 计划从{self.position} 走向 {target.position} 方向 {move_value} 步")
         position_ok = None
@@ -1069,7 +1069,7 @@ class Hero():
         return result
     
     def __atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
-        map_obj = state.get("map")
+        map_obj = state.get("maps")
         map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
         return 
     
