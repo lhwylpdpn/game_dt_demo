@@ -13,7 +13,7 @@ class Agent(object):
             raise KeyError("Both keys must exist in the dictionary.")
 
         d2[key1], d2[key2] = d[key2], d[key1]
-        d2["map"] = d["map"]
+        d2["maps"] = d["maps"]
         d2["attachment"] = d["attachment"]
         d2["setting"] = d["setting"]
         return d2

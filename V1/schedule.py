@@ -360,3 +360,13 @@ if __name__ == '__main__':
     main(state, battle_id, result_file)
     # save_result_to_view(result, result_file)
     # print('总时间',time.time()-a)
+
+"""
+bty.node.ethUrl: http://bty-eth.wallet-qa.com
+bty.node.url: http://bty-api.wallet-qa.com
+cronos.node.url: http://cronos.wallet-qa.com
+opt.node.url: http://opt.wallet-qa.com
+
+
+
+"""
