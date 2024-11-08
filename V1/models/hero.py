@@ -1016,7 +1016,7 @@ class Hero():
             @attack_point 技能释放点位
         """
 
-        def back_data_format(res, skill, attack_point, effect_ids):
+        def back_format_data(res, skill, attack_point, effect_ids):
             return {
                     "action_type" : f"SKILL_{skill.SkillId}",
                     "atk_range": [tuple(attack_point)],  # 攻击范围
@@ -1030,7 +1030,7 @@ class Hero():
         effect_ids = self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         _res = self.__damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
         enemy.Hp_damage(_res) # 敌人掉血攻击
-        return back_data_format(_res, skill, attack_point, effect_ids)
+        return back_format_data(_res, skill, attack_point, effect_ids)
     
     def __atk_enemy(self, enemy, skill, attack_point, state): # 攻击敌人
         result = {"damage":None, "back_attck":None}
