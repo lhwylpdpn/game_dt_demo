@@ -16,13 +16,13 @@ class Game(object):
             "hero": self.hero,
             "monster": self.monster,
             "maps": self.map,
-            "attachments": self.attachment,
+            "attachment": self.attachment,
         }
         self.monster_state = {
             "hero": self.monster,
             "monster": self.hero,
             "maps": self.map,
-            "attachments": self.attachment,
+            "attachment": self.attachment,
         }
 
         self.hero_copy = copy.deepcopy(hero)
@@ -39,13 +39,13 @@ class Game(object):
             "hero": self.hero,
             "monster": self.monster,
             "maps": self.map,
-            "attachments": self.attachment
+            "attachment": self.attachment
         }
         self.monster_state = {
             "hero": self.monster,
             "monster": self.hero,
             "maps": self.map,
-            "attachments": self.attachment
+            "attachment": self.attachment
         }
 
 
