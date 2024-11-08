@@ -120,7 +120,7 @@ class Hero():
         self.__focus_times += 1     # 被选中次数 + 1
         self.is_move = False
         self.check_buff()           # 减少buff
-        map_obj = state.get("maps")
+        map_obj = state.get("map")
         map_obj.h_m_focus(self)
         bufff_s = []
         for each in self.__get_need_trigger_buff(is_before_action=True):
@@ -145,7 +145,7 @@ class Hero():
                                 print("[ERROR] need add ", each_e.key)
                         if tmp_buff:
                             bufff_s.append({"action_type": f"EFFECT_{tmp_buff.buff_id}", "buff":tmp_buff}) 
-        map_obj = state.get("maps")
+        map_obj = state.get("map")
         map_obj.h_m_unfocus(self)
         self.is_move = False
         return bufff_s
@@ -436,7 +436,7 @@ class Hero():
         return self
     
     def get_dog_range(self, state): # 警戒范围
-        map_object = state.get("maps")
+        map_object = state.get("map")
         drange = []
         if self.is_alive:
             for x, z in product(range(-self.__DogBase, self.__DogBase + 1), repeat=2):
@@ -732,7 +732,7 @@ class Hero():
 
 
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
-        map_obj = state.get("maps")
+        map_obj = state.get("map")
         move_value = int(value[0])
         print(f"{self.HeroID} 计划从{self.position} 走向 {target.position} 方向 {move_value} 步")
         position_ok = None
@@ -928,7 +928,7 @@ class Hero():
         range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
         enemy 目标敌人，即方向
         """
-        #map_obj = state.get("maps")
+        #map_obj = state.get("map")
         if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
             if abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(range_line_value): # 在范围内
                 return True
@@ -939,14 +939,14 @@ class Hero():
         range_line_value 以我为原点,朝向敌人线性延伸{0｜0}
         enemy 目标敌人，即方向
         """
-        #map_obj = state.get("maps")
+        #map_obj = state.get("map")
         if self.judge_direction(enemy) in ("UP", "DOWN", "LEFT", "RIGHT"):
             if int(gap)<= abs(self.x - enemy.x) + abs(self.z - enemy.z) <= int(radis): # 在范围内
                 return True
         return False
  
     def is_in_hit_range(self, gap, radis, enemy, state):
-        #map_obj = state.get("maps")
+        #map_obj = state.get("map")
         huff_dis = abs(self.x - enemy.x) + abs(self.z - enemy.z)
         if huff_dis <= int(radis) and huff_dis > gap:
             return True
@@ -962,7 +962,7 @@ class Hero():
         if "ATK_DISTANCE" not in back_skill.avaliable_effects(): # 没有攻击距离
             return True
         else: #有攻击距离 
-            #map_obj = state.get("maps")
+            #map_obj = state.get("map")
             effect = back_skill.get_effect_by_key("ATK_DISTANCE")
             #atk_distance = effect.param[1]
             l_in_range,r_in_range,cross_in_range = False, False, False
@@ -1065,7 +1065,7 @@ class Hero():
         return result
     
     def __atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
-        map_obj = state.get("maps")
+        map_obj = state.get("map")
         map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
         return 
 
