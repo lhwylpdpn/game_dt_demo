@@ -191,22 +191,25 @@ class schedule:
                             {'stepname': '调度行动-接到动作失败', 'tick': self.tick, 'hero': alive_hero_id,
                              'class': alive_hero_class})
                         break
+                    if isinstance(action_result, dict):
+                        action_result = [action_result]
 
-                    self.performance.event_start('get_current_state')
-                    new_state = self.game.get_current_state()
-                    new_state_dict = self.state_to_dict(new_state)
-                    self.performance.event_end('get_current_state')
+                    for action in action_result:
+                        self.performance.event_start('get_current_state')
+                        new_state = self.game.get_current_state()
+                        new_state_dict = self.state_to_dict(new_state)
+                        self.performance.event_end('get_current_state')
 
-                    self.performance.event_start('record')
-                    action_result['id'] = alive_hero_id
-                    action_result['class'] = alive_hero_class
-                    self._record(action_result, state_dict, new_state_dict)
-                    self.performance.event_end('record')
+                        self.performance.event_start('record')
+                        action['id'] = alive_hero_id
+                        action['class'] = alive_hero_class
+                        self._record(action, state_dict, new_state_dict)
+                        self.performance.event_end('record')
 
-                    self.performance.event_start('get_current_state')
-                    state = new_state
-                    state_dict = self.state_to_dict(state)
-                    self.performance.event_end('get_current_state')
+                        self.performance.event_start('get_current_state')
+                        state = new_state
+                        state_dict = self.state_to_dict(state)
+                        self.performance.event_end('get_current_state')
 
 
 

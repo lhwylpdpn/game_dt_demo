@@ -5,8 +5,10 @@ import time
 from strategy.game_utils import GameUtils
 from strategy.handler.attack import Attack
 from strategy.handler.move import Move
+from utils.strategy_utils.basic_utils import square_distance_points
 from utils.strategy_utils.range import Range
 
+ATTACHMENT_SELECT = 1  # 可以被攻击的附着物类型
 
 class Action(object):
     def calc_damage(self, damage_data):
@@ -27,6 +29,17 @@ class Action(object):
                 if e["effects"]:
                     eff = [_["effect_id"] for _ in e["effects"]]
                     d.extend([[[each.__class__.__name__.lower(), each.HeroID], eff, []]])
+        return d
+
+    def calc_back_damage(self, damage_data):
+        d = []
+        for each in damage_data["damage"]:
+            damage = each["damage"]
+            pre_damage = each["pre_damage"]
+            st = each["st"]
+            crit = each["crit"]
+
+            d.extend([["ATK", [each["effects"][0]["role"], each["effects"][0]["role_id"]], damage, pre_damage, st, crit]])
         return d
 
     def calc_heal(self, heal_data):
@@ -61,8 +74,19 @@ class Action(object):
     def choose_action(self, step, hero, state):
         res = {"action_type": step["action_type"]}
         if step["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
-            hero.move_position(*step["move_position"], state)
-            res["move_position"] = step["move_position"]
+            box_action = []
+            move_position = step["move_position"]
+            hero.move_position(*move_position, state)
+            res["move_position"] = move_position
+            if state.get("attachment"):
+                for att in state["attachment"]:
+                    if att.is_box():
+                        box_open_points = square_distance_points((att.x, att.z), att.box_open_distance())
+                        if (move_position[0], move_position[2]) in box_open_points:
+                            att.open() # 预置开宝箱的动作
+                            box_action.append({"action_type": "OPEN_BOX"})
+            if box_action:
+                return [res] + box_action
 
         if step["action_type"] == "MOVE_START":
             res["move_start"] = Range(hero, state).role_move_start()
@@ -76,17 +100,29 @@ class Action(object):
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
 
             if step["type"] == "ATK":
-                attack_enemies_ids = [_.get("HeroID", _.get("sn")) for _ in step["target"]]
-                print("attack_enemies_ids: ", attack_enemies_ids)
+                back_res = []
+                attachment_in_atk = [a for a in state["attachment"] if a.Selected == ATTACHMENT_SELECT and tuple(a.position) in step["release_range"]]
+
+                if attachment_in_atk:
+                    print("本次攻击到的附着物:", attachment_in_atk)
+
+                attack_enemies_ids = [_["HeroID"] for _ in step["target"]]
                 attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
-                # attack_enemies += [e for e in state["attachment"] if e.sn in attack_enemies_ids]
+                # atk_res = hero.func_attack(attack_enemies + attachment_in_atk, skill, step["skill_pos"], state)  TODO
                 atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
+                for _ in atk_res:
+                    if atk_res[_].get("back_attck"):
+                        atk_back = atk_res[_]["back_attck"]
+                        atk_back["damage"] = self.calc_back_damage(atk_back)
+                        back_res.append(atk_back)
 
                 res["atk_range"] = step["skill_range"]
                 res["atk_position"] = step["skill_pos"]
                 res["release_range"] = step["release_range"]
                 res["damage"] = self.calc_damage(atk_res)
                 res["effects"] = self.calc_effect(atk_res)
+                if back_res: # 返回攻击+反击
+                    return [res] + back_res
 
 
             if step["type"] == "HEAL":
@@ -148,9 +184,8 @@ class Action(object):
 
 
 if __name__ == '__main__':
-    from strategy.handler.constant import HERO, ENEMY_A, ENEMY_B, MAPS
+    data = {"0x13506ff40": {'damage': [{'damage': 0, 'miss': 0, 'pre_damage': -54, 'st': 'Equal', 'effects': [{'role': 'hero', 'role_id': 5002, 'effect_id': 67}, {'role': 'hero', 'role_id': 5002, 'effect_id': 65}], 'crit': 'Default'}, {'damage': 0, 'miss': 0, 'pre_damage': -54, 'st': 'Equal', 'effects': [], 'crit': 'Default'}], 'back_attck': {'action_type': 'SKILL_82', 'atk_range': [[11, 3, 13]], 'atk_position': [[11, 3, 13]], 'release_range': [[11, 3, 13]], 'damage': [{'damage': 0, 'miss': 0, 'pre_damage': 77, 'st': 'Equal', 'effects': [{'role': 'hero', 'role_id': 5002, 'effect_id': 84}], 'crit': 'Default'}], 'effects': [68, 63, 84, 57]}}}
 
-    hero = HERO
-    maps = MAPS
-    enemies = [ENEMY_A, ENEMY_B]
+
+    print(Action().calc_back_damage(data["0x13506ff40"]["back_attck"]))
 
