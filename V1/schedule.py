@@ -234,7 +234,7 @@ class schedule:
 
         return state
     def state_to_dict(self, state):
-        map = copy.deepcopy(state['map'])
+        map = copy.deepcopy(state['maps'])
         hero = copy.deepcopy(state['hero'])
         monster = copy.deepcopy(state['monster'])
         attachment = copy.deepcopy(state['attachment'])
