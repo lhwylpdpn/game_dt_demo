@@ -78,7 +78,7 @@ class Action(object):
             move_position = step["move_position"]
             hero.move_position(*move_position, state)
             res["move_position"] = move_position
-            if state.get("attachment"):
+            if state.get("attachment") and hero.is_hero():
                 for att in state["attachment"]:
                     if att.is_box():
                         box_open_points = square_distance_points((att.x, att.z), att.box_open_distance())
