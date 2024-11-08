@@ -1023,7 +1023,7 @@ class Hero():
                     "atk_position": tuple(attack_point), # 攻击位置
                     "release_range": [tuple(attack_point)], # 释放范围
                     "damage": res, 
-                    "effects": effect_ids
+                    "effects": [Hero.effect_format_data(enemy, _) for _ in effect_ids]
                 }
              
         print(self.HeroID ,"(^ ^)反击(^ ^)")
