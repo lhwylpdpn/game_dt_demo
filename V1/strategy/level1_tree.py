@@ -191,6 +191,7 @@ def make_decision(hero,state,performance=None):
 def show_plot_tree():
     from buildpatrol import BuildPatrol
     state = BuildPatrol("../data.json").load_data()
+
     state['hero'][0].set_RoundAction(100000)
     print(state['hero'][0].HeroID)
     hero=state['hero'][0].dict()
@@ -204,8 +205,8 @@ def create_decision_tree(hero,state):
     BaseClassID=hero.get("BaseClassID")
 
     sp_obj=sp()
-    print(sp_obj.get_strategy_params(BaseClassID)[1])
-    eascape_hp=sp_obj.get_strategy_params(BaseClassID)[1]['escape']['is_health_below_threshold']['weight']
+    team_strategy_id=int(state['setting']['team_strategy'])
+    eascape_hp=sp_obj.get_strategy_params(BaseClassID,team_strategy_id)[1]['escape']['is_health_below_threshold']['weight']
     range_obj=Range(hero,state)
     # 创建决策树
 
