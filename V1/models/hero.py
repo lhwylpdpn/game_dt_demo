@@ -1001,14 +1001,20 @@ class Hero():
                     "role_id": hero_or_monster.HeroID,
                     "effect_id": effect_id
                 }
-
+    
+    def __damage(self, attacker, defender, skill, unit_num):  # 计算伤害 
+        _res = damage(attacker=attacker, defender=defender, skill=skill, unit_num=unit_num) 
+        for _ in _res: # 向上取整
+            _["damage"] = round_up_2_integer(_["damage"])
+            _["pre_damage"] = round_up_2_integer(_["pre_damage"])
+        return _res
+        
     def back_attack(self, enemy, skill=None, attack_point=[]):
         """ 反击
             @enemys       被攻击敌人对象列表
             @skill        使用的技能对象
             @attack_point 技能释放点位
         """
-
 
         def back_data_format(res, skill, attack_point, effect_ids):
             return {
@@ -1020,27 +1026,17 @@ class Hero():
                     "effects": effect_ids
                 }
              
-
         print(self.HeroID ,"(^ ^)反击(^ ^)")
-        # result = {}
         effect_ids = self.prepare_attack(skill)  # 做攻击之前，加载skill相关
-        _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
-        for _ in _res: # 向上取整
-            _["damage"] = round_up_2_integer(_["damage"])
-            _["pre_damage"] = round_up_2_integer(_["pre_damage"])
+        _res = self.__damage(attacker=self, defender=enemy, skill=skill, unit_num=1)
         enemy.Hp_damage(_res) # 敌人掉血攻击
-        # result[self] = copy.deepcopy(_res)
-        #return effect_ids
         return back_data_format(_res, skill, attack_point, effect_ids)
     
     def __atk_enemy(self, enemy, skill, attack_point, state): # 攻击敌人
         result = {"damage":None, "back_attck":None}
         effect_ids = enemy.before_be_attacked(skill) # 被攻击者添加被动skill
         unit_num = self.__get_unit_num(skill=skill, state=state)
-        _res = damage(attacker=self, defender=enemy, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
-        for _ in _res: # 向上取整
-            _["damage"] = round_up_2_integer(_["damage"])
-            _["pre_damage"] = round_up_2_integer(_["pre_damage"])
+        _res = self.__damage(attacker=self, defender=enemy, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
         # 添加被动技能的effect
         for each_id in effect_ids:
             _res[0]["effects"].append(Hero.effect_format_data(enemy, each_id))
@@ -1072,7 +1068,6 @@ class Hero():
         map_obj = state.get("maps")
         map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
         return 
-    
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
         """
@@ -1086,7 +1081,6 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        # self.check_buff()           # 减少buff
         self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
