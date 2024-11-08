@@ -64,6 +64,9 @@ class Range(Data):
                         _["Hp"] = _.get("DestroyEffect")
                         self.attachments.append(_)
 
+            if "setting" in state:
+                self.setting = state["setting"]
+
         # state = {"map": self.map,
         #              "hero": self.teammates + [self.role],
         #              "monster": self.enemies}
@@ -424,7 +427,8 @@ class Range(Data):
                 self.role,
                 self.teammates,
                 self.enemies,
-                self.map
+                self.map,
+                self.setting
             ).select_assist_strategy(pick_list)
         else:
             return []
@@ -449,7 +453,8 @@ class Range(Data):
                 self.role,
                 self.teammates,
                 self.enemies,
-                self.map
+                self.map,
+                self.setting
             ).select_attack_strategy(pick_list)
         else:
             return []
