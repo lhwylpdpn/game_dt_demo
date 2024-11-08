@@ -48,9 +48,6 @@ class schedule:
         self.monster_list = state['monster']
         self.attachment = state['attachment']
         self.setting=state['setting']
-
-        state['setting']['team_strategy']
-
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment,setting=self.setting)
         self.agent_1 = agent()
         self.agent_2 = agent()
@@ -106,7 +103,9 @@ class schedule:
     def next(self):
         self.performance.event_start('get_current_state')
         state = self.game.get_current_state()
+
         state_dict = self.state_to_dict(state)
+
         self.performance.event_end('get_current_state')
 
         self.performance.event_start('get_current_alive_hero')
@@ -239,6 +238,7 @@ class schedule:
         hero = copy.deepcopy(state['hero'])
         monster = copy.deepcopy(state['monster'])
         attachment = copy.deepcopy(state['attachment'])
+        setting=copy.deepcopy(state['setting'])
         if type(map) != list:
             map = [map]
         if type(hero) != list:
@@ -247,6 +247,8 @@ class schedule:
             monster = [monster]
         if type(attachment) != list:
             attachment = [attachment]
+        if type(setting)!=list:
+            setting=[setting]
 
         map_dict = {}
         hero_dict = {}
@@ -260,11 +262,14 @@ class schedule:
             monster_dict[m.HeroID] = m.dict(for_view=True)
         for a in attachment:
             attachment_dict[a.sn] = a.dict()
+        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 'attachment': attachment_dict,"setting":setting}
+
         del map
         del hero
         del monster
         del attachment
-        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 'attachment': attachment_dict}
+        del setting
+
         return res
 
     # def state_to_dict_new(self,state):

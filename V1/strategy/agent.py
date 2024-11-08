@@ -15,6 +15,7 @@ class Agent(object):
         d2[key1], d2[key2] = d[key2], d[key1]
         d2["map"] = d["map"]
         d2["attachment"] = d["attachment"]
+        d2["setting"] = d["setting"]
         return d2
 
     def add_maps_block(self, state):
@@ -23,6 +24,7 @@ class Agent(object):
             m.move_position(m.position, state["maps"])
 
     def choice_hero_act(self, hero, state,performance=None):
+
         print('------------------------------')
         hero = hero.dict()
         res =level0_make_decision(hero, state,performance=performance)
@@ -31,6 +33,7 @@ class Agent(object):
         return res
 
     def choice_monster_act(self, hero, state,performance=None):
+
         state = self.swap_specific_keys(state, "hero", "monster")
         hero = hero.dict()
         res = level0_make_decision(hero, state,performance=performance)
