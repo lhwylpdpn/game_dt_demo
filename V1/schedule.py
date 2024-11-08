@@ -47,11 +47,11 @@ class schedule:
         self.state = state['map']
         self.monster_list = state['monster']
         self.attachment = state['attachment']
-        self.team_strategy=str(state['setting'].get('team_strategy',0))
-        cf.set('strategy', 'team_strategy',self.team_strategy)
-        with open(path + '/config/conf.ini', 'w') as configfile:
-            cf.write(configfile)
-        self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment)
+        self.setting=state['setting']
+
+        state['setting']['team_strategy']
+
+        self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment,setting=self.setting)
         self.agent_1 = agent()
         self.agent_2 = agent()
         self.timeout_tick = 2000

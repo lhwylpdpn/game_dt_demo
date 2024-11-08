@@ -4,7 +4,6 @@ import time
 from utils.config import bass_class
 import pandas as pd
 import os
-import configparser
 
 #生成一个固定对参数字典,然后每个英雄都用这个字典产生一个参数字典
 #再网上都是针对这个字典的模版封装
@@ -18,12 +17,8 @@ import configparser
 #action_strategy: 选择行动策略用于函数内
 #selection_strategy: 选择tree上的判断策略 用于tree上
 #####
-def get_data_from_csv(filename):
-    cf = configparser.ConfigParser()
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-    cf.read(path + '/../config/conf.ini', encoding='utf-8')
-    team_strategy = cf.get('strategy', 'team_strategy')
-    df=pd.DataFrame()
+def get_data_from_csv(filename,team_strategy):
+
     team_strategy_str=''
     #1 快速完成关卡 2 目标取得高分 3 谨慎稳步推进
     if str(team_strategy)=="1":
@@ -122,7 +117,7 @@ class strategy_params:
 
     def set_team_strategy(self,type_name):
         self.team_strategy = type_name
-    def get_strategy_params(self,base_class_value:int):
+    def get_strategy_params(self,base_class_value:int,team_strategy_id:int):
 
         real_action_strategy  =copy.deepcopy(self.action_strategy)
         real_selection_strategy = copy.deepcopy(self.selection_strategy)
@@ -138,7 +133,7 @@ class strategy_params:
 
         elif base_class_value in (1,2,3,4,5):
 
-            df=get_data_from_csv(os.path.dirname(os.path.abspath(__file__))+'/weight.csv')
+            df=get_data_from_csv(filename=os.path.dirname(os.path.abspath(__file__))+'/weight.csv',team_strategy=team_strategy_id)
             df['hero']  = df['hero'].astype(int)
             df = df[df['hero'].isin([1,2,3,4,5])]
             df=df[df['hero']==base_class_value]
