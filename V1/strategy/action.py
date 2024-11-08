@@ -78,12 +78,12 @@ class Action(object):
             move_position = step["move_position"]
             hero.move_position(*move_position, state)
             res["move_position"] = move_position
-            if state.get("attachment"):
+            if state.get("attachment") and hero.is_hero():
                 for att in state["attachment"]:
                     if att.is_box():
                         box_open_points = square_distance_points((att.x, att.z), att.box_open_distance())
                         if (move_position[0], move_position[2]) in box_open_points:
-                            att.open() # 预置开宝箱的动作
+                            hero.open_box(att, state) # 预置开宝箱的动作
                             box_action.append({"action_type": "OPEN_BOX"})
             if box_action:
                 return [res] + box_action

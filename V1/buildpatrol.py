@@ -79,7 +79,6 @@ class BuildPatrol():
     def build_setting(origin_setting_data):  # 返回加载地块的MAP对象
         setting = origin_setting_data
         # TODO 
-        setting = {"team_strategy":1}
         return setting
     
     @staticmethod
@@ -124,18 +123,18 @@ def pickle_state(state):
 
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
-    file = "break.data"
+    # file = "break.data"
     
-    with open(file, "wb") as file_obj: 
-        state_pickle =  pickle.dump(state, file_obj)
+    # with open(file, "wb") as file_obj: 
+    #     state_pickle =  pickle.dump(state, file_obj)
         
-    with open(file, "rb") as file_obj:
-        new_state = pickle.load(file_obj)
+    # with open(file, "rb") as file_obj:
+    #     new_state = pickle.load(file_obj)
 
     # state_pickle =  pickle.dumps(state)
     # new_state = pickle.loads(state_pickle)  
 
-    print(new_state)
+    print(state)
 
     # state['maps'] = state['map']
     # #test_atk_bomb(state)
