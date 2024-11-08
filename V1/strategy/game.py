@@ -114,7 +114,7 @@ class Game(object):
         return sorted(roles, key=lambda x: x.HeroID)
 
     def get_current_state(self):
-        return {"hero": self.hero, "monster": self.monster, "map": self.map, "attachment": self.attachment, "setting": self.setting}
+        return {"hero": self.hero, "monster": self.monster, "maps": self.map, "attachment": self.attachment, "setting": self.setting}
 
     def start(self):
         for each in self.hero:
