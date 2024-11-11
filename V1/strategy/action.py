@@ -39,7 +39,7 @@ class Action(object):
             st = each["st"]
             crit = each["crit"]
 
-            d.extend([["ATK", [each["effects"][0]["role"], each["effects"][0]["role_id"]], damage, pre_damage, st, crit]])
+            d.extend([["ATK", [each["effects"][0]["role"], each["effects"][0]["role_id"]], [damage], [pre_damage], st, crit]])
         return d
 
     def calc_heal(self, heal_data):
