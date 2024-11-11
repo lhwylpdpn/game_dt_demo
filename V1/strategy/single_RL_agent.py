@@ -89,6 +89,21 @@ class PPO_Agent():
 
     def __init__(self,ppo_agent):
         self.agent=ppo_agent
+
+    def action_index_to_action(self,action_index):
+        # 确保索引在合法范围内
+
+        #当前实验假定只有这些动作
+        actions= ['LEFT','RIGHT','BOTTOM','TOP','WAIT']
+        actions.append('SKILL_77')
+        actions.append('SKILL_133')
+        actions.append('SKILL_134')
+
+        if 0 <= action_index < len(actions):
+            return actions[action_index]
+        else:
+            raise ValueError("Invalid action index.")
+
     def action_transition(self,allow_actions):
         res=[]
         for key in allow_actions:
@@ -142,10 +157,15 @@ class PPO_Agent():
         train_actions=[json.dumps(action,sort_keys=True) for action in train_actions]
 
         state_=self.convert_state_to_tensor(state_)
-        res = self.agent.select_action(state_)
-        print(res)
-        index = train_actions.index(res)
-        res=actions[index]
+        res_index = self.agent.select_action(state_)
+        action_type = self.action_index_to_action(res_index)
+
+        print(action_type)
+        res={'action_type': 'WAIT'}
+        for action in actions:
+            if action_type == action['action_type']:
+                res=action
+                break
         print('选择的动作',res)
         print('------------------------------')
         return [res]

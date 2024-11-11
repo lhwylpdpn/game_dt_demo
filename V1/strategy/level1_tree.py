@@ -205,7 +205,7 @@ def create_decision_tree(hero,state):
     BaseClassID=hero.get("BaseClassID")
 
     sp_obj=sp()
-    team_strategy_id=int(state['setting']['team_strategy'])
+    team_strategy_id=int(state['setting']['teamStrategy'])
     eascape_hp=sp_obj.get_strategy_params(BaseClassID,team_strategy_id)[1]['escape']['is_health_below_threshold']['weight']
     range_obj=Range(hero,state)
     # 创建决策树

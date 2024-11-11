@@ -15,7 +15,7 @@ class ActionWeight(object):
         self.enemies = enemies
         self.teammates = teammates
         self.maps = maps
-        self.strategy_params = strategy_params().get_strategy_params(self.role["BaseClassID"], setting["team_strategy"])[0]
+        self.strategy_params = strategy_params().get_strategy_params(self.role["BaseClassID"], setting["teamStrategy"])[0]
 
         self.allEnemiesWarningRange = set()  # 所有敌人的警戒范围的点位合集
 
