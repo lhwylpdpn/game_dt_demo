@@ -11,6 +11,7 @@ import itertools
 from .land import Land
 from .attachment import Attachment, AttachmentHelper
 from utils.damage import damage
+from utils.attachment_damage import damage_calc
 from utils.tools import round_up_2_integer
 
 
@@ -282,8 +283,7 @@ class Map(): # 地图
         attachment    被攻击的对象
         stats         stats
         """
-        #damage_res = damage(skill, wage_object, attachment)      # 附着物伤害函数
-        damage_res = damage(attacker=wage_object, defender=attachment, skill=skill) 
+        damage_res = damage_calc(attacker=wage_object, defender=attachment, skill=skill) 
         damage_res = round_up_2_integer(damage_res)
         attachment.be_attacked(wage_object, skill, damage_res)
         

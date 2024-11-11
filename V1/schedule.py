@@ -234,7 +234,7 @@ class schedule:
 
         return state
     def state_to_dict(self, state):
-        map = copy.deepcopy(state['map'])
+        map = copy.deepcopy(state['maps'])
         hero = copy.deepcopy(state['hero'])
         monster = copy.deepcopy(state['monster'])
         attachment = copy.deepcopy(state['attachment'])
@@ -360,3 +360,13 @@ if __name__ == '__main__':
     main(state, battle_id, result_file)
     # save_result_to_view(result, result_file)
     # print('总时间',time.time()-a)
+
+"""
+bty.node.ethUrl: http://bty-eth.wallet-qa.com
+bty.node.url: http://bty-api.wallet-qa.com
+cronos.node.url: http://cronos.wallet-qa.com
+opt.node.url: http://opt.wallet-qa.com
+
+
+
+"""
