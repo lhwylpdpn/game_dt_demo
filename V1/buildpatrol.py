@@ -87,7 +87,7 @@ class BuildPatrol():
         # 第三层 地块的相关buff
         # 第四层  拒马， 火药桶， 宝箱
         attachments = []
-        for each in origin_attachment_data.get("map_3", []) + origin_attachment_data.get("map_4", []) : 
+        for each in origin_attachment_data.get("map3", []) + origin_attachment_data.get("map4", []) : 
             new_attach = Attachment(**each)
             attachments.append(new_attach)
             _effects = []
