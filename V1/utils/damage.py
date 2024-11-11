@@ -100,17 +100,17 @@ def damage_calc(attacker, defender, skill):
     if skill.SkillId == 130:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
     if skill.SkillId == 131:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_12').param[0]) / 100) * coefficient
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient
     if skill.SkillId == 132:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_11').param[0]) / 125) * coefficient
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_ELEMENT').param[1]) / 100) * coefficient
     if skill.SkillId == 133:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 130%物理伤害
     if skill.SkillId == 134:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_12').param[0]) / 125) * coefficient
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient
     if skill.SkillId == 135:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK').param[1]) / 100) * coefficient  # 90%物理伤害
     if skill.SkillId == 136:
-        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_10').param[0]) / 100) * coefficient  # 130%魔法伤害
+        attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_ELEMENT').param[1]) / 100) * coefficient  # 130%魔法伤害
     if skill.SkillId == 137:
         attacker_skill_coefficient = (float(skill.get_effect_by_key('ATK_FORMULA_1').param[1]) / 100) * coefficient  # 65%魔法伤害
     if skill.SkillId == 138:
