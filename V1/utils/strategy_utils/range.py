@@ -17,12 +17,27 @@ from utils.strategy_utils.basic_utils import get_attack_range, find_shortest_pat
 
 class Range(Data):
     def __init__(self, role=None, state=None):
+        self.attachment_points = []
         if role:
             self.role = role
             if not isinstance(self.role, dict):
                 self.role = role.dict()
 
         if state:
+            if "attachment" in state:
+                self.attachments = []
+                for _ in state["attachment"]:
+                    if not isinstance(_, dict):
+                        _ = _.dict()
+                    if _.get("DestroyEffect", 0) > 0 and _.get("Selected", 0) == 1: # 血量 > 0 & 可以被选中
+                        _["Hp"] = _.get("DestroyEffect")
+                        self.attachments.append(_)
+                    if _.get("Block") == 1:  # 不可行走的附着物点位
+                        self.attachment_points.append(tuple(_["position"]))
+
+
+            if "setting" in state:
+                self.setting = state["setting"]
             if "map" in state:
                 if not isinstance(state["map"], dict):
                     self.map = state["map"]
@@ -33,7 +48,7 @@ class Range(Data):
             if "maps" in state:
                 if not isinstance(state["maps"], dict):
                     self.map = state["maps"]
-                    self.map = Data.convert_maps_xz(self.map.view_from_y_dict())
+                    self.map = Data.convert_maps_xz(self.map.view_from_y_dict(), self.attachment_points)
                 else:
                     self.map = state["maps"]
 
@@ -55,17 +70,7 @@ class Range(Data):
                         _["warning_range"] = self.enemies_in_warning_range(_)
                         self.enemies.append(_)
 
-            if "attachment" in state:
-                self.attachments = []
-                for _ in state["attachment"]:
-                    if not isinstance(_, dict):
-                        _ = _.dict()
-                    if _.get("DestroyEffect", 0) > 0 and _.get("Selected", 0) == 1: # 血量 > 0 & 可以被选中
-                        _["Hp"] = _.get("DestroyEffect")
-                        self.attachments.append(_)
 
-            if "setting" in state:
-                self.setting = state["setting"]
 
         # state = {"map": self.map,
         #              "hero": self.teammates + [self.role],

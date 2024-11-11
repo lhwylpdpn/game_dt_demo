@@ -22,9 +22,11 @@ class Data(object):
             raise Exception(f"Key Error! key={key}")
 
     @staticmethod
-    def convert_maps_xz(maps):
+    def convert_maps_xz(maps, attachment_points):
         xz_dict = {}
         for k, v in maps.items():
+            if tuple(k) in attachment_points:
+                v["Block"] = 1
             v["y"] = k[1]
             v["position"] = tuple(v["position"])
             xz_dict[(k[0], k[2])] = v
