@@ -417,7 +417,7 @@ class game:
             i += 1
     def generate_state(self):
         print(self.state)
-        self.map=self.state['map'].view_from_y_dict()
+        self.map=self.state['maps'].view_from_y_dict()
 
         x, y, z = 0, 0, 0
 

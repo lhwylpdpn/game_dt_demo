@@ -21,102 +21,46 @@ class test_process:
 
         self.state = BuildPatrol("data.json").load_data()
 
-    def data_init(self):
-        p_all = self.state['map'].view_from_y_dict().keys()
+    def data_init(self,state):
+        print(3333,state['maps'])
+        p_all = state['maps'].view_from_y_dict().keys()
         p_all = list(p_all)
-
-
-
-        for p in self.state['map'].view_from_y_dict().keys():
-            if self.state['map'].view_from_y_dict()[p]['Block'] != 1:
+        for p in state['maps'].view_from_y_dict().keys():
+            if p[0] > 4 or p[2] > 4:
+                state['maps'].set_land_no_pass(p[0], p[1], p[2], 5)
+        for p in state['maps'].view_from_y_dict().keys():
+            # if state['map'].view_from_y_dict()[p]['Block'] != 0:
+            #     p_all.remove(p)
+            if not state['maps'].land_can_pass(p[0], p[1], p[2]):
                 p_all.remove(p)
+        state['hero'] = [_ for _ in state['hero'] if _.HeroID == 5002]
+        state['monster'] = [_ for _ in state['monster'] if _.Quality == 2]
 
+        for i in range(len(state['hero'])):
 
-        for i in range(len(self.state['hero'])):
-
-            #
-            # hero_random_RoundAction = random.randint(20,20)
-            hero_random_JumpHeight = [random.randint(15,15)]
-            # hero_random_DogBase = random.randint(100,100)
-            # hero_random_HP = random.randint(1000,10000)
-            hero_random_Atk = random.randint(250,250)
-            #
-            # p = random.choice(p_all)
-            # p_all.remove(p)
-            # tmp_skills=copy.deepcopy(self.state['hero'][i].dict()['AvailableSkills'])
-            # print('tmp_skills',tmp_skills)
-            # # for j in self.state['hero'][i].dict()['AvailableSkills']:
-            # #     if random.random()>0.5:
-            # #         tmp_skills.remove(j)
-            # # if 200 not in tmp_skills:
-            # #     tmp_skills.append(200)
-            # #print('原始技能',self.state['hero'][i].dict())
-            # #tmp_skills=[86]
-            # #print('hero',self.state['hero'][i].dict()['HeroID'])
-            # print('hero_random_RoundAction', hero_random_RoundAction)
-            # print('hero_random_JumpHeight', hero_random_JumpHeight)
-            # print('hero_random_DogBase', hero_random_DogBase)
-            # print('hero_random_HP', hero_random_HP)
-            # print('hero_random_Atk', hero_random_Atk)
-            #
-            # # if i == 0:
-            # #     p=(2,1,6)
-            # # if i==1:
-            # #     p=(3,1,16)
-            # # self.state['hero'][i].set_AvailableSkills(tmp_skills)
-            # self.state['hero'][i].set_RoundAction(hero_random_RoundAction)
-            #
-            #
-            self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
-            # self.state['hero'][i].set_DogBase(hero_random_DogBase)
-            # self.state['hero'][i].set_Hp(hero_random_HP)
-            self.state['hero'][i].set_Atk(hero_random_Atk)
-            # # #随机选地图的一个位置给到英雄
-            # # print('p', p)
-            # self.state['hero'][i].set_x(p[0])
-            # self.state['hero'][i].set_y(p[1])
-            # self.state['hero'][i].set_z(p[2])
-            pass
-        for i in range(len(self.state['monster'])):
-
-            monster_random_RoundAction = random.randint(20,30)
-            monster_random_JumpHeight = [random.randint(5,5)]
-            monster_random_DogBase = random.randint(10,10 )
-            monster_random_HP = random.randint(1350, 1350)
-            monster_random_Atk = random.randint(88, 88)
-            monster_random_Def = random.randint(10, 10)
             p = random.choice(p_all)
             p_all.remove(p)
-            tmp_skills = copy.deepcopy(self.state['monster'][i].dict()['AvailableSkills'])
-            #print('tmp_skills',tmp_skills)
-            # for j in self.state['monster'][i].dict()['AvailableSkills']:
-            #     if random.random() > 0.5:
-            #         tmp_skills.remove(j)
-            # if 200 not in tmp_skills:
-            #     tmp_skills.append(200)
-            #tmp_skills = [77, 78, 88]
-            # print('monster',self.state['monster'][i].dict()['HeroID'])
-            # print('monster_random_RoundAction', monster_random_RoundAction)
-            # print('monster_random_JumpHeight', monster_random_JumpHeight)
-            # print('monster_random_DogBase', monster_random_DogBase)
-            # print('monster_random_HP', monster_random_HP)
-            # print('monster_random_Atk', monster_random_Atk)
 
-            #self.state['monster'][i].set_AvailableSkills(tmp_skills)
-            # self.state['monster'][i].set_RoundAction(monster_random_RoundAction)
-            self.state['monster'][i].set_JumpHeight(monster_random_JumpHeight)
-            # self.state['monster'][i].set_DogBase(monster_random_DogBase)
-            # self.state['monster'][i].set_Hp(monster_random_HP)
-            self.state['monster'][i].set_Atk(monster_random_Atk)
-            # self.state['monster'][i].set_Def(monster_random_Def)
-            # if i==0:
-            #     p=(19,5,18)
-            # if i==1:
-            #     p=(12,7,8)
-           # print('p', p)
-           #  self.state['monster'][i].set_x(p[0])
-           #  self.state['monster'][i].set_y(p[1])
-           #  self.state['monster'][i].set_z(p[2])
+            tmp_skills = [77]
+
+            state['hero'][i].set_AvailableSkills(tmp_skills)
+
+            state['hero'][i].set_x(p[0])
+            state['hero'][i].set_y(p[1])
+            state['hero'][i].set_z(p[2])
+
+        for i in range(len(state['monster'])):
+
+            p = random.choice(p_all)
+            p_all.remove(p)
+            tmp_skills = [82]
+
+            state['monster'][i].set_AvailableSkills(tmp_skills)
+
+            state['monster'][i].set_x(p[0])
+            state['monster'][i].set_y(p[1])
+            state['monster'][i].set_z(p[2])
+        return state
 
 
 
@@ -205,11 +149,11 @@ def main():
     with open(log_file_path, 'w') as f:
         f.write('')
     obj_=test_process()
-    obj_.data_init()
-    #obj_.pygame_init()
+    obj_.data_init(obj_.state)
+    obj_.pygame_init()
     obj_.run()
-    #obj_.game_run()
-    #time.sleep(100)
+    obj_.game_run()
+    time.sleep(100)
 
 
 def replay():
@@ -223,53 +167,4 @@ def replay():
     obj_.game_run(json=json_reload)
 
 if __name__ == '__main__':
-
-    #清空log文件
-
-
-    # # #
-    # # #
-    # # #
-    # skill_list=list(demo_skill.values())
-    # print(skill_list)
-    # #skill_list=[77]
-    # # # # #暂时有bug的技能
-    # skill_list.remove(79)
-    # #skill_list.remove(81) #带概率的后面统一测试
-    # skill_list.remove(82)
-    # skill_list.remove(85)# 需要改
-    # skill_list.remove(99)
-    #
-    #
-    # #
-    # # #通过的技能
-    # # skill_list.remove(91)
-    # # skill_list.remove(92)
-    # # skill_list.remove(88)
-    # # skill_list.remove(90)
-    # # skill_list.remove(77)
-    # # skill_list.remove(78)
-    # # skill_list.remove(80)
-    # # skill_list.remove(83)
-    # # skill_list.remove(84)
-    # # skill_list.remove(85)
-    # # skill_list.remove(86)
-    # # skill_list.remove(96)
-    # #
-    # # skill_list.remove(78)
-    # # skill_list.remove(97)
-    # # skill_list.remove(98)
-    # # skill_list.remove(99)
-    # # skill_list.remove(100)
-    # # skill_list.remove(101)
-    # # skill_list.remove(102)
-    # # skill_list.remove(103)
-    # #
-    # #
-    # skill_list=[79,81,82,85,99]
-    # #
-    # #
-    # for skill_id in skill_list:
-    #      single_skill_test_main(basecalssid=1,skill_id=skill_id,pygame_init=False)
-    #main()
-    replay()
+    main()

@@ -44,7 +44,7 @@ class schedule:
         self.battle_id = battle_id
         self.redis_expiration_time = 7 * 24 * 60 * 60
         self.hero_list = state['hero']
-        self.state = state['map']
+        self.state = state['maps']
         self.monster_list = state['monster']
         self.attachment = state['attachment']
         self.setting=state['setting']
