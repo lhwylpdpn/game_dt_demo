@@ -22,12 +22,11 @@ class test_process:
         self.state = BuildPatrol("data.json").load_data()
 
     def data_init(self,state):
-        print(3333,state['maps'])
         p_all = state['maps'].view_from_y_dict().keys()
         p_all = list(p_all)
         for p in state['maps'].view_from_y_dict().keys():
             if p[0] > 4 or p[2] > 4:
-                state['maps'].set_land_no_pass(p[0], p[1], p[2], 5)
+                state['maps'].set_land_no_pass(p[0], p[1], p[2], 1)
         for p in state['maps'].view_from_y_dict().keys():
             # if state['map'].view_from_y_dict()[p]['Block'] != 0:
             #     p_all.remove(p)
@@ -41,7 +40,7 @@ class test_process:
             p = random.choice(p_all)
             p_all.remove(p)
 
-            tmp_skills = [77]
+            tmp_skills = [82]
 
             state['hero'][i].set_AvailableSkills(tmp_skills)
 
@@ -53,9 +52,12 @@ class test_process:
 
             p = random.choice(p_all)
             p_all.remove(p)
-            tmp_skills = [82]
+            monster_random_Atk = random.randint(100,200)
+            state['monster'][i].set_Atk(monster_random_Atk)
 
-            state['monster'][i].set_AvailableSkills(tmp_skills)
+            # tmp_skills = [82]
+            #
+            # state['monster'][i].set_AvailableSkills(tmp_skills)
 
             state['monster'][i].set_x(p[0])
             state['monster'][i].set_y(p[1])
@@ -153,7 +155,7 @@ def main():
     obj_.pygame_init()
     obj_.run()
     obj_.game_run()
-    time.sleep(100)
+    #time.sleep(100)
 
 
 def replay():
