@@ -719,31 +719,27 @@ class Hero():
             pass
         return move_x, move_y, move_z
 
-
     def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
         map_obj = state.get("maps")
-        move_value = int(value[0])
+        steps, move_value = 1, int(value[0])
         print(f"{self.HeroID} 计划从{self.position} 走向 {target.position} 方向 {move_value} 步")
         position_ok = None
         move_x, move_y, move_z = None, None, None
-        total_step = move_value
         direction = self.judge_direction(target)
         if direction == "OTHER":
             print("不在十字位置，不移动")
             return self
-        while move_value:
-            move_x, move_y, move_z = self.move_direction(direction, move_value)
+        while steps <= move_value:
+            move_x, move_y, move_z = self.move_direction(direction, steps)
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
-                total_step = move_value if position_ok is None else total_step
-                position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
+                position_ok = [move_x, move_y, move_z]
             else:
-                position_ok = None
-            print(f" >>移动 {move_value}步数 , 落点[{move_x, move_y, move_z}]", self.is_position_ok(move_x, move_y, move_z, state))
-            move_value = move_value - 1
-        if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
-            print(f"{self.HeroID} 实际从{self.position} 走向 {target.position} 方向 {total_step} 步, 到达 {position_ok} 点")
+                break
+            steps = steps + 1
+        if position_ok:
+            print(f"{self.HeroID} 实际从 {self.position} 后退 { steps } 步,后退 {position_ok} 点")
             self.move_position(*position_ok, state)
         else:
             print(f"{self.HeroID} 实际从{self.position} 走向 {target.position} 方向 0 步")
@@ -751,27 +747,24 @@ class Hero():
     
     def move_back(self, enemy, move_value, state, direction): # 敌人的攻击使我后退x格, direction 后退的方向
         map_obj = state.get('maps')
-        move_value = int(move_value[0])
+        steps, move_value = 1, int(move_value[0])
         print(f"{self.HeroID} 计划从{self.position}后退 {move_value} 步 ，后退方向{direction}, 此时敌人位置{enemy.position}")
         position_ok = None
         move_x, move_y, move_z = None, None, None
-        total_step = move_value
         if direction == "OTHER":
             print("攻击点位置在斜，不在十字位置，不移动")
             return self
-        while move_value:
-            move_x, move_y, move_z = self.move_direction(direction, move_value)
+        while steps <= move_value:
+            move_x, move_y, move_z = self.move_direction(direction, steps)
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
-                total_step = move_value if position_ok is None else total_step
-                position_ok = [move_x, move_y, move_z] if position_ok is None else position_ok
+                position_ok = [move_x, move_y, move_z]
             else:
-                position_ok = None
-            print(f" >>移动 {move_value}步数 , 落点[{move_x, move_y, move_z}]", self.is_position_ok(move_x, move_y, move_z, state))
-            move_value = move_value - 1
-        if position_ok and tuple([move_x, move_y, move_z]) != tuple(self.position):
-            print(f"{self.HeroID} 实际从 {self.position} 后退 {total_step} 步,后退 {position_ok} 点")
+                break
+            steps = steps + 1
+        if position_ok:
+            print(f"{self.HeroID} 实际从 {self.position} 后退 { steps } 步,后退 {position_ok} 点")
             self.move_position(*position_ok, state)
         else:
             print(f"{self.HeroID} 实际从{self.position} 后退 0 步")
@@ -806,7 +799,7 @@ class Hero():
             print("use: MOVE_TARGET2SELF 敌人向自己移动")
             move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
             enemys = self.sort_enemys(enemys) #对敌人 由近及远排序
-            for each_e in enemys: # 找到技能落点的敌人
+            for each_e in enemys: 
                 each_e.skill_move_to_position(target=self, value=move_value, state=state)
         # 击退几格
         if "REPEL_TARGET" in skill.avaliable_effects():
@@ -814,7 +807,7 @@ class Hero():
             direction = self.judge_direction(Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
             move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
             enemys = self.sort_enemys(enemys, reverse=True) #对敌人 由远及近排序
-            for each_e in enemys: # 找到技能落点的敌人
+            for each_e in enemys: 
                 each_e.move_back(self, move_value, state, direction)
         return self
          
@@ -1045,9 +1038,14 @@ class Hero():
         return result
     
     def __atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
+        # result =  {
+        #         # "bomb_2" :{"damage":{'damage':45}, "new_frag":{"sn":32, "points":[p2_1, p2_2, p2_3...]}, "atk_o_point": [], "atk_range":[] },
+        #         # "bomb_3" :{"damage":{'damage':45}, "new_frag":{"sn":32, "points":[p3_1, p3_2, p3_3...]}, "atk_o_point": [] , "atk_range":[]  },
+        #         "horse_1"  :{"damage":{'damage':45}, "new_frag":None, "atk_o_point": [] , "atk_range":[]  },
+        #         }
         map_obj = state.get("maps")
-        map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
-        return 
+        first_be_atk, chain_be_atk = map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
+        return first_be_atk, chain_be_atk
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
         """
