@@ -47,12 +47,11 @@ class test_process:
             state['hero'][i].set_x(p[0])
             state['hero'][i].set_y(p[1])
             state['hero'][i].set_z(p[2])
-
         for i in range(len(state['monster'])):
 
             p = random.choice(p_all)
             p_all.remove(p)
-            monster_random_Atk = random.randint(100,200)
+            monster_random_Atk = random.randint(80,80)
             state['monster'][i].set_Atk(monster_random_Atk)
 
             # tmp_skills = [82]
