@@ -31,7 +31,7 @@ class BuildPatrol():
         _map = self.build_map(src_json_data.get("map"))     # 初始化地图
         attachments =  self.map_load_attachment(src_json_data, _map) # 地图加载附着物
         setting = self.build_setting(src_json_data.get("setting", {})) # 初始化 setting
-        return {"map": _map, 
+        return {"maps": _map, 
                 "hero": heros,
                 "monster": monsters,
                 "attachment": attachments,
