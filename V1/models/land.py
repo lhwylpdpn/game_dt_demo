@@ -115,6 +115,7 @@ class Land(): # 地块
     
     @property
     def Block(self): # 
+        self.set_Block()
         return self.__Block
     
     @property
@@ -295,7 +296,10 @@ class Land(): # 地块
         # 判断是否对站立的
         buff_data = attachment.buff_data_for_hmobject()
         if buff_data and self.stand_object:
+            print("对地块上的人增加buff", attachment, self.stand_object)
+            print([_.buff_key for _ in self.stand_object.buff], self.stand_object.Hp)
             self.stand_object.add_buff(**buff_data)
+            print([_.buff_key for _ in self.stand_object.buff], self.stand_object.Hp)
         return self
 
     @property
@@ -351,13 +355,13 @@ class Land(): # 地块
         当前是地块的第四层 & 地块上的英雄 or monster 受到攻击
         """
 
-        new_death = []
+        new_death_attachment = [] # 只返回附属物的死亡
 
         for each in self.attachments:
             if wage_object != each:
                 each.be_attacked(wage_object=wage_object, skill=skill, damage_res=damage_res)
                 if each.is_death:
-                    new_death.append(each)
+                    new_death_attachment.append(each)
                 
         if self.stand_object:
             self.stand_object.Hp_damage(damage_res)
@@ -365,4 +369,4 @@ class Land(): # 地块
                 self.stand_object.leave_game(stats) # 离开游戏
                 self.set_stand_object(None)
         
-        return new_death
+        return new_death_attachment
