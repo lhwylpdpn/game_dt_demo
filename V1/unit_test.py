@@ -171,7 +171,7 @@ def main():
     with open(log_file_path, 'w') as f:
         f.write('')
     obj_=test_process()
-    obj_.data_init(obj_.state)
+    obj_.data_init_fanji(obj_.state)
     #obj_.pygame_init()
     obj_.run()
     #obj_.game_run()
