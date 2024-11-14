@@ -216,8 +216,11 @@ class schedule:
                         self.performance.event_end('get_current_state')
 
                         self.performance.event_start('record')
-                        action['id'] = alive_hero_id
-                        action['class'] = alive_hero_class
+                        # action['id'] = alive_hero_id
+                        # action['class'] = alive_hero_class
+                        if action['action_type'] != 'SKILL_82':  # 反击
+                            action['id'] = alive_hero_id
+                            action['class'] = alive_hero_class
                         self._record(action, state_dict, new_state_dict)
                         self.performance.event_end('record')
 

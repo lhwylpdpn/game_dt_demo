@@ -94,7 +94,9 @@ class Action(object):
             return res
 
         if "EFFECT_" in step["action_type"]:
-            hero.trigger_buff(step)
+            res = hero.trigger_buff(step)
+            res["action_type"] = step["action_type"]
+            return res
 
         if "SKILL_" in step["action_type"]:
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
@@ -113,6 +115,9 @@ class Action(object):
                 for _ in atk_res:
                     if atk_res[_].get("back_attck"):
                         atk_back = atk_res[_]["back_attck"]
+
+                        atk_back["id"] = atk_back["damage"][0]["effects"][0]["role_id"]
+                        atk_back["class"] = atk_back["damage"][0]["effects"][0]["role"]
                         atk_back["damage"] = self.calc_back_damage(atk_back)
                         back_res.append(atk_back)
 
