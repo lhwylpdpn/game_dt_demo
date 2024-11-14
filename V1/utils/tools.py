@@ -140,6 +140,47 @@ def round_up_2_integer(src_num):
     return math.ceil(float(src_num))
 
 
+import collections
+from pympler import asizeof
+
+
+def print_object_details(obj, seen=None, prefix=''):
+    """打印对象及其属性、方法的内存占用"""
+    if seen is None:
+        seen = set()
+
+    obj_id = id(obj)
+    if obj_id in seen:
+        print(f"{prefix}（已访问）: {asizeof.asizeof(obj)} bytes")
+        return
+
+    seen.add(obj_id)
+
+    # 打印对象本身的大小
+    size = asizeof.asizeof(obj)
+    print(f"{prefix}{type(obj).__name__}: {size} bytes")
+
+    # # 打印对象的属性
+    # if hasattr(obj, '__dict__'):
+    #     for attr, value in obj.__dict__.items():
+    #         attr_size = asizeof.asizeof(value)
+    #         print(f"{prefix}  {attr}: {attr_size} bytes")
+    #         print_object_details(value, seen, prefix + '    ')
+
+    # 打印对象的方法
+    # methods = [method for method in dir(obj) if callable(getattr(obj, method)) and not method.startswith("__")]
+    # for method in methods:
+    #     method_size = asizeof.asizeof(getattr(obj, method))
+    #     print(f"{prefix}  {method}: {method_size} bytes")
+    #
+    # # 处理列表类型的属性，打印每个元素的大小
+    # if isinstance(obj, list):
+    #     for index, item in enumerate(obj):
+    #         item_size = asizeof.asizeof(item)
+    #         print(f"{prefix}[{index}]: {item_size} bytes")
+    #         print_object_details(item, seen, prefix + '  ')
+
+
 if __name__ == '__main__':
     dict_= {0: 0.6, 1: 0.4}
     res=0

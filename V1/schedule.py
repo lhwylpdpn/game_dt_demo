@@ -15,6 +15,8 @@ import math
 from utils.tools import Deepdiff_modify
 from utils.tools import performance
 from log.log import log_manager
+
+
 # step0 调度接到外部的开始请求，传入初始地图，传入初始角色，传入计算信息
 # step1 调度开始游戏,调用棋盘初始化游戏
 # step2 调度开始自增计时器
@@ -144,7 +146,7 @@ class schedule:
                 print(
                     f"----------------------------------------- tick: {self.tick}, role: {hero.HeroID}  ----------------------------------------- ")
                 self.performance.event_start('focus')
-                print('focus',type(state),state)
+                #print('focus',type(state),state)
 
                 focus = hero.focus(state)
                 self.performance.event_end('focus')
@@ -152,13 +154,13 @@ class schedule:
                 if alive_hero_class == 'hero':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_1.choice_hero_act(hero, state, self.performance)
-                    print('tick', self.tick, '调度获得的行动list: 英雄', alive_hero_id, actions)
+                    #print('tick', self.tick, '调度获得的行动list: 英雄', alive_hero_id, actions)
                     # log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 if alive_hero_class == 'monster':
                     self.performance.event_start('schedule_choose_action')
                     actions = self.agent_2.choice_monster_act(hero, state, self.performance)
-                    print('tick', self.tick, '调度获得的行动list: 怪兽', alive_hero_id, actions)
+                    #print('tick', self.tick, '调度获得的行动list: 怪兽', alive_hero_id, actions)
                     # log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                     self.performance.event_end('schedule_choose_action')
                 self.performance.event_start('un_focus')
@@ -190,6 +192,7 @@ class schedule:
                 # log_manager.add_log({'stepname':'合并后调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 for action in actions:
                     # print('调度行动',self.tick,'id',alive_hero_id,'class',alive_hero_class,action)
+                    action_result=[]
                     self.performance.event_start('game_action')
                     if hero.__class__.__name__.lower() == 'hero':
                         action_result = self.game.hero_action(hero, action)
@@ -223,12 +226,10 @@ class schedule:
                             action['class'] = alive_hero_class
                         self._record(action, state_dict, new_state_dict)
                         self.performance.event_end('record')
-
                         self.performance.event_start('get_current_state')
                         state = new_state
                         state_dict = self.state_to_dict(state)
                         self.performance.event_end('get_current_state')
-
 
                 # 2024-10-21 调整存储redis结构
 
@@ -245,7 +246,6 @@ class schedule:
 
                     return state
                 self.performance.event_end('check_game_over')
-        print('打印下tick',self.tick,self.record_update_dict.get(self.tick))
         if self.record_update_dict.get(self.tick) is not None:
             self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
             self.save_result_to_redis(self.record_update_dict[self.tick])
@@ -253,11 +253,28 @@ class schedule:
 
         return state
     def state_to_dict(self, state):
+        # from pympler import asizeof
+        # from utils.tools import print_object_details
+        # state_size = asizeof.asizeof(state['maps'])
+        # print_object_details(state['maps'])
+        # print(f"当前 map state 占用内存: {state_size} 字节")
+        # state_size = asizeof.asizeof(state['hero'])
+        # print_object_details(state['hero'])
+        #
+        # print(f"当前 hero state 占用内存: {state_size} 字节")
+        # state_size = asizeof.asizeof(state['monster'])
+        # print(f"当前 monster state 占用内存: {state_size} 字节")
+        # state_size = asizeof.asizeof(state['attachment'])
+        # print(f"当前 attachment state 占用内存: {state_size} 字节")
+        # state_size = asizeof.asizeof(state['setting'])
+        # print(f"当前 setting state 占用内存: {state_size} 字节")
+
         map = copy.deepcopy(state['maps'])
         hero = copy.deepcopy(state['hero'])
         monster = copy.deepcopy(state['monster'])
         attachment = copy.deepcopy(state['attachment'])
         setting=copy.deepcopy(state['setting'])
+
         if type(map) != list:
             map = [map]
         if type(hero) != list:
@@ -273,6 +290,7 @@ class schedule:
         hero_dict = {}
         monster_dict = {}
         attachment_dict = {}
+
         for i in range(len(map)):
             map_dict[i] = map[i].dict(for_view=True)
         for h in hero:
@@ -282,7 +300,6 @@ class schedule:
         for a in attachment:
             attachment_dict[a.sn] = a.dict()
         res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 'attachment': attachment_dict,"setting":setting}
-
         del map
         del hero
         del monster
@@ -325,7 +342,7 @@ class schedule:
         if self.record_update_dict.get(self.tick) is None:
             self.record_update_dict[self.tick] = {'action': [], 'state': []}  # 初始化
         self.record_update_dict[self.tick]['action'].append(action)
-        print('record',self.record_update_dict[self.tick]['action'])
+        #print('record',self.record_update_dict[self.tick]['action'])
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick'] = self.tick
         # self.performance.event_end('record_detail')
@@ -348,7 +365,7 @@ class schedule:
     def save_result_to_redis(self, record_update_dict):
 
         redis_key_2 = "battle_id:" + str(self.battle_id)
-        print('rpush',json.dumps(record_update_dict))
+        print('rpush')
         redis_client.rpush(redis_key_2, json.dumps(record_update_dict))
 
 
@@ -366,6 +383,7 @@ def save_result_to_view(data, path):
         # json.dump(data, file)
         file.write(data)
     return
+
 
 
 if __name__ == '__main__':
