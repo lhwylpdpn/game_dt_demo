@@ -141,8 +141,8 @@ class Hero():
         return bufff_s
     
     def __get_friends(self, state):
-        friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人, 包括自己
-        return friends
+        all_friends = state['hero'] if self in state['hero'] else state['monster'] # 找到己方的所有人, 包括自己
+        return [_ for _ in all_friends if _.is_alive]
 
     def leve_game(self, state): # 退出战局
         map_obj = state.get('maps')
@@ -1097,8 +1097,10 @@ class Hero():
         return result
     
     def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
-        buff_dic.get("buff").make_effective(self)
-        return self
+        result = buff_dic.get("buff").make_effective(self)
+        buff_dic["damage"] = [result,]
+        print("$$$$$$$$$$$$$$$$$$$$$trigger_buff result:", buff_dic)
+        return buff_dic
 
     def open_box(self, box_object, state):
         map_obj = state.get("maps")
