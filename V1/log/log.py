@@ -19,7 +19,7 @@ class LogManager:
         # 构造要记录的数据
         log_entry = {timestamp: log_data}
         # 将日志记录到文件中
-        self._write_log(log_entry)
+        # self._write_log(log_entry)
         return timestamp
 
     def _write_log(self, log_entry):
