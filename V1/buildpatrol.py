@@ -91,10 +91,11 @@ class BuildPatrol():
             new_attach = Attachment(**each)
             attachments.append(new_attach)
             _effects = []
-            for each_effect in each.get("effects"):
+            for each_effect in each.get("effects", []):
                 _effect = Effect(**each_effect)
                 _effects.append(_effect)
-            new_attach.set_effects(_effects)
+            if _effects:
+                new_attach.set_effects(_effects)
             map_obj.load_attachment(new_attach)
     
         return attachments
