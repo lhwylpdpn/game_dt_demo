@@ -51,7 +51,7 @@ class schedule:
         self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment,setting=self.setting)
         self.agent_1 = agent()
         self.agent_2 = agent()
-        self.timeout_tick = 2000
+        self.timeout_tick = 300
         self.tick = 0
         self.record_update_dict = {}
         self.record_update_dict_update = {}  # 测试用
@@ -101,12 +101,7 @@ class schedule:
         return self.game.check_game_over()[1]
 
     def next(self):
-        self.performance.event_start('get_current_state')
-        state = self.game.get_current_state()
 
-        state_dict = self.state_to_dict(state)
-
-        self.performance.event_end('get_current_state')
 
         self.performance.event_start('get_current_alive_hero')
         alive_hero = self.game.get_current_alive_hero()
@@ -115,6 +110,23 @@ class schedule:
 
         alive_hero_ids = [_.HeroID for _ in alive_hero]
         self.hero_next_action_round = [_ for _ in self.hero_next_action_round if _["id"] in alive_hero_ids]
+
+        have_action_status = False
+        for hero in alive_hero:
+            if hero.is_death:  # 同一个tick里也可能，后轮到的英雄被先轮到的打死
+                continue
+            once_tick = math.ceil(self.ap_limit / (hero.Velocity / self.ap_parm))
+            if self.tick % once_tick == 0:
+                have_action_status=True
+        if have_action_status:
+            self.performance.event_start('get_current_state')
+            state = self.game.get_current_state()
+
+            state_dict = self.state_to_dict(state)
+
+            self.performance.event_end('get_current_state')
+        else:
+            return self.game.get_current_state()
 
         for hero in alive_hero:
             # hero是一个对象，想获得它的类名
@@ -194,6 +206,7 @@ class schedule:
                         action_result = [action_result]
 
                     for action in action_result:
+
                         self.performance.event_start('get_current_state')
                         new_state = self.game.get_current_state()
                         new_state_dict = self.state_to_dict(new_state)
@@ -209,7 +222,6 @@ class schedule:
                         state = new_state
                         state_dict = self.state_to_dict(state)
                         self.performance.event_end('get_current_state')
-
 
 
                 # 2024-10-21 调整存储redis结构

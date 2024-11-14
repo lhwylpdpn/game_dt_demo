@@ -21,7 +21,7 @@ class test_process:
 
         self.state = BuildPatrol("data.json").load_data()
 
-    def data_init(self,state):
+    def data_init_fanji(self,state):
         p_all = state['maps'].view_from_y_dict().keys()
         p_all = list(p_all)
         for p in state['maps'].view_from_y_dict().keys():
@@ -63,7 +63,28 @@ class test_process:
             state['monster'][i].set_z(p[2])
         return state
 
+    def data_init(self,state):
+        for i in range(len(state['hero'])):
 
+            #hero_random_RoundAction = random.randint(5, 5)
+            #hero_random_JumpHeight = [random.randint(15, 15)]
+            #hero_random_DogBase = random.randint(5, 5)
+            #hero_random_HP = random.randint(500, 500)
+            #hero_random_Atk = random.randint(200, 200)
+
+            # self.state['hero'][i].set_RoundAction(hero_random_RoundAction)
+            # self.state['hero'][i].set_JumpHeight(hero_random_JumpHeight)
+            # self.state['hero'][i].set_DogBase(hero_random_DogBase)
+            # self.state['hero'][i].set_Hp(hero_random_HP)
+            # self.state['hero'][i].set_Atk(hero_random_Atk)
+            pass
+        for i in range(len(state['monster'])):
+
+            hero_random_Atk = random.randint(135, 135)
+
+            state['monster'][i].set_Atk(hero_random_Atk)
+        self.state=state
+        return state
 
     #创建固定参数
     def pygame_init(self):
@@ -151,9 +172,9 @@ def main():
         f.write('')
     obj_=test_process()
     obj_.data_init(obj_.state)
-    obj_.pygame_init()
+    #obj_.pygame_init()
     obj_.run()
-    obj_.game_run()
+    #obj_.game_run()
     #time.sleep(100)
 
 
