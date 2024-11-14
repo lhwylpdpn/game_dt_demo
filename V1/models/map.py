@@ -123,11 +123,12 @@ class Map(): # 地图
             land.set_stand_object(None)
         return self
     
-    def enter(self, x, y, z, h_m_object): # 进入地块 
+    def enter(self, x, y, z, h_m_object, init_position=False): # 进入地块 
         land = self.map[x,y,z]
         if isinstance(land, Land):
             land.set_stand_object(h_m_object)
-            if h_m_object not in self.__h_m_objects:  # 把英雄和monster放入地图
+            #if h_m_object not in self.__h_m_objects:  # 把英雄和monster放入地图
+            if init_position:
                 self.__h_m_objects.append(h_m_object)
             # TODO 地块伤害
             h_m_object.Hp_damage(land.land_damage()) 

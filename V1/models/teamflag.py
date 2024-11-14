@@ -122,16 +122,23 @@ class TeamFlag():
         """
         """
         x =[_.position for _ in h_m_objects]
-        km = KMeans(n_clusters=TeamFlag.search_besk_k(x))
-        km.fit(x)
-        predict = km.predict(x)
         team_flag_dict = {}
-        for label, h_or_m in zip(predict, h_m_objects):
-            h_m = h_or_m.hero_or_monster() # HERO MONSTER
-            label = f"{h_m}_{label}"
-            if label not in team_flag_dict.keys():
-                team_flag_dict[label] = TeamFlag(label)
-            team_flag_dict[label].join_team(h_or_m)
+        if len(h_m_objects) == 1:
+            label = f"{h_m_objects[0].hero_or_monster()}_1"
+            team_flag_dict[label] = TeamFlag(label)
+            team_flag_dict[label].join_team(h_m_objects[0])
+            return
+        else:
+            km = KMeans(n_clusters=TeamFlag.search_besk_k(x))
+            km.fit(x)
+            predict = km.predict(x)
+            
+            for label, h_or_m in zip(predict, h_m_objects):
+                h_m = h_or_m.hero_or_monster() # HERO MONSTER
+                label = f"{h_m}_{label}"
+                if label not in team_flag_dict.keys():
+                    team_flag_dict[label] = TeamFlag(label)
+                team_flag_dict[label].join_team(h_or_m)
         # return
         # # 可视化
         # plt.scatter([_[0] for _ in x], [_[2] for _ in x], c=predict)

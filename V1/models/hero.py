@@ -585,7 +585,7 @@ class Hero():
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
         map_obj.exit(self)            # 离开当前地块
-        map_obj.enter(x,y,z, self)    # 进入新地块, 返回宝箱
+        map_obj.enter(x,y,z, self, init_position)    # 进入新地块, 返回宝箱
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
         self.is_move = True
         print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
@@ -817,37 +817,37 @@ class Hero():
         if "BUFF_ADD_HP" in skill.avaliable_effects(): 
             effect = skill.get_effect_by_key("BUFF_ADD_HP")
             if random_choices({True:int(effect.param[0])/100.0, False:1 - int(effect.param[0])/100.0}): # 几率判断
-                buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id,
-                       buff_key="BUFF_ADD_HP", param=effect.param[1:], 
-                       buff_percent=effect.param[0], BuffType=effect.BuffType)
                 for each in friends:
-                    each.add_buff_object(copy.deepcopy(buff))
+                    buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id,
+                        buff_key="BUFF_ADD_HP", param=effect.param[1:], 
+                        buff_percent=effect.param[0], BuffType=effect.BuffType)
+                    each.add_buff_object(buff)
         if "BUFF_HP" in skill.avaliable_effects(): 
             effect = skill.get_effect_by_key("BUFF_HP")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_HP", 
-                   param=effect.param, buff_percent=effect.param[0], BuffType=effect.BuffType)
             for each in friends:
-                each.add_buff_object(copy.deepcopy(buff))
+                buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_HP", 
+                   param=effect.param, buff_percent=effect.param[0], BuffType=effect.BuffType)
+                each.add_buff_object(buff)
         if "ADD_HP_FORMULA_2" in skill.avaliable_effects():
             effect = skill.get_effect_by_key("ADD_HP_FORMULA_2")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", 
-                   param=effect.param, BuffType=effect.BuffType)
             for each in friends:
-                    each.add_buff_object(copy.deepcopy(buff))
+                buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="ADD_HP_FORMULA_2", 
+                   param=effect.param, BuffType=effect.BuffType)
+                each.add_buff_object(buff)
         if "BUFF_MAGICAL_DEF" in skill.avaliable_effects(): 
             print("use: BUFF_MAGICAL_DEF")
             effect = skill.get_effect_by_key("BUFF_MAGICAL_DEF")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_MAGICAL_DEF", 
-                   param=effect.param, BuffType=effect.BuffType)
             for each in friends:
-                each.add_buff_object(copy.deepcopy(buff))
+                buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_MAGICAL_DEF", 
+                   param=effect.param, BuffType=effect.BuffType)
+                each.add_buff_object(buff)
         if "BUFF_DEF" in skill.avaliable_effects(): 
             print("use: BUFF_DEF")
             effect = skill.get_effect_by_key("BUFF_DEF")
-            buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_DEF", 
-                   param=effect.param, BuffType=effect.BuffType)
             for each in friends:
-                each.add_buff_object(copy.deepcopy(buff))
+                buff = Buff.create_buff(hero_or_monster=self, buff_id=effect.id, buff_key="BUFF_DEF", 
+                   param=effect.param, BuffType=effect.BuffType)
+                each.add_buff_object(buff)
         return self
 
     def before_be_attacked(self, skill):                # 被攻击之前，加载被动技能(作为被攻击对象)
