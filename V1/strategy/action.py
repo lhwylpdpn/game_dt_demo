@@ -39,7 +39,7 @@ class Action(object):
             st = each["st"]
             crit = each["crit"]
 
-            d.extend([["ATK", [each["effects"][0]["role"], each["effects"][0]["role_id"]], [damage], [pre_damage], st, crit]])
+            d.extend([["ATK", [damage_data["effects"][0]["role"], damage_data["effects"][0]["role_id"]], [damage], [pre_damage], st, crit]])
         return d
 
     def calc_heal(self, heal_data):
@@ -78,7 +78,7 @@ class Action(object):
             move_position = step["move_position"]
             hero.move_position(*move_position, state)
             res["move_position"] = move_position
-            if state.get("attachment") and hero.is_hero():
+            if state.get("attachment") and hero.is_hero():  # 只有英雄能开宝箱
                 for att in state["attachment"]:
                     if att.is_box():
                         box_open_points = square_distance_points((att.x, att.z), att.box_open_distance())

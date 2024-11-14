@@ -102,9 +102,8 @@ class BuildPatrol():
 
 def test_atk_bomb(stats):
     hero = state.get("hero")[0] #
-    state["maps"] = state["map"]
     hero.move_position(15,13,11, state=stats)
-    map_ = state.get("map")
+    map_ = state.get("maps")
     bomb = state.get("attachment")[2]
     map_.attack_attachment( wage_object=hero, 
                             skill=hero.skills[0], 
@@ -137,7 +136,7 @@ if __name__ == "__main__":
     print(state)
 
     # state['maps'] = state['map']
-    # #test_atk_bomb(state)
+    test_atk_bomb(state)
     # for each in state.get("hero") + state.get("monster"):
     #     each.move_position(*each.position, state)
     # map_ = state.get("map")
@@ -170,8 +169,7 @@ if __name__ == "__main__":
     #     hero.trigger_buff(e)
     # print(hero.Hp)
 
-    # hero0 = state.get("hero")[1
-    # ]
+    hero0 = state.get("hero")[1]
     # hero1 = state.get("hero")[0]
     # monster0 = state.get("monster")[0]
     # monster1 = state.get("monster")[1]

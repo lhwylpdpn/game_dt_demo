@@ -242,38 +242,53 @@ class Map(): # 地图
         atk_points = self.calc_shape_point(attachment.get_bomb_attack_effect(), attachment)
         att_frage_effect = attachment.get_bomb_fragment_effect()
         frag_points= self.calc_shape_point(att_frage_effect,  attachment)
-        atk = attachment.back_damage()
         
         # TODO 对周围的英雄，monster，附着物产生影响
-        print("对周围的英雄，monster，附着物产生影响:")
+        print("爆炸对周围的英雄，monster，附着物产生影响:")
+        damage = {"damage":attachment.back_damage()}
         for each_point_atk in atk_points:
             land = self.get_land(*each_point_atk)
-            land.be_attacked(attachment, [{"damage":atk}], stats=stats) # 爆炸的冲击
+            new_d = land.be_attacked(attachment, [damage], stats=stats) # 爆炸的冲击
+            if new_d:
+                new_death_att.extend(new_d)
         
         # TODO 产生爆炸碎片
-        print("产生爆炸碎片:")
+        print("爆炸产生碎片:")
         for each_frag_point in frag_points:
             land = self.get_land(*each_frag_point)
             new_frage_att = AttachmentHelper.create_attachment(self.__hidden_attachment, int(att_frage_effect.param[2]))
             new_frage_att.set_position(land.position)
             print(f"碎片地块:{land.position} {new_frage_att.sn}")
+            # 碎片 产生debuff
             self.load_attachment(new_frage_att)
-            # 碎片伤害 (碎片只对地块上站立的hero和monster产生影响)
+            # 碎片伤害 (碎片只对地块上站立的hero和monster产生影响) damage 是 0 
             new_d = land.be_attacked(new_frage_att, [{"damage":new_frage_att.get_damage()}], stats=stats)
             if new_d:
                 new_death_att.extend(new_d)
         
-        return new_death_att
+        return list(set(new_death_att))
     
     def judge_attachment_status(self, wage_object, skill, attachment, stats): # 判断打附属物后，附属物的状态
         new_death = []       
         if attachment.is_death:           # 被打消失了 
-            print(f"Attachment is death: {attachment.sn}")
             self.unload_attachment(attachment)  # 去掉
             if attachment.is_bomb():            # 火药桶逻辑
-                print(f"Attachment {attachment.sn} is bomb. Death!")
                 new_death = self.bomb_killed(wage_object, attachment, stats)
         return new_death
+    
+    def format_result(self, attachment, damage_res):
+        
+        result = {"damage": damage_res,
+                  "new_frag": {}, "atk_o_point": [], "atk_range":[]}
+        
+        if attachment.is_death and attachment.is_bomb():
+            # 碎片
+            result["new_frag"] = {"sn": int(attachment.get_bomb_fragment_effect().param[2]),
+                                  "points":self.calc_shape_point(attachment.get_bomb_fragment_effect(), attachment)}
+            result["atk_o_point"] = attachment.position
+            result["atk_range"] = self.calc_shape_point(attachment.get_bomb_attack_effect(), attachment)
+            
+        return result
         
     def attack_attachment(self, wage_object, skill, attachment, stats):  # 攻击附着物
         """
@@ -283,18 +298,32 @@ class Map(): # 地图
         attachment    被攻击的对象
         stats         stats
         """
-        damage_res = damage_calc(attacker=wage_object, defender=attachment, skill=skill) 
-        damage_res = round_up_2_integer(damage_res)
+        damage_res = damage_calc(attacker=wage_object, defender=attachment, skill=skill)
+        for _ in damage_res: # 向上取整
+            _["damage"] = round_up_2_integer(_["damage"])
+            _["pre_damage"] = round_up_2_integer(_["pre_damage"])
+
         attachment.be_attacked(wage_object, skill, damage_res)
         
-        attachment_list = [attachment]
-        while attachment_list: # 循环去找被打击的对象
-            each_attachment = attachment_list.pop(0)
-            new_att_l = self.judge_attachment_status(wage_object, skill, each_attachment, stats)
-            if new_att_l:
-                each_attachment.extend(new_att_l)
+        result = [ {attachment:self.format_result(attachment, damage_res)}, ]
         
-        return damage_res
+        new_att_l = self.judge_attachment_status(wage_object, skill, attachment, stats)
+        
+        attachment_list = []
+        if new_att_l:
+            attachment_list = list(zip((wage_object)*len(new_att_l), new_att_l))
+        
+        while attachment_list: # 循环去找被打击的对象
+            _wage_object, each_attachment = attachment_list.pop(0)
+            new_att_l = self.judge_attachment_status(_wage_object, skill, each_attachment, stats)
+            if new_att_l:
+                each_attachment.extend(
+                    list(zip((_wage_object)*len(new_att_l), new_att_l))
+                    )
+            damage = {"damage": _wage_object.back_damage()}
+            result.append({ each_attachment : self.format_result(each_attachment, damage) })
+        print(result)
+        return result
                 
                     
 if __name__ == "__main__":

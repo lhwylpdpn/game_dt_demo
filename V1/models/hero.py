@@ -308,12 +308,13 @@ class Hero():
     
     def set_Hp(self, Hp):
         self.__Hp = round_up_2_integer(Hp)
+        print(self.HeroID ,"Hp <curent>: ", self.__Hp)
         return self
     
     def Hp_damage(self, damage_res): # 被攻击，掉血
         damage = sum([_.get("damage") for _ in damage_res]) 
         print(self.HeroID ,"Hp <before>: ", self.Hp)
-        print(self.HeroID ,"Hp <damaeg>: ", damage)
+        print(self.HeroID ,"Hp <damage>: ", damage)
         _t_hp = self.Hp - damage
         return self.set_Hp(float("%.2f"%_t_hp) if _t_hp >= 0 else 0) # 血量
 
@@ -1068,6 +1069,7 @@ class Hero():
             if isinstance(each, Attachment):
                 result[each] = self.__atk_attachment(each, skill, attack_point, state)
             else:
+                print("攻击敌人")
                 result[each] = self.__atk_enemy(each, skill, attack_point, state)
 
         self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
