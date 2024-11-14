@@ -369,7 +369,7 @@ class Range(Data):
         获取英雄在某个位置可以施放技能并且治疗到队友
         :param move_pos: 英雄可以移动到的位置
         """
-        release_range = skill_release_range(move_pos, skill, self.map, self.role, paths)
+        release_range = skill_release_range(move_pos, skill, self.map, self.role)
         results = []
         for point in release_range:
             skill_range = skill_effect_range(self.role, point, skill, self.map)

@@ -265,15 +265,13 @@ def range_mht_hollow_circle(point, o, i, gap, effect, map):
 
 
 # @DictLRUCache(max_size_mb=128)
-def skill_release_range(position, skill, map, role, paths=[]):
+def skill_release_range(position, skill, map, role):
     # 获取某个技能施放范围（射程
     points = []
     gap, effect = 0, 0
     if "ATK_DISTANCE" not in skill["effects"]:
-        if paths:
-            return [paths[-1]]
-        else:
-            return [Data.value("position", role)]
+        return [position]
+
     if "ADD_ATK_DISTANCE" in skill["effects"]:
         gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], skill["effects"]["ADD_ATK_DISTANCE"]["param"][1]
 
