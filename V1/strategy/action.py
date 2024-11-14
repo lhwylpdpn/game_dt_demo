@@ -94,8 +94,8 @@ class Action(object):
             return res
 
         if "EFFECT_" in step["action_type"]:
-            res = hero.trigger_buff(step)
-            res["action_type"] = step["action_type"]
+            buff_res = hero.trigger_buff(step)
+            res["damage"] = buff_res["damage"]
             return res
 
         if "SKILL_" in step["action_type"]:
