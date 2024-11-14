@@ -174,7 +174,7 @@ class schedule:
 
                 self.hero_next_action_round.sort(key=lambda x: (x['speed'], x['id']))
                 # 再次判断 同一ticker里，后续英雄是否死亡
-                alive_hero_ids = [_.HeroID for _ in alive_hero if not _.is_death()]
+                alive_hero_ids = [_.HeroID for _ in alive_hero if _.Hp > 0]
                 self.hero_next_action_round = [_ for _ in self.hero_next_action_round if _["id"] in alive_hero_ids]
                 self.hero_next_action_round = [target_item] + self.hero_next_action_round
 

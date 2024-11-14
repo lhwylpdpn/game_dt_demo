@@ -134,9 +134,12 @@ if __name__ == "__main__":
     # new_state = pickle.loads(state_pickle)  
 
     print(state)
+    for _ in state["attachment"]:
+        print("------------------")
+        pprint(_.dict())
 
     # state['maps'] = state['map']
-    test_atk_bomb(state)
+    # test_atk_bomb(state)
     # for each in state.get("hero") + state.get("monster"):
     #     each.move_position(*each.position, state)
     # map_ = state.get("map")
