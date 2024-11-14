@@ -245,6 +245,7 @@ class schedule:
 
                     return state
                 self.performance.event_end('check_game_over')
+        print('打印下tick',self.tick,self.record_update_dict.get(self.tick))
         if self.record_update_dict.get(self.tick) is not None:
             self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
             self.save_result_to_redis(self.record_update_dict[self.tick])
