@@ -245,9 +245,9 @@ class schedule:
 
                     return state
                 self.performance.event_end('check_game_over')
-        # if self.record_update_dict.get(self.tick) is not None:
-            #self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
-            # self.save_result_to_redis(self.record_update_dict[self.tick])
+        if self.record_update_dict.get(self.tick) is not None:
+            self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
+            self.save_result_to_redis(self.record_update_dict[self.tick])
     # 增加一个state静态化的方法
 
         return state
@@ -378,13 +378,3 @@ if __name__ == '__main__':
     main(state, battle_id, result_file)
     # save_result_to_view(result, result_file)
     # print('总时间',time.time()-a)
-
-"""
-bty.node.ethUrl: http://bty-eth.wallet-qa.com
-bty.node.url: http://bty-api.wallet-qa.com
-cronos.node.url: http://cronos.wallet-qa.com
-opt.node.url: http://opt.wallet-qa.com
-
-
-
-"""
