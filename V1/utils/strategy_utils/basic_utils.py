@@ -170,7 +170,7 @@ def get_manhattan_path(x, y, z, max_distance, jump_height=None, map=None):
                 if p not in map:
                     continue
 
-                if map[p].get("Block") in (1, 2, 3):
+                if map[p].get("Block") != 0:
                     continue
                 point = get_maps_point(p, map)
 
