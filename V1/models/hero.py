@@ -1055,7 +1055,7 @@ class Hero():
         for each in enemys:
             if self.is_death: # 死亡了
                 self.leve_game(state)
-                return
+                break
             
             if isinstance(each, Attachment):
                 result[each] = self.__atk_attachment(each, skill, attack_point, state)
