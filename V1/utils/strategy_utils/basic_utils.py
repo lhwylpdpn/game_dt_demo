@@ -115,7 +115,7 @@ def manhattan_distance(point1, point2):
     point1, point2 = tuple(point1), tuple(point2)
     return abs(point1[0] - point2[0]) + abs(point1[2] - point2[2])
 
-def square_distance_points(point, distances):
+def square_distance_points(point, distances, map):
     # 获取某个点位  正方形范围内的所有点位
     x, z = point
     points = set()  # 使用集合避免重复点
@@ -246,6 +246,21 @@ def range_cross(point, o, i, gap, effect, map):
                 positions.append(map[p]["position"])
     return positions
 
+def square_range(point, param, map):
+    x, y, z = point
+    moves = []
+    # 定义相对位置的偏移量，包括自身位置
+    offsets = [param[0], 0, param[1]]
+
+    for dx in offsets:
+        for dz in offsets:
+            new_x = x + dx
+            new_z = z + dz
+            xz = (new_x, new_z)
+            if xz in map:
+                moves.append(map[xz]["position"])
+    return moves
+
 
 # @DictLRUCache(max_size_mb=128)
 def range_mht_hollow_circle(point, o, i, gap, effect, map):
@@ -321,10 +336,13 @@ def skill_effect_range(move_point, point, skill, map):
 
     hit_line = skill["effects"].get("HIT_LINE", {}).get("param")
     hit_range = skill["effects"].get("HIT_RANGE", {}).get("param")
+    hit_square = skill["effects"].get("HIT_SQUARE", {}).get("param")
     check_atk_distance = skill["effects"].get("IS_ATK_DISTANCE", {}).get("param", [0])[0]
 
     if hit_line:
         atk_range += hit_line_range(tuple(move_point), point, hit_line, map)  # TODO
+    if hit_square:
+        atk_range += square_range(point, hit_square, map)
     if hit_range:
         if "ADD_ATK_DISTANCE" in skill["effects"]:
             gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], \
@@ -332,7 +350,7 @@ def skill_effect_range(move_point, point, skill, map):
         else:
             gap, effect = 0, 0
         atk_range += range_mht_hollow_circle(point, hit_range[1], hit_range[0], gap, effect, map)
-    if not atk_range and not hit_range:  # 单体攻击
+    if not atk_range and not hit_range and not hit_square:  # 单体攻击
         atk_range = [point]
 
     if check_atk_distance:  # 判断高低差影响
