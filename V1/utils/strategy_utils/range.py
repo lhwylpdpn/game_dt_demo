@@ -335,7 +335,7 @@ class Range(Data):
         # release_range = [(16, 1, 3)]
         results = []
         for point in release_range:
-            attack_range = skill_effect_range(self.role, point, skill, self.map)
+            attack_range = skill_effect_range(move_pos, point, skill, self.map)
             enemies_in_range = [enemy for enemy in self.enemies if Data.value("position", enemy) in attack_range]
             # enemies_in_range += [attachment for attachment in self.attachments if Data.value("position", attachment) in attack_range]  # 增加攻击附着物的判断
 

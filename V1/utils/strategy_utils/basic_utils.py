@@ -287,10 +287,10 @@ def skill_release_range(position, skill, map, role):
 
 
 # @DictLRUCache(max_size_mb=128)
-def hit_line_range(role, point, param, map):
+def hit_line_range(move_point, point, param, map):
     # 线性技能的攻击范围
     x, y, z = point
-    x1, y1, z1 = Data.value("position", role)
+    x1, y1, z1 = move_point
     attack_range = []  # 包含该点位自身
     param = [abs(int(_)) for _ in param]
     param_a, param_b = param[0], param[1]
@@ -303,7 +303,7 @@ def hit_line_range(role, point, param, map):
             if xz in map:
                 attack_range.append(Data.get_maps_point(xz, map))
 
-    # 如果y相等，计算上下范围
+    # 如果z相等，计算上下范围
     elif z == z1:
         for i in range(-param_a, param_b + 1):
             xz = (x, z + i)
@@ -314,7 +314,7 @@ def hit_line_range(role, point, param, map):
 
 
 # @DictLRUCache(max_size_mb=128)
-def skill_effect_range(role, point, skill, map):
+def skill_effect_range(move_point, point, skill, map):
     # 获取在point点位施放技能的生效范围
     atk_range = []
     point = tuple(point)
@@ -324,7 +324,7 @@ def skill_effect_range(role, point, skill, map):
     check_atk_distance = skill["effects"].get("IS_ATK_DISTANCE", {}).get("param", [0])[0]
 
     if hit_line:
-        atk_range += hit_line_range(role, point, hit_line, map)  # TODO
+        atk_range += hit_line_range(tuple(move_point), point, hit_line, map)  # TODO
     if hit_range:
         if "ADD_ATK_DISTANCE" in skill["effects"]:
             gap, effect = skill["effects"]["ADD_ATK_DISTANCE"]["param"][0], \
@@ -347,5 +347,5 @@ def get_attack_range(role, position, map):
     for skill in skills:
         release_range = skill_release_range(position, skill, map, role=role)
         for point in release_range:
-            attack_range += skill_effect_range(role, point, skill, map)
+            attack_range += skill_effect_range( Data.value("position", role), point, skill, map)
     return set(tuple(attack_range))
