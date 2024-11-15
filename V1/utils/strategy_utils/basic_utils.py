@@ -244,11 +244,13 @@ def range_cross(point, o, i, gap, effect, map):
         for p in [(x + r, z), (x - r, z), (x, z + r), (x, z - r)]:
             if p in map:
                 positions.append(map[p]["position"])
+    if point in positions:
+        positions.remove(point)
     return positions
 
 def square_range(point, param, map):
     x, y, z = point
-    moves = []
+    moves = [point]
     # 定义相对位置的偏移量，包括自身位置
     offsets = range(int(param[0])-1, int(param[1]) + 1)
 
