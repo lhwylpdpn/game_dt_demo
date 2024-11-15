@@ -1,11 +1,7 @@
 {
   "hero": [
     {
-      "position": [
-        6,
-        1,
-        3
-      ],
+      "position": [5, 5, 0],
       "skills": [
         {
           "SkillId": 78,
@@ -14,17 +10,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -34,10 +25,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "85"
-              ],
+              "param": ["100", "85"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -47,10 +35,7 @@
             {
               "id": 61,
               "key": "HIT_LINE",
-              "param": [
-                "-1",
-                "1"
-              ],
+              "param": ["-1", "1"],
               "tag": "",
               "Priority": 5,
               "TriggerTime": 1,
@@ -60,9 +45,7 @@
             {
               "id": 62,
               "key": "REPEL_TARGET",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -72,9 +55,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -84,9 +65,207 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "HeroID": 5022,
+      "AvailableSkills": [78],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 408,
+      "Atk": 97,
+      "MagicalAtk": 65,
+      "Agile": 77,
+      "Def": 55,
+      "MagicalDef": 69,
+      "Velocity": 85,
+      "Luck": 93,
+      "Quality": 4,
+      "BaseClassID": 1,
+      "Element": 3,
+      "UnitDistance": 1
+    },
+    {
+      "position": [4, 5, 0],
+      "skills": [
+        {
+          "SkillId": 78,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "85"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 61,
+              "key": "HIT_LINE",
+              "param": ["-1", "1"],
+              "tag": "",
+              "Priority": 5,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 62,
+              "key": "REPEL_TARGET",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["5"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "HeroID": 5012,
+      "AvailableSkills": [78],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 408,
+      "Atk": 97,
+      "MagicalAtk": 65,
+      "Agile": 77,
+      "Def": 55,
+      "MagicalDef": 69,
+      "Velocity": 85,
+      "Luck": 93,
+      "Quality": 4,
+      "BaseClassID": 1,
+      "Element": 3,
+      "UnitDistance": 1
+    },
+    {
+      "position": [5, 5, 1],
+      "skills": [
+        {
+          "SkillId": 78,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "85"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 61,
+              "key": "HIT_LINE",
+              "param": ["-1", "1"],
+              "tag": "",
+              "Priority": 5,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 62,
+              "key": "REPEL_TARGET",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["5"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -105,13 +284,9 @@
         "ClassType4": 1
       },
       "HeroID": 5002,
-      "AvailableSkills": [
-        78
-      ],
+      "AvailableSkills": [78],
       "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
+      "JumpHeight": [3],
       "Hp": 408,
       "Atk": 97,
       "MagicalAtk": 65,
@@ -124,2192 +299,11 @@
       "BaseClassID": 1,
       "Element": 3,
       "UnitDistance": 1
-    },
-    {
-      "position": [
-        5,
-        1,
-        3
-      ],
-      "skills": [
-        {
-          "SkillId": 96,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 92,
-              "key": "ATK_FORMULA_2",
-              "param": [
-                "100",
-                "90"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 97,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 94,
-              "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "240"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 104,
-              "key": "REMOVE_DEBUFF",
-              "param": [
-                "-1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 98,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 87,
-              "key": "BUFF_HP",
-              "param": [
-                "8.33",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 7,
-              "TriggerTime": 2,
-              "Target": 4,
-              "BuffType": 1
-            }
-          ]
-        },
-        {
-          "SkillId": 99,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 93,
-              "key": "HIT_SQUARE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 94,
-              "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "150"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 100,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 5,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 105,
-              "key": "ATK_FORMULA_3",
-              "param": [
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 101,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 4,
-          "SkillCalc": 3,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 96,
-              "key": "IS_SKILL_HIT",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 65,
-              "key": "ADD_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 66,
-              "key": "ADD_MAGICAL_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 102,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 2,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 101,
-              "key": "IS_VICTORY",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 4,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 107,
-              "key": "ADD_TEAM_ROLE_EXP",
-              "param": [
-                "50"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 4,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 103,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 6,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 97,
-              "key": "ADD_UNIT_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 104,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 3,
-          "SkillCalc": 3,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 64,
-              "key": "ADD_HP",
-              "param": [
-                "100",
-                "5"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 3,
-        "ClassType1": 1,
-        "ClassType2": 1,
-        "ClassType3": 2,
-        "ClassType4": 3
-      },
-      "HeroID": 5021,
-      "AvailableSkills": [
-        96,
-        97,
-        98,
-        99,
-        100,
-        101,
-        102,
-        103,
-        104
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 290,
-      "Atk": 88,
-      "MagicalAtk": 66,
-      "Agile": 119,
-      "Def": 94,
-      "MagicalDef": 70,
-      "Velocity": 92,
-      "Luck": 100,
-      "Quality": 4,
-      "BaseClassID": 3,
-      "Element": 5,
-      "UnitDistance": 1
-    },
-    {
-      "position": [
-        4,
-        1,
-        3
-      ],
-      "skills": [
-        {
-          "SkillId": 96,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 92,
-              "key": "ATK_FORMULA_2",
-              "param": [
-                "100",
-                "90"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 97,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 94,
-              "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "240"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 104,
-              "key": "REMOVE_DEBUFF",
-              "param": [
-                "-1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 98,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 87,
-              "key": "BUFF_HP",
-              "param": [
-                "8.33",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 7,
-              "TriggerTime": 2,
-              "Target": 4,
-              "BuffType": 1
-            }
-          ]
-        },
-        {
-          "SkillId": 99,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 93,
-              "key": "HIT_SQUARE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 94,
-              "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "150"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 100,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 5,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 105,
-              "key": "ATK_FORMULA_3",
-              "param": [
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 101,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 4,
-          "SkillCalc": 3,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 96,
-              "key": "IS_SKILL_HIT",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 65,
-              "key": "ADD_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 66,
-              "key": "ADD_MAGICAL_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 102,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 2,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 101,
-              "key": "IS_VICTORY",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 4,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 107,
-              "key": "ADD_TEAM_ROLE_EXP",
-              "param": [
-                "50"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 4,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 103,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 6,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 97,
-              "key": "ADD_UNIT_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 104,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 3,
-          "SkillCalc": 3,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 64,
-              "key": "ADD_HP",
-              "param": [
-                "100",
-                "5"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 3,
-        "ClassType1": 1,
-        "ClassType2": 1,
-        "ClassType3": 2,
-        "ClassType4": 3
-      },
-      "HeroID": 5011,
-      "AvailableSkills": [
-        96,
-        97,
-        98,
-        99,
-        100,
-        101,
-        102,
-        103,
-        104
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 290,
-      "Atk": 88,
-      "MagicalAtk": 66,
-      "Agile": 119,
-      "Def": 94,
-      "MagicalDef": 70,
-      "Velocity": 92,
-      "Luck": 100,
-      "Quality": 4,
-      "BaseClassID": 3,
-      "Element": 5,
-      "UnitDistance": 1
-    },
-    {
-      "position": [
-        3,
-        1,
-        3
-      ],
-      "skills": [
-        {
-          "SkillId": 96,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 92,
-              "key": "ATK_FORMULA_2",
-              "param": [
-                "100",
-                "90"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 97,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 94,
-              "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "240"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 104,
-              "key": "REMOVE_DEBUFF",
-              "param": [
-                "-1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 98,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 87,
-              "key": "BUFF_HP",
-              "param": [
-                "8.33",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 7,
-              "TriggerTime": 2,
-              "Target": 4,
-              "BuffType": 1
-            }
-          ]
-        },
-        {
-          "SkillId": 99,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 5,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 93,
-              "key": "HIT_SQUARE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 94,
-              "key": "ADD_HP_FORMULA_1",
-              "param": [
-                "150"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 100,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 5,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 105,
-              "key": "ATK_FORMULA_3",
-              "param": [
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 101,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 4,
-          "SkillCalc": 3,
-          "SkillElement": 5,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 96,
-              "key": "IS_SKILL_HIT",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 65,
-              "key": "ADD_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 66,
-              "key": "ADD_MAGICAL_DEF",
-              "param": [
-                "100",
-                "30"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 102,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 2,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 101,
-              "key": "IS_VICTORY",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 4,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 107,
-              "key": "ADD_TEAM_ROLE_EXP",
-              "param": [
-                "50"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 4,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 103,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 6,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 97,
-              "key": "ADD_UNIT_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 104,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 3,
-          "SkillCalc": 3,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 64,
-              "key": "ADD_HP",
-              "param": [
-                "100",
-                "5"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 3,
-        "ClassType1": 1,
-        "ClassType2": 1,
-        "ClassType3": 2,
-        "ClassType4": 3
-      },
-      "HeroID": 5001,
-      "AvailableSkills": [
-        96,
-        97,
-        98,
-        99,
-        100,
-        101,
-        102,
-        103,
-        104
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 290,
-      "Atk": 88,
-      "MagicalAtk": 66,
-      "Agile": 119,
-      "Def": 94,
-      "MagicalDef": 70,
-      "Velocity": 92,
-      "Luck": 100,
-      "Quality": 1,
-      "BaseClassID": 3,
-      "Element": 5,
-      "UnitDistance": 1
-    },
-    {
-      "position": [
-        3,
-        1,
-        2
-      ],
-      "skills": [
-        {
-          "SkillId": 87,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 88,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "150"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 90,
-              "key": "TAG_HIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 89,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 119,
-              "key": "ATK_DISTANCE_CROSS",
-              "param": [
-                "2",
-                "5"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 76,
-              "key": "MOVE_TARGET2SELF",
-              "param": [
-                "4"
-              ],
-              "tag": "",
-              "Priority": 3,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "50"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 90,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "5"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 73,
-              "key": "ADD_ATK_DISTANCE",
-              "param": [
-                "2",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 91,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 4,
-          "SkillCalc": 3,
-          "SkillElement": 0,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 67,
-              "key": "IS_HIT",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 77,
-              "key": "DEBUFF_ROUND_ACTION_BACK",
-              "param": [
-                "25",
-                "1",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 2,
-              "Target": 1,
-              "BuffType": 2
-            }
-          ]
-        },
-        {
-          "SkillId": 92,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 4,
-          "SkillCalc": 3,
-          "SkillElement": 0,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 68,
-              "key": "IS_DEFAULT_HIT",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 78,
-              "key": "MISS_DAMAGE",
-              "param": [
-                "50"
-              ],
-              "tag": "",
-              "Priority": 7,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 1
-            }
-          ]
-        },
-        {
-          "SkillId": 93,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 4,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3
-          ],
-          "effects": [
-            {
-              "id": 98,
-              "key": "ADD_EQUIPMENT",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 94,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 2,
-          "SkillCalc": 6,
-          "SkillElement": 0,
-          "SkillGoals": [
-            3,
-            4
-          ],
-          "effects": [
-            {
-              "id": 101,
-              "key": "IS_VICTORY",
-              "param": [],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 4,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 107,
-              "key": "ADD_TEAM_BASE_EXP",
-              "param": [
-                "50"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 4,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 108,
-              "key": "GET_MAX_EXP",
-              "param": [],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 4,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 95,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 3,
-          "SkillCalc": 2,
-          "SkillElement": 0,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 102,
-              "key": "ADD_JUMP_HEIGHT",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            },
-            {
-              "id": 103,
-              "key": "ADD_VELOCITY",
-              "param": [
-                "10"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 4,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "HeroID": 5003,
-      "AvailableSkills": [
-        87,
-        88,
-        89,
-        90,
-        91,
-        92,
-        93,
-        94,
-        95
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 277,
-      "Atk": 105,
-      "MagicalAtk": 64,
-      "Agile": 89,
-      "Def": 73,
-      "MagicalDef": 77,
-      "Velocity": 108,
-      "Luck": 111,
-      "Quality": 3,
-      "BaseClassID": 2,
-      "Element": 4,
-      "UnitDistance": 1
     }
   ],
   "monster": [
     {
-      "position": [
-        13,
-        7,
-        13
-      ],
+      "position": [6, 5, 2],
       "skills": [
         {
           "SkillId": 137,
@@ -2318,17 +312,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -2338,10 +327,7 @@
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -2351,9 +337,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -2379,17 +363,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
+              "param": ["2", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -2399,10 +378,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
+              "param": ["100", "120"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -2412,9 +388,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -2424,7 +398,7 @@
           ]
         }
       ],
-      "HeroID": 13713666,
+      "HeroID": 652666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 2,
@@ -2433,14 +407,9 @@
         "ClassType3": 1,
         "ClassType4": 2
       },
-      "AvailableSkills": [
-        137,
-        138
-      ],
+      "AvailableSkills": [137, 138],
       "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
+      "JumpHeight": [3],
       "Hp": 350,
       "Atk": 135,
       "MagicalAtk": 135,
@@ -2455,11 +424,7 @@
       "UnitDistance": 0
     },
     {
-      "position": [
-        13,
-        7,
-        12
-      ],
+      "position": [6, 5, 1],
       "skills": [
         {
           "SkillId": 137,
@@ -2468,17 +433,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -2488,10 +448,7 @@
             {
               "id": 72,
               "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
+              "param": ["100", "65"],
               "tag": "",
               "Priority": 2,
               "TriggerTime": 1,
@@ -2501,9 +458,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -2529,17 +484,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
+              "param": ["2", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -2549,10 +499,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
+              "param": ["100", "120"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -2562,9 +509,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -2574,7 +519,7 @@
           ]
         }
       ],
-      "HeroID": 13712666,
+      "HeroID": 651666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 2,
@@ -2583,14 +528,9 @@
         "ClassType3": 1,
         "ClassType4": 2
       },
-      "AvailableSkills": [
-        137,
-        138
-      ],
+      "AvailableSkills": [137, 138],
       "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
+      "JumpHeight": [3],
       "Hp": 350,
       "Atk": 135,
       "MagicalAtk": 135,
@@ -2605,761 +545,7 @@
       "UnitDistance": 0
     },
     {
-      "position": [
-        12,
-        1,
-        6
-      ],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 138,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 1216666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [
-        137,
-        138
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 350,
-      "Atk": 135,
-      "MagicalAtk": 135,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        14,
-        1,
-        6
-      ],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 138,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 1416666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [
-        137,
-        138
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 350,
-      "Atk": 135,
-      "MagicalAtk": 135,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        6,
-        1,
-        15
-      ],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 138,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 6115666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [
-        137,
-        138
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 350,
-      "Atk": 135,
-      "MagicalAtk": 135,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        5,
-        1,
-        6
-      ],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 138,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 516666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [
-        137,
-        138
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 350,
-      "Atk": 135,
-      "MagicalAtk": 135,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        7,
-        1,
-        6
-      ],
-      "skills": [
-        {
-          "SkillId": 137,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 72,
-              "key": "ATK_FORMULA_1",
-              "param": [
-                "100",
-                "65"
-              ],
-              "tag": "",
-              "Priority": 2,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 138,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "2",
-                "4"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 716666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 2,
-        "ClassType1": 2,
-        "ClassType2": 2,
-        "ClassType3": 1,
-        "ClassType4": 2
-      },
-      "AvailableSkills": [
-        137,
-        138
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 350,
-      "Atk": 135,
-      "MagicalAtk": 135,
-      "Agile": 83,
-      "Def": 10,
-      "MagicalDef": 10,
-      "Velocity": 83,
-      "Luck": 80,
-      "Quality": 1,
-      "BaseClassID": 2,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        6,
-        1,
-        6
-      ],
+      "position": [6, 5, 0],
       "skills": [
         {
           "SkillId": 133,
@@ -3368,17 +554,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3388,10 +569,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
+              "param": ["100", "130"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3401,9 +579,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -3429,17 +605,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3449,9 +620,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -3461,10 +630,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
+              "param": ["100", "120"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3474,9 +640,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -3486,7 +650,7 @@
           ]
         }
       ],
-      "HeroID": 616666,
+      "HeroID": 650666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 1,
@@ -3495,14 +659,9 @@
         "ClassType3": 1,
         "ClassType4": 1
       },
-      "AvailableSkills": [
-        133,
-        134
-      ],
+      "AvailableSkills": [133, 134],
       "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
+      "JumpHeight": [3],
       "Hp": 600,
       "Atk": 136,
       "MagicalAtk": 136,
@@ -3517,30 +676,21 @@
       "UnitDistance": 0
     },
     {
-      "position": [
-        13,
-        1,
-        6
-      ],
+      "position": [3, 17, 10],
       "skills": [
         {
-          "SkillId": 133,
+          "SkillId": 137,
           "SkillLev": 1,
           "DefaultSkills": 1,
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["2", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3548,14 +698,11 @@
               "BuffType": 0
             },
             {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
               "tag": "",
-              "Priority": 1,
+              "Priority": 2,
               "TriggerTime": 1,
               "Target": 1,
               "BuffType": 0
@@ -3563,9 +710,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -3585,23 +730,18 @@
           ]
         },
         {
-          "SkillId": 134,
+          "SkillId": 138,
           "SkillLev": 1,
           "DefaultSkills": 0,
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["2", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3609,24 +749,9 @@
               "BuffType": 0
             },
             {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
+              "param": ["100", "120"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -3636,9 +761,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -3648,380 +771,1031 @@
           ]
         }
       ],
-      "HeroID": 1316666,
+      "HeroID": 31710666,
       "DogBase": 6,
       "BaseClass": {
-        "sn": 1,
-        "ClassType1": 1,
-        "ClassType2": 1,
-        "ClassType3": 1,
-        "ClassType4": 1
-      },
-      "AvailableSkills": [
-        133,
-        134
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 600,
-      "Atk": 136,
-      "MagicalAtk": 136,
-      "Agile": 94,
-      "Def": 50,
-      "MagicalDef": 50,
-      "Velocity": 140,
-      "Luck": 75,
-      "Quality": 1,
-      "BaseClassID": 1,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        7,
-        1,
-        15
-      ],
-      "skills": [
-        {
-          "SkillId": 133,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 134,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "120"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 7115666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 1,
-        "ClassType1": 1,
-        "ClassType2": 1,
-        "ClassType3": 1,
-        "ClassType4": 1
-      },
-      "AvailableSkills": [
-        133,
-        134
-      ],
-      "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
-      "Hp": 600,
-      "Atk": 136,
-      "MagicalAtk": 136,
-      "Agile": 94,
-      "Def": 50,
-      "MagicalDef": 50,
-      "Velocity": 140,
-      "Luck": 75,
-      "Quality": 1,
-      "BaseClassID": 1,
-      "Element": 0,
-      "UnitDistance": 0
-    },
-    {
-      "position": [
-        8,
-        1,
-        15
-      ],
-      "skills": [
-        {
-          "SkillId": 135,
-          "SkillLev": 1,
-          "DefaultSkills": 1,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 60,
-              "key": "ATK",
-              "param": [
-                "100",
-                "90"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 89,
-              "key": "TAG_CRIT",
-              "param": [],
-              "tag": "",
-              "Priority": 8,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            }
-          ]
-        },
-        {
-          "SkillId": 136,
-          "SkillLev": 1,
-          "DefaultSkills": 0,
-          "SkillClass": 1,
-          "SkillCalc": 1,
-          "SkillElement": 2,
-          "SkillGoals": [
-            1
-          ],
-          "effects": [
-            {
-              "id": 57,
-              "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 2,
-              "BuffType": 0
-            },
-            {
-              "id": 63,
-              "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 74,
-              "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 6,
-              "TriggerTime": 1,
-              "Target": 3,
-              "BuffType": 0
-            },
-            {
-              "id": 124,
-              "key": "ATK_ELEMENT",
-              "param": [
-                "100",
-                "130",
-                "2"
-              ],
-              "tag": "",
-              "Priority": 1,
-              "TriggerTime": 1,
-              "Target": 1,
-              "BuffType": 0
-            },
-            {
-              "id": 59,
-              "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
-              "tag": "",
-              "Priority": 10,
-              "TriggerTime": 3,
-              "Target": 2,
-              "BuffType": 0
-            }
-          ]
-        }
-      ],
-      "HeroID": 8115666,
-      "DogBase": 6,
-      "BaseClass": {
-        "sn": 4,
+        "sn": 2,
         "ClassType1": 2,
         "ClassType2": 2,
-        "ClassType3": 2,
-        "ClassType4": 4
+        "ClassType3": 1,
+        "ClassType4": 2
       },
-      "AvailableSkills": [
-        135,
-        136
-      ],
+      "AvailableSkills": [137, 138],
       "RoundAction": 3,
-      "JumpHeight": [
-        3
+      "JumpHeight": [3],
+      "Hp": 350,
+      "Atk": 135,
+      "MagicalAtk": 135,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [5, 17, 10],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 138,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "4"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
       ],
+      "HeroID": 51710666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137, 138],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 350,
+      "Atk": 135,
+      "MagicalAtk": 135,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [4, 17, 10],
+      "skills": [
+        {
+          "SkillId": 133,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "130"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 134,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 41710666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "AvailableSkills": [133, 134],
+      "RoundAction": 3,
+      "JumpHeight": [3],
       "Hp": 600,
-      "Atk": 137,
-      "MagicalAtk": 137,
+      "Atk": 136,
+      "MagicalAtk": 136,
       "Agile": 94,
       "Def": 50,
       "MagicalDef": 50,
       "Velocity": 140,
       "Luck": 75,
       "Quality": 1,
-      "BaseClassID": 4,
+      "BaseClassID": 1,
       "Element": 0,
       "UnitDistance": 0
     },
     {
-      "position": [
-        16,
-        7,
-        14
+      "position": [8, 23, 14],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 138,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "4"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
       ],
+      "HeroID": 82314666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137, 138],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 350,
+      "Atk": 135,
+      "MagicalAtk": 135,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [9, 23, 14],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 138,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "4"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 92314666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137, 138],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 350,
+      "Atk": 135,
+      "MagicalAtk": 135,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [13, 17, 9],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 138,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "4"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 13179666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137, 138],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 350,
+      "Atk": 135,
+      "MagicalAtk": 135,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [14, 17, 9],
+      "skills": [
+        {
+          "SkillId": 137,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "3"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 72,
+              "key": "ATK_FORMULA_1",
+              "param": ["100", "65"],
+              "tag": "",
+              "Priority": 2,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["2"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 138,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["2", "4"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 14179666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 2,
+        "ClassType1": 2,
+        "ClassType2": 2,
+        "ClassType3": 1,
+        "ClassType4": 2
+      },
+      "AvailableSkills": [137, 138],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 350,
+      "Atk": 135,
+      "MagicalAtk": 135,
+      "Agile": 83,
+      "Def": 10,
+      "MagicalDef": 10,
+      "Velocity": 83,
+      "Luck": 80,
+      "Quality": 1,
+      "BaseClassID": 2,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [13, 17, 8],
+      "skills": [
+        {
+          "SkillId": 133,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "130"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 134,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 13178666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "AvailableSkills": [133, 134],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 600,
+      "Atk": 136,
+      "MagicalAtk": 136,
+      "Agile": 94,
+      "Def": 50,
+      "MagicalDef": 50,
+      "Velocity": 140,
+      "Luck": 75,
+      "Quality": 1,
+      "BaseClassID": 1,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [14, 17, 8],
+      "skills": [
+        {
+          "SkillId": 133,
+          "SkillLev": 1,
+          "DefaultSkills": 1,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "130"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 89,
+              "key": "TAG_CRIT",
+              "param": [],
+              "tag": "",
+              "Priority": 8,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            }
+          ]
+        },
+        {
+          "SkillId": 134,
+          "SkillLev": 1,
+          "DefaultSkills": 0,
+          "SkillClass": 1,
+          "SkillCalc": 1,
+          "SkillElement": 7,
+          "SkillGoals": [1],
+          "effects": [
+            {
+              "id": 57,
+              "key": "ATK_DISTANCE",
+              "param": ["0", "1"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 2,
+              "BuffType": 0
+            },
+            {
+              "id": 63,
+              "key": "CHANGE_ATK_DISTANCE",
+              "param": ["1"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 1,
+              "Target": 3,
+              "BuffType": 0
+            },
+            {
+              "id": 60,
+              "key": "ATK",
+              "param": ["100", "120"],
+              "tag": "",
+              "Priority": 1,
+              "TriggerTime": 1,
+              "Target": 1,
+              "BuffType": 0
+            },
+            {
+              "id": 59,
+              "key": "USE_COUNT",
+              "param": ["3"],
+              "tag": "",
+              "Priority": 10,
+              "TriggerTime": 3,
+              "Target": 2,
+              "BuffType": 0
+            }
+          ]
+        }
+      ],
+      "HeroID": 14178666,
+      "DogBase": 6,
+      "BaseClass": {
+        "sn": 1,
+        "ClassType1": 1,
+        "ClassType2": 1,
+        "ClassType3": 1,
+        "ClassType4": 1
+      },
+      "AvailableSkills": [133, 134],
+      "RoundAction": 3,
+      "JumpHeight": [3],
+      "Hp": 600,
+      "Atk": 136,
+      "MagicalAtk": 136,
+      "Agile": 94,
+      "Def": 50,
+      "MagicalDef": 50,
+      "Velocity": 140,
+      "Luck": 75,
+      "Quality": 1,
+      "BaseClassID": 1,
+      "Element": 0,
+      "UnitDistance": 0
+    },
+    {
+      "position": [15, 21, 12],
       "skills": [
         {
           "SkillId": 130,
@@ -4030,17 +1804,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "1"
-              ],
+              "param": ["0", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -4050,10 +1819,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "130"
-              ],
+              "param": ["100", "130"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -4063,9 +1829,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "1"
-              ],
+              "param": ["1"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -4091,17 +1855,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 7,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "3"
-              ],
+              "param": ["0", "3"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -4111,9 +1870,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "5"
-              ],
+              "param": ["5"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -4123,10 +1880,7 @@
             {
               "id": 60,
               "key": "ATK",
-              "param": [
-                "100",
-                "140"
-              ],
+              "param": ["100", "140"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -4136,9 +1890,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -4154,17 +1906,12 @@
           "SkillClass": 1,
           "SkillCalc": 1,
           "SkillElement": 1,
-          "SkillGoals": [
-            1
-          ],
+          "SkillGoals": [1],
           "effects": [
             {
               "id": 57,
               "key": "ATK_DISTANCE",
-              "param": [
-                "0",
-                "4"
-              ],
+              "param": ["0", "4"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -4174,10 +1921,7 @@
             {
               "id": 74,
               "key": "HIT_RANGE",
-              "param": [
-                "0",
-                "2"
-              ],
+              "param": ["0", "2"],
               "tag": "",
               "Priority": 6,
               "TriggerTime": 1,
@@ -4187,9 +1931,7 @@
             {
               "id": 63,
               "key": "CHANGE_ATK_DISTANCE",
-              "param": [
-                "2"
-              ],
+              "param": ["2"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 1,
@@ -4199,11 +1941,7 @@
             {
               "id": 124,
               "key": "ATK_ELEMENT",
-              "param": [
-                "100",
-                "125",
-                "1"
-              ],
+              "param": ["100", "125", "1"],
               "tag": "",
               "Priority": 1,
               "TriggerTime": 1,
@@ -4213,9 +1951,7 @@
             {
               "id": 59,
               "key": "USE_COUNT",
-              "param": [
-                "3"
-              ],
+              "param": ["3"],
               "tag": "",
               "Priority": 10,
               "TriggerTime": 3,
@@ -4225,7 +1961,7 @@
           ]
         }
       ],
-      "HeroID": 16714666,
+      "HeroID": 152112666,
       "DogBase": 6,
       "BaseClass": {
         "sn": 3,
@@ -4234,15 +1970,9 @@
         "ClassType3": 2,
         "ClassType4": 3
       },
-      "AvailableSkills": [
-        130,
-        131,
-        132
-      ],
+      "AvailableSkills": [130, 131, 132],
       "RoundAction": 3,
-      "JumpHeight": [
-        3
-      ],
+      "JumpHeight": [3],
       "Hp": 600,
       "Atk": 150,
       "MagicalAtk": 150,
@@ -4259,11 +1989,7 @@
   ],
   "map": [
     {
-      "position": [
-        4,
-        1,
-        12
-      ],
+      "position": [4, 7, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4274,11 +2000,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        12
-      ],
+      "position": [9, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4289,11 +2011,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        12
-      ],
+      "position": [13, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4304,11 +2022,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        10
-      ],
+      "position": [13, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4319,11 +2033,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        11
-      ],
+      "position": [16, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4334,11 +2044,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        11
-      ],
+      "position": [16, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4349,11 +2055,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        11
-      ],
+      "position": [15, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4364,11 +2066,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        10
-      ],
+      "position": [14, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4379,11 +2077,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        9
-      ],
+      "position": [13, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4394,11 +2088,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        9
-      ],
+      "position": [12, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4409,11 +2099,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        4
-      ],
+      "position": [12, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4424,11 +2110,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        4
-      ],
+      "position": [12, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4439,11 +2121,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        3
-      ],
+      "position": [11, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4454,11 +2132,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        3
-      ],
+      "position": [10, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4469,11 +2143,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        5
-      ],
+      "position": [10, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4484,11 +2154,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        6
-      ],
+      "position": [10, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4499,11 +2165,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        6
-      ],
+      "position": [9, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4514,11 +2176,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        5
-      ],
+      "position": [8, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4529,11 +2187,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        5
-      ],
+      "position": [7, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4544,11 +2198,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        4
-      ],
+      "position": [6, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4559,11 +2209,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        3
-      ],
+      "position": [6, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4574,11 +2220,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        3
-      ],
+      "position": [7, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4589,11 +2231,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        4
-      ],
+      "position": [7, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4604,11 +2242,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        5
-      ],
+      "position": [6, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4619,11 +2253,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        6
-      ],
+      "position": [5, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4634,11 +2264,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        6
-      ],
+      "position": [5, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4649,11 +2275,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        7
-      ],
+      "position": [5, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4664,11 +2286,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        7
-      ],
+      "position": [4, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4679,11 +2297,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        8
-      ],
+      "position": [4, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4694,11 +2308,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        8
-      ],
+      "position": [3, 5, 0],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4709,11 +2319,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        6
-      ],
+      "position": [3, 5, 1],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4724,11 +2330,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        5
-      ],
+      "position": [3, 5, 2],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4739,11 +2341,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        4
-      ],
+      "position": [14, 7, 3],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4754,11 +2352,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        3
-      ],
+      "position": [15, 7, 3],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4769,11 +2363,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        2
-      ],
+      "position": [16, 9, 3],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4784,11 +2374,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        2
-      ],
+      "position": [5, 9, 3],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4799,11 +2385,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        2
-      ],
+      "position": [4, 9, 3],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4814,11 +2396,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        2
-      ],
+      "position": [3, 9, 3],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4829,11 +2407,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        1,
-        2
-      ],
+      "position": [5, 11, 4],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4844,11 +2418,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        12
-      ],
+      "position": [3, 11, 4],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4859,11 +2429,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        2,
-        9
-      ],
+      "position": [3, 11, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4874,11 +2440,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        9
-      ],
+      "position": [4, 13, 4],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4889,11 +2451,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        8
-      ],
+      "position": [3, 13, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4904,11 +2462,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        9
-      ],
+      "position": [3, 15, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4919,11 +2473,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        8
-      ],
+      "position": [4, 15, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4934,11 +2484,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        7
-      ],
+      "position": [4, 15, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4949,11 +2495,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        7
-      ],
+      "position": [4, 15, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4964,11 +2506,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        7
-      ],
+      "position": [16, 11, 4],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4979,11 +2517,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        6
-      ],
+      "position": [15, 11, 4],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -4994,11 +2528,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        5
-      ],
+      "position": [14, 13, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5009,11 +2539,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        4
-      ],
+      "position": [14, 13, 4],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5024,11 +2550,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        3
-      ],
+      "position": [15, 15, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5039,11 +2561,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        2
-      ],
+      "position": [16, 17, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5054,11 +2572,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        2
-      ],
+      "position": [13, 17, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5069,11 +2583,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        2
-      ],
+      "position": [5, 17, 5],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5084,11 +2594,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        2
-      ],
+      "position": [5, 17, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5099,11 +2605,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        2
-      ],
+      "position": [6, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5114,11 +2616,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        2
-      ],
+      "position": [5, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5129,11 +2627,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        3
-      ],
+      "position": [6, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5144,11 +2638,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        4
-      ],
+      "position": [5, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5159,11 +2649,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        6
-      ],
+      "position": [4, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5174,11 +2660,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        6
-      ],
+      "position": [3, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5189,11 +2671,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        5
-      ],
+      "position": [4, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5204,11 +2682,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        5
-      ],
+      "position": [5, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5219,11 +2693,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        4
-      ],
+      "position": [6, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5234,11 +2704,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        3
-      ],
+      "position": [6, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5249,11 +2715,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        3
-      ],
+      "position": [5, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5264,11 +2726,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        4
-      ],
+      "position": [4, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5279,11 +2737,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        3
-      ],
+      "position": [3, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5294,11 +2748,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        3
-      ],
+      "position": [3, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5309,11 +2759,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        4
-      ],
+      "position": [4, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5324,11 +2770,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        5
-      ],
+      "position": [5, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5339,11 +2781,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        6
-      ],
+      "position": [6, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5354,11 +2792,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        5
-      ],
+      "position": [16, 17, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5369,11 +2803,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        5
-      ],
+      "position": [16, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5384,11 +2814,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        4
-      ],
+      "position": [16, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5399,11 +2825,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        14,
-        1,
-        6
-      ],
+      "position": [16, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5414,11 +2836,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        14,
-        1,
-        5
-      ],
+      "position": [15, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5429,11 +2847,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        15,
-        1,
-        5
-      ],
+      "position": [12, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5444,11 +2858,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        16,
-        1,
-        5
-      ],
+      "position": [11, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5459,11 +2869,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        17,
-        1,
-        5
-      ],
+      "position": [11, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5474,11 +2880,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        18,
-        1,
-        4
-      ],
+      "position": [11, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5489,11 +2891,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        15,
-        1,
-        2
-      ],
+      "position": [11, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5504,11 +2902,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        16,
-        1,
-        2
-      ],
+      "position": [12, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5519,11 +2913,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        14,
-        1,
-        3
-      ],
+      "position": [13, 17, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5534,11 +2924,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        14,
-        1,
-        4
-      ],
+      "position": [14, 17, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5549,11 +2935,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        15,
-        1,
-        4
-      ],
+      "position": [15, 17, 6],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5564,11 +2946,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        15,
-        1,
-        3
-      ],
+      "position": [15, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5579,11 +2957,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        16,
-        1,
-        3
-      ],
+      "position": [15, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5594,11 +2968,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        18,
-        1,
-        3
-      ],
+      "position": [13, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5609,11 +2979,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        18,
-        1,
-        5
-      ],
+      "position": [12, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5624,11 +2990,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        17,
-        1,
-        4
-      ],
+      "position": [12, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5639,11 +3001,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        16,
-        1,
-        4
-      ],
+      "position": [13, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5654,11 +3012,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        17,
-        1,
-        3
-      ],
+      "position": [13, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5669,11 +3023,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        13
-      ],
+      "position": [14, 17, 7],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5684,11 +3034,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        1,
-        14
-      ],
+      "position": [14, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5699,11 +3045,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        13
-      ],
+      "position": [14, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5714,11 +3056,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        13
-      ],
+      "position": [15, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5729,11 +3067,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        13
-      ],
+      "position": [14, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5744,11 +3078,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        13
-      ],
+      "position": [11, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5759,11 +3089,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        13
-      ],
+      "position": [12, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5774,11 +3100,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        13
-      ],
+      "position": [11, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5789,11 +3111,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        12
-      ],
+      "position": [12, 17, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5804,11 +3122,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        12
-      ],
+      "position": [14, 17, 8],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5819,11 +3133,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        12
-      ],
+      "position": [13, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5834,11 +3144,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        11
-      ],
+      "position": [12, 17, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5849,11 +3155,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        10
-      ],
+      "position": [12, 17, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5864,11 +3166,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        10
-      ],
+      "position": [13, 17, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5879,11 +3177,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        11
-      ],
+      "position": [14, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5894,11 +3188,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        14
-      ],
+      "position": [6, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5909,11 +3199,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        15
-      ],
+      "position": [5, 17, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5924,11 +3210,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        16
-      ],
+      "position": [5, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5939,11 +3221,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        16
-      ],
+      "position": [4, 17, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5954,11 +3232,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        16
-      ],
+      "position": [6, 19, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5969,11 +3243,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        16
-      ],
+      "position": [6, 19, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5984,11 +3254,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        16
-      ],
+      "position": [7, 19, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -5999,11 +3265,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        14
-      ],
+      "position": [8, 19, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6014,11 +3276,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        14
-      ],
+      "position": [9, 19, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6029,11 +3287,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        14
-      ],
+      "position": [10, 19, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6044,11 +3298,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        14
-      ],
+      "position": [11, 19, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6059,11 +3309,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        14,
-        1,
-        17
-      ],
+      "position": [3, 19, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6074,11 +3320,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        14,
-        1,
-        18
-      ],
+      "position": [3, 21, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6089,11 +3331,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        18
-      ],
+      "position": [4, 21, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6104,11 +3342,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        13,
-        1,
-        17
-      ],
+      "position": [3, 21, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6119,11 +3353,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        17
-      ],
+      "position": [3, 21, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6134,11 +3364,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        17
-      ],
+      "position": [10, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6149,11 +3375,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        17
-      ],
+      "position": [10, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6164,11 +3386,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        17
-      ],
+      "position": [4, 21, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6179,11 +3397,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        17
-      ],
+      "position": [5, 21, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6194,11 +3408,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        16
-      ],
+      "position": [6, 21, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6209,11 +3419,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        15
-      ],
+      "position": [7, 21, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6224,11 +3430,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        15
-      ],
+      "position": [7, 21, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6239,11 +3441,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        15
-      ],
+      "position": [7, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6254,11 +3452,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        15
-      ],
+      "position": [8, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6269,11 +3463,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        16
-      ],
+      "position": [9, 17, 9],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6284,11 +3474,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        17
-      ],
+      "position": [16, 19, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6299,11 +3485,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        5,
-        1,
-        18
-      ],
+      "position": [14, 19, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6314,11 +3496,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        17
-      ],
+      "position": [13, 21, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6329,11 +3507,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        6,
-        1,
-        16
-      ],
+      "position": [14, 21, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6344,11 +3518,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        16
-      ],
+      "position": [9, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6359,11 +3529,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        7,
-        1,
-        17
-      ],
+      "position": [8, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6374,11 +3540,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        8,
-        1,
-        18
-      ],
+      "position": [15, 21, 13],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6389,11 +3551,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        18
-      ],
+      "position": [7, 17, 10],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6404,11 +3562,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        10,
-        1,
-        18
-      ],
+      "position": [16, 21, 11],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6419,11 +3573,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        11,
-        1,
-        18
-      ],
+      "position": [16, 21, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6434,11 +3584,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        12,
-        1,
-        18
-      ],
+      "position": [15, 21, 12],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6449,11 +3595,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        9,
-        1,
-        19
-      ],
+      "position": [10, 21, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6464,11 +3606,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        3,
-        13
-      ],
+      "position": [9, 23, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6479,11 +3617,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        3,
-        14
-      ],
+      "position": [8, 23, 14],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6494,11 +3628,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        3,
-        5,
-        15
-      ],
+      "position": [9, 25, 17],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6509,11 +3639,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        5,
-        15
-      ],
+      "position": [9, 25, 16],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6524,11 +3650,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        5,
-        16
-      ],
+      "position": [9, 25, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -6539,1466 +3661,7 @@
       "Ap": 0
     },
     {
-      "position": [
-        4,
-        5,
-        17
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        4,
-        5,
-        18
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        3,
-        5,
-        18
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        3,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        3,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        3,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        3,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        3,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        3,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        3,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        3,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        3,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        3,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        3,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        3,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        3,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        3,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        3,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        3,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        3,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        3,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        3,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        3,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        3,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        3,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        3,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        4,
-        6
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        5,
-        6
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        5,
-        6
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        6
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        5,
-        6
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        5,
-        6
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        5,
-        9
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        5,
-        8
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        5,
-        7
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        5,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        5,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        5,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        5,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        11,
-        5,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        5,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        10,
-        5,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        5,
-        18
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        5,
-        18
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        7,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        7,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        5,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        12,
-        5,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        19,
-        5,
-        16
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        7,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        7,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        8,
-        10
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        13,
-        11
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        7,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        7,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        7,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        7,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        7,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        7,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        7,
-        16
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        7,
-        16
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        7,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        7,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        7,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        7,
-        12
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        7,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        7,
-        13
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        7,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        7,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        14
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        14,
-        7,
-        16
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        7,
-        16
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        7,
-        16
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        16,
-        7,
-        17
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        15,
-        7,
-        17
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        13,
-        9,
-        15
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        19,
-        9,
-        17
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        19,
-        9,
-        18
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        9,
-        17
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        9,
-        17
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        18,
-        9,
-        18
-      ],
-      "effects": [],
-      "sn": 17,
-      "Layer": 1,
-      "Block": 0,
-      "DestroyEffect": 0,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "position": [
-        17,
-        9,
-        18
-      ],
+      "position": [8, 23, 15],
       "effects": [],
       "sn": 17,
       "Layer": 1,
@@ -8009,178 +3672,35 @@
       "Ap": 0
     }
   ],
-  "map3": [
-    {
-      "MapID": 1,
-      "position": [
-        3,
-        1,
-        8
-      ],
-      "effects": [
-        {
-          "id": 120,
-          "key": "DEBUFF_PLOT_FIRE",
-          "param": [
-            "25",
-            "1"
-          ],
-          "tag": "",
-          "Priority": 1,
-          "TriggerTime": 1,
-          "Target": 6,
-          "BuffType": 2
-        }
-      ],
-      "sn": 35,
-      "Layer": 3,
-      "Block": 0,
-      "DestroyEffect": 1,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "MapID": 2,
-      "position": [
-        4,
-        1,
-        8
-      ],
-      "effects": [
-        {
-          "id": 120,
-          "key": "DEBUFF_PLOT_FIRE",
-          "param": [
-            "25",
-            "1"
-          ],
-          "tag": "",
-          "Priority": 1,
-          "TriggerTime": 1,
-          "Target": 6,
-          "BuffType": 2
-        }
-      ],
-      "sn": 35,
-      "Layer": 3,
-      "Block": 0,
-      "DestroyEffect": 1,
-      "Selected": 0,
-      "ExcludePolt": [],
-      "Ap": 0
-    }
-  ],
+  "map3": [],
   "map4": [
     {
       "MapID": 1,
-      "position": [
-        14,
-        7,
-        11
-      ],
-      "effects": [
-        {
-          "id": 121,
-          "key": "ATK_BOMB",
-          "param": [
-            "50"
-          ],
-          "tag": "",
-          "Priority": 1,
-          "TriggerTime": 5,
-          "Target": 9,
-          "BuffType": 0
-        },
-        {
-          "id": 93,
-          "key": "HIT_SQUARE",
-          "param": [
-            "0",
-            "1"
-          ],
-          "tag": "",
-          "Priority": 6,
-          "TriggerTime": 1,
-          "Target": 3,
-          "BuffType": 0
-        },
-        {
-          "id": 122,
-          "key": "CREATE_PLOT_SQUARE",
-          "param": [
-            "0",
-            "1",
-            "35"
-          ],
-          "tag": "",
-          "Priority": 1,
-          "TriggerTime": 1,
-          "Target": 3,
-          "BuffType": 0
-        }
-      ],
-      "sn": 31,
+      "position": [3, 9, 3],
+      "effects": [],
+      "sn": 34,
       "Layer": 4,
       "Block": 1,
-      "DestroyEffect": 1,
+      "DestroyEffect": 99,
       "Selected": 1,
       "ExcludePolt": [],
       "Ap": 0
     },
     {
       "MapID": 2,
-      "position": [
-        7,
-        1,
-        17
-      ],
-      "effects": [
-        {
-          "id": 123,
-          "key": "OPEN_DISTANCE",
-          "param": [
-            "0",
-            "1"
-          ],
-          "tag": "",
-          "Priority": 1,
-          "TriggerTime": 1,
-          "Target": 7,
-          "BuffType": 0
-        }
-      ],
-      "sn": 32,
+      "position": [4, 9, 3],
+      "effects": [],
+      "sn": 34,
       "Layer": 4,
       "Block": 1,
-      "DestroyEffect": 1,
-      "Selected": 0,
+      "DestroyEffect": 99,
+      "Selected": 1,
       "ExcludePolt": [],
       "Ap": 0
     },
     {
       "MapID": 3,
-      "position": [
-        4,
-        1,
-        7
-      ],
-      "effects": [],
-      "sn": 34,
-      "Layer": 4,
-      "Block": 1,
-      "DestroyEffect": 99,
-      "Selected": 1,
-      "ExcludePolt": [],
-      "Ap": 0
-    },
-    {
-      "MapID": 4,
-      "position": [
-        3,
-        1,
-        7
-      ],
+      "position": [5, 9, 3],
       "effects": [],
       "sn": 34,
       "Layer": 4,
@@ -8191,7 +3711,5 @@
       "Ap": 0
     }
   ],
-  "setting": {
-    "teamStrategy": 1
-  }
+  "setting": { "teamStrategy": 1 }
 }

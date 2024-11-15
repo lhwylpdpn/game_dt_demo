@@ -238,12 +238,12 @@ def range_cross(point, o, i, gap, effect, map):
     i = int(i) + 1
     atk_range = []
     positions = []
-    x, y, z = point
+    x, y, z = tuple(point)
     for r in [i, o]:
         # 水平方向
         for p in [(x + r, z), (x - r, z), (x, z + r), (x, z - r)]:
             if p in map:
-                positions.append(map[p]["position"])
+                positions.append(tuple(map[p]["position"]))
     if point in positions:
         positions.remove(point)
     return positions
