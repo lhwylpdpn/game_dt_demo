@@ -299,14 +299,14 @@ def hit_line_range(role, point, param, map):
     if x == x1:
         for i in range(-param_a, param_b + 1):
             # attack_range.append((x, z + i))
-            xz = (x, z + i)
+            xz = (x + i, z)
             if xz in map:
                 attack_range.append(Data.get_maps_point(xz, map))
 
     # 如果y相等，计算上下范围
     elif z == z1:
         for i in range(-param_a, param_b + 1):
-            xz = (x + i, z)
+            xz = (x, z + i)
             if xz in map:
                 attack_range.append(Data.get_maps_point(xz, map))
 
