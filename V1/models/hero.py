@@ -706,7 +706,7 @@ class Hero():
         return "OTHER"
 
 
-    def move_direction(self, direction, move_value): # 向某个方向移动几步的，返回新位置 
+    def calc_move_point(self, direction, move_value): # 向某个方向移动几步的，返回新位置 
         move_x, move_y, move_z = self.position
         if direction == "UP":
             move_z = move_z + move_value 
@@ -724,7 +724,7 @@ class Hero():
         map_obj = state.get("maps")
         position_ok = None
         for steps in range(1, move_value + 1):
-            move_x, move_y, move_z = self.move_direction(direction, steps)
+            move_x, move_y, move_z = self.calc_move_point(direction, steps)
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_y_from_xz(move_x, move_z)
             if self.is_position_ok(move_x, move_y, move_z, state):
