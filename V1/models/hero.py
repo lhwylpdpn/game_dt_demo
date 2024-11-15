@@ -795,10 +795,11 @@ class Hero():
         if "REPEL_TARGET" in skill.avaliable_effects():
             print("use: REPEL_TARGET 被击退几格")
             direction = self.judge_direction(Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
-            move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
-            enemys = self.sort_enemys(enemys, reverse=True) #对敌人 由远及近排序
-            for each_e in enemys: 
-                each_e.move_back(self, move_value, state, direction)
+            if direction != "OTHER":
+                move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
+                enemys = self.sort_enemys(enemys, reverse=True) #对敌人 由远及近排序
+                for each_e in enemys: 
+                    each_e.move_back(self, move_value, state, direction)
         return self
          
     def after_medical_skill(self, friends=[], skill=None, state=None): # 使用治疗技能之后
