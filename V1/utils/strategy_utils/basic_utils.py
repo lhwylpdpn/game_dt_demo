@@ -250,7 +250,7 @@ def square_range(point, param, map):
     x, y, z = point
     moves = []
     # 定义相对位置的偏移量，包括自身位置
-    offsets = [param[0], 0, param[1]]
+    offsets = [int(param[0]), 0, int(param[1])]
 
     for dx in offsets:
         for dz in offsets:
