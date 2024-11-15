@@ -351,7 +351,7 @@ def skill_effect_range(move_point, point, skill, map):
             gap, effect = 0, 0
         atk_range += range_mht_hollow_circle(point, hit_range[1], hit_range[0], gap, effect, map)
     if not atk_range and not hit_range and not hit_square:  # 单体攻击
-        atk_range = [point]
+        atk_range = [move_point]
 
     if check_atk_distance:  # 判断高低差影响
         atk_range = [_ for _ in atk_range if is_atk_distance(point, _, check_atk_distance)]
