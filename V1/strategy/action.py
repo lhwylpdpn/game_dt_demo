@@ -108,8 +108,7 @@ class Action(object):
                 if attachment_in_atk:
                     print("本次攻击到的附着物:", attachment_in_atk)
 
-                attack_enemies_ids = [_["HeroID"] for _ in step["target"]]
-                attack_enemies = [e for e in state["monster"] if e.HeroID in attack_enemies_ids]
+                attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0]
                 # atk_res = hero.func_attack(attack_enemies + attachment_in_atk, skill, step["skill_pos"], state)  TODO
                 atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
                 for _ in atk_res:
