@@ -39,7 +39,7 @@ class Action(object):
             st = each["st"]
             crit = each["crit"]
 
-            d.extend([["ATK", [damage_data["effects"][0]["role"], damage_data["effects"][0]["role_id"]], [damage], [pre_damage], st, crit]])
+            d.extend([["ATKBACK", [damage_data["effects"][0]["role"], damage_data["effects"][0]["role_id"]], [damage], [pre_damage], st, crit]])
         return d
 
     def calc_heal(self, heal_data):
@@ -115,9 +115,8 @@ class Action(object):
                 for _ in atk_res:
                     if atk_res[_].get("back_attck"):
                         atk_back = atk_res[_]["back_attck"]
-
-                        atk_back["id"] = atk_back["damage"][0]["effects"][0]["role_id"]
-                        atk_back["class"] = atk_back["damage"][0]["effects"][0]["role"]
+                        atk_back["id"] = atk_back["id"]
+                        atk_back["class"] = atk_back["class"]
                         atk_back["damage"] = self.calc_back_damage(atk_back)
                         back_res.append(atk_back)
 

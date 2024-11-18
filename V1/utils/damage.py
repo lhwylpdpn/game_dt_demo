@@ -223,7 +223,6 @@ def damage_calc(attacker, defender, skill):
 
     if skill.SkillId == demo_skill['战士反击斩']:
         res = random_choices({0: 0.5, 1: 0.5})  # 0 反击生效  1 反击不生效
-        res = 1  # TODO TEST
         if res == 1:
             eff = {
                 "role":  attacker_type,

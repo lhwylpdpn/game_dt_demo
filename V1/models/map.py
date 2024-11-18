@@ -120,18 +120,24 @@ class Map(): # 地图
         x,y,z = h_m_object.position
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_stand_object(None)
+            if land.stand_object:
+                if land.stand_object.HeroID == h_m_object.HeroID:
+                    land.set_stand_object(None)
+                else:
+                    raise Exception("地块 {x}, {y}, {z} 不是该对象站立")
         return self
     
     def enter(self, x, y, z, h_m_object, init_position=False): # 进入地块 
         land = self.map[x,y,z]
         if isinstance(land, Land):
-            land.set_stand_object(h_m_object)
-            #if h_m_object not in self.__h_m_objects:  # 把英雄和monster放入地图
-            if init_position:
-                self.__h_m_objects.append(h_m_object)
-            # TODO 地块伤害
-            h_m_object.Hp_damage(land.land_damage()) 
+            if not land.stand_object:
+                land.set_stand_object(h_m_object)
+                if init_position:
+                    self.__h_m_objects.append(h_m_object)
+                # TODO 地块伤害
+                h_m_object.Hp_damage(land.land_damage())
+            else:
+                raise Exception("land {x}, {y}, {z} 被占用")
         return self
     
     def load_land(self,x,y,z, land): # 加载地块
