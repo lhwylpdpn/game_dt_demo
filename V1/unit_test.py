@@ -189,4 +189,4 @@ def replay():
     obj_.game_run(json=json_reload)
 
 if __name__ == '__main__':
-    main()
+    replay()
