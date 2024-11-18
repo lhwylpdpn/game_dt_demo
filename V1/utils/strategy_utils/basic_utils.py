@@ -295,7 +295,6 @@ def skill_release_range(position, skill, map, role):
     if "ATK_DISTANCE" in skill["effects"]:
         range = skill["effects"]["ATK_DISTANCE"]["param"]
         points = range_mht_hollow_circle(position, int(range[1]), int(range[0]), gap, effect, map)
-
     if "ATK_DISTANCE_CROSS" in skill["effects"]:
         range = skill["effects"]["ATK_DISTANCE_CROSS"]["param"]
         points = range_cross(position, int(range[1]), int(range[0]), gap, effect, map)
@@ -353,7 +352,7 @@ def skill_effect_range(move_point, point, skill, map):
             gap, effect = 0, 0
         atk_range += range_mht_hollow_circle(point, hit_range[1], hit_range[0], gap, effect, map)
     if not atk_range and not hit_range and not hit_square:  # 单体攻击
-        atk_range = [move_point]
+        atk_range = [point]
 
     if check_atk_distance:  # 判断高低差影响
         atk_range = [_ for _ in atk_range if is_atk_distance(point, _, check_atk_distance)]
@@ -367,5 +366,5 @@ def get_attack_range(role, position, map):
     for skill in skills:
         release_range = skill_release_range(position, skill, map, role=role)
         for point in release_range:
-            attack_range += skill_effect_range( Data.value("position", role), point, skill, map)
+            attack_range += skill_effect_range(Data.value("position", role), point, skill, map)
     return set(tuple(attack_range))
