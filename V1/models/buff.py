@@ -102,7 +102,7 @@ class Buff():
 
     @property
     def buff_value(self):
-        return self.__buff_value
+        return float(self.__buff_value)
 
     def set_buff_value(self, v):
         self.__buff_value = v

@@ -155,6 +155,7 @@ class Map(): # 地图
             # 地块加载新的附着物
             if land.add_attachment(attachment):
                 self.__attachments.append(attachment)
+                print(self.__attachments)
             if attachment.is_fire():
                 if not self.__hidden_attachment:
                     example_attachment = copy.deepcopy(attachment)
@@ -165,7 +166,11 @@ class Map(): # 地图
         x,y,z = attachment.position
         land = self.map[x,y,z]
         land.del_attachment(attachment)
-        self.__attachments.remove(attachment)
+        # self.__attachments.remove(attachment)
+        for each in self.__attachments:
+            if attachment.MapID == each.MapID:
+                self.__attachments.remove(each)
+                break
         self.__removed_attchments.append(attachment) 
         return self
     
