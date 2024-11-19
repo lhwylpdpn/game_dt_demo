@@ -108,9 +108,10 @@ class Action(object):
                 if attachment_in_atk:
                     print("本次攻击到的附着物:", attachment_in_atk)
 
-                attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0] # TODO
-                # attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0] + attachment_in_atk
+                # attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0] # TODO
+                attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0] + attachment_in_atk
                 atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
+                print("--->", atk_res)
                 for _ in atk_res:
                     if atk_res[_].get("back_attck"):
                         atk_back = atk_res[_]["back_attck"]
