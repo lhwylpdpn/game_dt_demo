@@ -18,7 +18,7 @@ from utils.tools import round_up_2_integer
 class Map(): # 地图
     """
     """
-    def __init__(self, x, y, z): # 进来的参数是 地图的xyz，世界坐标的xzy
+    def __init__(self, x, y, z):
         self._x = x
         self._y = y
         self._z = z
@@ -329,7 +329,7 @@ class Map(): # 地图
                     )
             damage = {"damage": _wage_object.back_damage()}
             result.append({ each_attachment : self.format_result(each_attachment, damage) })
-        print(result)
+        print("---->>attack_attachment:[result]", result)
         return result
                 
                     

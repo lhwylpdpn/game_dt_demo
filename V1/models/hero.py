@@ -720,10 +720,17 @@ class Hero():
             pass
         return move_x, move_y, move_z
 
-    def __direction_move(self, move_value, state, direction): # 向某个方向移动几步
+    def skill_move_position(self, move_value, direction, state): 
+        """ 向某个方向移动几步 """
+        
+        if direction == "OTHER":
+            print("方向:OTHER, 不移动")
+            return self
         map_obj = state.get("maps")
         position_ok = None
-        for steps in range(1, move_value + 1):
+        print(f"{self.HeroID} 计划从 {self.position} 移动 {move_value} 步，方向{direction}")
+        
+        for steps in range(1, move_value + 1):    # 找到具体的位置
             move_x, move_y, move_z = self.calc_move_point(direction, steps)
             move_x, move_z  = map_obj.correct_map_bonus(move_x, move_z)
             move_y = map_obj.get_y_from_xz(move_x, move_z)
@@ -731,33 +738,13 @@ class Hero():
                 position_ok = [move_x, move_y, move_z]
             else:
                 break
+        
         if position_ok:
             print(f"{self.HeroID} 实际从 {self.position} {direction} 移动 { steps } 步,到 {position_ok} 点")
             self.move_position(*position_ok, state)
         else:
             print(f"{self.HeroID} 实际从{self.position} 移动 0 步")
-        return self
-
-
-    def skill_move_to_position(self, target, value, state): # 自己走向 target 点 
-        map_obj = state.get("maps")
-        move_value = int(value[0])
-        print(f"{self.HeroID} 计划从{self.position} 走向 {target.position} 方向 {move_value} 步")
-        direction = self.judge_direction(target)
-        if direction == "OTHER":
-            print("不在十字位置，不移动")
-            return self
-        self.__direction_move(move_value, state, direction)
-        return self
-    
-    def move_back(self, enemy, move_value, state, direction): # 敌人的攻击使我后退x格, direction 后退的方向
-        map_obj = state.get('maps')
-        move_value = int(move_value[0])
-        print(f"{self.HeroID} 计划从{self.position}后退 {move_value} 步 ，后退方向{direction}, 此时敌人位置{enemy.position}")
-        if direction == "OTHER":
-            print("攻击点位置在斜，不在十字位置，不移动")
-            return self
-        self.__direction_move(move_value, state, direction)
+            
         return self
     
     def __use_skill(self, skill):
@@ -783,23 +770,24 @@ class Hero():
             print("use: MOVE_SELF2TARGET 自己向敌人移动")
             move_value = skill.get_effect_by_key("MOVE_SELF2TARGET").param # 移动距离
             enemys = self.sort_enemys(enemys) #对敌人 由近及远排序
-            self.skill_move_to_position(target=enemys[0], value=move_value, state=state)
+            direction = self.judge_direction(enemys[0])
+            self.skill_move_position(int(move_value[0]), direction, state)
         # 判断敌人是否向自己移动 
         if "MOVE_TARGET2SELF" in skill.avaliable_effects():
             print("use: MOVE_TARGET2SELF 敌人向自己移动")
             move_value = skill.get_effect_by_key("MOVE_TARGET2SELF").param # 移动距离
             enemys = self.sort_enemys(enemys) #对敌人 由近及远排序
             for each_e in enemys: 
-                each_e.skill_move_to_position(target=self, value=move_value, state=state)
+                direction = each_e.judge_direction(enemys[0])
+                each_e.skill_move_position(int(move_value[0]), direction, state)
         # 击退几格
         if "REPEL_TARGET" in skill.avaliable_effects():
             print("use: REPEL_TARGET 被击退几格")
             direction = self.judge_direction(Hero(position=attack_point, HeroID='0')) # 攻击点即敌人在的方向
-            if direction != "OTHER":
-                move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
-                enemys = self.sort_enemys(enemys, reverse=True) #对敌人 由远及近排序
-                for each_e in enemys: 
-                    each_e.move_back(self, move_value, state, direction)
+            move_value = skill.get_effect_by_key("REPEL_TARGET").param # 移动距离
+            enemys = self.sort_enemys(enemys, reverse=True) #对敌人 由远及近排序
+            for each_e in enemys: 
+                each_e.skill_move_position(int(move_value[0]), direction, state)
         return self
          
     def after_medical_skill(self, friends=[], skill=None, state=None): # 使用治疗技能之后
@@ -1037,8 +1025,7 @@ class Hero():
         #         "horse_1"  :{"damage":{'damage':45}, "new_frag":None, "atk_o_point": [] , "atk_range":[]  },
         #         }
         map_obj = state.get("maps")
-        first_be_atk, chain_be_atk = map_obj.attack_attachment(age_object=self, skill=skill, attachment=enemy, stats=state)
-        return first_be_atk, chain_be_atk
+        return map_obj.attack_attachment(wage_object=self, skill=skill, attachment=enemy, stats=state)
 
     def func_attack(self, enemys=[], skill=None, attack_point=[], state={}): #技能攻击
         """
@@ -1091,7 +1078,6 @@ class Hero():
     def trigger_buff(self, buff_dic): # 有些技能需要主动出发执行，比如 BUFF_ADD_HP
         result = buff_dic.get("buff").make_effective(self)
         buff_dic["damage"] = [result,]
-        print("$$$$$$$$$$$$$$$$$$$$$trigger_buff result:", buff_dic)
         return buff_dic
 
     def open_box(self, box_object, state):
