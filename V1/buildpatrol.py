@@ -123,6 +123,9 @@ def pickle_state(state):
 
 if __name__ == "__main__":
     state = BuildPatrol("data.json").load_data()
+    for _ in state["attachment"]:
+        print("------------------")
+        pprint(_.dict())
     # file = "break.data"
     
     # with open(file, "wb") as file_obj: 
@@ -140,7 +143,7 @@ if __name__ == "__main__":
     #     pprint(_.dict())
 
     # state['maps'] = state['map']
-    test_atk_bomb(state)
+    # test_atk_bomb(state)
     # for each in state.get("hero") + state.get("monster"):
     #     each.move_position(*each.position, state)
     # map_ = state.get("map")

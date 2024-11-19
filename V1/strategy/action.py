@@ -18,8 +18,10 @@ class Action(object):
             pre_damage = [_["pre_damage"] for _ in damage_data[each]["damage"]]
             st = [_["st"] for _ in damage_data[each]["damage"]]
             crit = [_["crit"] for _ in damage_data[each]["damage"]]
-
-            d.extend([["ATK", [each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
+            if each.__class__.__name__.lower() == "attachment":
+                d.extend([["ATK", [each.__class__.__name__.lower(), each.MapID], damage, pre_damage, st, crit]])
+            else:
+                d.extend([["ATK", [each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
         return d
 
     def calc_effect(self, effect_data):
