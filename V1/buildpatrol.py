@@ -103,7 +103,7 @@ class BuildPatrol():
 
 def test_atk_bomb(stats):
     hero = state.get("hero")[0] #
-    hero.move_position(15,13,11, state=stats)
+    hero.move_position(5,5,0, state=stats)
     map_ = state.get("maps")
     bomb = state.get("attachment")[2]
     map_.attack_attachment( wage_object=hero, 
@@ -134,13 +134,13 @@ if __name__ == "__main__":
     # state_pickle =  pickle.dumps(state)
     # new_state = pickle.loads(state_pickle)  
 
-    print(state)
-    for _ in state["attachment"]:
-        print("------------------")
-        pprint(_.dict())
+    # print(state)
+    # for _ in state["attachment"]:
+    #     print("------------------")
+    #     pprint(_.dict())
 
     # state['maps'] = state['map']
-    # test_atk_bomb(state)
+    test_atk_bomb(state)
     # for each in state.get("hero") + state.get("monster"):
     #     each.move_position(*each.position, state)
     # map_ = state.get("map")

@@ -283,10 +283,15 @@ class Map(): # 地图
                 new_death = self.bomb_killed(wage_object, attachment, stats)
         return new_death
     
-    def format_result(self, attachment, damage_res):
+    def format_result(self, attachment, damage_res, is_include_chain_field=True):
         
         result = {"damage": damage_res,
-                  "new_frag": {}, "atk_o_point": [], "atk_range":[]}
+                  "new_frag": {}, 
+                  "atk_o_point": [], 
+                  "atk_range":[],
+                  "chain_atk_result":[],
+                  "back_attck": None
+                  }
         
         if attachment.is_death and attachment.is_bomb():
             # 碎片
@@ -294,7 +299,10 @@ class Map(): # 地图
                                   "points":self.calc_shape_point(attachment.get_bomb_fragment_effect(), attachment)}
             result["atk_o_point"] = attachment.position
             result["atk_range"] = self.calc_shape_point(attachment.get_bomb_attack_effect(), attachment)
-            
+    
+        if not is_include_chain_field:
+            result.pop("chain_atk_result")
+    
         return result
         
     def attack_attachment(self, wage_object, skill, attachment, stats):  # 攻击附着物
@@ -312,23 +320,23 @@ class Map(): # 地图
 
         attachment.be_attacked(wage_object, skill, damage_res)
         
-        result = [ {attachment:self.format_result(attachment, damage_res)}, ]
+        result = self.format_result(attachment, damage_res)
         
-        new_att_l = self.judge_attachment_status(wage_object, skill, attachment, stats)
+        new_att_list = self.judge_attachment_status(wage_object, skill, attachment, stats)
         
         attachment_list = []
-        if new_att_l:
-            attachment_list = list(zip((wage_object)*len(new_att_l), new_att_l))
+        if new_att_list:
+            attachment_list = list(zip((wage_object)*len(new_att_list), new_att_list))
         
         while attachment_list: # 循环去找被打击的对象
             _wage_object, each_attachment = attachment_list.pop(0)
-            new_att_l = self.judge_attachment_status(_wage_object, skill, each_attachment, stats)
-            if new_att_l:
-                each_attachment.extend(
-                    list(zip((_wage_object)*len(new_att_l), new_att_l))
+            new_att_list = self.judge_attachment_status(_wage_object, skill, each_attachment, stats)
+            if new_att_list:
+                attachment_list.extend(
+                    list(zip((_wage_object)*len(new_att_list), new_att_list))
                     )
             damage = {"damage": _wage_object.back_damage()}
-            result.append({ each_attachment : self.format_result(each_attachment, damage) })
+            result["chain_atk_result"].append({ each_attachment : self.format_result(each_attachment, damage, is_include_chain_field=False) })
         print("---->>attack_attachment:[result]", result)
         return result
                 

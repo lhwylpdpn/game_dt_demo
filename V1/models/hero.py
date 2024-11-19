@@ -1019,11 +1019,6 @@ class Hero():
         return result
     
     def __atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
-        # result =  {
-        #         # "bomb_2" :{"damage":{'damage':45}, "new_frag":{"sn":32, "points":[p2_1, p2_2, p2_3...]}, "atk_o_point": [], "atk_range":[] },
-        #         # "bomb_3" :{"damage":{'damage':45}, "new_frag":{"sn":32, "points":[p3_1, p3_2, p3_3...]}, "atk_o_point": [] , "atk_range":[]  },
-        #         "horse_1"  :{"damage":{'damage':45}, "new_frag":None, "atk_o_point": [] , "atk_range":[]  },
-        #         }
         map_obj = state.get("maps")
         return map_obj.attack_attachment(wage_object=self, skill=skill, attachment=enemy, stats=state)
 
