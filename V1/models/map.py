@@ -290,9 +290,11 @@ class Map(): # 地图
                   "atk_o_point": [], 
                   "atk_range":[],
                   "chain_atk_result":[],
-                  "back_attck": None
+                  "back_attck": None,
+                  "class": "attachment",
+                  "id": attachment.MapID
                   }
-        
+
         if attachment.is_death and attachment.is_bomb():
             # 碎片
             result["new_frag"] = {"sn": int(attachment.get_bomb_fragment_effect().param[2]),
