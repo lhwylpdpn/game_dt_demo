@@ -6,6 +6,7 @@ date: 2024-07-22
 import copy
 from utils.tools import random_choices
 from collections import namedtuple
+from utils.tools import round_up_2_integer
 
 SKILL_DEFAULT = namedtuple("SKILL_DEFAULT", ['NORMAL', 'DEFAULT'])
 skill_default = SKILL_DEFAULT(0, 1)
@@ -240,14 +241,14 @@ class Skill():
                 each.set_random(random_choices({True:int(each.param[0])/100.0, False:1 - int(each.param[0])/100.0}))
                 if each.random: # 几率判断
                     if each.key == "ADD_HP": # 血是恢复 {0}%机率回复体力上限的{0}%
-                        hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(each.param[1])/100.0
+                        hp = hero_or_monster.Hp +  round_up_2_integer(hero_or_monster.HpBase * int(each.param[1])/100.0)
                         hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
                     elif each.key == "ADD_DEF": # 
-                        hero_or_monster.set_Def(hero_or_monster.Def + hero_or_monster.DefBase *  + int(each.param[1])/100.0)
+                        hero_or_monster.set_Def(hero_or_monster.Def + round_up_2_integer(hero_or_monster.DefBase *  + int(each.param[1])/100.0))
                     elif each.key == "ADD_MAGICAL_DEF": # 
-                        hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef + hero_or_monster.MagicalDefBase *  int(each.param[1])/100.0)
+                        hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef + round_up_2_integer(hero_or_monster.MagicalDefBase *  int(each.param[1])/100.0))
                     elif each.key == "ADD_ATK": #
-                        hero_or_monster.set_Atk(hero_or_monster.Atk + hero_or_monster.AtkBase * int(each.param[1])/100.0)
+                        hero_or_monster.set_Atk(hero_or_monster.Atk + round_up_2_integer(hero_or_monster.AtkBase * int(each.param[1])/100.0))
                     else:
                         pass
             elif each.key in ['ADD_VELOCITY', 'ADD_JUMP_HEIGHT', 'ADD_HP_FORMULA_1', 'ADD_HP_FORMULA_2',
@@ -255,10 +256,10 @@ class Skill():
                 if each.key == "ADD_VELOCITY":#
                     hero_or_monster.set_Velocity(hero_or_monster.Velocity + each.param[0])
                 elif each.key == "ADD_HP_FORMULA_1":#
-                    hp = hero_or_monster.Hp +  hero_or_monster.MagicalAtkBase * int(each.param[0])/100.0
+                    hp = hero_or_monster.Hp +  round_up_2_integer(hero_or_monster.MagicalAtkBase * int(each.param[0])/100.0)
                     hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
                 elif each.key == "ADD_HP_FORMULA_2":#
-                    hp = hero_or_monster.Hp +  hero_or_monster.HpBase * int(each.param[0])/100.0
+                    hp = hero_or_monster.Hp +  round_up_2_integer(hero_or_monster.HpBase * int(each.param[0])/100.0)
                     hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
                 elif each.key == "ADD_JUMP_HEIGHT":#
                     hero_or_monster.set_JumpHeight(list(map(lambda x: x + each.param[0], hero_or_monster.JumpHeight)))
@@ -284,18 +285,14 @@ class Skill():
             if each.key in ['ADD_DEF', 'ADD_MAGICAL_DEF', 'ADD_ATK',]:
                 if each.random :# 几率判断
                     if each.key == "ADD_DEF": # 
-                        hero_or_monster.set_Def(hero_or_monster.Def - hero_or_monster.DefBase * int(each.param[1])/100.0)
+                        hero_or_monster.set_Def(hero_or_monster.Def - round_up_2_integer(hero_or_monster.DefBase * int(each.param[1])/100.0))
                     elif each.key == "ADD_MAGICAL_DEF": # 
-                        hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - hero_or_monster.MagicalDefBase * int(each.param[1])/100.0)
+                        hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - round_up_2_integer(hero_or_monster.MagicalDefBase * int(each.param[1])/100.0))
                     elif each.key == "ADD_ATK": #
-                        hero_or_monster.set_Atk(hero_or_monster.Atk - hero_or_monster.AtkBase * int(each.param[1])/100.0)
+                        hero_or_monster.set_Atk(hero_or_monster.Atk - round_up_2_integer(hero_or_monster.AtkBase * int(each.param[1])/100.0))
                     else:
                         pass
                 each.set_random(None)
             else:
                 continue
         return hero_or_monster
-        
-    
-        
-        

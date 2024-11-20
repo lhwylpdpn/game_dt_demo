@@ -5,6 +5,7 @@ date: 2024-08-01
 """
 import json
 import copy
+from utils.tools import round_up_2_integer
 
 
 class Buff():
@@ -147,14 +148,14 @@ class Buff():
         elif self.buff_key == "BUFF_JUMP_HEIGHT": # # 增加跳跃力{0}格，并持续{0}行动回合
             hero_or_monster.set_JumpHeight([hero_or_monster.JumpHeight[0] - self.buff_value])
         elif self.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            hero_or_monster.set_Def(hero_or_monster.Def -  hero_or_monster.DefBase * self.buff_value/100.0)
+            hero_or_monster.set_Def(hero_or_monster.Def -  round_up_2_integer(hero_or_monster.DefBase * self.buff_value/100.0))
         elif self.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            hero_or_monster.set_Atk(hero_or_monster.Atk -  hero_or_monster.AtkBase *  self.buff_value/100.0)
+            hero_or_monster.set_Atk(hero_or_monster.Atk -  round_up_2_integer(hero_or_monster.AtkBase *  self.buff_value/100.0))
         # elif self.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
         #     hp = hero_or_monster.Hp -  hero_or_monster.HpBase * int(self.buff_value)/100.0
         #     hero_or_monster.set_Hp(hp if hp >= 1 else 1)
         elif self.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - hero_or_monster.MagicalDefBase * self.buff_value/100.0)
+            hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDef - round_up_2_integer(hero_or_monster.MagicalDefBase * self.buff_value/100.0))
         elif self.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             hero_or_monster.set_RoundAction(self.buff_back)
         else:
@@ -173,30 +174,30 @@ class Buff():
             effect_attr, delta_change = "JumpHeight", self.buff_value
             hero_or_monster.set_JumpHeight([hero_or_monster.JumpHeight[0] + delta_change])
         elif self.buff_key == "BUFF_DEF": # 增加物理防御{0}%，并持续{0}行动回合
-            effect_attr, delta_change = "Def", hero_or_monster.DefBase * self.buff_value/100.0
+            effect_attr, delta_change = "Def", round_up_2_integer(hero_or_monster.DefBase * self.buff_value/100.0)
             hero_or_monster.set_Def(hero_or_monster.DefBase + delta_change)
         elif self.buff_key == "BUFF_ATK": # 增加物理攻击{0}%，并持续{0}行动回合
-            effect_attr, delta_change = "ATK", hero_or_monster.AtkBase * self.buff_value/100.0
+            effect_attr, delta_change = "ATK", round_up_2_integer(hero_or_monster.AtkBase * self.buff_value/100.0)
             hero_or_monster.set_Atk(hero_or_monster.AtkBase + delta_change)
         elif self.buff_key == "BUFF_ADD_HP": # 自动回血 {0}机率回血{0}，并持续{0}行动回合
-            effect_attr, delta_change = "Hp", hero_or_monster.HpBase * self.buff_value/100.0
+            effect_attr, delta_change = "Hp", round_up_2_integer(hero_or_monster.HpBase * self.buff_value/100.0)
             hero_or_monster.set_Hp(hero_or_monster.Hp +  delta_change)
         elif self.buff_key == "BUFF_HP": # 增加体力上限{0}%，并持续{0}行动回合
-            effect_attr, delta_change = "Hp", hero_or_monster.HpBase * self.buff_value/100.0
+            effect_attr, delta_change = "Hp", round_up_2_integer(hero_or_monster.HpBase * self.buff_value/100.0)
             hp = hero_or_monster.Hp +  delta_change
             hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
         elif self.buff_key == "BUFF_MAGICAL_DEF": # 增加魔法防御{0}%，并持续{0}行动回合
-            effect_attr, delta_change = "MagicalDef", hero_or_monster.MagicalDefBase * self.buff_value/100.0
+            effect_attr, delta_change = "MagicalDef", round_up_2_integer(hero_or_monster.MagicalDefBase * self.buff_value/100.0)
             hero_or_monster.set_MagicalDef(hero_or_monster.MagicalDefBase + delta_change)
         elif self.buff_key == "DEBUFF_ROUND_ACTION_BACK": #  around_action {0}，并持续{0}行动回合
             effect_attr, delta_change = "RoundAction", self.buff_value
             hero_or_monster.set_RoundAction(self.buff_value)
         elif self.buff_key == "ADD_HP_FORMULA_2": # 恢复体力上限的{0}%，并持续{0}行动回合
-            effect_attr, delta_change = "Hp", hero_or_monster.HpBase * self.buff_value/100.0
+            effect_attr, delta_change = "Hp", round_up_2_integer(hero_or_monster.HpBase * self.buff_value/100.0)
             hp = hero_or_monster.Hp +  delta_change
             hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
         elif self.buff_key == "ADD_HP": # 恢复体力上限的{0}%，并持续{0}行动回合
-            effect_attr, delta_change = "Hp", hero_or_monster.HpBase * self.buff_value/100.0
+            effect_attr, delta_change = "Hp", round_up_2_integer(hero_or_monster.HpBase * self.buff_value/100.0)
             hp = hero_or_monster.Hp +  delta_change
             hero_or_monster.set_Hp(hero_or_monster.HpBase if hp >= hero_or_monster.HpBase else hp)
         elif self.buff_key == "DEBUFF_PLOT_FIRE": #  fire 伤害 {0}，并持续{0}行动回合
