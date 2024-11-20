@@ -19,7 +19,7 @@ class Action(object):
             st = [_["st"] for _ in damage_data[each]["damage"]]
             crit = [_["crit"] for _ in damage_data[each]["damage"]]
             if each.__class__.__name__.lower() == "attachment":
-                d.extend([["ATK", [each.__class__.__name__.lower(), each.MapID], damage, pre_damage, st, crit]])
+                d.extend([["ATK", [each.client_class, each.MapID], damage, pre_damage, st, crit]])
             else:
                 d.extend([["ATK", [each.__class__.__name__.lower(), each.HeroID], damage, pre_damage, st, crit]])
         return d

@@ -45,7 +45,7 @@ class Attachment():
         self.__focus_object = []                                            # 计数器，先放置每次 focus 的(英雄) ID
 
     def dict(self):
-        fields = ["MapID", "sn", "position", "effects", "Layer", "Block", "Ap", "Selected", "DestroyEffect", "ExcludePlot"]
+        fields = ["MapID", "sn", "position", "effects", "Layer", "Block", "Ap", "Selected", "DestroyEffect", "ExcludePlot", "client_class"]
         data = {}
         if "effects" in fields:
             data["effects"] = {}
@@ -73,6 +73,10 @@ class Attachment():
     @property
     def is_death(self): # 判断是否死了
         return not self.is_alive()
+    
+    @property
+    def client_class(self):
+        return f"map{self.__Layer}"
     
     def is_can_selected(self): # 判断自己是否可以被选中
         return self.Selected == 1
