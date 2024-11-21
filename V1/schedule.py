@@ -290,7 +290,8 @@ class schedule:
         map_dict = {}
         hero_dict = {}
         monster_dict = {}
-        attachment_dict = {}
+        map3_dict = {}
+        map4_dict = {}
 
         for i in range(len(map)):
             map_dict[i] = map[i].dict(for_view=True)
@@ -299,8 +300,15 @@ class schedule:
         for m in monster:
             monster_dict[m.HeroID] = m.dict(for_view=True)
         for a in attachment:
-            attachment_dict[a.sn] = a.dict()
-        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 'attachment': attachment_dict,"setting":setting}
+            #attachment_dict[a.MapID] = a.dict()
+            if a.Layer == 3:
+                map3_dict[a.MapID] = a.dict()
+            if a.Layer == 4:
+                map4_dict[a.MapID] = a.dict()
+        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 
+               'map3': map3_dict, "map4":map4_dict,
+               #'attachment': attachment_dict,
+               "setting":setting}
         del map
         del hero
         del monster

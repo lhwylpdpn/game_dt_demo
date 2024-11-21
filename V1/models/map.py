@@ -273,6 +273,7 @@ class Map(): # 地图
             print(f"碎片地块:{land.position} {new_frage_att.sn}")
             # 碎片 产生debuff
             self.load_attachment(new_frage_att)
+            stats['attachment'].append(new_frage_att)
             # 碎片伤害 (碎片只对地块上站立的hero和monster产生影响) damage 是 0 
             new_d = land.be_attacked(new_frage_att, [{"damage":new_frage_att.get_damage()}], stats=stats)
             if new_d:
