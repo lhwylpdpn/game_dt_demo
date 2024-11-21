@@ -94,7 +94,6 @@ class schedule:
 
     def run(self):
 
-
         while self.tick < self.timeout_tick and not self.game_over:
             self.tick += 1
             self.next()

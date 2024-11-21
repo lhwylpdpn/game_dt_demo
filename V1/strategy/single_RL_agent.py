@@ -6,6 +6,7 @@ import random
 from RL.Q_lerning import QLearningAgent
 from RL.PPO import PPO
 import numpy as np
+import copy
 class Q_Agent(QLearningAgent):
 
 
@@ -215,8 +216,9 @@ class PPO_Agent():
 class Random_Agent(object):
 
 
-    def action_transition(self,allow_actions):
+    def action_transition(self,allow_actions,work=False):
         res=[]
+        print(allow_actions)
         for key in allow_actions:
             for action in allow_actions[key]:
                 if type(action)==dict:
@@ -224,13 +226,14 @@ class Random_Agent(object):
                 if type(action)==list:
                     for _ in action:
                         res.append(_)
-
         #结构清理，返回训练需要的结构和事实结构
         res_train=[]
 
         for r in res:
             if r['action_type'] in ['LEFT','RIGHT','BOTTOM','TOP']:
+
                 res_train.append({k: v for k, v in r.items() if k  in ['action_type']})
+
             elif 'SKILL' in r['action_type']:
                 res_train.append({k: v for k, v in r.items() if k  in ['action_type']})
             elif 'WAIT' in r['action_type']:
@@ -238,14 +241,26 @@ class Random_Agent(object):
             else:
                 res_train.append({k: v for k, v in r.items()})
 
+
+        if not work:
+
+            for r in copy.deepcopy(res):
+                if r['action_type'] in ['LEFT','RIGHT','BOTTOM','TOP']:
+                    res.remove(r)
+
+            for r in copy.deepcopy(res_train):
+                if r['action_type'] in ['LEFT','RIGHT','BOTTOM','TOP']:
+                    res_train.remove(r)
         return res,res_train
     def swap_specific_keys(self, d, key1, key2):
+
         d2 = {}
+
         if key1 not in d or key2 not in d:
             raise KeyError("Both keys must exist in the dictionary.")
 
         d2[key1], d2[key2] = d[key2], d[key1]
-        d2["map"] = d["map"]
+        d2["maps"] = d["maps"]
         return d2
 
     def add_maps_block(self, state):
@@ -259,9 +274,12 @@ class Random_Agent(object):
         allow_actions = Range(state=state, role=hero).simple_strategy()
         actions,train_actions=self.action_transition(allow_actions)
         #随机选择train_actions中的某一个，然后用这个序号选择actions
-        res = random.choice(train_actions)
-        index = train_actions.index(res)
-        res=actions[index]
+        if len(train_actions) > 0:
+            res = random.choice(train_actions)
+            index = train_actions.index(res)
+            res = actions[index]
+        else:
+            res = {'action_type': 'WAIT'}
         print('返回的',res)
         print('------------------------------')
 
@@ -277,9 +295,13 @@ class Random_Agent(object):
         allow_actions = Range(state=state, role=hero).simple_strategy()
         actions, train_actions = self.action_transition(allow_actions)
         # 随机选择train_actions中的某一个，然后用这个序号选择actions
-        res = random.choice(train_actions)
-        index = train_actions.index(res)
-        res = actions[index]
+
+        if len(train_actions) > 0:
+            res = random.choice(train_actions)
+            index = train_actions.index(res)
+            res = actions[index]
+        else:
+            res ={'action_type': 'WAIT'}
         print('返回的', res)
         print('------------------------------')
         return [res]
