@@ -219,6 +219,11 @@ class Hero():
     def Quality(self):
         return self.__Quality
 
+    @property
+    def set_Quality(self, V):
+        self.__Quality = V
+        return self
+
     def dict_short(self):
         data = super().dict_short()
         data["Quality"] = self.Quality
