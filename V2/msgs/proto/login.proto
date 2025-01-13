@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+///玩家登录
+message CSPlayerLogin {
+	optional int32 msgid = 1001;
+	string token = 1; ///Token 
+	int32 deviceType = 2; ///设备类型(1:PC 2:Android 3:IOS ) 
+	string deviceModel = 3; ///设备型号
+	string deviceOSVersion = 4; ///设备OS版本
+	string deviceUUID = 5; ///设备网卡Mac地址
+	string appversion = 6; ///客户端版本
+	string localeType = 7; ///语言类型
+	bool isReconnect = 8; // 是否为重连
+}
+ 
+///登录成功
+message SCLoginSuccess {
+	optional int32 msgid = 1002; 
+	int64 uuid = 1; ///登录id
+}
+
+///进入角色游戏
+message CSPlayerEnter {
+	optional int32 msgid = 1003;
+}
+
+//获取用户名称
+message CSLoginGetName {
+	optional int32 msgid = 1004;
+  
+}
+
+//进入游戏
+message CSEnterGame {
+	optional int32 msgid = 1005;
+}
+
+message SCEnterGame {
+	optional int32 msgid = 1007;
+	
+	int64 serverTime = 1;
+}
+
+// 消息提示
+message SCPrompt {
+    optional int32 msgid = 1008;
+	int32 id = 1;
+	map<string, string> contextValue = 2;
+}
+
+// 重连成功
+message SCReconnectSuccess {
+	optional int32 msgid = 1009;
+}
+
+// 重复登录
+message SCDuplicateLogin {
+	optional int32 msgid = 1010;
+	string desc = 1;
+}
+
+// 踢出游戏
+message SCKickOut {
+	optional int32 msgid = 1011;
+	string desc = 1;
+}

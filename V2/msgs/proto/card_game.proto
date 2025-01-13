@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+
+// ===============
+// 基础消息定义
+// ===============
+
+/**
+ * 玩家信息
+ */
+message Player {
+  string player_id = 1;    // 玩家唯一 ID
+  string player_name = 2;  // 玩家名称/昵称
+}
+
+/**
+ * 目标信息（在出牌时指定目标）
+ */
+message Target {
+  string target_id = 1;     // 目标对象 ID
+  float release_x = 2;      // 释放点位 X 坐标
+  float release_y = 3;      // 释放点位 Y 坐标
+  float release_range = 4;  // 释放范围
+}
+
+
+
+// ===============
+// 请求与响应消息
+// ===============
+
+/*
+ * 1. CS -> ready_game
+*/
+
+message ReadyGameRequest {
+  string client_id = 1;  // 玩家或客户端的唯一标识
+  string game_id = 2;    // 游戏/房间 ID
+}
+
+message ReadyGameResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+
+/*
+ * 2. SC -> start_game
+*/
+
+message StartGameRequest {
+  string game_id = 1;
+  repeated Player players = 2;    // 游戏中的玩家列表
+}
+
+message StartGameResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+
+/**
+ * 3. CS -> play_card
+ */
+
+message PlayCardRequest {
+  string game_id = 1;
+  string player_id = 2;
+  string card_id = 3;
+  Target target = 4; // 可选：指定出牌的目标
+}
+
+message PlayCardResponse {
+  bool success = 1;
+  string message = 2;
+  // UpdatedState updated_state = 3; TODO
+}
+
+/**
+ * 4. CS -> end_turn 结束回合
+ */
+
+message EndTurnRequest {
+  string game_id = 1;
+  string player_id = 2;
+}
+
+message EndTurnResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+/**
+ * 5. CS -> end_game 游戏结束
+ */
+
+message EndGameRequest {
+  string game_id = 1;
+  string winner_id = 2;
+}
+
+message EndGameResponse {
+  bool success = 1;
+  string message = 2;
+  string final_winner_id = 3;
+}
+
+// ===============
+// gRPC 服务定义
+// ===============
+
+service CardGameService {
+  // 1. 玩家准备就绪
+  rpc ReadyGame(ReadyGameRequest) returns (ReadyGameResponse);
+
+  // 2. 开始游戏
+  rpc StartGame(StartGameRequest) returns (StartGameResponse);
+
+  // 3. 玩家出牌
+  rpc PlayCard(PlayCardRequest) returns (PlayCardResponse);
+
+  // 4. 结束回合
+  rpc EndTurn(EndTurnRequest) returns (EndTurnResponse);
+
+  // 5. 结束游戏
+  rpc EndGame(EndGameRequest) returns (EndGameResponse);
+}
