@@ -30,16 +30,18 @@ class CardGameProtocol(LineReceiver):
             msg = f"state: {self.state}".encode()
             length_prefix = len(msg).to_bytes(4, byteorder="big")
             self.transport.write(length_prefix + msg)
-        
+            print('connectionMade接到消息了，')
     def connectionLost(self, reason):
         self.factory.players.remove(self)
 
     # def dataReceived(self, data):
+    #     print('6666',data)
+    #
     #     self.hand_Data(data)
     #     for c in self.factory.players:
     #         if c != self:
     #             c.transport.write(data)
-    
+
     def lineReceived(self, data):            # 收到消息数据后执行
         self.hand_Data(data)                 # TODO 丰富
         self.send_msg_to_another(data)       # TODO 丰富
@@ -48,8 +50,7 @@ class CardGameProtocol(LineReceiver):
     def send_msg_to_another(self, data): # 给其他的player 发消息
         for player in self.factory.players:
             if player != self:
-                player.sendLine(data) 
-    
+                player.sendLine(data)
     def hand_Data(self, data):
         self.sendLine(f"Server Reciveced msg {data}".encode())
         try:
@@ -70,7 +71,8 @@ class CardGameProtocol(LineReceiver):
 
             serialized_response = response.SerializeToString()
             length_prefix = len(serialized_response).to_bytes(4, byteorder="big")
-            self.transport.write(length_prefix + serialized_response)
+            print('Send Request:',length_prefix+serialized_response)
+            self.transport.write(length_prefix + serialized_response+b'\r\n')
         except Exception as e:
             print(f"Error processing request: {e}")
 
