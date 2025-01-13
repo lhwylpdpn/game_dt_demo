@@ -16,7 +16,7 @@ message Player {
 /**
  * 目标信息（在出牌时指定目标）
  */
-message Target {
+message Action {  // 等前端同步
   string target_id = 1;     // 目标对象 ID
   float release_x = 2;      // 释放点位 X 坐标
   float release_y = 3;      // 释放点位 Y 坐标
@@ -25,32 +25,33 @@ message Target {
 
 
 
+
 // ===============
 // 请求与响应消息
 // ===============
 
-/*
- * 1. CS -> ready_game
-*/
-
-message ReadyGameRequest {
-  string client_id = 1;  // 玩家或客户端的唯一标识
-  string game_id = 2;    // 游戏/房间 ID
-}
-
-message ReadyGameResponse {
-  bool success = 1;
-  string message = 2;
-}
 
 
 /*
- * 2. SC -> start_game
+ * 1. CS -> start_game
 */
+
+message Card {
+  string id = 1
+  string card_id = 2;
+}
+
+message Hero {
+  string id = 1
+  string hero_id = 2;
+  list card = 3;  // [1,2,3 ..]
+}
 
 message StartGameRequest {
-  string game_id = 1;
-  repeated Player players = 2;    // 游戏中的玩家列表
+  string player_id = 2;
+  list/Hero hero = 3;
+  Map map = 4;  // id
+
 }
 
 message StartGameResponse {
@@ -58,23 +59,34 @@ message StartGameResponse {
   string message = 2;
 }
 
+#  2. SC 推送匹配成功   , 推送敌我双方信息
+message MatchGameResponse {
+  bool success = 1;
+  string game_id
+  position  //  l / r
+  Hero
+  map
+  string message = 2;
+}
 
 /**
- * 3. CS -> play_card
+ * 3. CS -> play_card   // + a 推 b
  */
 
 message PlayCardRequest {
   string game_id = 1;
   string player_id = 2;
-  string card_id = 3;
-  Target target = 4; // 可选：指定出牌的目标
+  string hero_id = 3;
+  string card_id = 4;
+  Action action = 5; // 可选：指定出牌的目标
 }
 
 message PlayCardResponse {
   bool success = 1;
   string message = 2;
-  // UpdatedState updated_state = 3; TODO
 }
+
+//推送 B / 回合开始
 
 /**
  * 4. CS -> end_turn 结束回合
@@ -91,7 +103,7 @@ message EndTurnResponse {
 }
 
 /**
- * 5. CS -> end_game 游戏结束
+ * 5. CS -> end_game 游戏结束   + 两侧推
  */
 
 message EndGameRequest {
@@ -110,7 +122,7 @@ message EndGameResponse {
 // ===============
 
 service CardGameService {
-  // 1. 玩家准备就绪
+  // 1. 玩家准备就绪   //大的匹配池，点击准备 。开始
   rpc ReadyGame(ReadyGameRequest) returns (ReadyGameResponse);
 
   // 2. 开始游戏
