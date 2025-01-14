@@ -87,6 +87,6 @@ class CardGameFactory(protocol.Factory):
 
 
 if __name__ == "__main__":
-    reactor.listenTCP(8000, CardGameFactory())
-    print("Server is running on port 8000.")
+    reactor.listenTCP(17090, CardGameFactory())
+    print("Server is running on port 17090.")
     reactor.run()
