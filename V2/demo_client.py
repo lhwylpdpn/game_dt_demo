@@ -49,11 +49,11 @@ if __name__ == "__main__":
     # 连接到本地服务器
     # reactor.connectTCP("localhost", 8000, CardGameClientFactory())
     # reactor.run()
-    factory = WebSocketClientFactory("ws://127.0.0.1:8000")
+    factory = WebSocketClientFactory("ws://127.0.0.1:17090")
     factory.protocol = CardGameClientProtocol
     
     # 连接到WebSocket服务器
-    reactor.connectTCP("127.0.0.1", 8000, factory)
+    reactor.connectTCP("127.0.0.1", 17090, factory)
     
     # 启动reactor事件循环
     reactor.run()
