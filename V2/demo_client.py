@@ -1,46 +1,38 @@
 from twisted.internet import reactor, protocol
-from twisted.protocols.basic import LineReceiver
+# from twisted.protocols.basic import LineReceiver
 from msgs import card_game_pb2
+from autobahn.twisted.websocket import connectWS, WebSocketClientProtocol, WebSocketClientFactory
 
+class CardGameClientProtocol(WebSocketClientProtocol):
+    
+    def onConnect(self, response):
+        print("Connected: {}".format(response.peer))
 
-class CardGameClientProtocol(LineReceiver):
-    def connectionMade(self):
-        # 当连接建立后，发送序列化后的请求
+    def onOpen(self):
+        print("Connection established")
+        #self.sendMessage(b"Hello Server")
         self.sendRequest()
 
+    def onMessage(self, msg, isBinary):
+        print(f"Received msg: {msg}")
+        response = card_game_pb2.ReadyGameResponse()
+        response.ParseFromString(msg)
+        print(f"Received Response: success={response.success}, message={response.message}")
+        
+    def onClose(self, wasClean, code,  reason):
+        print("Connected colsed: {}".format(reason))
+        reactor.stop()
+        
     def sendRequest(self):
         # 创建 ReadyGameRequest 对象
         __request = card_game_pb2.ReadyGameRequest()
         __request.client_id = "test5678"
         __request.game_id = "game_5678"
         __request_string = __request.SerializeToString()
-        # 计算长度前缀
-        length_prefix = len(__request_string).to_bytes(4, byteorder="big")
-        # 发送长度前缀和序列化后的请求
-        print(length_prefix + __request_string + b'\r\n')
-        self.transport.write(length_prefix + __request_string + b'\r\n')  # 添加行结束符
-        print("Request sent.")
+        print(f"read for send request:{__request_string}")
+        self.sendMessage(__request_string)
 
-    def lineReceived(self, data):
-        # 接收服务器的响应
-
-        try:
-            if len(data) < 4:
-                print("Incomplete data: waiting for length prefix")
-                return
-            # 提取长度前缀
-            length_prefix = int.from_bytes(data[:4], byteorder="big")
-            payload = data[4:4 + length_prefix]
-            # 假设服务器发送的是 ReadyGameResponse
-            response = card_game_pb2.ReadyGameResponse()
-            response.ParseFromString(payload)
-            print(f"Received Response: success={response.success}, message={response.message}")
-            # 关闭连接
-        except Exception as e:
-            print(f"Error processing response: {e}")
-
-
-class CardGameClientFactory(protocol.ClientFactory):
+class CardGameClientFactory(WebSocketClientFactory):
     def buildProtocol(self, addr):
         return CardGameClientProtocol()
 
@@ -55,5 +47,13 @@ class CardGameClientFactory(protocol.ClientFactory):
 
 if __name__ == "__main__":
     # 连接到本地服务器
-    reactor.connectTCP("localhost", 8000, CardGameClientFactory())
+    # reactor.connectTCP("localhost", 8000, CardGameClientFactory())
+    # reactor.run()
+    factory = WebSocketClientFactory("ws://127.0.0.1:8000")
+    factory.protocol = CardGameClientProtocol
+    
+    # 连接到WebSocket服务器
+    reactor.connectTCP("127.0.0.1", 8000, factory)
+    
+    # 启动reactor事件循环
     reactor.run()
