@@ -7,12 +7,10 @@ from twisted.protocols.basic import LineReceiver
 
 from msgs import card_game_pb2
 
-# from bin_test import card_game_pb2
 
 MAX_PLAYER = 2 # 房价最大人数
 
-#class CardGameProtocol(protocol.Protocol):
-#class CardGameProtocol(LineReceiver):
+
 class CardGameProtocol(WebSocketServerProtocol):
     
     clients = []
@@ -61,8 +59,8 @@ class CardGameProtocol(WebSocketServerProtocol):
     
 
 if __name__ == "__main__":
-    fac = WebSocketServerFactory("ws://localhost:8000")
+    fac = WebSocketServerFactory("ws://localhost:17090")
     fac.protocol = CardGameProtocol
-    reactor.listenTCP(8000, fac)
-    print("Server is running on port 8000.")
+    reactor.listenTCP(17090, fac)
+    print("Server is running on port 17090.")
     reactor.run()
