@@ -34,21 +34,23 @@ message Target {
 */
 
 message ReadyGameRequest {
-    int32 map_id = 1;        // 地图 ID
-    int32 player_id = 2;     // 玩家 ID
-    repeated Hero heroes = 3; // 英雄列表
+    int32 msgid = 1;
+    int32 mapId = 2;        // 地图 ID
+    int32 playerId = 3;     // 玩家 ID
+    repeated Hero heroes = 4; // 英雄列表
 
     message Hero {
-        int32 hero_sn_id = 1;        // 英雄唯一 ID
+        int32 heroUniqueId = 1;        // 英雄唯一 ID
         repeated string position = 2; // 英雄位置
         repeated string cards = 3;    // 英雄卡牌列表
     }
 }
 
 message ReadyGameResponse {
-    int32 room_id = 1;    // 房间 ID
-    int32 player_id = 2;  // 玩家 ID
-    bool result = 3;      // 游戏结果（成功与否）
+    int32 msgid = 1;
+    int32 roomId = 2;    // 房间 ID
+    int32 playerId = 3;  // 玩家 ID
+    bool result = 4;      // 游戏结果（成功与否）
 }
 
 
@@ -57,18 +59,20 @@ message ReadyGameResponse {
 */
 
 message StartGameRequest {
-    int32 room_id = 1;  // 房间 ID
-    repeated PlayerChange change = 2;  // 玩家状态变化列表
+    int32 msgid = 1;
+    int32 roomId = 2;  // 房间 ID
+    repeated PlayerChange change = 3;  // 玩家状态变化列表
 
     message PlayerChange {
-        int32 player_id = 1;  // 玩家 ID
+        int32 playerId = 1;  // 玩家 ID
         string change = 2;     // 状态变化描述，直接使用字符串
     }
 }
 
 message StartGameResponse {
-    int32 room_id = 1;   // 房间 ID
-    bool result = 2;     // 游戏开始结果
+    int32 msgid = 1;
+    int32 roomId = 2;   // 房间 ID
+    bool result = 3;     // 游戏开始结果
 }
 
 /**
@@ -76,8 +80,8 @@ message StartGameResponse {
  */
 
 message PlayCardRequest {
-    int32 room_id = 1;        // 房间 ID
-    int32 player_id = 2;      // 玩家 ID
+    int32 roomId = 1;        // 房间 ID
+    int32 playerId = 2;      // 玩家 ID
     int32 round = 3;          // 回合数
     repeated Change change = 4;  // 变化列表
 
@@ -86,15 +90,15 @@ message PlayCardRequest {
     }
 
     message CardChange {
-        int32 card_sn_id = 1;       // 卡牌唯一 ID
+        int32 cardUniqueId = 1;       // 卡牌唯一 ID
         repeated int32 release_position = 2; // 释放位置 (x, y, z)
         string target = 3;          // 目标：hero 或 point
-        int32 hero_id = 4;          // 英雄 ID
+        int32 heroUniqueId = 4;          // 英雄 ID
     }
 }
 
 message PlayCardResponse {
-    int32 room_id = 1;    // 房间 ID
+    int32 roomId = 1;    // 房间 ID
     bool result = 2;      // 游戏回合结果（成功与否）
 }
 
