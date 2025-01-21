@@ -1,0 +1,115 @@
+[
+  {
+    "EffectID": 1,
+    "Priority": 1,
+    "TriggerTime": 1,
+    "Target": [
+      1
+    ],
+    "BuffType": 0,
+    "BuffDuration": 0,
+    "BuffDurationVal": 0
+  },
+  {
+    "EffectID": 2,
+    "Priority": 1,
+    "TriggerTime": 1,
+    "Target": [
+      1
+    ],
+    "BuffType": 0,
+    "BuffDuration": 0,
+    "BuffDurationVal": 0
+  },
+  {
+    "EffectID": 3,
+    "Priority": 2,
+    "TriggerTime": 2,
+    "Target": [
+      3,
+      4
+    ],
+    "BuffType": 1,
+    "BuffDuration": 2,
+    "BuffDurationVal": 8
+  },
+  {
+    "EffectID": 4,
+    "Priority": 1,
+    "TriggerTime": 1,
+    "Target": [
+      1
+    ],
+    "BuffType": 0,
+    "BuffDuration": 0,
+    "BuffDurationVal": 0
+  },
+  {
+    "EffectID": 5,
+    "Priority": 2,
+    "TriggerTime": 2,
+    "Target": [
+      3,
+      4
+    ],
+    "BuffType": 1,
+    "BuffDuration": 2,
+    "BuffDurationVal": 5
+  },
+  {
+    "EffectID": 6,
+    "Priority": 2,
+    "TriggerTime": 2,
+    "Target": [
+      1
+    ],
+    "BuffType": 2,
+    "BuffDuration": 1,
+    "BuffDurationVal": 1
+  },
+  {
+    "EffectID": 7,
+    "Priority": 3,
+    "TriggerTime": 1,
+    "Target": [
+      3
+    ],
+    "BuffType": 0,
+    "BuffDuration": 0,
+    "BuffDurationVal": 0
+  },
+  {
+    "EffectID": 8,
+    "Priority": 2,
+    "TriggerTime": 1,
+    "Target": [
+      3,
+      4
+    ],
+    "BuffType": 0,
+    "BuffDuration": 0,
+    "BuffDurationVal": 0
+  },
+  {
+    "EffectID": 9,
+    "Priority": 10,
+    "TriggerTime": 3,
+    "Target": [
+      3
+    ],
+    "BuffType": 1,
+    "BuffDuration": 3,
+    "BuffDurationVal": 1
+  },
+  {
+    "EffectID": 10,
+    "Priority": 10,
+    "TriggerTime": 3,
+    "Target": [
+      4
+    ],
+    "BuffType": 1,
+    "BuffDuration": 1,
+    "BuffDurationVal": 1
+  }
+]

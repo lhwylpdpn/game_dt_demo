@@ -1,0 +1,311 @@
+[
+  {
+    "CardID": 1,
+    "IsDefault": true,
+    "Cost": 0,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "CardID": 2,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 2,
+    "AtkTarget": [
+      3,
+      4
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 3,
+    "IsDefault": false,
+    "Cost": 2,
+    "Type": 2,
+    "AtkTarget": [
+      3,
+      4
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 4,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 2,
+    "AtkTarget": [
+      3
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 3,
+    "HitRange": [
+      0,
+      3
+    ],
+    "Param": []
+  },
+  {
+    "CardID": 5,
+    "IsDefault": false,
+    "Cost": 2,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      1
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 6,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 2,
+    "AtkTarget": [
+      3,
+      4
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 7,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 2,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 3,
+    "HitRange": [
+      0,
+      2
+    ],
+    "Param": []
+  },
+  {
+    "CardID": 8,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      1
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 9,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      1
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 10,
+    "IsDefault": false,
+    "Cost": 0,
+    "Type": 2,
+    "AtkTarget": [
+      3
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 11,
+    "IsDefault": false,
+    "Cost": 1,
+    "Type": 2,
+    "AtkTarget": [
+      4
+    ],
+    "AtkDistance": [],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": []
+  },
+  {
+    "CardID": 12,
+    "IsDefault": true,
+    "Cost": 0,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "CardID": 13,
+    "IsDefault": true,
+    "Cost": 1,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "CardID": 14,
+    "IsDefault": true,
+    "Cost": 0,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "CardID": 15,
+    "IsDefault": true,
+    "Cost": 1,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "CardID": 16,
+    "IsDefault": true,
+    "Cost": 0,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "CardID": 17,
+    "IsDefault": true,
+    "Cost": 1,
+    "Type": 1,
+    "AtkTarget": [
+      1
+    ],
+    "AtkDistance": [
+      0,
+      2
+    ],
+    "HitRangeType": 1,
+    "HitRange": [],
+    "Param": [
+      {
+        "id": 2,
+        "param": [
+          3
+        ]
+      }
+    ]
+  }
+]

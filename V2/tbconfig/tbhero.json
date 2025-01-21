@@ -1,0 +1,41 @@
+[
+  {
+    "HeroID": 1,
+    "BaseClassID": 1,
+    "AvailableCards": [
+      1,
+      1,
+      1
+    ],
+    "MoveDistance": 2,
+    "JumpHeight": 2,
+    "Hp": 15
+  },
+  {
+    "HeroID": 2,
+    "BaseClassID": 2,
+    "AvailableCards": [
+      1,
+      2,
+      2,
+      2
+    ],
+    "MoveDistance": 3,
+    "JumpHeight": 3,
+    "Hp": 15
+  },
+  {
+    "HeroID": 3,
+    "BaseClassID": 3,
+    "AvailableCards": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "MoveDistance": 3,
+    "JumpHeight": 3,
+    "Hp": 15
+  }
+]
