@@ -31,15 +31,25 @@ class HeroBase(): # hero 基础数据
 
         self.__position = None                                        #  坐标
         self.__init_position = kwargs.get("init_position")            #  初始化时候的相对位置
+
+        self.__camp = None                                            # 阵营 p1, p2 
         
         # 默认属性
-        self.__Block = 2                                               # 地块站立的属性 hero 为2， monster 为 3
+        self.__Block = 2                                              # 地块站立的属性 hero 为2， monster 为 3
+        
     
     def dict(self):
         fields =  ["HeroID",      "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "MagicalAtk",
-                   "MagicalDef",  "Velocity",       "position", "AtkType", "AtkDistance",  "AtkDistanceType"]
+                   "MagicalDef",  "Velocity",       "position", "AtkType", "AtkDistance",  "AtkDistanceType", "camp"]
         return {_:self.__getattribute__(_) for _ in fields}
-        
+
+    def hero_or_monster(self):
+        "HERO or MONSER"
+        return self.__class__.__name__.upper()
+    
+    def is_hero(self):
+        return True
+
     @property    
     def HeroID(self):
         return self.__HeroID
@@ -127,6 +137,14 @@ class HeroBase(): # hero 基础数据
     @property
     def position(self):
         return self.__position
+    
+    @property
+    def camp(self):
+        return self.__camp
+    
+    def set_camp(self, nc):
+        self.__camp = nc
+        return self
     
     @property
     def x(self):

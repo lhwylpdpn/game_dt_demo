@@ -8,7 +8,7 @@ import pandas as pd
 import copy
 import numpy as np
 import itertools
-from .land import Land
+from land import Land
 
 
 class Map(): # 地图
@@ -19,6 +19,15 @@ class Map(): # 地图
         self._y = y
         self._z = z
         self.map = np.zeros((self._x, self._y, self._z), dtype=np.object)
+    
+    @staticmethod
+    def build_map(origin_map_data):  # 返回加载地块的MAP对象
+        map = Map(*Map.find_map_size(origin_map_data))
+        for each in origin_map_data:
+            position = each.get("position")
+            land = Land(**each)
+            map.load_land(*position, land)
+        return map
 
     @property
     def x(self):
@@ -116,3 +125,13 @@ class Map(): # 地图
     def load_land(self,x,y,z, land): # 加载地块
         self.map[x,y,z] = land
         return self
+    
+    @staticmethod
+    def find_map_size(origin_map_data):
+        postion_list = []
+        for each in origin_map_data:
+            postion_list.append(each.get('position'))
+        df = pd.DataFrame(postion_list)
+        x, y, z = list(df.max())
+        print("map size:", x+1, z+1, y+1)
+        return x+1, y+1, z+1 

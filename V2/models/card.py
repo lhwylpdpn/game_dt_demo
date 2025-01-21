@@ -55,7 +55,20 @@ class CardBase():
     def Param(self):
         return self.__Param 
     
+
 class Card(CardBase):
+
     def __init__(self, **kwargs):
-        super(CardBase, self).__init__(**kwargs)
-        self.__cardEffect = None                  # 卡牌 的效果
+        super(Card, self).__init__(**kwargs)
+        self.__effects = {}                  # 卡牌 的效果
+    
+    @property
+    def effects(self):
+        return self.__effects
+    
+    def add_effect(self, effect):
+        self.effects[effect.EffectID] = effect
+        return self
+    
+    def get_effect(self, effect_id):
+        return self.effects.get(effect_id, None)

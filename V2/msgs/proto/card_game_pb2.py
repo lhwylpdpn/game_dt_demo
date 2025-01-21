@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\"0\n\x06Player\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\x13\n\x0bplayer_name\x18\x02 \x01(\t\"X\n\x06Target\x12\x11\n\ttarget_id\x18\x01 \x01(\t\x12\x11\n\trelease_x\x18\x02 \x01(\x02\x12\x11\n\trelease_y\x18\x03 \x01(\x02\x12\x15\n\rrelease_range\x18\x04 \x01(\x02\"\x9a\x01\n\x10ReadyGameRequest\x12\x0e\n\x06map_id\x18\x01 \x01(\x05\x12\x11\n\tplayer_id\x18\x02 \x01(\x05\x12&\n\x06heroes\x18\x03 \x03(\x0b\x32\x16.ReadyGameRequest.Hero\x1a;\n\x04Hero\x12\x12\n\nhero_sn_id\x18\x01 \x01(\x05\x12\x10\n\x08position\x18\x02 \x03(\t\x12\r\n\x05\x63\x61rds\x18\x03 \x03(\t\"G\n\x11ReadyGameResponse\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\x11\n\tplayer_id\x18\x02 \x01(\x05\x12\x0e\n\x06result\x18\x03 \x01(\x08\"\x86\x01\n\x10StartGameRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12.\n\x06\x63hange\x18\x02 \x03(\x0b\x32\x1e.StartGameRequest.PlayerChange\x1a\x31\n\x0cPlayerChange\x12\x11\n\tplayer_id\x18\x01 \x01(\x05\x12\x0e\n\x06\x63hange\x18\x02 \x01(\t\"4\n\x11StartGameResponse\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\"\x81\x02\n\x0fPlayCardRequest\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\x11\n\tplayer_id\x18\x02 \x01(\x05\x12\r\n\x05round\x18\x03 \x01(\x05\x12\'\n\x06\x63hange\x18\x04 \x03(\x0b\x32\x17.PlayCardRequest.Change\x1a\x35\n\x06\x43hange\x12+\n\x06\x63hange\x18\x01 \x01(\x0b\x32\x1b.PlayCardRequest.CardChange\x1a[\n\nCardChange\x12\x12\n\ncard_sn_id\x18\x01 \x01(\x05\x12\x18\n\x10release_position\x18\x02 \x03(\x05\x12\x0e\n\x06target\x18\x03 \x01(\t\x12\x0f\n\x07hero_id\x18\x04 \x01(\x05\"3\n\x10PlayCardResponse\x12\x0f\n\x07room_id\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\"4\n\x0e\x45ndTurnRequest\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x11\n\tplayer_id\x18\x02 \x01(\t\"3\n\x0f\x45ndTurnResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"4\n\x0e\x45ndGameRequest\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x11\n\twinner_id\x18\x02 \x01(\t\"L\n\x0f\x45ndGameResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x17\n\x0f\x66inal_winner_id\x18\x03 \x01(\t2\x86\x02\n\x0f\x43\x61rdGameService\x12\x32\n\tReadyGame\x12\x11.ReadyGameRequest\x1a\x12.ReadyGameResponse\x12\x32\n\tStartGame\x12\x11.StartGameRequest\x1a\x12.StartGameResponse\x12/\n\x08PlayCard\x12\x10.PlayCardRequest\x1a\x11.PlayCardResponse\x12,\n\x07\x45ndTurn\x12\x0f.EndTurnRequest\x1a\x10.EndTurnResponse\x12,\n\x07\x45ndGame\x12\x0f.EndGameRequest\x1a\x10.EndGameResponseb\x06proto3'
+  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\"0\n\x06Player\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\x13\n\x0bplayer_name\x18\x02 \x01(\t\"X\n\x06Target\x12\x11\n\ttarget_id\x18\x01 \x01(\t\x12\x11\n\trelease_x\x18\x02 \x01(\x02\x12\x11\n\trelease_y\x18\x03 \x01(\x02\x12\x15\n\rrelease_range\x18\x04 \x01(\x02\"\xa9\x01\n\x10ReadyGameRequest\x12\r\n\x05msgid\x18\x01 \x01(\x05\x12\r\n\x05mapId\x18\x02 \x01(\x05\x12\x10\n\x08playerId\x18\x03 \x01(\x05\x12&\n\x06heroes\x18\x04 \x03(\x0b\x32\x16.ReadyGameRequest.Hero\x1a=\n\x04Hero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x05\x12\x10\n\x08position\x18\x02 \x03(\t\x12\r\n\x05\x63\x61rds\x18\x03 \x03(\t\"T\n\x11ReadyGameResponse\x12\r\n\x05msgid\x18\x01 \x01(\x05\x12\x0e\n\x06roomId\x18\x02 \x01(\x05\x12\x10\n\x08playerId\x18\x03 \x01(\x05\x12\x0e\n\x06result\x18\x04 \x01(\x08\"\x93\x01\n\x10StartGameRequest\x12\r\n\x05msgid\x18\x01 \x01(\x05\x12\x0e\n\x06roomId\x18\x02 \x01(\x05\x12.\n\x06\x63hange\x18\x03 \x03(\x0b\x32\x1e.StartGameRequest.PlayerChange\x1a\x30\n\x0cPlayerChange\x12\x10\n\x08playerId\x18\x01 \x01(\x05\x12\x0e\n\x06\x63hange\x18\x02 \x01(\t\"B\n\x11StartGameResponse\x12\r\n\x05msgid\x18\x01 \x01(\x05\x12\x0e\n\x06roomId\x18\x02 \x01(\x05\x12\x0e\n\x06result\x18\x03 \x01(\x08\"\x86\x02\n\x0fPlayCardRequest\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x05\x12\r\n\x05round\x18\x03 \x01(\x05\x12\'\n\x06\x63hange\x18\x04 \x03(\x0b\x32\x17.PlayCardRequest.Change\x1a\x35\n\x06\x43hange\x12+\n\x06\x63hange\x18\x01 \x01(\x0b\x32\x1b.PlayCardRequest.CardChange\x1a\x62\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12\x18\n\x10release_position\x18\x02 \x03(\x05\x12\x0e\n\x06target\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x05\"2\n\x10PlayCardResponse\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\"4\n\x0e\x45ndTurnRequest\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x11\n\tplayer_id\x18\x02 \x01(\t\"3\n\x0f\x45ndTurnResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"4\n\x0e\x45ndGameRequest\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x11\n\twinner_id\x18\x02 \x01(\t\"L\n\x0f\x45ndGameResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x17\n\x0f\x66inal_winner_id\x18\x03 \x01(\t2\x86\x02\n\x0f\x43\x61rdGameService\x12\x32\n\tReadyGame\x12\x11.ReadyGameRequest\x1a\x12.ReadyGameResponse\x12\x32\n\tStartGame\x12\x11.StartGameRequest\x1a\x12.StartGameResponse\x12/\n\x08PlayCard\x12\x10.PlayCardRequest\x1a\x11.PlayCardResponse\x12,\n\x07\x45ndTurn\x12\x0f.EndTurnRequest\x1a\x10.EndTurnResponse\x12,\n\x07\x45ndGame\x12\x0f.EndGameRequest\x1a\x10.EndGameResponseb\x06proto3'
 )
 
 
@@ -126,7 +126,7 @@ _READYGAMEREQUEST_HERO = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='hero_sn_id', full_name='ReadyGameRequest.Hero.hero_sn_id', index=0,
+      name='heroUniqueId', full_name='ReadyGameRequest.Hero.heroUniqueId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -158,8 +158,8 @@ _READYGAMEREQUEST_HERO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=255,
-  serialized_end=314,
+  serialized_start=268,
+  serialized_end=329,
 )
 
 _READYGAMEREQUEST = _descriptor.Descriptor(
@@ -171,22 +171,29 @@ _READYGAMEREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='map_id', full_name='ReadyGameRequest.map_id', index=0,
+      name='msgid', full_name='ReadyGameRequest.msgid', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='player_id', full_name='ReadyGameRequest.player_id', index=1,
+      name='mapId', full_name='ReadyGameRequest.mapId', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='heroes', full_name='ReadyGameRequest.heroes', index=2,
-      number=3, type=11, cpp_type=10, label=3,
+      name='playerId', full_name='ReadyGameRequest.playerId', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='heroes', full_name='ReadyGameRequest.heroes', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -204,7 +211,7 @@ _READYGAMEREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=160,
-  serialized_end=314,
+  serialized_end=329,
 )
 
 
@@ -217,22 +224,29 @@ _READYGAMERESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='room_id', full_name='ReadyGameResponse.room_id', index=0,
+      name='msgid', full_name='ReadyGameResponse.msgid', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='player_id', full_name='ReadyGameResponse.player_id', index=1,
+      name='roomId', full_name='ReadyGameResponse.roomId', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='ReadyGameResponse.result', index=2,
-      number=3, type=8, cpp_type=7, label=1,
+      name='playerId', full_name='ReadyGameResponse.playerId', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='result', full_name='ReadyGameResponse.result', index=3,
+      number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -249,8 +263,8 @@ _READYGAMERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=316,
-  serialized_end=387,
+  serialized_start=331,
+  serialized_end=415,
 )
 
 
@@ -263,7 +277,7 @@ _STARTGAMEREQUEST_PLAYERCHANGE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='player_id', full_name='StartGameRequest.PlayerChange.player_id', index=0,
+      name='playerId', full_name='StartGameRequest.PlayerChange.playerId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -288,8 +302,8 @@ _STARTGAMEREQUEST_PLAYERCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=475,
-  serialized_end=524,
+  serialized_start=517,
+  serialized_end=565,
 )
 
 _STARTGAMEREQUEST = _descriptor.Descriptor(
@@ -301,15 +315,22 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='room_id', full_name='StartGameRequest.room_id', index=0,
+      name='msgid', full_name='StartGameRequest.msgid', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='change', full_name='StartGameRequest.change', index=1,
-      number=2, type=11, cpp_type=10, label=3,
+      name='roomId', full_name='StartGameRequest.roomId', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='change', full_name='StartGameRequest.change', index=2,
+      number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -326,8 +347,8 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=390,
-  serialized_end=524,
+  serialized_start=418,
+  serialized_end=565,
 )
 
 
@@ -340,15 +361,22 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='room_id', full_name='StartGameResponse.room_id', index=0,
+      name='msgid', full_name='StartGameResponse.msgid', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='StartGameResponse.result', index=1,
-      number=2, type=8, cpp_type=7, label=1,
+      name='roomId', full_name='StartGameResponse.roomId', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='result', full_name='StartGameResponse.result', index=2,
+      number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -365,8 +393,8 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=526,
-  serialized_end=578,
+  serialized_start=567,
+  serialized_end=633,
 )
 
 
@@ -397,8 +425,8 @@ _PLAYCARDREQUEST_CHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=692,
-  serialized_end=745,
+  serialized_start=745,
+  serialized_end=798,
 )
 
 _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
@@ -410,7 +438,7 @@ _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='card_sn_id', full_name='PlayCardRequest.CardChange.card_sn_id', index=0,
+      name='cardUniqueId', full_name='PlayCardRequest.CardChange.cardUniqueId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -431,7 +459,7 @@ _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='hero_id', full_name='PlayCardRequest.CardChange.hero_id', index=3,
+      name='heroUniqueId', full_name='PlayCardRequest.CardChange.heroUniqueId', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -449,8 +477,8 @@ _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=747,
-  serialized_end=838,
+  serialized_start=800,
+  serialized_end=898,
 )
 
 _PLAYCARDREQUEST = _descriptor.Descriptor(
@@ -462,14 +490,14 @@ _PLAYCARDREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='room_id', full_name='PlayCardRequest.room_id', index=0,
+      name='roomId', full_name='PlayCardRequest.roomId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='player_id', full_name='PlayCardRequest.player_id', index=1,
+      name='playerId', full_name='PlayCardRequest.playerId', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -501,8 +529,8 @@ _PLAYCARDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=581,
-  serialized_end=838,
+  serialized_start=636,
+  serialized_end=898,
 )
 
 
@@ -515,7 +543,7 @@ _PLAYCARDRESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='room_id', full_name='PlayCardResponse.room_id', index=0,
+      name='roomId', full_name='PlayCardResponse.roomId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -540,8 +568,8 @@ _PLAYCARDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=840,
-  serialized_end=891,
+  serialized_start=900,
+  serialized_end=950,
 )
 
 
@@ -579,8 +607,8 @@ _ENDTURNREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=893,
-  serialized_end=945,
+  serialized_start=952,
+  serialized_end=1004,
 )
 
 
@@ -618,8 +646,8 @@ _ENDTURNRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=947,
-  serialized_end=998,
+  serialized_start=1006,
+  serialized_end=1057,
 )
 
 
@@ -657,8 +685,8 @@ _ENDGAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1000,
-  serialized_end=1052,
+  serialized_start=1059,
+  serialized_end=1111,
 )
 
 
@@ -703,8 +731,8 @@ _ENDGAMERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1054,
-  serialized_end=1130,
+  serialized_start=1113,
+  serialized_end=1189,
 )
 
 _READYGAMEREQUEST_HERO.containing_type = _READYGAMEREQUEST
@@ -854,8 +882,8 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1133,
-  serialized_end=1395,
+  serialized_start=1192,
+  serialized_end=1454,
   methods=[
   _descriptor.MethodDescriptor(
     name='ReadyGame',

@@ -4,7 +4,7 @@
     "Priority": 1,
     "TriggerTime": 1,
     "Target": [
-      1
+      2
     ],
     "BuffType": 0,
     "BuffDuration": 0,
@@ -15,7 +15,7 @@
     "Priority": 1,
     "TriggerTime": 1,
     "Target": [
-      1
+      2
     ],
     "BuffType": 0,
     "BuffDuration": 0,
@@ -38,7 +38,7 @@
     "Priority": 1,
     "TriggerTime": 1,
     "Target": [
-      1
+      2
     ],
     "BuffType": 0,
     "BuffDuration": 0,
@@ -61,7 +61,7 @@
     "Priority": 2,
     "TriggerTime": 2,
     "Target": [
-      1
+      2
     ],
     "BuffType": 2,
     "BuffDuration": 1,

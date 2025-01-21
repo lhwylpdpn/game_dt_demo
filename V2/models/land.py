@@ -52,7 +52,7 @@ class LandBase(): # 地块基础数据
 class Land(LandBase):
     
     def __init__(self, **kwargs):
-        super(Land, self).__init__(kwargs)
+        super(Land, self).__init__(**kwargs)
     
     def dict(self):
         dict_data = super().dict()
