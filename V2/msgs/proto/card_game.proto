@@ -7,21 +7,20 @@ syntax = "proto3";
 message ReadyGameRequest {
     int32 msgId = 1;
     int32 mapId = 2;        // 地图 ID
-    int32 playerId = 3;     // 玩家 ID
-    repeated Hero heroes = 4; // 英雄列表
+    repeated Hero heroes = 3; // 英雄列表
 
     message Hero {
-        int32 heroUniqueId = 1;        // 英雄唯一 ID
-        repeated string position = 2; // 英雄位置
-        repeated string cards = 3;    // 英雄卡牌列表
+        repeated int32 position = 1; // 英雄位置
+        repeated int32 cardId = 2;    // 英雄卡牌列表
+        int32 heroId = 3;        // 英雄唯一 ID
+
     }
 }
 
 message ReadyGameResponse {
     int32 msgId = 1;
     int32 roomId = 2;    // 房间 ID
-    int32 playerId = 3;  // 玩家 ID
-    bool result = 4;      // 游戏结果（成功与否）
+    bool result = 3;      // 游戏结果（成功与否）
 }
 
 
@@ -32,11 +31,13 @@ message ReadyGameResponse {
 message StartGameRequest {
     int32 msgId = 1;
     int32 roomId = 2;  // 房间 ID
-    repeated PlayerChange change = 3;  // 玩家状态变化列表
 
-    message PlayerChange {
-        int32 playerId = 1;  // 玩家 ID
-        string change = 2;     // 状态变化描述，直接使用字符串
+    repeated heroChange change = 3;  // 玩家状态变化列表
+
+    message heroChange {
+     int32 heroUniqueId = 1;        // 英雄唯一 ID
+     int32 heroId = 2;        // 英雄唯一 ID
+     PbVector3 position = 3;     // 状态变化描述，直接使用字符串
     }
 }
 
@@ -53,9 +54,8 @@ message StartGameResponse {
 message PlayCardRequest {
     int32 msgId = 1;
     int32 roomId = 2;        // 房间 ID
-    int32 playerId = 3;      // 玩家 ID
-    int32 round = 4;          // 回合数
-    repeated Change change = 5;  // 变化列表
+    int32 round = 3;          // 回合数
+    repeated Change change = 4;  // 变化列表
 
     message Change {
         CardChange change = 1;      // 卡牌变化
@@ -63,9 +63,11 @@ message PlayCardRequest {
 
     message CardChange {
         int32 cardUniqueId = 1;       // 卡牌唯一 ID
-        repeated int32 release_position = 2; // 释放位置 (x, y, z)
-        string target = 3;          // 目标：hero 或 point
+        PbVector3 releasePosition = 2; // 释放位置 (x, y, z)
+        string targetType = 3;          // 目标：hero 或 point
         int32 heroUniqueId = 4;          // 英雄 ID
+        int32 cardId = 5;       // 卡牌ID
+
     }
 }
 
@@ -75,6 +77,79 @@ message PlayCardResponse {
     bool result = 3;      // 游戏回合结果（成功与否）
 }
 
+
+/**
+ * 4. SC -> action
+ */
+
+message BattleActionBase {
+    int64 heroUniqueId = 1; // 英雄唯一ID
+    oneof action {
+        MoveAction moveAction = 2;
+        SkillAction skillAction = 3;
+    }
+}
+
+message MoveAction {
+    repeated PbVector3 movePath = 1; // 移动路径坐标
+    repeated ChangeHero targetHeroList = 2; // 目标英雄集合
+}
+
+message SkillAction {
+    int32 skillId = 1;  // 技能ID
+    repeated ChangeHero targetHeroList = 2; // 目标英雄集合
+}
+
+message ChangeHero {
+    int64 heroUniqueId = 1; // 目标唯一ID
+    ChangeStateType type = 2; // 改变状态类型
+    repeated ChangeState changeStateList = 3; // 改变状态集合
+}
+
+enum ChangeStateType {
+    Damage = 0;   // 伤害
+    Heal = 1;     // 治疗
+}
+
+message ChangeState {
+    oneof state {
+        int32 hp = 1; // 增减血量
+        PbVector3 pushPosition = 2; // 击退坐标
+        BuffState buffState = 3; // 增减buff
+    }
+}
+
+message BuffState {
+    int32 buffId = 1;
+    int32 round = 2; // 增减回合数
+}
+
+message PbVector3 {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+// ActionRequest 消息
+message ActionRequest {
+    int32 roomId = 1;      // 房间 ID
+    int32 playerId = 2;    // 玩家 ID
+    int32 actionId = 3;    // 动作帧顺序
+    int32 level = 4;        // 阶段
+    int32 round = 5;        // 回合
+    bool roundStatus = 6; // 回合状态
+    bool gameOver = 7;     // 游戏是否结束
+    int32 winner = 8;       // 胜利者玩家 ID
+    BattleActionBase battleAction = 9; // BattleActionBase 消息
+}
+
+message ActionResponse {
+    int32 room_id = 1;  // 房间 ID
+    int32 round = 2;    // 回合
+    bool result = 3;    // 游戏结果（成功与否）
+}
+
+
 service CardGameService {
   // 1. 玩家准备就绪
   rpc ReadyGame(ReadyGameRequest) returns (ReadyGameResponse);
@@ -82,8 +157,11 @@ service CardGameService {
   // 2. 开始游戏
   rpc StartGame(StartGameRequest) returns (StartGameResponse);
 
-    // 3. 玩家出牌
+  // 3. 玩家出牌
   rpc PlayCard(PlayCardRequest) returns (PlayCardResponse);
+
+  // 4. 玩家行动
+  rpc PlayerAction(ActionRequest) returns (ActionResponse);
 
 }
 
