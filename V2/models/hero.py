@@ -295,13 +295,13 @@ class Hero(HeroBase): # 逻辑相关处理
         # TODO add new attr
         return dict_data
     
-    def increase_hp(self, delta_hp): # 增加血量
+    def increase_Hp(self, delta_hp): # 增加血量
         latest_hp = self.__Hp + delta_hp
         self.__Hp = self.HpBase if latest_hp >= self.HpBase else latest_hp
         return self
     
-    def decrease_hp(self, delta_hp): # 减少血量
-        latest_hp = self.__hp - delta_hp
+    def decrease_Hp(self, delta_hp): # 减少血量
+        latest_hp = self.__Hp - delta_hp
         self.__Hp = 0 if latest_hp <= 0 else latest_hp
         return self
     
@@ -319,4 +319,4 @@ class Hero(HeroBase): # 逻辑相关处理
         pass
     
     def be_hurt(self):
-        self.decrease_hp()
+        self.decrease_Hp()
