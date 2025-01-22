@@ -18,7 +18,7 @@ message ReadyGameRequest {
 }
 
 message ReadyGameResponse {
-    optional int32 msgId = 1001;
+    optional int32 msgId = 1002;
     int32 roomId = 1;    // 房间 ID
     bool result = 2;      // 游戏结果（成功与否）
 }
@@ -29,7 +29,7 @@ message ReadyGameResponse {
 */
 
 message StartGameRequest {
-    optional int32 msgId = 1002;
+    optional int32 msgId = 1003;
     int32 roomId = 1;  // 房间 ID
     repeated heroChange change = 2;  // 玩家状态变化列表
     message heroChange {
@@ -40,7 +40,7 @@ message StartGameRequest {
 }
 
 message StartGameResponse {
-    optional int32 msgId = 1002;
+    optional int32 msgId = 1004;
     int32 roomId = 1;   // 房间 ID
     bool result = 2;     // 游戏开始结果
 }
@@ -48,12 +48,12 @@ message StartGameResponse {
 /*  * 3. CS -> start round */
 
 message StartRoundRequest {
-    optional int32 msgId = 1003;
+    optional int32 msgId = 1005;
     int32 roomId = 1;        // 房间 ID
     int32 round = 2;
 }
 message StartRoundResponse {
-    optional int32 msgId = 1003;
+    optional int32 msgId = 1006;
     bool result = 1;
     int32 round = 2;
     int32 roomId = 3;        // 房间 ID
@@ -66,7 +66,7 @@ message StartRoundResponse {
  */
 
 message PlayCardRequest {
-    optional int32 msgId = 1004;
+    optional int32 msgId = 1007;
     int32 roomId = 1;        // 房间 ID
     int32 round = 2;          // 回合数
     repeated CardChange change = 4;  // 变化列表
@@ -82,7 +82,7 @@ message PlayCardRequest {
 }
 
 message PlayCardResponse {
-    optional int32 msgId = 1004;
+    optional int32 msgId = 1008;
     int32 roomId = 1;    // 房间 ID
     bool result = 2;      // 游戏回合结果（成功与否）
 }
@@ -142,7 +142,7 @@ message PbVector3 {
 
 // ActionRequest 消息
 message ActionRequest {
-    optional int32 msgId = 1005;
+    optional int32 msgId = 1009;
     int32 roomId = 1;      // 房间 ID
     int32 playerId = 2;    // 玩家 ID
     int32 actionId = 3;    // 动作帧顺序
@@ -155,7 +155,7 @@ message ActionRequest {
 }
 
 message ActionResponse {
-    optional int32 msgId = 1005;
+    optional int32 msgId = 1010;
     int32 roomId = 1;  // 房间 ID
     int32 round = 2;    // 回合
     bool result = 3;    // 游戏结果（成功与否）
