@@ -5,12 +5,11 @@ syntax = "proto3";
 */
 
 message ReadyGameRequest {
-    int32 msgId = 1;
-    int32 mapId = 2;        // 地图 ID
-    repeated Hero heroes = 3; // 英雄列表
+    int32 mapId = 1;        // 地图 ID
+    repeated Hero heroes = 2; // 英雄列表
 
     message Hero {
-        repeated int32 position = 1; // 英雄位置
+        int32 position = 1; // 英雄位置
         repeated int32 cardId = 2;    // 英雄卡牌列表
         int32 heroId = 3;        // 英雄唯一 ID
 
@@ -18,9 +17,8 @@ message ReadyGameRequest {
 }
 
 message ReadyGameResponse {
-    int32 msgId = 1;
-    int32 roomId = 2;    // 房间 ID
-    bool result = 3;      // 游戏结果（成功与否）
+    int32 roomId = 1;    // 房间 ID
+    bool result = 2;      // 游戏结果（成功与否）
 }
 
 
@@ -29,11 +27,8 @@ message ReadyGameResponse {
 */
 
 message StartGameRequest {
-    int32 msgId = 1;
-    int32 roomId = 2;  // 房间 ID
-
-    repeated heroChange change = 3;  // 玩家状态变化列表
-
+    int32 roomId = 1;  // 房间 ID
+    repeated heroChange change = 2;  // 玩家状态变化列表
     message heroChange {
      int32 heroUniqueId = 1;        // 英雄唯一 ID
      int32 heroId = 2;        // 英雄唯一 ID
@@ -42,24 +37,32 @@ message StartGameRequest {
 }
 
 message StartGameResponse {
-    int32 msgId = 1;
-    int32 roomId = 2;   // 房间 ID
-    bool result = 3;     // 游戏开始结果
+    int32 roomId = 1;   // 房间 ID
+    bool result = 2;     // 游戏开始结果
+}
+
+/*  * 3. CS -> start round */
+
+message StartRoundRequest {
+    int32 roomId = 1;        // 房间 ID
+    int32 round = 2;
+}
+message StartRoundResponse {
+    bool result = 1;
+    int32 round = 2;
+    int32 roomId = 3;        // 房间 ID
+
+
 }
 
 /**
- * 3. CS -> play_card
+ * 4. CS -> play_card
  */
 
 message PlayCardRequest {
-    int32 msgId = 1;
-    int32 roomId = 2;        // 房间 ID
-    int32 round = 3;          // 回合数
-    repeated Change change = 4;  // 变化列表
-
-    message Change {
-        CardChange change = 1;      // 卡牌变化
-    }
+    int32 roomId = 1;        // 房间 ID
+    int32 round = 2;          // 回合数
+    repeated CardChange change = 4;  // 变化列表
 
     message CardChange {
         int32 cardUniqueId = 1;       // 卡牌唯一 ID
@@ -72,14 +75,13 @@ message PlayCardRequest {
 }
 
 message PlayCardResponse {
-    int32 msgId = 1;
-    int32 roomId = 2;    // 房间 ID
-    bool result = 3;      // 游戏回合结果（成功与否）
+    int32 roomId = 1;    // 房间 ID
+    bool result = 2;      // 游戏回合结果（成功与否）
 }
 
 
 /**
- * 4. SC -> action
+ * 5. SC -> action
  */
 
 message BattleActionBase {
@@ -157,10 +159,13 @@ service CardGameService {
   // 2. 开始游戏
   rpc StartGame(StartGameRequest) returns (StartGameResponse);
 
-  // 3. 玩家出牌
+  // 3. 开始回合
+  rpc StartRound(StartRoundRequest) returns (StartRoundResponse);
+
+  // 4. 玩家出牌
   rpc PlayCard(PlayCardRequest) returns (PlayCardResponse);
 
-  // 4. 玩家行动
+  // 5. 玩家行动
   rpc PlayerAction(ActionRequest) returns (ActionResponse);
 
 }
