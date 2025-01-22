@@ -25,15 +25,15 @@ class Player():
         if self.room.left_player is None:
             self.room.left_player = self
             self.set_direction = "LocationLeft"
-            self.set_camp = "p1"
+            self.set_camp("p1")
         else:
             self.room.right_player = self
             self.set_direction = "LocationRight"
-            self.set_camp = "p2"
+            self.set_camp("p2")
         return self
     
     def match_player(self, current_avaliable_rooms=[], map_id=1): # 当前服务器的房间状态
-        if not current_rooms:
+        if not current_avaliable_rooms:
             room = Room.build_room()
         else:
             # TODO select room
@@ -70,6 +70,7 @@ class Player():
 
     def set_camp(self, value):
         self.__camp = value
+        return self
     
 
     
