@@ -13,29 +13,29 @@ class HeroBase(): # hero 基础数据
         self.__HeroID = int(kwargs.get("HeroID", None))
         self.__BaseClassID = kwargs.get("BaseClassID", None)         # 职业
         self.__AvaliableCards = kwargs.get("AvaliableCards", None)   # 初始卡牌
-        self.__HPBase = kwargs.get("HP", None)                       # 生命-初始
-        self.__HP = kwargs.get("HP", None)                           # 生命
-        self.__DEFBase = kwargs.get("DEF", None)                     # 防御-初始
-        self.__DEF = kwargs.get("DEF", None)                         # 防御
-        self.__MDEFBase = kwargs.get("MDEF", None)                   # 魔法防御-初始
-        self.__MDEF = kwargs.get("MDEF", None)                       # 魔法防御
-        self.__SPDBase = kwargs.get("SPD", None)                     # 速度-初始   行动力
-        self.__SPD = kwargs.get("SPD", None)                         # 速度-初始   行动力
-        self.__MOVE = kwargs.get("MOVE", None)       # 行动步数
-        self.__JUMP = kwargs.get("JUMP", None)           # 跳跃的高度
+        self.__HpBase = kwargs.get("Hp", None)                       # 生命-初始
+        self.__Hp = kwargs.get("Hp", None)                           # 生命
+        self.__DefBase = kwargs.get("Def", None)                     # 防御-初始
+        self.__Def = kwargs.get("Def", None)                         # 防御
+        self.__DefMagicBase = kwargs.get("DefMagic", None)                   # 魔法防御-初始
+        self.__DefMagic = kwargs.get("DefMagic", None)                       # 魔法防御
+        self.__SpeedBase = kwargs.get("Speed", None)                     # 速度-初始   行动力
+        self.__Speed = kwargs.get("Speed", None)                         # 速度-初始   行动力
+        self.__MoveDistance = kwargs.get("MoveDistance", None)       # 行动步数
+        self.__JumpHeight = kwargs.get("JumpHeight", None)           # 跳跃的高度
         
         # 普攻技能相关
-        self.__ATKBase = kwargs.get("ATK", None)                     # 攻击-初始
-        self.__ATK = kwargs.get("ATK", None)                         # 攻击
-        self.__ATKType = kwargs.get("ATKType", None)                 # 攻击属性 1：物理 2：魔法
-        self.__ATKDistance = kwargs.get("ATKDistance", None)         # 攻击距离 
-        self.__ATKDistanceType = kwargs.get('ATKDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
+        self.__AtkBase = kwargs.get("Atk", None)                     # 攻击-初始
+        self.__Atk = kwargs.get("Atk", None)                         # 攻击
+        self.__AtkType = kwargs.get("AtkType", None)                 # 攻击属性 1：物理 2：魔法
+        self.__AtkDistance = kwargs.get("AtkDistance", None)         # 攻击距离 
+        self.__AtkDistanceType = kwargs.get('AtkDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
         # magic 攻击相关
-        self.__MATKBase = kwargs.get("MATK", None)                    # 攻击-初始
-        self.__MATK = kwargs.get("MATK", None)                         # 攻击
-        self.__MATKType = kwargs.get("MATKType", None)                 # 攻击属性 1：物理 2：魔法
-        self.__MATKDistance = kwargs.get("MATKDistance", None)         # 攻击距离 
-        self.__MATKDistanceType = kwargs.get('MATKDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
+        self.__AtkMagicBase = kwargs.get("AtkMagic", None)                     # 攻击-初始
+        self.__AtkMagic = kwargs.get("AtkMagic", None)                         # 攻击
+        self.__AtkMagicType = kwargs.get("AtkMagicType", None)                 # 攻击属性 1：物理 2：魔法
+        self.__AtkMagicDistance = kwargs.get("AtkMagicDistance", None)         # 攻击距离 
+        self.__AtkMagicDistanceType = kwargs.get('AtkMagicDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
 
         self.__position = None                                        #  坐标
         self.__init_position = kwargs.get("init_position")            #  初始化时候的相对位置
@@ -47,9 +47,9 @@ class HeroBase(): # hero 基础数据
         
     
     def dict(self):
-        fields =  ["HeroID", "MOVE", "JUMP", "HP", "ATK",  "DEF", "MDEF", "MagicalATK",
-                   "MagicalDEF",  "SPD",       "position", "ATKType", "ATKDistance",  "ATKDistanceType", 
-                   "MATK", "MATKType", "MATKDistance",  "MATKDistanceType", 
+        fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "MagicalAtk",
+                   "MagicalDef",  "Speed",       "position", "AtkType", "AtkDistance",  "AtkDistanceType", 
+                   "AtkMagic", "AtkMagicType", "AtkMagicDistance",  "AtkMagicDistanceType", 
                    "camp"]
         return {_:self.__getattribute__(_) for _ in fields}
 
@@ -69,112 +69,112 @@ class HeroBase(): # hero 基础数据
         return self.__BaseClassID
     
     @property
-    def MOVE(self):
-        return self.__MOVE
+    def MoveDistance(self):
+        return self.__MoveDistance
     
     @property
-    def JUMP(self):
-        return self.__JUMP
+    def JumpHeight(self):
+        return self.__JumpHeight
     
     @property
-    def HP(self):
-        return self.__HP
+    def Hp(self):
+        return self.__Hp
     
-    def set_HP(self, v):
-        self.__HP = v
+    def set_Hp(self, v):
+        self.__Hp = v
         return self
     
     @property
-    def HPBase(self):
-        return self.__HPBase
+    def HpBase(self):
+        return self.__HpBase
     
     @property
-    def ATK(self):
-        return self.__ATK
+    def Atk(self):
+        return self.__Atk
     
-    def set_ATK(self, v):
-        self.__ATK = v
+    def set_Atk(self, v):
+        self.__Atk = v
         return self
     
     @property
-    def ATKBase(self):
-        return self.__ATKBase
+    def AtkBase(self):
+        return self.__AtkBase
     
     @property
-    def ATKType(self):
-        return self.__ATKType
+    def AtkType(self):
+        return self.__AtkType
     
     @property
-    def ATKDistance(self):
-        return self.__ATKDistance
+    def AtkDistance(self):
+        return self.__AtkDistance
     
     @property
-    def ATKDistanceType(self):
-        return self.__ATKDistanceType
+    def AtkDistanceType(self):
+        return self.__AtkDistanceType
     
     @property
-    def MATK(self):
-        return self.__MATK
+    def AtkMagic(self):
+        return self.__AtkMagic
     
-    def set_MATK(self, v):
-        self.__MATK = v
+    def set_AtkMagic(self, v):
+        self.__AtkMagic = v
         return self
     
     @property
-    def MATKBase(self):
-        return self.__MATKBase
+    def AtkMagicBase(self):
+        return self.__AtkMagicBase
     
     @property
-    def MATKType(self):
-        return self.__MATKType
+    def AtkMagicType(self):
+        return self.__AtkMagicType
     
     @property
-    def MATKDistance(self):
-        return self.__MATKDistance
+    def AtkMagicDistance(self):
+        return self.__AtkMagicDistance
     
     @property
-    def MATKDistanceType(self):
-        return self.__MATKDistanceType
+    def AtkMagicDistanceType(self):
+        return self.__AtkMagicDistanceType
     
     @property
-    def DEF(self):
-        return self.__DEF
+    def Def(self):
+        return self.__Def
     
-    def set_DEF(self, v):
-        self.__DEF = v
+    def set_Def(self, v):
+        self.__Def = v
         return self
     
     @property
-    def MDEF(self):
-        return self.__MDEF
+    def DefMagic(self):
+        return self.__DefMagic
     
-    def set_MDEF(self, v):
-        self.__MDEF = v
+    def set_DefMagic(self, v):
+        self.__DefMagic = v
         return self
     
     @property
-    def DEFBase(self):
-        return self.__DEFBase
+    def DefBase(self):
+        return self.__DefBase
     
     @property
-    def MDEFBase(self):
-        return self.__MDEFBase
+    def DefMagicBase(self):
+        return self.__DefMagicBase
     
     @property
     def Block(self):
         return self.__Block
     
     @property
-    def SPD(self):
-        return self.__SPD
+    def Speed(self):
+        return self.__Speed
     
-    def set_SPD(self, v):
-        self.__SPD = v
+    def set_Speed(self, v):
+        self.__Speed = v
         return self
     
     @property
-    def SPDBase(self):
-        return self.__SPDBase
+    def SpeedBase(self):
+        return self.__SpeedBase
     
     @property
     def position(self):
@@ -221,7 +221,7 @@ class HeroBase(): # hero 基础数据
         return self.__init_position
 
     def is_death(self):         # 是不是死亡了
-        return self.__HP > 0
+        return self.__Hp > 0
 
     def is_alive(self):         # 是不是还活着
         return not self.is_death()
@@ -296,13 +296,13 @@ class Hero(HeroBase): # 逻辑相关处理
         return dict_data
     
     def increase_hp(self, delta_hp): # 增加血量
-        latest_hp = self.__HP + delta_hp
-        self.__HP = self.HPBase if latest_hp >= self.HPBase else latest_hp
+        latest_hp = self.__Hp + delta_hp
+        self.__Hp = self.HpBase if latest_hp >= self.HpBase else latest_hp
         return self
     
     def decrease_hp(self, delta_hp): # 减少血量
         latest_hp = self.__hp - delta_hp
-        self.__HP = 0 if latest_hp <= 0 else latest_hp
+        self.__Hp = 0 if latest_hp <= 0 else latest_hp
         return self
     
     def onfocus(self, **kwargs): # 被选中
