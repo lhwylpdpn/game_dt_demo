@@ -30,12 +30,6 @@ class HeroBase(): # hero 基础数据
         self.__AtkType = kwargs.get("AtkType", None)                 # 攻击属性 1：物理 2：魔法
         self.__AtkDistance = kwargs.get("AtkDistance", None)         # 攻击距离 
         self.__AtkDistanceType = kwargs.get('AtkDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
-        # magic 攻击相关
-        self.__AtkMagicBase = kwargs.get("AtkMagic", None)                     # 攻击-初始
-        self.__AtkMagic = kwargs.get("AtkMagic", None)                         # 攻击
-        self.__AtkMagicType = kwargs.get("AtkMagicType", None)                 # 攻击属性 1：物理 2：魔法
-        self.__AtkMagicDistance = kwargs.get("AtkMagicDistance", None)         # 攻击距离 
-        self.__AtkMagicDistanceType = kwargs.get('AtkMagicDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
 
         self.__position = None                                        #  坐标
         self.__init_position = kwargs.get("init_position")            #  初始化时候的相对位置
@@ -47,10 +41,10 @@ class HeroBase(): # hero 基础数据
         
     
     def dict(self):
-        fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "MagicalAtk",
-                   "MagicalDef",  "Speed",       "position", "AtkType", "AtkDistance",  "AtkDistanceType", 
-                   "AtkMagic", "AtkMagicType", "AtkMagicDistance",  "AtkMagicDistanceType", 
-                   "camp"]
+        # fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "MagicalAtk",
+        #            "MagicalDef",  "Speed",       "position", "AtkType", "AtkDistance",  "AtkDistanceType", 
+        #            "camp"]
+        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
         return {_:self.__getattribute__(_) for _ in fields}
 
     def hero_or_monster(self):
@@ -111,30 +105,6 @@ class HeroBase(): # hero 基础数据
     @property
     def AtkDistanceType(self):
         return self.__AtkDistanceType
-    
-    @property
-    def AtkMagic(self):
-        return self.__AtkMagic
-    
-    def set_AtkMagic(self, v):
-        self.__AtkMagic = v
-        return self
-    
-    @property
-    def AtkMagicBase(self):
-        return self.__AtkMagicBase
-    
-    @property
-    def AtkMagicType(self):
-        return self.__AtkMagicType
-    
-    @property
-    def AtkMagicDistance(self):
-        return self.__AtkMagicDistance
-    
-    @property
-    def AtkMagicDistanceType(self):
-        return self.__AtkMagicDistanceType
     
     @property
     def Def(self):
@@ -288,6 +258,7 @@ class Hero(HeroBase): # 逻辑相关处理
     
     def __init__(self, **kwargs):
         super(Hero, self).__init__(**kwargs)
+        self.__unique_id = None
         # TODO add another attrs
 
     def dict(self):

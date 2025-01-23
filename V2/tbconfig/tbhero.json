@@ -21,7 +21,7 @@
     "MoveDistance": 2,
     "JumpHeight": 2,
     "Atk": 2,
-    "AtkMagic": 2,
+    "AtkType": 1,
     "AtkDistance": [
       0,
       1
@@ -50,7 +50,7 @@
     "MoveDistance": 3,
     "JumpHeight": 3,
     "Atk": 2,
-    "AtkMagic": 2,
+    "AtkType": 1,
     "AtkDistance": [
       1,
       3
@@ -79,7 +79,7 @@
     "MoveDistance": 3,
     "JumpHeight": 3,
     "Atk": 2,
-    "AtkMagic": 2,
+    "AtkType": 2,
     "AtkDistance": [
       0,
       2
@@ -108,7 +108,7 @@
     "MoveDistance": 3,
     "JumpHeight": 3,
     "Atk": 2,
-    "AtkMagic": 2,
+    "AtkType": 2,
     "AtkDistance": [
       0,
       2
@@ -137,7 +137,7 @@
     "MoveDistance": 3,
     "JumpHeight": 3,
     "Atk": 2,
-    "AtkMagic": 2,
+    "AtkType": 1,
     "AtkDistance": [
       0,
       1

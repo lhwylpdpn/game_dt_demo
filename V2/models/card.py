@@ -18,8 +18,9 @@ class CardBase():
         self.__Param = kwargs.get("Param", [])             # card effect 相关参数 ID|参数
                                    
     def dict(self):
-        fields = ["CardID", "Cost", "Type", "AtkTarget", 
-                  "AtkDistance", "HitRange", "HitRangeType", "Param"]
+        #fields = ["CardID", "Cost", "Type", "AtkTarget", 
+        #          "AtkDistance", "HitRange", "HitRangeType", "Param"]
+        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
         return {field:self.__getattribute__(field) for field in fields}
     
     ## attr
@@ -61,7 +62,15 @@ class Card(CardBase):
     def __init__(self, **kwargs):
         super(Card, self).__init__(**kwargs)
         self.__effects = {}                  # 卡牌 的效果
+        self.__unique_id = None
     
+    def create_unique_id(self):
+        self.__unique_id = None
+        return self
+    
+    def unique_id(self):
+        return self.__unique_id
+
     @property
     def effects(self):
         return self.__effects
@@ -72,3 +81,5 @@ class Card(CardBase):
     
     def get_effect(self, effect_id):
         return self.effects.get(effect_id, None)
+
+

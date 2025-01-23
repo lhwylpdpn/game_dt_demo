@@ -8,9 +8,9 @@ date: 2025-01-17
 import os
 import json
 import uuid
-from maps import Map
-from cardeffect import CardEffect
-from card import Card
+from .maps import Map
+from .cardeffect import CardEffect
+from .card import Card
 
 
 class Room():
@@ -33,7 +33,7 @@ class Room():
         
     @staticmethod
     def json_data_loader(file_name):
-        with open(os.path.join("../tbconfig/", file_name), 'r') as file:
+        with open(os.path.join("tbconfig/", file_name), 'r') as file:
             json_data = json.load(file)
         return json_data
     
@@ -65,7 +65,7 @@ class Room():
     def left_player(self):
         return self.__left_player
 
-    def set_player(self, pl):
+    def set_left_player(self, pl):
         self.__left_player = pl
         return self
     

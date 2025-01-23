@@ -8,7 +8,7 @@ import pandas as pd
 import copy
 import numpy as np
 import itertools
-from land import Land
+from .land import Land
 
 
 class Map(): # 地图

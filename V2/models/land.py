@@ -21,7 +21,8 @@ class LandBase(): # 地块基础数据
         self.__stand_object = None                                            # 地块上站立的对象
     
     def dict(self):
-        fields = ["sn", "Block", "Block_Base", "Selected", "position"]
+        #fields = ["sn", "Block", "Block_Base", "Selected", "position"]
+        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
         return {_:self.__getattribute__(_) for _ in fields}
     
     @property
