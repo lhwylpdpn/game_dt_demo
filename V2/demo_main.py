@@ -87,7 +87,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         response.roomId = 888
         response.result = True
         serialized_response = response.SerializeToString()
-        msg_id = 1001
+        msg_id = 1002
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
 
         self.sendMessage(response_message, isBinary=True)
@@ -104,7 +104,7 @@ class CardGameProtocol(WebSocketServerProtocol):
 
         serialized_response = response.SerializeToString()
 
-        msg_id = 2001
+        msg_id = 1004
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
@@ -116,7 +116,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         response.result = True
 
         serialized_response = response.SerializeToString()
-        msg_id = 3001
+        msg_id = 1008
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
@@ -128,7 +128,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         response.roomId = data.roomId
         serialized_response = response.SerializeToString()
 
-        msg_id = 4001
+        msg_id = 1006
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
@@ -152,7 +152,7 @@ class CardGameProtocol(WebSocketServerProtocol):
 
         serialized_response = response.SerializeToString()
 
-        msg_id = 5001
+        msg_id = 1010
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
