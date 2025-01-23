@@ -41,27 +41,15 @@ class CardGameProtocol(WebSocketServerProtocol):
                 ready_req.ParseFromString(data[12:])
                 self.handle_ready_game(player_id, ready_req)
 
-            elif msgId == 2001:
-                start_req = card_game_pb2.StartGameRequest()
-                start_req.ParseFromString(data[12:])
-                self.handle_start_game(player_id, start_req)
-
-
-            elif msgId == 3001:
-                play_card_req = card_game_pb2.PlayCardRequest()
-                play_card_req.ParseFromString(data[12:])
-                self.handle_play_card(player_id, play_card_req)
-
-
-            elif msgId == 4001:
+            elif msgId == 1005:
                 start_round_req = card_game_pb2.StartRoundRequest()
                 start_round_req.ParseFromString(data[12:])
                 self.handle_start_round(player_id, start_round_req)
 
-            elif msgId == 5001:
-                action_req = card_game_pb2.ActionRequest()
-                action_req.ParseFromString(data[12:])
-                self.handle_action_request(player_id, action_req)
+            elif msgId == 1007:
+                play_card_req = card_game_pb2.PlayCardRequest()
+                play_card_req.ParseFromString(data[12:])
+                self.handle_play_card(player_id, play_card_req)
 
             else:
                 print(f"Unknown msgId: {msgId}")
@@ -91,21 +79,32 @@ class CardGameProtocol(WebSocketServerProtocol):
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
 
         self.sendMessage(response_message, isBinary=True)
+        self.handle_start_game(player_id)
 
-    def handle_start_game(self, player_id, data):
-        print(f"StartGameRequest: roomId={data.roomId}")
 
-        for change in data.ownChange:
-            print(f"Hero {change.heroUniqueId} change to {change.position}, player_id: {player_id}")
+    def handle_start_game(self, player_id):
+        print(f"Sending StartGameRequest, playerId={player_id}")
 
-        response = card_game_pb2.StartGameResponse()
-        response.roomId = data.roomId
-        response.result = True
+        # 构造 StartGameRequest 消息
+        start_game_request = card_game_pb2.StartGameRequest()
+        start_game_request.roomId = 888
+        hero_changes = [
+            (101, "hero1_position"),
+            (102, "hero2_position")
+        ]
+        # 填充己方和敌方的 heroChange
+        for hero_unique_id, position in hero_changes:
+            hero_change = start_game_request.ownChange.add()
+            hero_change.heroUniqueId = hero_unique_id
+            hero_change.heroId = hero_unique_id
+            hero_change.position.x = 1
+            hero_change.position.y = 2
+            hero_change.position.z = 3
 
-        serialized_response = response.SerializeToString()
-
-        msg_id = 1004
-        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
+        # 发送消息
+        msg_id = 1003
+        serialized_request = start_game_request.SerializeToString()
+        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
         self.sendMessage(response_message, isBinary=True)
 
     def handle_play_card(self, player_id, data):
@@ -131,26 +130,30 @@ class CardGameProtocol(WebSocketServerProtocol):
         msg_id = 1006
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
+        self.handle_action_request(player_id)
 
-    def handle_action_request(self, player_id, data):
-        print(f"ActionRequest: roomId={data.roomId}, playerId={player_id}, actionId={data.actionId}")
+    def handle_action_request(self, player_id):
+        print(f"Received ActionRequest: playerId={player_id}")
 
-        if data.battleAction.HasField('moveAction'):
-            print(f"MoveAction: {data.battleAction.moveAction.movePath}")
-            for target_hero in data.battleAction.moveAction.targetHeroList:
-                print(f"Target Hero ID: {target_hero.heroUniqueId}")
+        fake_move_action = card_game_pb2.MoveAction()
+        fake_move_action.movePath.append(card_game_pb2.PbVector3(x=1, y=2, z=3))
+        fake_move_action.targetHeroList.add(heroUniqueId=101)
 
-        elif data.battleAction.HasField('skillAction'):
-            print(f"SkillAction: skillId={data.battleAction.skillAction.skillId}")
-            for target_hero in data.battleAction.skillAction.targetHeroList:
-                print(f"Target Hero ID: {target_hero.heroUniqueId}")
+        fake_skill_action = card_game_pb2.SkillAction()
+        fake_skill_action.skillId = 123
+        fake_skill_action.targetHeroList.add(heroUniqueId=102)
 
-        response = card_game_pb2.ActionResponse()
-        response.roomId = data.roomId
-        response.round = data.round
-        response.result = True
+        battle_action_base = card_game_pb2.BattleActionBase()
+        battle_action_base.heroUniqueId = 101
+        battle_action_base.moveAction.CopyFrom(fake_move_action)
 
-        serialized_response = response.SerializeToString()
+        action_response = card_game_pb2.ActionResponse()
+        action_response.roomId = 888
+        action_response.round = 2
+        action_response.actionId = 89
+        action_response.result = True
+
+        serialized_response = action_response.SerializeToString()
 
         msg_id = 1010
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response

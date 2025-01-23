@@ -159,7 +159,8 @@ message ActionResponse {
     optional int32 msgId = 1010;
     int32 roomId = 1;  // 房间 ID
     int32 round = 2;    // 回合
-    bool result = 3;    // 游戏结果（成功与否）
+    int32 actionId = 3;    // 动作帧顺序
+    bool result = 4;    // 游戏结果（成功与否）
 }
 
 
