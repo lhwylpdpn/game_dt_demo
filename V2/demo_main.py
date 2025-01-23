@@ -89,8 +89,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         start_game_request = card_game_pb2.StartGameRequest()
         start_game_request.roomId = 888
         hero_changes = [
-            (101, "hero1_position"),
-            (102, "hero2_position")
+            (1, "hero1_position"),
         ]
         # 填充己方和敌方的 heroChange
         for hero_unique_id, position in hero_changes:
@@ -98,8 +97,21 @@ class CardGameProtocol(WebSocketServerProtocol):
             hero_change.heroUniqueId = hero_unique_id
             hero_change.heroId = hero_unique_id
             hero_change.position.x = 1
-            hero_change.position.y = 2
+            hero_change.position.y = 1
+            hero_change.position.z = 6
+            hero_change.positionType = 0
+        enemy_changes = [
+            (2, "hero1_position"),
+        ]
+        for hero_unique_id, position in enemy_changes:
+            hero_change = start_game_request.enemyChange.add()
+            hero_change.heroUniqueId = hero_unique_id
+            hero_change.heroId = hero_unique_id
+            hero_change.position.x = 8
+            hero_change.position.y = 1
             hero_change.position.z = 3
+            hero_change.positionType = 0
+
 
         # 发送消息
         msg_id = 1003
@@ -118,6 +130,8 @@ class CardGameProtocol(WebSocketServerProtocol):
         msg_id = 1008
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
+        self.handle_action_request(player_id)
+
 
     def handle_start_round(self, player_id, data):
         print(f"StartRoundRequest: roomId={data.roomId}, round={data.round}")
@@ -130,7 +144,6 @@ class CardGameProtocol(WebSocketServerProtocol):
         msg_id = 1006
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
-        self.handle_action_request(player_id)
 
     def handle_action_request(self, player_id):
         print(f"Received ActionRequest: playerId={player_id}")

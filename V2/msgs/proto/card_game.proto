@@ -28,6 +28,13 @@ message ReadyGameResponse {
  * 2. SC -> start_game
 */
 
+enum PositionType {
+    frontRight = 0;
+    backLeft = 1;
+    backRight = 2;
+    frontLeft = 3;
+}
+
 message StartGameRequest {
     optional int32 msgId = 1003;
     int32 roomId = 1;  // 房间 ID
@@ -37,6 +44,7 @@ message StartGameRequest {
      int64 heroUniqueId = 1;        // 英雄唯一 ID
      int32 heroId = 2;        // 英雄 ID
      PbVector3 position = 3;     // 状态变化描述，直接使用字符串
+     PositionType positionType = 4; // 位置类型
     }
 }
 
