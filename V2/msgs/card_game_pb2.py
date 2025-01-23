@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\"\xa2\x01\n\x10ReadyGameRequest\x12\x13\n\x05msgId\x18\xe9\x07 \x01(\x05H\x00\x88\x01\x01\x12\r\n\x05mapId\x18\x01 \x01(\x05\x12&\n\x06heroes\x18\x02 \x03(\x0b\x32\x16.ReadyGameRequest.Hero\x1a\x38\n\x04Hero\x12\x10\n\x08position\x18\x01 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x02 \x03(\x05\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11ReadyGameResponse\x12\x13\n\x05msgId\x18\xea\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xc1\x01\n\x10StartGameRequest\x12\x13\n\x05msgId\x18\xeb\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12,\n\x06\x63hange\x18\x02 \x03(\x0b\x32\x1c.StartGameRequest.heroChange\x1aP\n\nheroChange\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x05\x12\x0e\n\x06heroId\x18\x02 \x01(\x05\x12\x1c\n\x08position\x18\x03 \x01(\x0b\x32\n.PbVector3B\x08\n\x06_msgId\"R\n\x11StartGameResponse\x12\x13\n\x05msgId\x18\xec\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"Q\n\x11StartRoundRequest\x12\x13\n\x05msgId\x18\xed\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"b\n\x12StartRoundResponse\x12\x13\n\x05msgId\x18\xee\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06roomId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"\x80\x02\n\x0fPlayCardRequest\x12\x13\n\x05msgId\x18\xef\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12+\n\x06\x63hange\x18\x04 \x03(\x0b\x32\x1b.PlayCardRequest.CardChange\x1a\x81\x01\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12#\n\x0freleasePosition\x18\x02 \x01(\x0b\x32\n.PbVector3\x12\x12\n\ntargetType\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x05 \x01(\x05\x42\x08\n\x06_msgId\"Q\n\x10PlayCardResponse\x12\x13\n\x05msgId\x18\xf0\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"z\n\x10\x42\x61ttleActionBase\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12!\n\nmoveAction\x18\x02 \x01(\x0b\x32\x0b.MoveActionH\x00\x12#\n\x0bskillAction\x18\x03 \x01(\x0b\x32\x0c.SkillActionH\x00\x42\x08\n\x06\x61\x63tion\"O\n\nMoveAction\x12\x1c\n\x08movePath\x18\x01 \x03(\x0b\x32\n.PbVector3\x12#\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x0b.ChangeHero\"C\n\x0bSkillAction\x12\x0f\n\x07skillId\x18\x01 \x01(\x05\x12#\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x0b.ChangeHero\"i\n\nChangeHero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12\x1e\n\x04type\x18\x02 \x01(\x0e\x32\x10.ChangeStateType\x12%\n\x0f\x63hangeStateList\x18\x03 \x03(\x0b\x32\x0c.ChangeState\"i\n\x0b\x43hangeState\x12\x0c\n\x02hp\x18\x01 \x01(\x05H\x00\x12\"\n\x0cpushPosition\x18\x02 \x01(\x0b\x32\n.PbVector3H\x00\x12\x1f\n\tbuffState\x18\x03 \x01(\x0b\x32\n.BuffStateH\x00\x42\x07\n\x05state\"*\n\tBuffState\x12\x0e\n\x06\x62uffId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\",\n\tPbVector3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xe0\x01\n\rActionRequest\x12\x13\n\x05msgId\x18\xf1\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\r\n\x05level\x18\x04 \x01(\x05\x12\r\n\x05round\x18\x05 \x01(\x05\x12\x13\n\x0broundStatus\x18\x06 \x01(\x08\x12\x10\n\x08gameOver\x18\x07 \x01(\x08\x12\x0e\n\x06winner\x18\x08 \x01(\x05\x12\'\n\x0c\x62\x61ttleAction\x18\t \x01(\x0b\x32\x11.BattleActionBaseB\x08\n\x06_msgId\"^\n\x0e\x41\x63tionResponse\x12\x13\n\x05msgId\x18\xf2\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06result\x18\x03 \x01(\x08\x42\x08\n\x06_msgId*\'\n\x0f\x43hangeStateType\x12\n\n\x06\x44\x61mage\x10\x00\x12\x08\n\x04Heal\x10\x01\x32\x92\x02\n\x0f\x43\x61rdGameService\x12\x32\n\tReadyGame\x12\x11.ReadyGameRequest\x1a\x12.ReadyGameResponse\x12\x32\n\tStartGame\x12\x11.StartGameRequest\x1a\x12.StartGameResponse\x12\x35\n\nStartRound\x12\x12.StartRoundRequest\x1a\x13.StartRoundResponse\x12/\n\x08PlayCard\x12\x10.PlayCardRequest\x1a\x11.PlayCardResponse\x12/\n\x0cPlayerAction\x12\x0e.ActionRequest\x1a\x0f.ActionResponseb\x06proto3'
+  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\"\xa2\x01\n\x10ReadyGameRequest\x12\x13\n\x05msgId\x18\xe9\x07 \x01(\x05H\x00\x88\x01\x01\x12\r\n\x05mapId\x18\x01 \x01(\x05\x12&\n\x06heroes\x18\x02 \x03(\x0b\x32\x16.ReadyGameRequest.Hero\x1a\x38\n\x04Hero\x12\x10\n\x08position\x18\x01 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x02 \x03(\x05\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11ReadyGameResponse\x12\x13\n\x05msgId\x18\xea\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xf7\x01\n\x10StartGameRequest\x12\x13\n\x05msgId\x18\xeb\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12/\n\townChange\x18\x02 \x03(\x0b\x32\x1c.StartGameRequest.heroChange\x12\x31\n\x0b\x65nemyChange\x18\x03 \x03(\x0b\x32\x1c.StartGameRequest.heroChange\x1aP\n\nheroChange\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x05\x12\x0e\n\x06heroId\x18\x02 \x01(\x05\x12\x1c\n\x08position\x18\x03 \x01(\x0b\x32\n.PbVector3B\x08\n\x06_msgId\"R\n\x11StartGameResponse\x12\x13\n\x05msgId\x18\xec\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"Q\n\x11StartRoundRequest\x12\x13\n\x05msgId\x18\xed\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"b\n\x12StartRoundResponse\x12\x13\n\x05msgId\x18\xee\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06roomId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"\x80\x02\n\x0fPlayCardRequest\x12\x13\n\x05msgId\x18\xef\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12+\n\x06\x63hange\x18\x04 \x03(\x0b\x32\x1b.PlayCardRequest.CardChange\x1a\x81\x01\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12#\n\x0freleasePosition\x18\x02 \x01(\x0b\x32\n.PbVector3\x12\x12\n\ntargetType\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x05 \x01(\x05\x42\x08\n\x06_msgId\"Q\n\x10PlayCardResponse\x12\x13\n\x05msgId\x18\xf0\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"z\n\x10\x42\x61ttleActionBase\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12!\n\nmoveAction\x18\x02 \x01(\x0b\x32\x0b.MoveActionH\x00\x12#\n\x0bskillAction\x18\x03 \x01(\x0b\x32\x0c.SkillActionH\x00\x42\x08\n\x06\x61\x63tion\"O\n\nMoveAction\x12\x1c\n\x08movePath\x18\x01 \x03(\x0b\x32\n.PbVector3\x12#\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x0b.ChangeHero\"C\n\x0bSkillAction\x12\x0f\n\x07skillId\x18\x01 \x01(\x05\x12#\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x0b.ChangeHero\"i\n\nChangeHero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12\x1e\n\x04type\x18\x02 \x01(\x0e\x32\x10.ChangeStateType\x12%\n\x0f\x63hangeStateList\x18\x03 \x03(\x0b\x32\x0c.ChangeState\"i\n\x0b\x43hangeState\x12\x0c\n\x02hp\x18\x01 \x01(\x05H\x00\x12\"\n\x0cpushPosition\x18\x02 \x01(\x0b\x32\n.PbVector3H\x00\x12\x1f\n\tbuffState\x18\x03 \x01(\x0b\x32\n.BuffStateH\x00\x42\x07\n\x05state\"*\n\tBuffState\x12\x0e\n\x06\x62uffId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\",\n\tPbVector3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xe0\x01\n\rActionRequest\x12\x13\n\x05msgId\x18\xf1\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\r\n\x05level\x18\x04 \x01(\x05\x12\r\n\x05round\x18\x05 \x01(\x05\x12\x13\n\x0broundStatus\x18\x06 \x01(\x08\x12\x10\n\x08gameOver\x18\x07 \x01(\x08\x12\x0e\n\x06winner\x18\x08 \x01(\x05\x12\'\n\x0c\x62\x61ttleAction\x18\t \x01(\x0b\x32\x11.BattleActionBaseB\x08\n\x06_msgId\"^\n\x0e\x41\x63tionResponse\x12\x13\n\x05msgId\x18\xf2\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06result\x18\x03 \x01(\x08\x42\x08\n\x06_msgId*\'\n\x0f\x43hangeStateType\x12\n\n\x06\x44\x61mage\x10\x00\x12\x08\n\x04Heal\x10\x01\x32\x92\x02\n\x0f\x43\x61rdGameService\x12\x32\n\tReadyGame\x12\x11.ReadyGameRequest\x1a\x12.ReadyGameResponse\x12\x32\n\tStartGame\x12\x11.StartGameRequest\x1a\x12.StartGameResponse\x12\x35\n\nStartRound\x12\x12.StartRoundRequest\x1a\x13.StartRoundResponse\x12/\n\x08PlayCard\x12\x10.PlayCardRequest\x1a\x11.PlayCardResponse\x12/\n\x0cPlayerAction\x12\x0e.ActionRequest\x1a\x0f.ActionResponseb\x06proto3'
 )
 
 _CHANGESTATETYPE = _descriptor.EnumDescriptor(
@@ -43,8 +43,8 @@ _CHANGESTATETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1974,
-  serialized_end=2013,
+  serialized_start=2028,
+  serialized_end=2067,
 )
 _sym_db.RegisterEnumDescriptor(_CHANGESTATETYPE)
 
@@ -242,8 +242,8 @@ _STARTGAMEREQUEST_HEROCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=372,
-  serialized_end=452,
+  serialized_start=426,
+  serialized_end=506,
 )
 
 _STARTGAMEREQUEST = _descriptor.Descriptor(
@@ -269,8 +269,15 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='change', full_name='StartGameRequest.change', index=2,
+      name='ownChange', full_name='StartGameRequest.ownChange', index=2,
       number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='enemyChange', full_name='StartGameRequest.enemyChange', index=3,
+      number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -293,7 +300,7 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=269,
-  serialized_end=462,
+  serialized_end=516,
 )
 
 
@@ -343,8 +350,8 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=464,
-  serialized_end=546,
+  serialized_start=518,
+  serialized_end=600,
 )
 
 
@@ -394,8 +401,8 @@ _STARTROUNDREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=548,
-  serialized_end=629,
+  serialized_start=602,
+  serialized_end=683,
 )
 
 
@@ -452,8 +459,8 @@ _STARTROUNDRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=631,
-  serialized_end=729,
+  serialized_start=685,
+  serialized_end=783,
 )
 
 
@@ -512,8 +519,8 @@ _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=849,
-  serialized_end=978,
+  serialized_start=903,
+  serialized_end=1032,
 )
 
 _PLAYCARDREQUEST = _descriptor.Descriptor(
@@ -569,8 +576,8 @@ _PLAYCARDREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=732,
-  serialized_end=988,
+  serialized_start=786,
+  serialized_end=1042,
 )
 
 
@@ -620,8 +627,8 @@ _PLAYCARDRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=990,
-  serialized_end=1071,
+  serialized_start=1044,
+  serialized_end=1125,
 )
 
 
@@ -671,8 +678,8 @@ _BATTLEACTIONBASE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1073,
-  serialized_end=1195,
+  serialized_start=1127,
+  serialized_end=1249,
 )
 
 
@@ -710,8 +717,8 @@ _MOVEACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1197,
-  serialized_end=1276,
+  serialized_start=1251,
+  serialized_end=1330,
 )
 
 
@@ -749,8 +756,8 @@ _SKILLACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1278,
-  serialized_end=1345,
+  serialized_start=1332,
+  serialized_end=1399,
 )
 
 
@@ -795,8 +802,8 @@ _CHANGEHERO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1347,
-  serialized_end=1452,
+  serialized_start=1401,
+  serialized_end=1506,
 )
 
 
@@ -846,8 +853,8 @@ _CHANGESTATE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1454,
-  serialized_end=1559,
+  serialized_start=1508,
+  serialized_end=1613,
 )
 
 
@@ -885,8 +892,8 @@ _BUFFSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1561,
-  serialized_end=1603,
+  serialized_start=1615,
+  serialized_end=1657,
 )
 
 
@@ -931,8 +938,8 @@ _PBVECTOR3 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1605,
-  serialized_end=1649,
+  serialized_start=1659,
+  serialized_end=1703,
 )
 
 
@@ -1031,8 +1038,8 @@ _ACTIONREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1652,
-  serialized_end=1876,
+  serialized_start=1706,
+  serialized_end=1930,
 )
 
 
@@ -1089,8 +1096,8 @@ _ACTIONRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1878,
-  serialized_end=1972,
+  serialized_start=1932,
+  serialized_end=2026,
 )
 
 _READYGAMEREQUEST_HERO.containing_type = _READYGAMEREQUEST
@@ -1103,7 +1110,8 @@ _READYGAMERESPONSE.oneofs_by_name['_msgId'].fields.append(
 _READYGAMERESPONSE.fields_by_name['msgId'].containing_oneof = _READYGAMERESPONSE.oneofs_by_name['_msgId']
 _STARTGAMEREQUEST_HEROCHANGE.fields_by_name['position'].message_type = _PBVECTOR3
 _STARTGAMEREQUEST_HEROCHANGE.containing_type = _STARTGAMEREQUEST
-_STARTGAMEREQUEST.fields_by_name['change'].message_type = _STARTGAMEREQUEST_HEROCHANGE
+_STARTGAMEREQUEST.fields_by_name['ownChange'].message_type = _STARTGAMEREQUEST_HEROCHANGE
+_STARTGAMEREQUEST.fields_by_name['enemyChange'].message_type = _STARTGAMEREQUEST_HEROCHANGE
 _STARTGAMEREQUEST.oneofs_by_name['_msgId'].fields.append(
   _STARTGAMEREQUEST.fields_by_name['msgId'])
 _STARTGAMEREQUEST.fields_by_name['msgId'].containing_oneof = _STARTGAMEREQUEST.oneofs_by_name['_msgId']
@@ -1328,8 +1336,8 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2016,
-  serialized_end=2290,
+  serialized_start=2070,
+  serialized_end=2344,
   methods=[
   _descriptor.MethodDescriptor(
     name='ReadyGame',
