@@ -31,10 +31,11 @@ message ReadyGameResponse {
 message StartGameRequest {
     optional int32 msgId = 1003;
     int32 roomId = 1;  // 房间 ID
-    repeated heroChange change = 2;  // 玩家状态变化列表
+    repeated heroChange ownChange = 2;  // 己方变化列表
+    repeated heroChange enemyChange = 3;  // 敌方变化列表
     message heroChange {
      int32 heroUniqueId = 1;        // 英雄唯一 ID
-     int32 heroId = 2;        // 英雄唯一 ID
+     int32 heroId = 2;        // 英雄 ID
      PbVector3 position = 3;     // 状态变化描述，直接使用字符串
     }
 }
