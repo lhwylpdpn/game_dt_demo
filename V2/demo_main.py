@@ -70,7 +70,7 @@ class CardGameProtocol(WebSocketServerProtocol):
             print(f"Error processing request: {e}")
 
     def extract_msgId(self, data):
-        msgId, player_id = struct.unpack("!I", data[:4])[0], struct.unpack("!Q", data[4:12])[0]
+        msgId, player_id = struct.unpack("<I", data[:4])[0], struct.unpack("<Q", data[4:12])[0]
         print(f"msgid: {msgId}, player_id: {player_id}")
         return msgId, player_id
 
@@ -88,7 +88,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         response.result = True
         serialized_response = response.SerializeToString()
         msg_id = 1001
-        response_message = struct.pack("!I", msg_id) + struct.pack("!Q", player_id) + serialized_response
+        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
 
         self.sendMessage(response_message, isBinary=True)
 
@@ -105,7 +105,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         serialized_response = response.SerializeToString()
 
         msg_id = 2001
-        response_message = struct.pack("!I", msg_id) + struct.pack("!Q", player_id) + serialized_response
+        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
     def handle_play_card(self, player_id, data):
@@ -117,7 +117,7 @@ class CardGameProtocol(WebSocketServerProtocol):
 
         serialized_response = response.SerializeToString()
         msg_id = 3001
-        response_message = struct.pack("!I", msg_id) + struct.pack("!Q", player_id) + serialized_response
+        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
     def handle_start_round(self, player_id, data):
@@ -129,7 +129,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         serialized_response = response.SerializeToString()
 
         msg_id = 4001
-        response_message = struct.pack("!I", msg_id) + struct.pack("!Q", player_id) + serialized_response
+        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
     def handle_action_request(self, player_id, data):
@@ -153,7 +153,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         serialized_response = response.SerializeToString()
 
         msg_id = 5001
-        response_message = struct.pack("!I", msg_id) + struct.pack("!Q", player_id) + serialized_response
+        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
 
 
