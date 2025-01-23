@@ -8,7 +8,6 @@ from twisted.protocols.basic import LineReceiver
 
 from msgs import card_game_pb2
 
-
 MAX_PLAYER = 2 # 房间最大人数
 
 
@@ -33,6 +32,9 @@ class CardGameProtocol(WebSocketServerProtocol):
         print(f"Server received")
         try:
             msgId, player_id = self.extract_msgId(data)
+
+            # ready_req = msgid_to_message(msgId)[0]
+            # ready_req.ParseFromString(data[12:])
 
             if msgId == 1001:
                 ready_req = card_game_pb2.ReadyGameRequest()
@@ -93,7 +95,7 @@ class CardGameProtocol(WebSocketServerProtocol):
     def handle_start_game(self, player_id, data):
         print(f"StartGameRequest: roomId={data.roomId}")
 
-        for change in data.change:
+        for change in data.ownChange:
             print(f"Hero {change.heroUniqueId} change to {change.position}, player_id: {player_id}")
 
         response = card_game_pb2.StartGameResponse()
