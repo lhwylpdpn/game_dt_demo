@@ -6,27 +6,31 @@ from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerF
 from twisted.internet import protocol, reactor
 from twisted.protocols.basic import LineReceiver
 
+
 from msgs import card_game_pb2
+from models.player import Player
+
+# from servics.playermanager import PlayerManagerService  # TODO
 
 MAX_PLAYER = 2 # 房间最大人数
 
 
 class CardGameProtocol(WebSocketServerProtocol):
-    clients = []
+
+    def __init__(self, *args, **kwargs):
+        super(CardGameProtocol, self).__init__(*args, **kwargs)
+        self.player = None
 
     def onConnect(self, request):
         print(f"Client connecting: {request.peer}")
-        if len(CardGameProtocol.clients) >= MAX_PLAYER:
-            self.dropConnection()  # 服务器已满，拒绝连接
-        CardGameProtocol.clients.append(self)
-
-    def onOpen(self):
-        print('Connection opened')
+        if len(self.factory.clients) >= MAX_PLAYER:
+            raise ConnectionDeny(403, f"Server is Full.")
+        self.factory.register(self)
+        self.player = Player()           ## 创建当前玩家的实体
 
     def onClose(self, wasClean, code, reason):
         print(f"WebSocket connection closed: {reason}")
-        if self in CardGameProtocol.clients:
-            CardGameProtocol.clients.remove(self)
+        self.factory.unregister(self)
 
     def onMessage(self, data, isBinary):
         print(f"Server received")
@@ -63,7 +67,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         return msgId, player_id
 
     def send_msg_to_another(self, data):  # 给其他玩家发送消息
-        for player in CardGameProtocol.clients:
+        for player in self.factory.clients:
             if player != self:
                 player.sendMessage(data)
 
@@ -174,8 +178,31 @@ class CardGameProtocol(WebSocketServerProtocol):
         self.sendMessage(response_message, isBinary=True)
 
 
+class CardGameFactory(WebSocketServerFactory):
+    def __init__(self, url):
+        super(CardGameFactory, self).__init__(url)
+        # 用于存储所有连接的客户端
+        self.clients = []
+
+    # 注册新的客户端连接
+    def register(self, client):
+        if client not in self.clients:
+            print("Registered client {}".format(client.peer))
+            self.clients.append(client)
+
+    # 注销已关闭的客户端连接
+    def unregister(self, client):
+        if client in self.clients:
+            print("Unregistered client {}".format(client.peer))
+            self.clients.remove(client)
+
+    # 广播消息给所有连接的客户端
+    def broadcast(self, msg, isBinary):
+        for c in self.clients:
+            c.sendMessage(msg, isBinary)
+
 if __name__ == "__main__":
-    fac = WebSocketServerFactory("ws://localhost:17090")
+    fac = CardGameFactory("ws://localhost:17090")
     fac.protocol = CardGameProtocol
     reactor.listenTCP(17090, fac)
     print("Server is running on port 17090.")
