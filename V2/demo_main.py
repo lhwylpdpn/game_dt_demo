@@ -90,6 +90,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         start_game_request.roomId = 888
         hero_changes = [
             (1, "hero1_position"),
+            (3, "hero1_position"),
         ]
         # 填充己方和敌方的 heroChange
         for hero_unique_id, position in hero_changes:
@@ -149,15 +150,15 @@ class CardGameProtocol(WebSocketServerProtocol):
         print(f"Received ActionRequest: playerId={player_id}")
 
         fake_move_action = card_game_pb2.MoveAction()
-        fake_move_action.movePath.append(card_game_pb2.PbVector3(x=1, y=2, z=3))
-        fake_move_action.targetHeroList.add(heroUniqueId=101)
+        fake_move_action.movePath.append(card_game_pb2.PbVector3(x=1, y=1, z=7))
+        fake_move_action.targetHeroList.add(heroUniqueId=1)
 
         fake_skill_action = card_game_pb2.SkillAction()
-        fake_skill_action.skillId = 123
-        fake_skill_action.targetHeroList.add(heroUniqueId=102)
+        fake_skill_action.skillId = 1
+        fake_skill_action.targetHeroList.add(heroUniqueId=2)
 
         battle_action_base = card_game_pb2.BattleActionBase()
-        battle_action_base.heroUniqueId = 101
+        battle_action_base.heroUniqueId = 1
         battle_action_base.moveAction.CopyFrom(fake_move_action)
 
         action_response = card_game_pb2.ActionResponse()
