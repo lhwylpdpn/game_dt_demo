@@ -4,6 +4,7 @@ author : HU
 date: 2025-01-06
 
 """
+from utils.tools import uniqueID_32, uniqueID_64
 
 class CardBase():
     
@@ -18,9 +19,8 @@ class CardBase():
         self.__Param = kwargs.get("Param", [])             # card effect 相关参数 ID|参数
                                    
     def dict(self):
-        #fields = ["CardID", "Cost", "Type", "AtkTarget", 
-        #          "AtkDistance", "HitRange", "HitRangeType", "Param"]
-        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
+        fields = ["CardID", "Cost", "Type", "AtkTarget", 
+                 "AtkDistance", "HitRange", "HitRangeType", "Param"]
         return {field:self.__getattribute__(field) for field in fields}
     
     ## attr
@@ -65,7 +65,7 @@ class Card(CardBase):
         self.__unique_id = None
     
     def create_unique_id(self):
-        self.__unique_id = None
+        self.__unique_id = uniqueID_32()
         return self
     
     def unique_id(self):

@@ -11,6 +11,8 @@ import uuid
 from .maps import Map
 from .cardeffect import CardEffect
 from .card import Card
+from .hero import Hero
+from utils.tools import uniqueID_32, uniqueID_64
 
 
 class Room():
@@ -18,7 +20,7 @@ class Room():
     def __init__(self, room_id, map_id):
         self.__left_player = None         #  左侧玩家     
         self.__right_player = None        #  右侧玩家
-        self.__room_id = room_id          #  房间ID
+        self.__room_id = room_id          #  房间ID int32
         self.__round = 0                  #  当前的回合数
         self.__map_id = map_id            #  地图ID
         self.__left_heros = []            #  左侧的英雄 Heros
@@ -30,7 +32,21 @@ class Room():
         self.__heros_pool = {}            #  配置中的英雄 {ID:hero, ...}
         self.__heros_pvp_locations = {}   #  配置中的英雄的初始位置 {LocationLeft:[], LocationRight:[]}
         self.__effects  = {}              #  配置的效果 {ID:cardeffect, .....}
-        
+
+    def dict(self):
+        fields = ["left_player", "right_player", "room_id", "maps", 
+                 "cards_pool", "heros_pool", "heros_pvp_locations", "effects"]
+        data = {}
+        data["left_player"] = self.__left_player.dict() if self.__left_player else None
+        data["right_player"] = self.__right_player.dict() if self.__right_player else None
+        data["room_id"] = self.__room_id
+        data["round"] = self.__round
+        data["map_id"] = self.__map_id
+        data["left_heros"] = [_.dict() for _ in self.__left_heros]
+        data["right_heros"] = [_.dict() for _ in self.__right_heros]
+        data["maps"] = self.__maps.view_from_y_dict()
+        return data
+
     @staticmethod
     def json_data_loader(file_name):
         with open(os.path.join("tbconfig/", file_name), 'r') as file:
@@ -40,7 +56,7 @@ class Room():
     @staticmethod
     def build_room(room_id=None, map_id=1):
         if not room_id:
-            room_id = str(uuid.uuid1())
+            room_id = uniqueID_32()
         __room = Room(room_id, map_id)
         # map 地图
         for _ in Room.json_data_loader("tbmap.json"):
@@ -59,6 +75,9 @@ class Room():
             for param in new_card.Param:
                 new_card.add_effect(__room.get_effect(param.get("id")))
             __room.add_card(new_card)
+        # hero  配置数据
+        for _ in Room.json_data_loader("tbhero.json"): 
+            __room.add_hero(Hero(**_))
         return __room
     
     @property
@@ -143,7 +162,7 @@ class Room():
         return self.__cards_pool.get(card_sn, None)
     
     def add_card(self, card_obj):
-        self.cards_pool[card_obj.CardID] = card_obj
+        self.__cards_pool[card_obj.CardID] = card_obj
         return self
     
     @property
@@ -152,6 +171,10 @@ class Room():
 
     def set_heros_pool(self, nw):
         self.__heros_pool = nw
+        return self
+    
+    def add_hero(self, hero_obj):
+        self.__heros_pool[hero_obj.HeroID] = hero_obj
         return self
     
     @property

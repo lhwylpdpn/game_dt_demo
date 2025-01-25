@@ -4,7 +4,7 @@ author : HU
 date: 2025-01-06
 
 """
-
+from utils.tools import uniqueID_32, uniqueID_64
 
 class HeroBase(): # hero 基础数据
     
@@ -12,7 +12,7 @@ class HeroBase(): # hero 基础数据
         # 基本属性
         self.__HeroID = int(kwargs.get("HeroID", None))
         self.__BaseClassID = kwargs.get("BaseClassID", None)         # 职业
-        self.__AvaliableCards = kwargs.get("AvaliableCards", None)   # 初始卡牌
+        self.__AvaliableCards = [] # kwargs.get("AvaliableCards", None)   # 初始卡牌
         self.__HpBase = kwargs.get("Hp", None)                       # 生命-初始
         self.__Hp = kwargs.get("Hp", None)                           # 生命
         self.__DefBase = kwargs.get("Def", None)                     # 防御-初始
@@ -32,7 +32,7 @@ class HeroBase(): # hero 基础数据
         self.__AtkDistanceType = kwargs.get('AtkDistanceType', None) # 攻击距离类型  1菱形， 2 正方形， 3 线
 
         self.__position = None                                        #  坐标
-        self.__init_position = kwargs.get("init_position")            #  初始化时候的相对位置
+        self.__init_position = None                                   #  初始化时候的相对位置
 
         self.__camp = None                                            # 阵营 p1, p2 
         
@@ -41,10 +41,8 @@ class HeroBase(): # hero 基础数据
         
     
     def dict(self):
-        # fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "MagicalAtk",
-        #            "MagicalDef",  "Speed",       "position", "AtkType", "AtkDistance",  "AtkDistanceType", 
-        #            "camp"]
-        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
+        fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "Speed",  
+                   "position", "AtkType", "AtkDistance",  "AtkDistanceType", "init_position", "camp"]
         return {_:self.__getattribute__(_) for _ in fields}
 
     def hero_or_monster(self):
@@ -61,6 +59,18 @@ class HeroBase(): # hero 基础数据
     @property
     def BaseClassID(self):
         return self.__BaseClassID
+    
+    @property
+    def AvaliableCards(self):
+        return self.__AvaliableCards
+    
+    def set_AvaliableCards(self, value):
+        self.__AvaliableCards = value
+        return self
+    
+    def add_cards(self, nc):
+        self.__AvaliableCards.append(nc)
+        return
     
     @property
     def MoveDistance(self):
@@ -189,6 +199,10 @@ class HeroBase(): # hero 基础数据
     @property
     def init_position(self):
         return self.__init_position
+    
+    def set_init_position(self, value):
+        self.__init_position = value
+        return self
 
     def is_death(self):         # 是不是死亡了
         return self.__Hp > 0
@@ -264,7 +278,22 @@ class Hero(HeroBase): # 逻辑相关处理
     def dict(self):
         dict_data = super().dict()            # 基础数据
         # TODO add new attr
+        dict_data["unique_id"] = self.unique_id
         return dict_data
+    
+    # 设置上场的出生位置
+    def set_birth_position(self, player_object):  # LocationLeft, LocationRight
+        birth_location = player_object.room.heros_pvp_locations.get(player_object.direction)
+        self.set_position(birth_location[self.init_position])
+        return 
+    
+    def create_unique_id(self):
+        self.__unique_id = uniqueID_64()
+        return self
+    
+    @property
+    def unique_id(self):
+        return self.__unique_id
     
     def increase_Hp(self, delta_hp): # 增加血量
         latest_hp = self.__Hp + delta_hp
@@ -291,3 +320,8 @@ class Hero(HeroBase): # 逻辑相关处理
     
     def be_hurt(self):
         self.decrease_Hp()
+
+    def consume_card(self, unique_id):
+        for _ in self.__AvaliableCards:
+            if _.unique_id == unique_id:
+                self.__AvaliableCards.remov(_)

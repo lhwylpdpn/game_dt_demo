@@ -16,9 +16,9 @@ class EffectBase():
         self.__BuffDurationVal = kwargs.get("BuffDurationVal", None)  # 持续时间参数
     
     def dict(self, fields=[]):
-        # fields = ["EffectID", "Priority", "TriggerTime", "Target", 
-        #           "BuffType", "BuffDuration", "BuffDurationVal"]
-        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
+        fields = ["EffectID", "Priority", "TriggerTime", "Target", 
+                  "BuffType", "BuffDuration", "BuffDurationVal"]
+        # fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
         return {field:self.__getattribute__(field) for field in fields}
 
     # attrs

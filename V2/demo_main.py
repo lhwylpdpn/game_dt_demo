@@ -2,7 +2,7 @@
 import struct
 
 from twisted.internet.protocol import Factory
-from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory, ConnectionDeny
 from twisted.internet import protocol, reactor
 from twisted.protocols.basic import LineReceiver
 
@@ -36,6 +36,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         print(f"Server received")
         try:
             msgId, player_id = self.extract_msgId(data)
+            self.player.set_playerId(player_id)
 
             # ready_req = msgid_to_message(msgId)[0]
             # ready_req.ParseFromString(data[12:])
@@ -73,6 +74,9 @@ class CardGameProtocol(WebSocketServerProtocol):
 
     def handle_ready_game(self, player_id, data):
         print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
+
+        self.player.match_player()             # 匹配对手，创建房间 zhaohu 20250125
+        self.player.set_ready_game_data(data)  # 设置带过来的英雄信息
 
         # 构造 ReadyGameResponse
         response = card_game_pb2.ReadyGameResponse()

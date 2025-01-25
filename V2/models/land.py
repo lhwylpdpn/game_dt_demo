@@ -4,7 +4,7 @@ author : HU
 date: 2025-01-14
 """
 
-
+HEIGHT = 1     # 1 y轴， 2 Z轴
 CAN_PASS = 0
 
 class LandBase(): # 地块基础数据
@@ -22,8 +22,44 @@ class LandBase(): # 地块基础数据
     
     def dict(self):
         #fields = ["sn", "Block", "Block_Base", "Selected", "position"]
-        fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
+        fields = ["sn", "Block", "Block_Base", "position"]
+        #fields = [_.replace("__", "") for _ in  self.__dict__.keys()]
         return {_:self.__getattribute__(_) for _ in fields}
+    
+    def __gt__(self, other):
+        if isinstance(other, Land):
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] > other:
+            return True
+        return False
+    
+    def __lt__(self, other):
+        if isinstance(other, Land):
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] < other:
+            return True
+        return False
+    
+    def __le__(self, other):
+        if isinstance(other, Land):
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] <= other:
+            return True
+        return False
+    
+    def __ge__(self, other):
+        if isinstance(other, Land):
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] >= other:
+            return True
+        return False
+    
+    def __eq__(self, other):
+        if isinstance(other, Land):
+            other = other.position[HEIGHT]
+        if self.position[HEIGHT] == other:
+            return True
+        return False
     
     @property
     def sn(self):
