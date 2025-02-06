@@ -324,4 +324,4 @@ class Hero(HeroBase): # 逻辑相关处理
     def consume_card(self, unique_id):
         for _ in self.__AvaliableCards:
             if _.unique_id == unique_id:
-                self.__AvaliableCards.remov(_)
+                self.__AvaliableCards.remove(_)
