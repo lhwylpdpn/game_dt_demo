@@ -80,7 +80,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
 
         data = protobuf_to_dict(data)
-        self.player.match_player()             # 匹配对手，创建房间 zhaohu 20250125
+        self.player.match_player(current_avaliable_rooms=self.factory.game_rooms())             # 匹配对手，创建房间 zhaohu 20250125
         self.player.set_ready_game_data(data)
 
         # 构造 ReadyGameResponse
@@ -90,11 +90,10 @@ class CardGameProtocol(WebSocketServerProtocol):
         serialized_response = response.SerializeToString()
         msg_id = 1002
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-
         self.sendMessage(response_message, isBinary=True)
 
-        # if self.player.room.left_player and self.player.room.right_player:
-        if self.player.room.left_player: # TODO
+        if self.player.room.left_player and self.player.room.right_player:
+            print(f"Room is full, start game")
             self.handle_start_game(player_id)
 
 
@@ -106,41 +105,39 @@ class CardGameProtocol(WebSocketServerProtocol):
         start_game_request = card_game_pb2.StartGameRequest()
         start_game_request.roomId = self.player.room.room_id
 
-        self_heroes = enemy_heroes = []
+        heroes = []
         # TODO test
         # self_heroes = data["left_heros"]
         # enemy_heroes = data["left_heros"]
 
-        for p in ["left_player", "right_player"]:
-            if data[p].get("playerId") == player_id:
-                if p == "left_player":
-                    self_heroes = data["left_heros"]
-                    enemy_heroes = data["right_heros"]
-                else:
-                    self_heroes = data["right_heros"]
-                    enemy_heroes = data["left_heros"]
-        if not self_heroes or not enemy_heroes:
-            raise Exception("缺少hero数据, 无法开始游戏")
 
-        for hero in self_heroes:
-            hero_change = start_game_request.ownChange.add()
-            hero_change.heroUniqueId = hero["unique_id"]
-            hero_change.heroId = hero["HeroID"]
-            hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
-            hero_change.positionType = 0 # TODO
-
-        for hero in enemy_heroes:
-            hero_change = start_game_request.enemyChange.add()
-            hero_change.heroUniqueId = hero["unique_id"]
-            hero_change.heroId = hero["HeroID"]
-            hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
-            hero_change.positionType = 0 # TODO
+        if data["left_player"]:
+            p_id = data["left_player"].get("playerId")
+            if data["left_heros"]:
+                for hero in data["left_heros"]:
+                    hero_change = start_game_request.change.add()
+                    hero_change.playerId = p_id
+                    hero_change.heroUniqueId = hero["unique_id"]
+                    hero_change.heroId = hero["HeroID"]
+                    hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
+                    hero_change.positionType = 0  # TODO
+        if data["right_player"]:
+            p_id = data["right_player"].get("playerId")
+            if data["right_heros"]:
+                for hero in data["right_heros"]:
+                    hero_change = start_game_request.change.add()
+                    hero_change.playerId = p_id
+                    hero_change.heroUniqueId = hero["unique_id"]
+                    hero_change.heroId = hero["HeroID"]
+                    hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
+                    hero_change.positionType = 0  # TODO
 
         # 发送消息
         msg_id = 1003
         serialized_request = start_game_request.SerializeToString()
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
-        self.sendMessage(response_message, isBinary=True)
+        self.factory.broadcast(response_message, isBinary=True)
+        # self.sendMessage(response_message, isBinary=True)
 
     def handle_play_card(self, player_id, data):
         print(f"PlayCardRequest: roomId={data.roomId}, round={data.round}")
@@ -218,7 +215,7 @@ class CardGameFactory(WebSocketServerFactory):
     def broadcast(self, msg, isBinary):
         for c in self.clients:
             c.sendMessage(msg, isBinary)
-    
+
     # 获取当前的游戏房间
     def game_rooms(self): 
         rooms = []
