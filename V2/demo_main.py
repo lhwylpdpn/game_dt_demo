@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 import struct
+import traceback
+from statistics import fmean
+
+from protobuf_to_dict import protobuf_to_dict
 
 from twisted.internet.protocol import Factory
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory, ConnectionDeny
@@ -61,6 +65,7 @@ class CardGameProtocol(WebSocketServerProtocol):
 
         except Exception as e:
             print(f"Error processing request: {e}")
+            traceback.print_exc()
 
     def extract_msgId(self, data):
         msgId, player_id = struct.unpack("<I", data[:4])[0], struct.unpack("<Q", data[4:12])[0]
@@ -75,52 +80,62 @@ class CardGameProtocol(WebSocketServerProtocol):
     def handle_ready_game(self, player_id, data):
         print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
 
+        data = protobuf_to_dict(data)
         self.player.match_player()             # 匹配对手，创建房间 zhaohu 20250125
-        self.player.set_ready_game_data(data)  # 设置带过来的英雄信息
+        self.player.set_ready_game_data(data)
 
         # 构造 ReadyGameResponse
         response = card_game_pb2.ReadyGameResponse()
-        response.roomId = 888
+        response.roomId = self.player.room.room_id
         response.result = True
         serialized_response = response.SerializeToString()
         msg_id = 1002
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
 
         self.sendMessage(response_message, isBinary=True)
-        self.handle_start_game(player_id)
+
+        # if self.player.room.left_player and self.player.room.right_player:
+        if self.player.room.left_player: # TODO
+            self.handle_start_game(player_id)
 
 
     def handle_start_game(self, player_id):
         print(f"Sending StartGameRequest, playerId={player_id}")
+        data = self.player.room.dict()
 
         # 构造 StartGameRequest 消息
         start_game_request = card_game_pb2.StartGameRequest()
-        start_game_request.roomId = 888
-        hero_changes = [
-            (1, "hero1_position"),
-            (3, "hero1_position"),
-        ]
-        # 填充己方和敌方的 heroChange
-        for hero_unique_id, position in hero_changes:
-            hero_change = start_game_request.ownChange.add()
-            hero_change.heroUniqueId = hero_unique_id
-            hero_change.heroId = hero_unique_id
-            hero_change.position.x = 1
-            hero_change.position.y = 1
-            hero_change.position.z = 6
-            hero_change.positionType = 0
-        enemy_changes = [
-            (2, "hero1_position"),
-        ]
-        for hero_unique_id, position in enemy_changes:
-            hero_change = start_game_request.enemyChange.add()
-            hero_change.heroUniqueId = hero_unique_id
-            hero_change.heroId = hero_unique_id
-            hero_change.position.x = 8
-            hero_change.position.y = 1
-            hero_change.position.z = 3
-            hero_change.positionType = 0
+        start_game_request.roomId = self.player.room.room_id
 
+        self_heroes = enemy_heroes = []
+        # TODO test
+        # self_heroes = data["left_heros"]
+        # enemy_heroes = data["left_heros"]
+
+        for p in ["left_player", "right_player"]:
+            if data[p].get("playerId") == player_id:
+                if p == "left_player":
+                    self_heroes = data["left_heros"]
+                    enemy_heroes = data["right_heros"]
+                else:
+                    self_heroes = data["right_heros"]
+                    enemy_heroes = data["left_heros"]
+        if not self_heroes or not enemy_heroes:
+            raise Exception("缺少hero数据, 无法开始游戏")
+
+        for hero in self_heroes:
+            hero_change = start_game_request.ownChange.add()
+            hero_change.heroUniqueId = hero["unique_id"]
+            hero_change.heroId = hero["HeroID"]
+            hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
+            hero_change.positionType = 0 # TODO
+
+        for hero in enemy_heroes:
+            hero_change = start_game_request.enemyChange.add()
+            hero_change.heroUniqueId = hero["unique_id"]
+            hero_change.heroId = hero["HeroID"]
+            hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
+            hero_change.positionType = 0 # TODO
 
         # 发送消息
         msg_id = 1003

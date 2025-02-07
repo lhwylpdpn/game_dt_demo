@@ -184,13 +184,13 @@ def print_object_details(obj, seen=None, prefix=''):
 def uniqueID_32():
     uuid_obj = uuid.uuid4()
     uuid_int = uuid_obj.int
-    int32 = uuid_int & ((1 << 32) - 1)
+    int32 = uuid_int & ((1 << 31) - 1)
     return int32
 
 def uniqueID_64():
     uuid_obj = uuid.uuid4()
     uuid_int = uuid_obj.int
-    int64 = uuid_int & ((1 << 64) - 1)
+    int64 = uuid_int & ((1 << 63) - 1)
     return int64
 
 if __name__ == '__main__':

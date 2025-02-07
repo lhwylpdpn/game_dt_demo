@@ -117,7 +117,7 @@ message MoveAction {
 message SkillAction {
     int32 skillId = 1;  // 技能ID
     repeated ChangeHero targetHeroList = 2; // 目标英雄集合
-    PbVector3 position = 3;     // 状态变化描述，直接使用字符串
+    PbVector3 position = 3;
 }
 
 message ChangeHero {
