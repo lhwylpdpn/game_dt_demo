@@ -273,12 +273,14 @@ class Hero(HeroBase): # 逻辑相关处理
     def __init__(self, **kwargs):
         super(Hero, self).__init__(**kwargs)
         self.__unique_id = None
+        self.__positionType = None
         # TODO add another attrs
 
     def dict(self):
         dict_data = super().dict()            # 基础数据
         # TODO add new attr
         dict_data["unique_id"] = self.unique_id
+        dict_data["positionType"] = self.positionType
         return dict_data
     
     # 设置上场的出生位置
@@ -289,6 +291,14 @@ class Hero(HeroBase): # 逻辑相关处理
     
     def create_unique_id(self):
         self.__unique_id = uniqueID_64()
+        return self
+    
+    @property
+    def positionType(self):
+        return self.__positionType
+    
+    def set_positionType(self, v):
+        self.__positionType = v
         return self
     
     @property

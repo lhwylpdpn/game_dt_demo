@@ -45,6 +45,7 @@ class Player():
             new_hero = copy.deepcopy(self.room.heros_pool.get(_hero.get("heroId")))
             new_hero.create_unique_id()
             new_hero.set_init_position(_hero.get("position"))
+            new_hero.set_positionType(_hero.get("positionType"))
             
             if self == self.room.left_player:
                 self.set_direction("LocationLeft")
