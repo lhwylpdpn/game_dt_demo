@@ -38,13 +38,13 @@ enum PositionType {
 message StartGameRequest {
     optional int32 msgId = 1003;
     int32 roomId = 1;  // 房间 ID
-    repeated heroChange ownChange = 2;  // 己方变化列表
-    repeated heroChange enemyChange = 3;  // 敌方变化列表
+    repeated heroChange change = 2;  // 变化列表
     message heroChange {
-     int64 heroUniqueId = 1;        // 英雄唯一 ID
-     int32 heroId = 2;        // 英雄 ID
-     PbVector3 position = 3;     // 状态变化描述，直接使用字符串
-     PositionType positionType = 4; // 位置类型
+     int32 playerId = 1;    // 玩家 ID
+     int64 heroUniqueId = 2;        // 英雄唯一 ID
+     int32 heroId = 3;        // 英雄 ID
+     PbVector3 position = 4;     // 状态变化描述，直接使用字符串
+     PositionType positionType = 5; // 位置类型
     }
 }
 
