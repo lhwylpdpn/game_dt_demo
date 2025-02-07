@@ -204,6 +204,16 @@ class CardGameFactory(WebSocketServerFactory):
     def broadcast(self, msg, isBinary):
         for c in self.clients:
             c.sendMessage(msg, isBinary)
+    
+    # 获取当前的游戏房间
+    def game_rooms(self): 
+        rooms = []
+        for _ in self.clients:
+            _room = _.player.room
+            if _room and _room not in  rooms:
+                rooms.append(_room)
+        return rooms
+
 
 if __name__ == "__main__":
     fac = CardGameFactory("ws://localhost:17090")
