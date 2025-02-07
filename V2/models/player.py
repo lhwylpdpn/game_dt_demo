@@ -22,10 +22,11 @@ class Player():
         self.__user = None                      # 玩家信息 （头像，密保，生日，电话, 邮箱～～～）
         self.__ready_game_data = None           # 游戏准备好时候带过来的消息
         self.__show_cards = []                  # 当前round的出牌
+        self.__is_show_cards = False            # 玩家是否出牌
     
     def dict(self):
         fields =  ["playerId", "is_ready", "direction", "camp",  "device", "user", "ready_game_data",
-                   "show_cards", ]
+                   "show_cards", "is_show_cards"]
         data = {_:self.__getattribute__(_) for _ in fields}
         data["room"] = self.room.room_id
         return data
@@ -73,8 +74,17 @@ class Player():
         self.__show_cards = data
         return self
     
+    @property
+    def is_show_cards(self):
+        return self.__is_show_cards
+
+    @property
+    def set_is_show_cards(self, v):
+        self.__is_show_cards = v
+        return self
+    
     def use_card(self, unique_id):
-        self.__show_cards.remov(unique_id)
+        self.__show_cards.remove(unique_id)
 
     @property
     def room(self):

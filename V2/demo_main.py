@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import struct
 import traceback
-from statistics import fmean
 
 from protobuf_to_dict import protobuf_to_dict
 
