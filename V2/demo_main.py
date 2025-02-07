@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import struct
 import traceback
+from pprint import pprint
 
 from protobuf_to_dict import protobuf_to_dict
 
@@ -94,7 +95,7 @@ class CardGameProtocol(WebSocketServerProtocol):
 
         if self.player.room.left_player and self.player.room.right_player:
             print(f"Room is full, start game")
-            self.handle_start_game(player_id)
+            # self.handle_start_game(player_id)
 
 
     def handle_start_game(self, player_id):
@@ -104,12 +105,6 @@ class CardGameProtocol(WebSocketServerProtocol):
         # 构造 StartGameRequest 消息
         start_game_request = card_game_pb2.StartGameRequest()
         start_game_request.roomId = self.player.room.room_id
-
-        heroes = []
-        # TODO test
-        # self_heroes = data["left_heros"]
-        # enemy_heroes = data["left_heros"]
-
 
         if data["left_player"]:
             p_id = data["left_player"].get("playerId")
@@ -146,11 +141,20 @@ class CardGameProtocol(WebSocketServerProtocol):
         response.roomId = data.roomId
         response.result = True
 
+        data = protobuf_to_dict(data)
+        self.player.set_show_cards(data)
+        self.player.set_is_show_cards(True)
+
         serialized_response = response.SerializeToString()
         msg_id = 1008
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self.sendMessage(response_message, isBinary=True)
         self.handle_action_request(player_id)
+
+        room_data = self.player.room.dict()
+        if room_data.get("left_player", {}).get("is_show_cards") and room_data.get("right_player", {}).get("is_show_cards"):
+            print(f"双方玩家都已经出牌，开始计算Action")
+            self.handle_start_round(player_id, room_data)
 
 
     def handle_start_round(self, player_id, data):

@@ -69,7 +69,7 @@ class Player():
     def show_cards(self):
         return self.__show_cards
 
-    @property
+    # @property
     def set_show_cards(self, data):
         self.__show_cards = data
         return self
@@ -78,7 +78,7 @@ class Player():
     def is_show_cards(self):
         return self.__is_show_cards
 
-    @property
+    # @property
     def set_is_show_cards(self, v):
         self.__is_show_cards = v
         return self
