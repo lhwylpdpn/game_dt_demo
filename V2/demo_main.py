@@ -13,6 +13,7 @@ from twisted.protocols.basic import LineReceiver
 
 from msgs import card_game_pb2
 from models.player import Player
+from msgid_to_message import MSGID_TO_MESSAGE
 
 # from servics.playermanager import PlayerManagerService  # TODO
 
@@ -41,27 +42,29 @@ class CardGameProtocol(WebSocketServerProtocol):
         try:
             msgId, player_id = self.extract_msgId(data)
             self.player.set_playerId(player_id)
+             
+            # 统一处理msg
+            parse_proto, message_handle = MSGID_TO_MESSAGE.get(msgId)
+            _req_data = parse_proto().ParseFromString(data[12:])
+            message_handle(self, player_id, _req_data)
 
-            # ready_req = msgid_to_message(msgId)[0]
-            # ready_req.ParseFromString(data[12:])
+            # if msgId == 1001:
+            #     ready_req = card_game_pb2.ReadyGameRequest()
+            #     ready_req.ParseFromString(data[12:])
+            #     self.handle_ready_game(player_id, ready_req)
 
-            if msgId == 1001:
-                ready_req = card_game_pb2.ReadyGameRequest()
-                ready_req.ParseFromString(data[12:])
-                self.handle_ready_game(player_id, ready_req)
+            # elif msgId == 1005:
+            #     start_round_req = card_game_pb2.StartRoundRequest()
+            #     start_round_req.ParseFromString(data[12:])
+            #     self.handle_start_round(player_id, start_round_req)
 
-            elif msgId == 1005:
-                start_round_req = card_game_pb2.StartRoundRequest()
-                start_round_req.ParseFromString(data[12:])
-                self.handle_start_round(player_id, start_round_req)
+            # elif msgId == 1007:
+            #     play_card_req = card_game_pb2.PlayCardRequest()
+            #     play_card_req.ParseFromString(data[12:])
+            #     self.handle_play_card(player_id, play_card_req)
 
-            elif msgId == 1007:
-                play_card_req = card_game_pb2.PlayCardRequest()
-                play_card_req.ParseFromString(data[12:])
-                self.handle_play_card(player_id, play_card_req)
-
-            else:
-                print(f"Unknown msgId: {msgId}")
+            # else:
+            #     print(f"Unknown msgId: {msgId}")
 
         except Exception as e:
             print(f"Error processing request: {e}")
@@ -76,125 +79,6 @@ class CardGameProtocol(WebSocketServerProtocol):
         for player in self.factory.clients:
             if player != self:
                 player.sendMessage(data)
-
-    def handle_ready_game(self, player_id, data):
-        print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
-
-        data = protobuf_to_dict(data)
-        self.player.match_player(current_avaliable_rooms=self.factory.game_rooms())             # 匹配对手，创建房间 zhaohu 20250125
-        self.player.set_ready_game_data(data)
-
-        # 构造 ReadyGameResponse
-        response = card_game_pb2.ReadyGameResponse()
-        response.roomId = self.player.room.room_id
-        response.result = True
-        serialized_response = response.SerializeToString()
-        msg_id = 1002
-        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-        self.sendMessage(response_message, isBinary=True)
-
-        if self.player.room.left_player and self.player.room.right_player:
-            print(f"Room is full, start game")
-            # self.handle_start_game(player_id)
-
-
-    def handle_start_game(self, player_id):
-        print(f"Sending StartGameRequest, playerId={player_id}")
-        data = self.player.room.dict()
-
-        # 构造 StartGameRequest 消息
-        start_game_request = card_game_pb2.StartGameRequest()
-        start_game_request.roomId = self.player.room.room_id
-
-        if data["left_player"]:
-            p_id = data["left_player"].get("playerId")
-            if data["left_heros"]:
-                for hero in data["left_heros"]:
-                    hero_change = start_game_request.change.add()
-                    hero_change.playerId = p_id
-                    hero_change.heroUniqueId = hero["unique_id"]
-                    hero_change.heroId = hero["HeroID"]
-                    hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
-                    hero_change.positionType = 0  # TODO
-        if data["right_player"]:
-            p_id = data["right_player"].get("playerId")
-            if data["right_heros"]:
-                for hero in data["right_heros"]:
-                    hero_change = start_game_request.change.add()
-                    hero_change.playerId = p_id
-                    hero_change.heroUniqueId = hero["unique_id"]
-                    hero_change.heroId = hero["HeroID"]
-                    hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
-                    hero_change.positionType = 0  # TODO
-
-        # 发送消息
-        msg_id = 1003
-        serialized_request = start_game_request.SerializeToString()
-        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
-        self.factory.broadcast(response_message, isBinary=True)
-        # self.sendMessage(response_message, isBinary=True)
-
-    def handle_play_card(self, player_id, data):
-        print(f"PlayCardRequest: roomId={data.roomId}, round={data.round}")
-
-        response = card_game_pb2.PlayCardResponse()
-        response.roomId = data.roomId
-        response.result = True
-
-        data = protobuf_to_dict(data)
-        self.player.set_show_cards(data)
-        self.player.set_is_show_cards(True)
-
-        serialized_response = response.SerializeToString()
-        msg_id = 1008
-        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-        self.sendMessage(response_message, isBinary=True)
-        self.handle_action_request(player_id)
-
-        room_data = self.player.room.dict()
-        if room_data.get("left_player", {}).get("is_show_cards") and room_data.get("right_player", {}).get("is_show_cards"):
-            print(f"双方玩家都已经出牌，开始计算Action")
-            self.handle_start_round(player_id, room_data)
-
-
-    def handle_start_round(self, player_id, data):
-        print(f"StartRoundRequest: roomId={data.roomId}, round={data.round}")
-        response = card_game_pb2.StartRoundResponse()
-        response.result = True
-        response.round = data.round
-        response.roomId = data.roomId
-        serialized_response = response.SerializeToString()
-
-        msg_id = 1006
-        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-        self.sendMessage(response_message, isBinary=True)
-
-    def handle_action_request(self, player_id):
-        print(f"Received ActionRequest: playerId={player_id}")
-
-        fake_move_action = card_game_pb2.MoveAction()
-        fake_move_action.movePath.append(card_game_pb2.PbVector3(x=1, y=1, z=7))
-        fake_move_action.targetHeroList.add(heroUniqueId=1)
-
-        fake_skill_action = card_game_pb2.SkillAction()
-        fake_skill_action.skillId = 1
-        fake_skill_action.targetHeroList.add(heroUniqueId=2)
-
-        battle_action_base = card_game_pb2.BattleActionBase()
-        battle_action_base.heroUniqueId = 1
-        battle_action_base.moveAction.CopyFrom(fake_move_action)
-
-        action_response = card_game_pb2.ActionResponse()
-        action_response.roomId = 888
-        action_response.round = 2
-        action_response.actionId = 89
-        action_response.result = True
-
-        serialized_response = action_response.SerializeToString()
-
-        msg_id = 1010
-        response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-        self.sendMessage(response_message, isBinary=True)
 
 
 class CardGameFactory(WebSocketServerFactory):
