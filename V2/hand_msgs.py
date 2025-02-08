@@ -23,7 +23,7 @@ def handle_ready_game(self_client, player_id, data):
 
     if self_client.player.room.left_player and self_client.player.room.right_player:
         print(f"Room is full, start game")
-        # self_client.handle_start_game(player_id)
+        handle_start_game(self_client, player_id)
 
 
 def handle_start_game(self_client, player_id):
