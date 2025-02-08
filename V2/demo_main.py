@@ -45,7 +45,8 @@ class CardGameProtocol(WebSocketServerProtocol):
              
             # 统一处理msg
             parse_proto, message_handle = MSGID_TO_MESSAGE.get(msgId)
-            _req_data = parse_proto().ParseFromString(data[12:])
+            _req_data = parse_proto()
+            _req_data.ParseFromString(data[12:])
             message_handle(self, player_id, _req_data)
 
             # if msgId == 1001:
