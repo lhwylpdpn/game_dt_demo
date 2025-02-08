@@ -48,25 +48,7 @@ class CardGameProtocol(WebSocketServerProtocol):
             _req_data = parse_proto()
             _req_data.ParseFromString(data[12:])
             message_handle(self, player_id, _req_data)
-
-            # if msgId == 1001:
-            #     ready_req = card_game_pb2.ReadyGameRequest()
-            #     ready_req.ParseFromString(data[12:])
-            #     self.handle_ready_game(player_id, ready_req)
-
-            # elif msgId == 1005:
-            #     start_round_req = card_game_pb2.StartRoundRequest()
-            #     start_round_req.ParseFromString(data[12:])
-            #     self.handle_start_round(player_id, start_round_req)
-
-            # elif msgId == 1007:
-            #     play_card_req = card_game_pb2.PlayCardRequest()
-            #     play_card_req.ParseFromString(data[12:])
-            #     self.handle_play_card(player_id, play_card_req)
-
-            # else:
-            #     print(f"Unknown msgId: {msgId}")
-
+            
         except Exception as e:
             print(f"Error processing request: {e}")
             traceback.print_exc()
