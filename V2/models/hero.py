@@ -201,7 +201,7 @@ class HeroBase(OldHero): # hero 基础数据
     
     def set_position(self, *v): # [x,y,z] or x,y,z
         if len(v) == 1:
-            self.__position = v
+            self.__position = v[0]
         if len(v) == 3:
             self.set_x(v[0]).set_y(v[1]).set_z(v[2])
         return self
@@ -321,6 +321,7 @@ class Hero(HeroBase): # 逻辑相关处理
     # 设置上场的出生位置
     def set_birth_position(self, player_object):  # LocationLeft, LocationRight
         birth_location = player_object.room.heros_pvp_locations.get(player_object.direction)
+        print(birth_location[self.init_position])
         self.set_position(birth_location[self.init_position])
         return 
     
