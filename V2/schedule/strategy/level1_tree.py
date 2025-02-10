@@ -1,8 +1,8 @@
 import random
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-from utils.strategy_utils.range import Range
-from strategy.strategy_context import strategy_params as sp
+from schedule.utils.strategy_utils.range import Range
+from schedule.strategy.strategy_context import strategy_params as sp
 import time
 from log.log import log_manager
 

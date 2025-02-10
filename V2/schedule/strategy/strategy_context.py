@@ -1,7 +1,7 @@
 import copy
 import time
 
-from utils.config import bass_class
+from schedule.utils.config import bass_class
 import pandas as pd
 import os
 

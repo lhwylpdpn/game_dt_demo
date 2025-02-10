@@ -1,6 +1,6 @@
-from utils.tools import random_choices
+from schedule.utils.tools import random_choices
 import random
-from utils.config import demo_skill
+from schedule.utils.config import demo_skill
 
 
 def calculate_coefficient(attacker, defender, skill):

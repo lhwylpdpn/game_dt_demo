@@ -4,16 +4,16 @@ import json
 import time
 import redis
 import configparser
-from strategy.game import Game as game_broad
-from strategy.agent import Agent as agent
+from schedule.strategy.game import Game as game_broad
+from schedule.strategy.agent import Agent as agent
 from buildpatrol import BuildPatrol
 # from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
 # from test_map_data import origin_map_data  # 后续通过api获取前端传递的数据
 # from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
 import copy
 import math
-from utils.tools import Deepdiff_modify
-from utils.tools import performance
+from schedule.utils.tools import Deepdiff_modify
+from schedule.utils.tools import performance
 from log.log import log_manager
 
 

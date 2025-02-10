@@ -4,12 +4,16 @@ author : HU
 date: 2025-01-06
 
 """
+from .old.hero import Hero as OldHero
+from .old.skill import Skill
+from .old.effect import Effect
 from utils.tools import uniqueID_32, uniqueID_64
 
-class HeroBase(): # hero 基础数据
+class HeroBase(OldHero): # hero 基础数据
     
     def __init__(self, **kwargs):
         # 基本属性
+        super().__init__(**kwargs)
         self.__HeroID = int(kwargs.get("HeroID", None))
         self.__BaseClassID = kwargs.get("BaseClassID", None)         # 职业
         self.__AvaliableCards = [] # kwargs.get("AvaliableCards", None)   # 初始卡牌
@@ -17,10 +21,10 @@ class HeroBase(): # hero 基础数据
         self.__Hp = kwargs.get("Hp", None)                           # 生命
         self.__DefBase = kwargs.get("Def", None)                     # 防御-初始
         self.__Def = kwargs.get("Def", None)                         # 防御
-        self.__DefMagicBase = kwargs.get("DefMagic", None)                   # 魔法防御-初始
-        self.__DefMagic = kwargs.get("DefMagic", None)                       # 魔法防御
-        self.__SpeedBase = kwargs.get("Speed", None)                     # 速度-初始   行动力
-        self.__Speed = kwargs.get("Speed", None)                         # 速度-初始   行动力
+        self.__DefMagicBase = kwargs.get("DefMagic", None)           # 魔法防御-初始
+        self.__DefMagic = kwargs.get("DefMagic", None)               # 魔法防御
+        self.__SpeedBase = kwargs.get("Speed", None)                 # 速度-初始   行动力
+        self.__Speed = kwargs.get("Speed", None)                     # 速度-初始   行动力
         self.__MoveDistance = kwargs.get("MoveDistance", None)       # 行动步数
         self.__JumpHeight = kwargs.get("JumpHeight", None)           # 跳跃的高度
         
@@ -43,7 +47,10 @@ class HeroBase(): # hero 基础数据
     def dict(self):
         fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "Speed",  
                    "position", "AtkType", "AtkDistance",  "AtkDistanceType", "init_position", "camp"]
-        return {_:self.__getattribute__(_) for _ in fields}
+        old_dict_data = super().dict()
+        base_data = {_:self.__getattribute__(_) for _ in fields}
+        old_dict_data.update(base_data)
+        return old_dict_data
 
     def hero_or_monster(self):
         "HERO or MONSER"
@@ -192,8 +199,11 @@ class HeroBase(): # hero 基础数据
         self.__position[2]= p_z
         return self 
     
-    def set_position(self, v):
-        self.__position = v
+    def set_position(self, *v): # [x,y,z] or x,y,z
+        if len(v) == 1:
+            self.__position = v
+        if len(v) == 3:
+            self.set_x(v[0]).set_y(v[1]).set_z(v[2])
         return self
     
     @property
@@ -235,8 +245,8 @@ class HeroBase(): # hero 基础数据
     def after_hit(self, **kwargs):      # 攻击之后
         pass
     
-    def be_attacked(self, **kwargs):
-        self.before_hit(kwargs)
+    def be_attacked(self, *args, **kwargs):
+        self.before_hit(args, kwargs)
         self.on_hit(kwargs)
         self.before_hurt(kwargs)
         self.on_hurt(kwargs)
@@ -271,16 +281,41 @@ class HeroBase(): # hero 基础数据
 class Hero(HeroBase): # 逻辑相关处理
     
     def __init__(self, **kwargs):
-        super(Hero, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.__unique_id = None
         self.__positionType = None
         # TODO add another attrs
+        self.__batch_old_attr()
+    
+    def __batch_old_attr(self):
+        # TODO old effects
+        # TODO old skills
+        self.set_Velocity(self.Speed)
+        self.set_RoundAction(self.MoveDistance)
+        new_effect = Effect(**{"id": 11, 
+                             "key": self.AtkDistanceType,  # 
+                             "param": self.AtkDistance,
+                             "Priority": 9,
+                             "Target": 1               # 敌方单位
+                             })
+        skill = Skill(**{"SkillId": 1,
+                       "SkillLev": "",
+                       "DefaultSkills": 0,
+                       "SkillClass": 1,
+                       "SkillCalc": 1,
+                       "SkillElement": 7, # 物理
+                       "SkillGoals": [1]  # 敌人
+                       })
+        skill.effects_add(new_effect=new_effect)
+        self.set_AvailableSkills([1])
+        self.skills_add(skill)
 
     def dict(self):
-        dict_data = super().dict()            # 基础数据
+        dict_data = super().dict()
         # TODO add new attr
         dict_data["unique_id"] = self.unique_id
         dict_data["positionType"] = self.positionType
+        print(dict_data)
         return dict_data
     
     # 设置上场的出生位置

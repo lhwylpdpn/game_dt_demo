@@ -4,11 +4,11 @@
 from copy import deepcopy
 
 from log.log import LogManager
-from strategy.game_utils import GameUtils
-from strategy.handler.dict_utils import DictUtils
-from strategy.handler.distance_func import DistanceFunc
-from strategy.handler.skill_attack_range import SkillRange
-from utils.strategy_utils.range import Range
+from schedule.strategy.game_utils import GameUtils
+from schedule.strategy.handler.dict_utils import DictUtils
+from schedule.strategy.handler.distance_func import DistanceFunc
+from schedule.strategy.handler.skill_attack_range import SkillRange
+from schedule.utils.strategy_utils.range import Range
 
 log_manager = LogManager()
 

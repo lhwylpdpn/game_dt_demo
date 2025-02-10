@@ -1,6 +1,6 @@
 import json
 
-from utils.strategy_utils.range import Range
+from schedule.utils.strategy_utils.range import Range
 import time
 import random
 from RL.Q_lerning import QLearningAgent

@@ -20,4 +20,6 @@ if __name__ == "__main__":
         "heroId":2},
     ]}
     player.set_ready_game_data(data)
+    player.room.init_game()
+    print(player.room.game)
     print(player.room.dict())

@@ -3,7 +3,7 @@
 # @Time    : 2024/7/22 10:59
 import copy
 
-from strategy.action import Action
+from schedule.strategy.action import Action
 
 
 class Game(object):

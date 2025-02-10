@@ -2,7 +2,7 @@
 # @Author  : Bin
 # @Time    : 2024/9/5 17:18
 
-from utils.config import demo_skill
+from schedule.utils.config import demo_skill
 
 
 def heal(caster, target, skill):

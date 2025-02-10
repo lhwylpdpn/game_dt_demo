@@ -1,12 +1,12 @@
 import random
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-from utils.strategy_utils.range import Range
-from strategy.strategy_context import strategy_params as sp
+from schedule.utils.strategy_utils.range import Range
+from schedule.strategy.strategy_context import strategy_params as sp
 import time
 from log.log import log_manager
-from strategy.strategy_context import simple_strategy_params
-from strategy.handler.simple_strategy import SimpleStrategy
+from schedule.strategy.strategy_context import simple_strategy_params
+from schedule.strategy.handler.simple_strategy import SimpleStrategy
 
 class Node:
     def __init__(self, name, action=None,selection=None, probability=1.0):

@@ -5,7 +5,7 @@
 from functools import lru_cache
 from itertools import product
 
-from strategy.game_utils import GameUtils
+from schedule.strategy.game_utils import GameUtils
 
 
 class SkillRange:

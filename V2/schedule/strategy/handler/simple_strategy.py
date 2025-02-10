@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/9/6 15:20
-from utils.strategy_utils.basic_data import Data
-from utils.strategy_utils.basic_utils import get_damage_skills, get_heal_skills, manhattan_distance
-from utils.strategy_utils.range import Range
+from schedule.utils.strategy_utils.basic_data import Data
+from schedule.utils.strategy_utils.basic_utils import get_damage_skills, get_heal_skills, manhattan_distance
+from schedule.utils.strategy_utils.range import Range
 
 step_dict = {
     "action": {

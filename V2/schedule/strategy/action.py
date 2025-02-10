@@ -2,11 +2,11 @@
 # @Author  : Bin
 # @Time    : 2024/7/25 15:25
 import time
-from strategy.game_utils import GameUtils
-from strategy.handler.attack import Attack
-from strategy.handler.move import Move
-from utils.strategy_utils.basic_utils import square_distance_points
-from utils.strategy_utils.range import Range
+from schedule.strategy.game_utils import GameUtils
+from schedule.strategy.handler.attack import Attack
+from schedule.strategy.handler.move import Move
+from schedule.utils.strategy_utils.basic_utils import square_distance_points
+from schedule.utils.strategy_utils.range import Range
 
 ATTACHMENT_SELECT = 1  # 可以被攻击的附着物类型
 

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/8/1 15:51
-from strategy.game_utils import GameUtils
-from strategy.handler.skill_attack_range import SkillRange
-from strategy.handler.weight import Weight
-from utils.strategy_utils.range import Range
+from schedule.strategy.game_utils import GameUtils
+from schedule.strategy.handler.skill_attack_range import SkillRange
+from schedule.strategy.handler.weight import Weight
+from schedule.utils.strategy_utils.range import Range
 
 
 class Attack(object):

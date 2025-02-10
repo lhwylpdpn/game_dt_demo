@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/26 14:20
-from strategy.action import Action
-from strategy.handler.attack import Attack
-from strategy.level1_tree import make_decision as level1_make_decision
-from strategy.level0_tree import make_decision as level0_make_decision
+from schedule.strategy.action import Action
+from schedule.strategy.handler.attack import Attack
+from schedule.strategy.level1_tree import make_decision as level1_make_decision
+from schedule.strategy.level0_tree import make_decision as level0_make_decision
 class Agent(object):
 
     def swap_specific_keys(self, d, key1, key2):

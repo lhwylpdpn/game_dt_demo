@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author  : Bin
 # @Time    : 2024/7/25 15:41
-from strategy.game_utils import GameUtils
-from strategy.handler.skill_attack_range import SkillRange
+from schedule.strategy.game_utils import GameUtils
+from schedule.strategy.handler.skill_attack_range import SkillRange
 
 
 class DistanceFunc(object):

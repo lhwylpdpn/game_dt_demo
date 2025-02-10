@@ -7,11 +7,11 @@ from copy import deepcopy
 from itertools import product
 
 from log.log import log_manager, LogManager
-from strategy.handler.weight import Weight
-from utils.strategy_utils.action_weight import ActionWeight
+from schedule.strategy.handler.weight import Weight
+from schedule.utils.strategy_utils.action_weight import ActionWeight
 
-from utils.strategy_utils.basic_data import Data
-from utils.strategy_utils.basic_utils import get_attack_range, find_shortest_path, skill_effect_range, \
+from schedule.utils.strategy_utils.basic_data import Data
+from schedule.utils.strategy_utils.basic_utils import get_attack_range, find_shortest_path, skill_effect_range, \
     skill_release_range, get_manhattan_path, manhattan_distance, get_damage_skills, is_reach, get_heal_skills
 
 

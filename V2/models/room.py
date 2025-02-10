@@ -13,6 +13,7 @@ from .cardeffect import CardEffect
 from .card import Card
 from .hero import Hero
 from utils.tools import uniqueID_32, uniqueID_64
+from schedule.strategy.game import Game
 
 
 class Room():
@@ -25,6 +26,8 @@ class Room():
         self.__map_id = map_id            #  地图ID
         self.__left_heros = []            #  左侧的英雄 Heros
         self.__right_heros = []           #  右侧的英雄 Heros
+        
+        self.__game = None                #  当前棋局
         
         # 配置中的信息
         self.__maps = None                #  配置使用的地图
@@ -80,6 +83,17 @@ class Room():
             __room.add_hero(Hero(**_))
         return __room
     
+    @property
+    def game(self):
+        return self.__game
+    
+    def init_game(self):
+        self.__game = Game(hero=self.__left_heros, maps=self.__maps, 
+                            monster=self.__right_heros, 
+                            attachment=None,
+                            setting=None)
+        return self
+
     @property
     def left_player(self):
         return self.__left_player
