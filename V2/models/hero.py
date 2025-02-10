@@ -319,10 +319,12 @@ class Hero(HeroBase): # 逻辑相关处理
         return dict_data
     
     # 设置上场的出生位置
-    def set_birth_position(self, player_object):  # LocationLeft, LocationRight
-        birth_location = player_object.room.heros_pvp_locations.get(player_object.direction)
-        print(birth_location[self.init_position])
+    def set_birth_position(self, player_object):  # LocationLeft, LocationRight ,RotaionRight, RotaionLeft
+        direction = player_object.direction.replace("Location", "")
+        birth_location = player_object.room.heros_pvp_locations.get(f"Location{direction}")
+        birth_rotaion = player_object.room.heros_pvp_locations.get(f"Rotaion{direction}")
         self.set_position(birth_location[self.init_position])
+        self.set_positionType(birth_rotaion[self.init_position])
         return 
     
     def create_unique_id(self):
