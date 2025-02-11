@@ -44,7 +44,7 @@ class HeroBase(OldHero): # hero 基础数据
         self.__Block = 2                                              # 地块站立的属性 hero 为2， monster 为 3
         
     
-    def dict(self):
+    def dict(self, **kwargs):
         fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "Speed",  
                    "position", "AtkType", "AtkDistance",  "AtkDistanceType", "init_position", "camp"]
         old_dict_data = super().dict()
@@ -215,7 +215,7 @@ class HeroBase(OldHero): # hero 基础数据
         return self
 
     def is_death(self):         # 是不是死亡了
-        return self.__Hp > 0
+        return self.__Hp <= 0
 
     def is_alive(self):         # 是不是还活着
         return not self.is_death()
@@ -310,7 +310,7 @@ class Hero(HeroBase): # 逻辑相关处理
         self.set_AvailableSkills([1])
         self.skills_add(skill)
 
-    def dict(self):
+    def dict(self, **kwargs):
         dict_data = super().dict()
         # TODO add new attr
         dict_data["unique_id"] = self.unique_id
