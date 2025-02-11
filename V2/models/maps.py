@@ -113,11 +113,13 @@ class Map(): # 地图
                     raise Exception("地块 {x}, {y}, {z} 不是该对象站立")
         return self
     
-    def enter(self, x, y, z, h_m_object, **kwargs): # 进入地块 
+    def enter(self, x, y, z, h_m_object, init_position=False, **kwargs): # 进入地块 
         land = self.map[x,y,z]
         if isinstance(land, Land):
             if not land.stand_object:
                 land.set_stand_object(h_m_object)
+                # if init_position:
+                #     self.__h_m_objects.append(h_m_object)
             else:
                 raise Exception("land {x}, {y}, {z} 被占用")
         return self
@@ -135,3 +137,7 @@ class Map(): # 地图
         x, y, z = list(df.max())
         print("map size:", x+1, z+1, y+1)
         return x+1, y+1, z+1 
+    
+    def list_land_postion(self):
+        a = pd.DataFrame(np.nonzero(self.map))
+        return np.array(a.T.values.tolist()).tolist()

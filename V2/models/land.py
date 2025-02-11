@@ -84,7 +84,22 @@ class LandBase(): # 地块基础数据
     @property
     def position(self):
         return self.__position
-
+    
+    @property
+    def stand_object(self): 
+        return self.__stand_object
+    
+    def set_stand_object(self, v):
+        self.__stand_object = v
+        self.set_Block()    
+        return self
+    
+    def set_Block(self):
+        if self.__stand_object: # 站立了英雄ormonster
+            self.__Block = self.__stand_object.Block
+        else:
+            self.block = self.Block_Base
+        return self
 
 class Land(LandBase):
     
@@ -98,21 +113,4 @@ class Land(LandBase):
     def is_can_pass(self):
         return self.Block == CAN_PASS
     
-    @property
-    def stand_object(self): 
-        return self.__stand_object
-    
-    def set_stand_object(self, v):
-        self.__stand_object = v
-        self.set_Block()
-        if self.__stand_object:
-            for _ in self.attachments:
-                self.add_buff_for_stand_object(_)       
-        return self
-    
-    def set_Block(self):
-        if self.__stand_object: # 站立了英雄ormonster
-            self.__Block = self.__stand_object.Block
-        else:
-            block = self.Block_Base
-        return self 
+ 
