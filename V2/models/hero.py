@@ -285,7 +285,7 @@ class Hero(HeroBase): # 逻辑相关处理
         self.__unique_id = None
         self.__positionType = None
         # TODO add another attrs
-        self.__batch_old_attr()
+        self.__batch_old_attr()    # TODO 后续确定结构后 maybe 不需要此操作
     
     def __batch_old_attr(self):
         # TODO old effects

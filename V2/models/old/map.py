@@ -10,9 +10,9 @@ import numpy as np
 import itertools
 from .land import Land
 from .attachment import Attachment, AttachmentHelper
-from utils.damage import damage
-from utils.attachment_damage import damage_calc
-from utils.tools import round_up_2_integer
+from schedule.utils.damage import damage
+from schedule.utils.attachment_damage import damage_calc
+from schedule.utils.tools import round_up_2_integer
 
 
 class Map(): # 地图

@@ -8,10 +8,10 @@ import json
 import copy
 import traceback
 from itertools import product
-from utils.damage import damage
-from utils.heal import heal
-from utils.tools import random_choices
-from utils.tools import round_up_2_integer
+from schedule.utils.damage import damage
+from schedule.utils.heal import heal
+from schedule.utils.tools import random_choices
+from schedule.utils.tools import round_up_2_integer
 from models.maps import Map
 from models.land import Land
 from .buff import Buff
