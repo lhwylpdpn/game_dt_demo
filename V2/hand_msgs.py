@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import struct
 import traceback
+from twisted.internet import defer
+from twisted.internet.threads import deferToThread
 from msgs import card_game_pb2
 from protobuf_to_dict import protobuf_to_dict
 
@@ -9,7 +11,8 @@ def handle_ready_game(self_client, player_id, data):
     print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
 
     data = protobuf_to_dict(data)
-    self_client.player.match_player(current_avaliable_rooms=self_client.factory.game_rooms())             # 匹配对手，创建房间 zhaohu 20250125
+    self_client.player.match_player(
+        current_avaliable_rooms=self_client.factory.game_rooms())  # 匹配对手，创建房间 zhaohu 20250125
     self_client.player.set_ready_game_data(data)
 
     # 构造 ReadyGameResponse
@@ -23,7 +26,17 @@ def handle_ready_game(self_client, player_id, data):
 
     if self_client.player.room.left_player and self_client.player.room.right_player:
         print(f"Room is full, start game")
-        handle_start_game(self_client, player_id)
+        def start_game_in_background():
+            handle_start_game(self_client, player_id)
+        deferToThread(start_game_in_background)
+
+        # def on_game_started(result):
+        #     print(f"Game started successfully, result: {result}")
+        # def on_error(failure):
+        #     print(f"error: {failure}")
+        # d.addCallback(on_game_started)
+        # d.addErrback(on_error)
+
 
 
 def handle_start_game(self_client, player_id):
@@ -34,6 +47,8 @@ def handle_start_game(self_client, player_id):
     start_game_request = card_game_pb2.StartGameRequest()
     start_game_request.roomId = self_client.player.room.room_id
 
+    self_client.player.room.init_game()
+
     if data["left_player"]:
         p_id = data["left_player"].get("playerId")
         if data["left_heros"]:
@@ -42,8 +57,8 @@ def handle_start_game(self_client, player_id):
                 hero_change.playerId = p_id
                 hero_change.heroUniqueId = hero["unique_id"]
                 hero_change.heroId = hero["HeroID"]
-                hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
-                hero_change.positionType = 0  # TODO
+                hero_change.position.x, hero_change.position.y, hero_change.position.z = hero["position"][0], hero["position"][1], hero["position"][2]
+                hero_change.positionType = hero["positionType"]
     if data["right_player"]:
         p_id = data["right_player"].get("playerId")
         if data["right_heros"]:
@@ -52,8 +67,8 @@ def handle_start_game(self_client, player_id):
                 hero_change.playerId = p_id
                 hero_change.heroUniqueId = hero["unique_id"]
                 hero_change.heroId = hero["HeroID"]
-                hero_change.position.x, hero_change.position.y, hero_change.position.z = tuple(hero["position"])
-                hero_change.positionType = 0  # TODO
+                hero_change.position.x, hero_change.position.y, hero_change.position.z = hero["position"][0], hero["position"][1], hero["position"][2]
+                hero_change.positionType = hero["positionType"]
 
     # 发送消息
     msg_id = 1003
@@ -96,6 +111,8 @@ def handle_start_round(self_client, player_id, data):
     msg_id = 1006
     response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
     self_client.sendMessage(response_message, isBinary=True)
+
+
 
 def handle_action_request(self_client, player_id):
     print(f"Received ActionRequest: playerId={player_id}")
