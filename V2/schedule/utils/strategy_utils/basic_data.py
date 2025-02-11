@@ -10,7 +10,8 @@ class Data(object):
         elif key in ("RoundAction", "DogBase"):
             return int(data[key])
         elif key in ("JumpHeight", ):
-            return int(data[key][0])
+            #by lh init 结构变了，所以jump 的去掉[0]
+            return int(data[key])
         elif key in ("ClassType1", "ClassType2", "ClassType3", "ClassType4"):
             return int(data["BaseClass"][key])
         elif key in ("team_id", ):

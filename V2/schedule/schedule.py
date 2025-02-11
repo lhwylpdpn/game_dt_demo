@@ -57,6 +57,7 @@ class schedule:
 
         self.performance = performance()
 
+
         self.performance.event_start('get_current_state')
         state = self.game.get_current_state()
         state_dict = self.state_to_dict(state)  # todo  优化性能
@@ -80,7 +81,85 @@ class schedule:
         self.performance.event_start('game_start')
         self.game.start()
         self.performance.event_end('game_start')
+        self.single_run()
 
+
+    def single_run(self):
+        alive_hero = self.game.get_current_alive_hero()
+        #根据alive_hero里每个hero.Velocity 重新排序alive_hero
+        alive_hero.sort(key=lambda x: x.Velocity, reverse=True)
+        state = self.game.get_current_state()
+        state_dict = self.state_to_dict(state)
+
+        #英雄行动一轮
+        for hero in alive_hero:
+            if hero.is_death:  # 同一个tick里也可能，后轮到的英雄被先轮到的打死
+                continue
+            if hero.camp == 'p1':
+                self.performance.event_start('schedule_choose_action')
+                actions = self.agent_1.choice_hero_act(hero, state, self.performance)
+                # print('tick', self.tick, '调度获得的行动list: 英雄', alive_hero_id, actions)
+                # log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
+                self.performance.event_end('schedule_choose_action')
+            if hero.camp == 'p2':
+                self.performance.event_start('schedule_choose_action')
+                actions = self.agent_2.choice_monster_act(hero, state, self.performance)
+                # print('tick', self.tick, '调度获得的行动list: 怪兽', alive_hero_id, actions)
+                # log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
+                self.performance.event_end('schedule_choose_action')
+
+            for action in actions:
+                action_result=[]
+                self.performance.event_start('game_action')
+                if hero.camp == 'p1':
+                    action_result = self.game.hero_action(hero, action)
+
+                else:
+                    action_result = self.game.monster_action(hero, action)
+                self.performance.event_end('game_action')
+
+                if not action_result:  # 如果动作失败，直接跳出本次动作链路
+                    break
+                if isinstance(action_result, dict):
+                    action_result = [action_result]
+                self.performance.event_start('get_current_state')
+                new_state = self.game.get_current_state()
+                new_state_dict = self.state_to_dict(new_state)
+                self.performance.event_end('get_current_state')
+
+                for action in action_result:
+
+
+                    self.performance.event_start('record')
+                    # action['id'] = alive_hero_id
+                    # action['class'] = alive_hero_class
+                    if action['action_type'] != 'SKILL_82':  # 反击
+                        action['id'] = hero.HeroID
+                        action['class'] = hero.camp
+                    self._record(action, state_dict, new_state_dict)
+
+                self.performance.event_end('record')
+                self.performance.event_start('get_current_state')
+                state = new_state
+                state_dict = self.state_to_dict(state)
+                self.performance.event_end('get_current_state')
+
+            # 2024-10-21 调整存储redis结构
+
+            self.performance.event_start('check_game_over')
+            if self.game.check_game_over()[0]:
+                # print('战斗结束了！！！！',self.game.check_game_over()[1])
+                self.performance.event_end('check_game_over')
+                self.game_over = True
+                if self.record_update_dict.get(self.tick) is not None:
+                    #self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
+                    self.save_result_to_redis(self.record_update_dict[self.tick])
+
+                return state
+            self.performance.event_end('check_game_over')
+            if self.record_update_dict.get(self.tick) is not None:
+                self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
+                self.save_result_to_redis(self.record_update_dict[self.tick])
     def run(self):
 
         while self.tick < self.timeout_tick and not self.game_over:
@@ -89,6 +168,9 @@ class schedule:
         self.performance.end()
         self.performance.tick = self.tick
         return self.game.check_game_over()[1]
+
+
+
 
     def next(self):
 
@@ -261,8 +343,10 @@ class schedule:
         map = copy.deepcopy(state['maps'])
         hero = copy.deepcopy(state['hero'])
         monster = copy.deepcopy(state['monster'])
-        attachment = copy.deepcopy(state['attachment'])
-        setting=copy.deepcopy(state['setting'])
+
+        #
+        # attachment = copy.deepcopy(state['attachment'])
+        # setting=copy.deepcopy(state['setting'])
 
         if type(map) != list:
             map = [map]
@@ -270,16 +354,16 @@ class schedule:
             hero = [hero]
         if type(monster) != list:
             monster = [monster]
-        if type(attachment) != list:
-            attachment = [attachment]
-        if type(setting)!=list:
-            setting=[setting]
+        # if type(attachment) != list:
+        #     attachment = [attachment]
+        # if type(setting)!=list:
+        #     setting=[setting]
 
         map_dict = {}
         hero_dict = {}
         monster_dict = {}
-        map3_dict = {}
-        map4_dict = {}
+        # map3_dict = {}
+        # map4_dict = {}
 
         for i in range(len(map)):
             map_dict[i] = map[i].dict(for_view=True)
@@ -287,21 +371,22 @@ class schedule:
             hero_dict[h.HeroID] = h.dict(for_view=True)
         for m in monster:
             monster_dict[m.HeroID] = m.dict(for_view=True)
-        for a in attachment:
-            #attachment_dict[a.MapID] = a.dict()
-            if a.Layer == 3:
-                map3_dict[a.MapID] = a.dict()
-            if a.Layer == 4:
-                map4_dict[a.MapID] = a.dict()
-        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict, 
-               'map3': map3_dict, "map4":map4_dict,
+        # for a in attachment:
+        #     #attachment_dict[a.MapID] = a.dict()
+        #     if a.Layer == 3:
+        #         map3_dict[a.MapID] = a.dict()
+        #     if a.Layer == 4:
+        #         map4_dict[a.MapID] = a.dict()
+        res = {'map': map_dict, 'hero': hero_dict, 'monster': monster_dict,
+               #'map3': map3_dict, "map4":map4_dict,
                #'attachment': attachment_dict,
-               "setting":setting}
+               #"setting":setting
+                }
         del map
         del hero
         del monster
-        del attachment
-        del setting
+        # del attachment
+        # del setting
 
         return res
 
@@ -355,10 +440,10 @@ class schedule:
 
         return result
 
-    def save_result_to_redis(self, record_update_dict):
+    def save_result_to_redis(self):
 
-        redis_key_2 = "battle_id:" + str(self.battle_id)
-        print('rpush')
+
+        print('这里是返回动作',self.record_update_dict)
         #redis_client.rpush(redis_key_2, json.dumps(record_update_dict))
 
 

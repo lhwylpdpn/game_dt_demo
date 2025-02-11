@@ -24,20 +24,21 @@ class Range(Data):
                 self.role = role.dict()
 
         if state:
-            if "attachment" in state:
-                self.attachments = []
-                for _ in state["attachment"]:
-                    if not isinstance(_, dict):
-                        _ = _.dict()
-                    if _.get("DestroyEffect", 0) > 0 and _.get("Selected", 0) == 1: # 血量 > 0 & 可以被选中
-                        _["Hp"] = _.get("DestroyEffect")
-                        self.attachments.append(_)
-                    if _.get("Block") == 1:  # 不可行走的附着物点位
-                        self.attachment_points.append(tuple(_["position"]))
-
-
-            if "setting" in state:
-                self.setting = state["setting"]
+            #by lh init注释掉
+            # if "attachment" in state:
+            #     self.attachments = []
+            #     for _ in state["attachment"]:
+            #         if not isinstance(_, dict):
+            #             _ = _.dict()
+            #         if _.get("DestroyEffect", 0) > 0 and _.get("Selected", 0) == 1: # 血量 > 0 & 可以被选中
+            #             _["Hp"] = _.get("DestroyEffect")
+            #             self.attachments.append(_)
+            #         if _.get("Block") == 1:  # 不可行走的附着物点位
+            #             self.attachment_points.append(tuple(_["position"]))
+            #
+            #
+            # if "setting" in state:
+            #     self.setting = state["setting"]
             if "map" in state:
                 if not isinstance(state["map"], dict):
                     self.map = state["map"]
@@ -305,8 +306,8 @@ class Range(Data):
     def enemies_in_warning_range(self, role):
         # 获取角色的警戒范围
         role_position = Data.value("position", role)
-        doge_base = Data.value("DogBase", role)
-
+        #by lh init 暂时改到很大
+        doge_base = 1
         warning_range = self.get_manhattan_range(*role_position, doge_base)
         return warning_range
 
