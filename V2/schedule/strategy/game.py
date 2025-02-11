@@ -2,6 +2,7 @@
 # @Author  : Bin
 # @Time    : 2024/7/22 10:59
 import copy
+import time
 
 from schedule.strategy.action import Action
 
@@ -33,6 +34,7 @@ class Game(object):
         self.map_copy = copy.deepcopy(maps)
         self.attachment_copy = copy.deepcopy(attachment)
         self.setting_copy = copy.deepcopy(setting)
+
 
     def reset(self):
         self.hero = copy.deepcopy(self.hero_copy)

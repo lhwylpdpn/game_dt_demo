@@ -2,11 +2,9 @@ import os
 import sys
 import json
 import time
-import redis
 import configparser
 from schedule.strategy.game import Game as game_broad
 from schedule.strategy.agent import Agent as agent
-from buildpatrol import BuildPatrol
 # from test_hero_data import origin_hero_data  # 后续通过api获取前端传递的数据
 # from test_map_data import origin_map_data  # 后续通过api获取前端传递的数据
 # from test_monster_data import origin_monster_data  # 后续通过api获取前端传递的数据
@@ -27,30 +25,20 @@ from log.log import log_manager
 # step5 检查游戏是否结束
 # step6 如果游戏结束，产生内容序列
 
-cf = configparser.ConfigParser()
-path = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-cf.read(path + '/config/conf.ini', encoding='utf-8')
-redis_host = cf.get('redis', 'host')
-redis_port = cf.get('redis', 'port')
-redis_db_index = cf.get('redis', 'index')
-redis_client = redis.Redis(host=redis_host, port=redis_port, db=redis_db_index, decode_responses=True)
-
-
 # 需要在刷新了各项配置文件后，引用game，game里用到了配置文件的内容
 
 
 class schedule:
 
-    def __init__(self, state, battle_id=0):
+    def __init__(self, left_hero,right_hero,state, battle_id=0):
 
         self.battle_id = battle_id
         self.redis_expiration_time = 7 * 24 * 60 * 60
-        self.hero_list = state['hero']
-        self.state = state['maps']
-        self.monster_list = state['monster']
-        self.attachment = state['attachment']
-        self.setting=state['setting']
-        self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=self.attachment,setting=self.setting)
+        self.hero_list = left_hero
+        self.state = state
+        self.monster_list = right_hero
+
+        self.game = game_broad(hero=self.hero_list, maps=self.state, monster=self.monster_list, attachment=None,setting=None)
         self.agent_1 = agent()
         self.agent_2 = agent()
         self.timeout_tick = 2000
@@ -72,6 +60,7 @@ class schedule:
         self.performance.event_start('get_current_state')
         state = self.game.get_current_state()
         state_dict = self.state_to_dict(state)  # todo  优化性能
+
         self.init_state = state_dict
         self.performance.event_end('get_current_state')
 
@@ -363,18 +352,14 @@ class schedule:
         result = json.dumps(result)
         # print('给强爷',result)
         save_result_to_view(result, out_file_name)
-        redis_key = "battle_id:" + str(self.battle_id) + ":status"
-        res = {'tick': self.tick, 'total_time': self.performance.result['total_time']}
-        res = json.dumps(res)
-        redis_client.set(redis_key, res, ex=self.redis_expiration_time)
-        self.performance.event_end('send_update')
+
         return result
 
     def save_result_to_redis(self, record_update_dict):
 
         redis_key_2 = "battle_id:" + str(self.battle_id)
         print('rpush')
-        redis_client.rpush(redis_key_2, json.dumps(record_update_dict))
+        #redis_client.rpush(redis_key_2, json.dumps(record_update_dict))
 
 
 def main(state, battle_id, out_file_name):

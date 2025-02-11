@@ -13,7 +13,7 @@ from .cardeffect import CardEffect
 from .card import Card
 from .hero import Hero
 from utils.tools import uniqueID_32, uniqueID_64
-from schedule.strategy.game import Game
+from schedule.schedule import schedule
 
 
 class Room():
@@ -88,10 +88,7 @@ class Room():
         return self.__game
     
     def init_game(self):
-        self.__game = Game(hero=self.__left_heros, maps=self.__maps, 
-                            monster=self.__right_heros, 
-                            attachment=None,
-                            setting=None)
+        self.__game = schedule(left_hero=self.__left_heros,right_hero=self.__right_heros,state=self.__maps)
         return self
 
     @property
