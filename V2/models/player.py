@@ -45,6 +45,7 @@ class Player():
         for _hero in self.ready_game_data.get("heroes"):
             new_hero = copy.deepcopy(self.room.heros_pool.get(_hero.get("heroId")))
             new_hero.create_unique_id()
+            new_hero.batch_old_attr()  # 补全老版本属性
             new_hero.set_init_position(_hero.get("position"))
             new_hero.set_positionType(_hero.get("positionType"))
             

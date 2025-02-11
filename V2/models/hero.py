@@ -63,6 +63,10 @@ class HeroBase(OldHero): # hero 基础数据
     def HeroID(self):
         return self.__HeroID
     
+    def set_HeroID(self, v):
+        self.__HeroID = v
+        return self
+    
     @property
     def BaseClassID(self):
         return self.__BaseClassID
@@ -287,13 +291,14 @@ class Hero(HeroBase): # 逻辑相关处理
         self.__unique_id = None
         self.__positionType = None
         # TODO add another attrs
-        self.__batch_old_attr()    # TODO 后续确定结构后 maybe 不需要此操作
+        # self.__batch_old_attr()    
     
-    def __batch_old_attr(self):
+    def batch_old_attr(self):
         # TODO old effects
         # TODO old skills
         self.set_Velocity(self.Speed)
         self.set_RoundAction(self.MoveDistance)
+        self.set_HeroID(self.unique_id)
         new_effect = Effect(**{"id": 11, 
                              "key": self.AtkDistanceType,  # 
                              "param": self.AtkDistance,
