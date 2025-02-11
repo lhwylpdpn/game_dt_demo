@@ -213,12 +213,14 @@ class HeroBase(OldHero): # hero 基础数据
     def set_init_position(self, value):
         self.__init_position = value
         return self
-
+    
+    @property
     def is_death(self):         # 是不是死亡了
         return self.__Hp <= 0
 
+    @property
     def is_alive(self):         # 是不是还活着
-        return not self.is_death()
+        return not self.is_death
    
     ##  被攻击逻辑定义
     def before_hit(self, **kwargs):     # 攻击之前
@@ -250,7 +252,7 @@ class HeroBase(OldHero): # hero 基础数据
         self.on_hit(kwargs)
         self.before_hurt(kwargs)
         self.on_hurt(kwargs)
-        if self.is_death():
+        if self.is_death:
             self.before_killed(kwargs)
             self.on_killed(kwargs)
             self.be_killed(kwargs)
