@@ -29,7 +29,7 @@ class Player():
     
     def dict(self):
         fields =  ["playerId", "is_ready", "direction", "camp",  "device", "user", "ready_game_data",
-                   "show_cards", "is_show_cards"]
+                   "show_cards", "is_show_cards", "is_start_round"]
         data = {_:self.__getattribute__(_) for _ in fields}
         data["room"] = self.room.room_id
         return data
