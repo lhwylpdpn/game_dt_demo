@@ -401,7 +401,7 @@ class schedule:
         update_dict = Deepdiff_modify(before_state, after_state)
         if self.tick not in self.record_update_dict:
             self.record_update_dict[self.tick] = {'action': [],'state': [], 'tick': 0,'step': 'auto_fight', 'gameover': False}
-        self.record_update_dict[self.tick]['action'].append(action)
+        self.record_update_dict[self.tick]['action']=action
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick'] = self.tick
         self.record_update_dict[self.tick]['step'] = 'auto_fight'
