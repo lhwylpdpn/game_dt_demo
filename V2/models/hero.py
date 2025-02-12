@@ -49,6 +49,7 @@ class HeroBase(OldHero): # hero 基础数据
                    "position", "AtkType", "AtkDistance",  "AtkDistanceType", "init_position", "camp"]
         old_dict_data = super().dict()
         base_data = {_:self.__getattribute__(_) for _ in fields}
+        base_data['AvaliableCards'] = [_.dict() for _ in self.AvaliableCards]
         old_dict_data.update(base_data)
         return old_dict_data
 
