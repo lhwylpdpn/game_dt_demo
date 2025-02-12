@@ -42,11 +42,14 @@ class HeroBase(OldHero): # hero 基础数据
         
         # 默认属性
         self.__Block = 2                                              # 地块站立的属性 hero 为2， monster 为 3
+
+        # 属于那个玩家
+        self.__playerId = kwargs.get('playerId', None)       #  玩家ID
         
     
     def dict(self, **kwargs):
         fields =  ["HeroID", "MoveDistance", "JumpHeight", "Hp", "Atk",  "Def", "DefMagic", "Speed",  
-                   "position", "AtkType", "AtkDistance",  "AtkDistanceType", "init_position", "camp"]
+                   "position", "AtkType", "AtkDistance",  "AtkDistanceType", "init_position", "camp", "playerId"]
         old_dict_data = super().dict()
         base_data = {_:self.__getattribute__(_) for _ in fields}
         base_data['AvaliableCards'] = [_.dict() for _ in self.AvaliableCards]
@@ -66,6 +69,14 @@ class HeroBase(OldHero): # hero 基础数据
     
     def set_HeroID(self, v):
         self.__HeroID = v
+        return self
+    
+    @property    
+    def playerId(self):
+        return self.__playerId
+    
+    def set_playerId(self, v):
+        self.__playerId = v
         return self
     
     @property

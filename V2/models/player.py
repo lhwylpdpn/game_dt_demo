@@ -51,6 +51,7 @@ class Player():
             new_hero.batch_old_attr()  # 补全老版本属性
             new_hero.set_init_position(_hero.get("position"))
             new_hero.set_positionType(_hero.get("positionType"))
+            new_hero.set_playerId(self.playerId)
             
             if self == self.room.left_player:
                 self.set_direction("LocationLeft")
