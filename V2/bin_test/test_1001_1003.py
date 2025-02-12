@@ -51,6 +51,31 @@ async def connect1():
         else:
             print(f"connect1: Unknown msgid: {msgid_received}")
 
+        # 发出 StartRoundRequest
+        request = card_game_pb2.StartRoundRequest()
+        request.msgId = 1005
+        request.roomId = roomId
+        request.round = 1
+
+        player_id = 10000000
+        serialized_request = request.SerializeToString()
+        message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
+
+        await websocket.send(message)
+        print("connect1: StartRoundRequest 消息已发送")
+
+        # 接收并处理 StartRoundResponse
+        response = await websocket.recv()
+        msgid_received = struct.unpack("<I", response[:4])[0]  # 读取 msgid
+
+        if msgid_received == 1006:
+            response_obj = card_game_pb2.StartRoundResponse()
+            pb_response = response[12:]
+            response_obj.ParseFromString(pb_response)
+            print(f"connect1: 收到 StartRoundResponse: {response_obj.roomId}")
+        else:
+            print(f"connect1: Unknown msgid: {msgid_received}")
+
         # 构建 PlayCardRequest 消息
         request = card_game_pb2.PlayCardRequest()
         request.roomId = roomId
@@ -86,6 +111,7 @@ async def connect1():
             print(f"connect1: Parsed PlayCardResponse: roomId={response_obj.roomId}, result={response_obj.result}")
         else:
             print(f"connect1: Unknown msgid: {msgid_received}")
+
 
 
 async def connect2():
@@ -136,6 +162,31 @@ async def connect2():
         else:
             print(f"connect2: Unknown msgid: {msgid_received}")
 
+        # 发出 StartRoundRequest
+        request = card_game_pb2.StartRoundRequest()
+        request.msgId = 1005
+        request.roomId = roomId
+        request.round = 1
+
+        player_id = 10000001
+        serialized_request = request.SerializeToString()
+        message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
+
+        await websocket.send(message)
+        print("connect2: StartRoundRequest 消息已发送")
+
+        # 接收并处理 StartRoundResponse
+        response = await websocket.recv()
+        msgid_received = struct.unpack("<I", response[:4])[0]  # 读取 msgid
+
+        if msgid_received == 1006:
+            response_obj = card_game_pb2.StartRoundResponse()
+            pb_response = response[12:]
+            response_obj.ParseFromString(pb_response)
+            print(f"connect1: 收到 StartRoundResponse: {response_obj.roomId}")
+        else:
+            print(f"connect1: Unknown msgid: {msgid_received}")
+
         # 构建 PlayCardRequest 消息
         request = card_game_pb2.PlayCardRequest()
         request.roomId = roomId
@@ -171,6 +222,19 @@ async def connect2():
             print(f"connect2: Parsed PlayCardResponse: roomId={response_obj.roomId}, result={response_obj.result}")
         else:
             print(f"connect2: Unknown msgid: {msgid_received}")
+
+        request = card_game_pb2.StartRoundRequest()
+        request.msgId = 1005
+        request.roomId = roomId
+        request.round = 1
+
+        player_id = 10000001
+        serialized_request = request.SerializeToString()
+        message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
+
+        # 发送消息
+        await websocket.send(message)
+        print("connect2: StartRoundRequest 消息已发送")
 
 async def main():
     # 创建并运行两个客户端

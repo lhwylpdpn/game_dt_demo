@@ -37,8 +37,6 @@ def handle_ready_game(self_client, player_id, data):
         # d.addCallback(on_game_started)
         # d.addErrback(on_error)
 
-
-
 def handle_start_game(self_client, player_id):
     print(f"Sending StartGameRequest, playerId={player_id}")
     data = self_client.player.room.dict()
@@ -80,18 +78,17 @@ def handle_start_game(self_client, player_id):
     self_client.player.room.topic_manager.publish(self_client.player.room.room_id, response_message, isBinary=True) # HU add
 
 def handle_start_round(self_client, player_id, data):
-    print(f"StartRoundRequest ")
+    print(f"11111StartRoundRequest ")
     response = card_game_pb2.StartRoundResponse()
     response.result = True
     response.round = self_client.player.room.round
     response.roomId = self_client.player.room.room_id
     serialized_response = response.SerializeToString()
     self_client.player.set_is_start_round()
-    print("room------>", self_client.player.room.dict())
+
     if self_client.player.room.left_player.is_start_round and self_client.player.room.right_player.is_start_round:
         msg_id = 1006
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-        # self_client.sendMessage(response_message, isBinary=True)
         self_client.player.room.topic_manager.publish(self_client.player.room.room_id, response_message, isBinary=True)  # HU add
 
 
