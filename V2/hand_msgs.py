@@ -49,6 +49,7 @@ def handle_start_game(self_client, player_id):
 
     self_client.player.room.init_game()
 
+
     if data["left_player"]:
         p_id = data["left_player"].get("playerId")
         if data["left_heros"]:
@@ -98,6 +99,9 @@ def handle_play_card(self_client, player_id, data):
     if room_data.get("left_player", {}).get("is_show_cards") and room_data.get("right_player", {}).get("is_show_cards"):
         print(f"双方玩家都已经出牌，开始计算Action")
         self_client.handle_start_round(player_id, room_data)
+
+        card_actions = []
+        self_client.player.room.game.single_run(self_client, card_actions)
 
 
 def handle_start_round(self_client, player_id, data):
