@@ -10,9 +10,11 @@ from .room import Room
 from .device import Device
 from .user import User
 
+
 class Player():
     
-    def __init__(self, **kwargs):
+    def __init__(self, conn, **kwargs):
+        self.websocket = conn
         self.__playerId = kwargs.get("playerId", None)
         self.__room = None                      # 当前所在的房间
         self.__is_ready = False                 # 是否为游戏准备好
@@ -23,6 +25,7 @@ class Player():
         self.__ready_game_data = None           # 游戏准备好时候带过来的消息
         self.__show_cards = []                  # 当前round的出牌
         self.__is_show_cards = False            # 玩家是否出牌
+        self.__is_start_round = False           # 玩家是否开启回合标志
     
     def dict(self):
         fields =  ["playerId", "is_ready", "direction", "camp",  "device", "user", "ready_game_data",
@@ -93,6 +96,7 @@ class Player():
 
     def set_room(self, room):
         self.__room = room
+        self.room.topic_manager.subscribe(topic=self.room.room_id, subscriber=self)  # 订阅该房间的消息, 主题是 room_id
         if self.room.left_player is None:
             self.room.set_left_player(self)
             self.set_direction("LocationLeft")
@@ -134,6 +138,18 @@ class Player():
         return self
     
     @property
+    def is_start_round(self):
+        return self.__is_start_round
+
+    def set_is_start_round(self):
+        self.__is_start_round = True
+        return self
+    
+    def unset_is_start_round(self):
+        self.__is_start_round = False
+        return self
+
+    @property
     def direction(self):
         return self.__direction
 
@@ -163,3 +179,8 @@ class Player():
     def set_user(self, value):
         self.__user = value
         return self
+    
+    def receive_sub_message(self, topic, message, isBinary): # 接收订阅消息
+        # print(f"{self.playerId} 收到来自主题 {topic} 的消息: {message}")
+        # 接收到的订阅消息推到客户端
+        self.websocket.sendMessage(message, isBinary)

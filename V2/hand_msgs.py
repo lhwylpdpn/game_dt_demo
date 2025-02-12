@@ -74,8 +74,9 @@ def handle_start_game(self_client, player_id):
     msg_id = 1003
     serialized_request = start_game_request.SerializeToString()
     response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
-    self_client.factory.broadcast(response_message, isBinary=True)
+    # self_client.factory.broadcast(response_message, isBinary=True) # 2025-2-12 hu del
     # self_client.sendMessage(response_message, isBinary=True)
+    self_client.player.room.topic_manager.publish(self_client.player.room.room_id, response_message, isBinary=True) # HU add
 
 def handle_play_card(self_client, player_id, data):
     print(f"PlayCardRequest: roomId={data.roomId}, round={data.round}")
