@@ -47,7 +47,6 @@ def handle_start_game(self_client, player_id):
 
     self_client.player.room.init_game()
 
-
     if data["left_player"]:
         p_id = data["left_player"].get("playerId")
         if data["left_heros"]:
@@ -86,6 +85,7 @@ def handle_start_round(self_client, player_id, data):
     serialized_response = response.SerializeToString()
     self_client.player.set_is_start_round()
 
+
     if self_client.player.room.left_player.is_start_round and self_client.player.room.right_player.is_start_round:
         msg_id = 1006
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
@@ -107,17 +107,18 @@ def handle_play_card(self_client, player_id, data):
     msg_id = 1008
     response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
     self_client.sendMessage(response_message, isBinary=True)
-    self_client.handle_action_request(player_id)
+    # self_client.handle_action_request(player_id)
 
     room_data = self_client.player.room.dict()
     if room_data.get("left_player", {}).get("is_show_cards") and room_data.get("right_player", {}).get("is_show_cards"):
         print(f"双方玩家都已经出牌，开始计算Action")
-        self_client.handle_start_round(self_client, player_id, room_data)
+        handle_start_round(self_client, player_id, room_data)
 
         card_actions = []
-        self_client.player.room.game.single_run(self_client, card_actions)
+        self_client.player.room.game.single_run(handle_action_request, self_client, card_actions)
 
-def handle_action_request(self_client, player_id):
+
+def handle_action_request(self_client, player_id, data):
     print(f"Received ActionRequest: playerId={player_id}")
 
     fake_move_action = card_game_pb2.MoveAction()
@@ -133,8 +134,8 @@ def handle_action_request(self_client, player_id):
     battle_action_base.moveAction.CopyFrom(fake_move_action)
 
     action_response = card_game_pb2.ActionResponse()
-    action_response.roomId = 888
-    action_response.round = 2
+    action_response.roomId = self_client.player.room.room_id
+    action_response.round = self_client.player.room.round
     action_response.actionId = 89
     action_response.result = True
 

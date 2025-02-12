@@ -14,8 +14,8 @@ MSGID_TO_MESSAGE = {
     # 1001: [card_game_pb2.ReadyGameRequest, handle_ready_game]
     card_game_pb2.DESCRIPTOR.message_types_by_name["ReadyGameRequest"].fields_by_name['msgId'].number:  [card_game_pb2.ReadyGameRequest,  handle_ready_game],
     card_game_pb2.DESCRIPTOR.message_types_by_name["StartGameRequest"].fields_by_name['msgId'].number:  [card_game_pb2.StartGameRequest,  handle_start_game],
-    card_game_pb2.DESCRIPTOR.message_types_by_name["StartRoundRequest"].fields_by_name['msgId'].number: [card_game_pb2.StartRoundRequest, handle_play_card],
-    card_game_pb2.DESCRIPTOR.message_types_by_name["PlayCardRequest"].fields_by_name['msgId'].number:   [card_game_pb2.PlayCardRequest,   handle_start_round],
+    card_game_pb2.DESCRIPTOR.message_types_by_name["StartRoundRequest"].fields_by_name['msgId'].number: [card_game_pb2.StartRoundRequest, handle_start_round],
+    card_game_pb2.DESCRIPTOR.message_types_by_name["PlayCardRequest"].fields_by_name['msgId'].number: [card_game_pb2.PlayCardRequest, handle_play_card],
     card_game_pb2.DESCRIPTOR.message_types_by_name["ActionRequest"].fields_by_name['msgId'].number:     [card_game_pb2.ActionRequest,     handle_action_request],
 }
 
