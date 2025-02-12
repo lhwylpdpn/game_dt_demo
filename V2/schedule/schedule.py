@@ -81,7 +81,6 @@ class schedule:
         self.performance.event_start('game_start')
         self.game.start()
         self.performance.event_end('game_start')
-        self.single_run()
 
 
     def single_run(self):
