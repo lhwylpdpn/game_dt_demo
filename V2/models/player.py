@@ -77,13 +77,17 @@ class Player():
         return heros
     
     def get_my_cards(self):
-       return [_.AvaliableCards for each_h in self.get_my_heros()]
+        AvaliableCards = []
+        for each_h in self.get_my_heros():
+            AvaliableCards.extend(each_h.AvaliableCards)
+        return AvaliableCards
 
     @property
     def show_cards(self):
         return self.__show_cards
 
     def set_show_cards(self, data):
+        print(data)
         show_cards = {_.get("cardUniqueId"):_ for _ in data.get("change")}
         self.__show_cards = show_cards
         for _ in self.get_my_cards():
