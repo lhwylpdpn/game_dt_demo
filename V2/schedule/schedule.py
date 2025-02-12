@@ -83,14 +83,13 @@ class schedule:
         self.performance.event_end('game_start')
 
 
-    def single_run(self):
+    def single_run(self,client,card_action_list):
         alive_hero = self.game.get_current_alive_hero()
         #根据alive_hero里每个hero.Velocity 重新排序alive_hero
         alive_hero.sort(key=lambda x: x.Velocity, reverse=True)
         state = self.game.get_current_state()
         state_dict = self.state_to_dict(state)
-
-        #英雄行动一轮
+        self.client=client
         for hero in alive_hero:
             if hero.is_death:  # 同一个tick里也可能，后轮到的英雄被先轮到的打死
                 continue
@@ -127,38 +126,20 @@ class schedule:
                 self.performance.event_end('get_current_state')
 
                 for action in action_result:
-
-
-                    self.performance.event_start('record')
-                    # action['id'] = alive_hero_id
-                    # action['class'] = alive_hero_class
-                    if action['action_type'] != 'SKILL_82':  # 反击
-                        action['id'] = hero.HeroID
-                        action['class'] = hero.camp
+                    if self.game.check_game_over()[0]:
+                        self.game_over=True
+                    action['id'] = hero.HeroID
+                    action['class'] = hero.camp
                     self._record(action, state_dict, new_state_dict)
-
-                self.performance.event_end('record')
+                    self.tick+=1
+                    if self.game_over:
+                        return  self.game_over
+                    #每次实际行动就自增tick加1，这样1个tick代表一次行动
                 self.performance.event_start('get_current_state')
                 state = new_state
                 state_dict = self.state_to_dict(state)
                 self.performance.event_end('get_current_state')
 
-            # 2024-10-21 调整存储redis结构
-
-            self.performance.event_start('check_game_over')
-            if self.game.check_game_over()[0]:
-                # print('战斗结束了！！！！',self.game.check_game_over()[1])
-                self.performance.event_end('check_game_over')
-                self.game_over = True
-                if self.record_update_dict.get(self.tick) is not None:
-                    #self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
-                    self.save_result_to_redis(self.record_update_dict[self.tick])
-
-                return state
-            self.performance.event_end('check_game_over')
-            if self.record_update_dict.get(self.tick) is not None:
-                self.record_update_dict[self.tick]['sequence'] = self.hero_next_action_round
-                self.save_result_to_redis(self.record_update_dict[self.tick])
     def run(self):
 
         while self.tick < self.timeout_tick and not self.game_over:
@@ -417,27 +398,13 @@ class schedule:
     def _record(self, action, before_state, after_state):
         # self.performance.event_start('record_detail')
         update_dict = Deepdiff_modify(before_state, after_state)
-        # self.performance.event_end('record_detail')
-        log_manager.add_log(
-            {'stepname': '调度记录change变化', 'tick': self.tick, 'action': action, 'update_dict': update_dict})
-        if self.record_update_dict.get(self.tick) is None:
-            self.record_update_dict[self.tick] = {'action': [], 'state': []}  # 初始化
+
         self.record_update_dict[self.tick]['action'].append(action)
-        #print('record',self.record_update_dict[self.tick]['action'])
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick'] = self.tick
-        # self.performance.event_end('record_detail')
-
-    def send_update(self, out_file_name='for_qiangye.json'):
-
-        self.performance.event_start('send_update')
-        result = [i for i in self.record_update_dict.values()]
-        result = {'init_state': self.init_state, 'update': result}
-        result = json.dumps(result)
-        # print('给强爷',result)
-        save_result_to_view(result, out_file_name)
-
-        return result
+        self.record_update_dict[self.tick]['step'] = 'auto_fight'
+        self.record_update_dict[self.tick]['gameover'] = self.game_over
+        #todo 调用彬哥
 
     def save_result_to_redis(self):
 
