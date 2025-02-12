@@ -14,7 +14,29 @@ from .card import Card
 from .hero import Hero
 from utils.tools import uniqueID_32, uniqueID_64
 from schedule.schedule import schedule
+from collections import defaultdict
 
+class TopicManager:
+    def __init__(self):
+        # 存储每个主题的订阅者列表
+        self.subscribers = defaultdict(list)
+        
+    def subscribe(self, topic, subscriber):
+        # 将订阅者添加到指定主题的订阅者列表中
+        self.subscribers[topic].append(subscriber)
+        # print(f"subscriber {subscriber.playerId} success subscrib topic: {topic}")
+        # subscriber.receive_message(topic, f"success subscrib topic: {topic}")
+        
+    def unsubscribe(self, topic, subscriber):
+        # 从指定主题的订阅者列表中移除订阅者
+        if subscriber in self.subscribers[topic]:
+            self.subscribers[topic].remove(subscriber)
+            
+    def publish(self, topic, message, isBinary):
+        # 将消息发布到指定主题的所有订阅者
+        for subscriber in self.subscribers[topic]:
+            subscriber.receive_sub_message(topic, message, isBinary)
+            
 
 class Room():
 
@@ -35,6 +57,7 @@ class Room():
         self.__heros_pool = {}            #  配置中的英雄 {ID:hero, ...}
         self.__heros_pvp_locations = {}   #  配置中的英雄的初始位置 {LocationLeft:[], LocationRight:[]}
         self.__effects  = {}              #  配置的效果 {ID:cardeffect, .....}
+        self.topic_manager = TopicManager() # 订阅管理
 
     def dict(self):
         fields = ["left_player", "right_player", "room_id", "maps", 
@@ -89,7 +112,7 @@ class Room():
     
     def init_game(self):
         self.__game = schedule(left_hero=self.__left_heros,right_hero=self.__right_heros,state=self.__maps)
-        self.__game.start()
+        # self.__game.start()
         return self
 
     @property

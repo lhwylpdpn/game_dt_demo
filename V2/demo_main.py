@@ -31,7 +31,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         if len(self.factory.clients) >= MAX_PLAYER:
             raise ConnectionDeny(403, f"Server is Full.")
         self.factory.register(self)
-        self.player = Player()           ## 创建当前玩家的实体
+        self.player = Player(self)           ## 创建当前玩家的实体
 
     def onClose(self, wasClean, code, reason):
         print(f"WebSocket connection closed: {reason}")
