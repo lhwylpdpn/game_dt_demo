@@ -83,12 +83,13 @@ class schedule:
         self.performance.event_end('game_start')
 
 
-    def single_run(self,client,card_action_list):
+    def single_run(self,fun_,client,card_action_list):
         alive_hero = self.game.get_current_alive_hero()
         #根据alive_hero里每个hero.Velocity 重新排序alive_hero
         alive_hero.sort(key=lambda x: x.Velocity, reverse=True)
         state = self.game.get_current_state()
         state_dict = self.state_to_dict(state)
+        self.fun_=fun_
         self.client=client
         for hero in alive_hero:
             if hero.is_death:  # 同一个tick里也可能，后轮到的英雄被先轮到的打死
@@ -398,12 +399,14 @@ class schedule:
     def _record(self, action, before_state, after_state):
         # self.performance.event_start('record_detail')
         update_dict = Deepdiff_modify(before_state, after_state)
-
+        if self.tick not in self.record_update_dict:
+            self.record_update_dict[self.tick] = {'action': [],'state': [], 'tick': 0,'step': 'auto_fight', 'gameover': False}
         self.record_update_dict[self.tick]['action'].append(action)
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick'] = self.tick
         self.record_update_dict[self.tick]['step'] = 'auto_fight'
         self.record_update_dict[self.tick]['gameover'] = self.game_over
+        self.fun_(self.client,self.client.player.playerId,self.record_update_dict[self.tick])
         #todo 调用彬哥
 
     def save_result_to_redis(self):
