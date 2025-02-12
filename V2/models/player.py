@@ -23,7 +23,7 @@ class Player():
         self.__device = None                    # 设备信息（iphone。 android～～～）
         self.__user = None                      # 玩家信息 （头像，密保，生日，电话, 邮箱～～～）
         self.__ready_game_data = None           # 游戏准备好时候带过来的消息
-        self.__show_cards = []                  # 当前round的出牌
+        self.__show_cards = {}                  # 当前round的出牌 {unique_id:card }
         self.__is_show_cards = False            # 玩家是否出牌
         self.__is_start_round = False           # 玩家是否开启回合标志
     
@@ -68,14 +68,30 @@ class Player():
                 new_hero.add_cards(new_card)
 
         return self
+    
+    def get_my_heros(self): # 获取我当前拥有的 hero
+        if self == self.room.left_player:
+            heros = self.room.left_heros
+        if self == self.room.right_player:
+            heros = self.room.right_heros
+        return heros
+    
+    def get_my_cards(self):
+       return [_.AvaliableCards for each_h in self.get_my_heros()]
 
     @property
     def show_cards(self):
         return self.__show_cards
 
-    # @property
     def set_show_cards(self, data):
-        self.__show_cards = data
+        show_cards = {_.get("cardUniqueId"):_ for _ in data.get("change")}
+        self.__show_cards = show_cards
+        for _ in self.get_my_cards():
+            if _.unique_id in self.__show_cards.keys(): # 设置对应的位置
+                x = self.__show_cards[_.unique_id].get('releasePosition').get("x")
+                y = self.__show_cards[_.unique_id].get('releasePosition').get("y")
+                z = self.__show_cards[_.unique_id].get('releasePosition').get("z")
+                _.set_releasePosition((x,y,z))
         return self
     
     @property
