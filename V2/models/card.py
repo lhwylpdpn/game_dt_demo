@@ -59,7 +59,7 @@ class CardBase():
     
     @property
     def releasePosition(self):
-        return self.__HreleasePosition
+        return self.__releasePosition
     
     def set_releasePosition(self, value):
         self.__releasePosition = value
