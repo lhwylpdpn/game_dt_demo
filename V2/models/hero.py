@@ -310,7 +310,7 @@ class Hero(HeroBase): # 逻辑相关处理
         # TODO old skills
         self.set_Velocity(self.Speed)
         self.set_RoundAction(self.MoveDistance)
-        self.set_HeroID(self.unique_id)
+        # self.set_HeroID(self.unique_id)
         new_effect = Effect(**{"id": 11, 
                              "key": self.AtkDistanceType,  # 
                              "param": self.AtkDistance,
