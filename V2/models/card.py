@@ -73,10 +73,18 @@ class Card(CardBase):
         self.__effects = {}                  # 卡牌 的效果
         self.__unique_id = None
     
+    def dict(self):
+        dict_data = super().dict()
+        dict_data["unique_id"] = self.unique_id
+        print(self.effects)
+        dict_data["effects"] = {k:self.get_effect(k).dict() for k in self.effects.keys()}
+        return dict_data
+    
     def create_unique_id(self):
         self.__unique_id = uniqueID_32()
         return self
     
+    @property
     def unique_id(self):
         return self.__unique_id
 

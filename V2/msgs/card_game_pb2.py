@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\x12\x0cProtobufData\"\xaf\x01\n\x10ReadyGameRequest\x12\x13\n\x05msgId\x18\xe9\x07 \x01(\x05H\x00\x88\x01\x01\x12\r\n\x05mapId\x18\x01 \x01(\x05\x12\x33\n\x06heroes\x18\x02 \x03(\x0b\x32#.ProtobufData.ReadyGameRequest.Hero\x1a\x38\n\x04Hero\x12\x10\n\x08position\x18\x01 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x02 \x03(\x05\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11ReadyGameResponse\x12\x13\n\x05msgId\x18\xea\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xa0\x02\n\x10StartGameRequest\x12\x13\n\x05msgId\x18\xeb\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x39\n\x06\x63hange\x18\x02 \x03(\x0b\x32).ProtobufData.StartGameRequest.heroChange\x1a\xa1\x01\n\nheroChange\x12\x10\n\x08playerId\x18\x01 \x01(\x05\x12\x14\n\x0cheroUniqueId\x18\x02 \x01(\x03\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x12)\n\x08position\x18\x04 \x01(\x0b\x32\x17.ProtobufData.PbVector3\x12\x30\n\x0cpositionType\x18\x05 \x01(\x0e\x32\x1a.ProtobufData.PositionTypeB\x08\n\x06_msgId\"R\n\x11StartGameResponse\x12\x13\n\x05msgId\x18\xec\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"Q\n\x11StartRoundRequest\x12\x13\n\x05msgId\x18\xed\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"b\n\x12StartRoundResponse\x12\x13\n\x05msgId\x18\xee\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06roomId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"\x9a\x02\n\x0fPlayCardRequest\x12\x13\n\x05msgId\x18\xef\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x38\n\x06\x63hange\x18\x04 \x03(\x0b\x32(.ProtobufData.PlayCardRequest.CardChange\x1a\x8e\x01\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12\x30\n\x0freleasePosition\x18\x02 \x01(\x0b\x32\x17.ProtobufData.PbVector3\x12\x12\n\ntargetType\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x03\x12\x0e\n\x06\x63\x61rdId\x18\x05 \x01(\x05\x42\x08\n\x06_msgId\"Q\n\x10PlayCardResponse\x12\x13\n\x05msgId\x18\xf0\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xc4\x01\n\x10\x42\x61ttleActionBase\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12.\n\ntypeAction\x18\x02 \x01(\x0b\x32\x18.ProtobufData.TypeActionH\x00\x12.\n\nmoveAction\x18\x03 \x01(\x0b\x32\x18.ProtobufData.MoveActionH\x00\x12\x30\n\x0bskillAction\x18\x04 \x01(\x0b\x32\x19.ProtobufData.SkillActionH\x00\x42\x08\n\x06\x61\x63tion\"2\n\nTypeAction\x12\x0c\n\x04type\x18\x01 \x01(\x05\x12\x0f\n\x02Id\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x05\n\x03_Id\"i\n\nMoveAction\x12)\n\x08movePath\x18\x01 \x03(\x0b\x32\x17.ProtobufData.PbVector3\x12\x30\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x18.ProtobufData.ChangeHero\"j\n\x0bSkillAction\x12\x30\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x18.ProtobufData.ChangeHero\x12)\n\x08position\x18\x03 \x01(\x0b\x32\x17.ProtobufData.PbVector3\"\x83\x01\n\nChangeHero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12+\n\x04type\x18\x02 \x01(\x0e\x32\x1d.ProtobufData.ChangeStateType\x12\x32\n\x0f\x63hangeStateList\x18\x03 \x03(\x0b\x32\x19.ProtobufData.ChangeState\"\x83\x01\n\x0b\x43hangeState\x12\x0c\n\x02hp\x18\x01 \x01(\x05H\x00\x12/\n\x0cpushPosition\x18\x02 \x01(\x0b\x32\x17.ProtobufData.PbVector3H\x00\x12,\n\tbuffState\x18\x03 \x01(\x0b\x32\x17.ProtobufData.BuffStateH\x00\x42\x07\n\x05state\"*\n\tBuffState\x12\x0e\n\x06\x62uffId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\",\n\tPbVector3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xed\x01\n\rActionRequest\x12\x13\n\x05msgId\x18\xf1\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\r\n\x05level\x18\x04 \x01(\x05\x12\r\n\x05round\x18\x05 \x01(\x05\x12\x13\n\x0broundStatus\x18\x06 \x01(\x08\x12\x10\n\x08gameOver\x18\x07 \x01(\x08\x12\x0e\n\x06winner\x18\x08 \x01(\x05\x12\x34\n\x0c\x62\x61ttleAction\x18\t \x01(\x0b\x32\x1e.ProtobufData.BattleActionBaseB\x08\n\x06_msgId\"p\n\x0e\x41\x63tionResponse\x12\x13\n\x05msgId\x18\xf2\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\x0e\n\x06result\x18\x04 \x01(\x08\x42\x08\n\x06_msgId*J\n\x0cPositionType\x12\x0e\n\nfrontRight\x10\x00\x12\x0c\n\x08\x62\x61\x63kLeft\x10\x01\x12\r\n\tbackRight\x10\x02\x12\r\n\tfrontLeft\x10\x03*\'\n\x0f\x43hangeStateType\x12\n\n\x06\x44\x61mage\x10\x00\x12\x08\n\x04Heal\x10\x01\x32\x94\x03\n\x0f\x43\x61rdGameService\x12L\n\tReadyGame\x12\x1e.ProtobufData.ReadyGameRequest\x1a\x1f.ProtobufData.ReadyGameResponse\x12L\n\tStartGame\x12\x1e.ProtobufData.StartGameRequest\x1a\x1f.ProtobufData.StartGameResponse\x12O\n\nStartRound\x12\x1f.ProtobufData.StartRoundRequest\x1a .ProtobufData.StartRoundResponse\x12I\n\x08PlayCard\x12\x1d.ProtobufData.PlayCardRequest\x1a\x1e.ProtobufData.PlayCardResponse\x12I\n\x0cPlayerAction\x12\x1b.ProtobufData.ActionRequest\x1a\x1c.ProtobufData.ActionResponseb\x06proto3'
+  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\x12\x0cProtobufData\"\xaf\x01\n\x10ReadyGameRequest\x12\x13\n\x05msgId\x18\xe9\x07 \x01(\x05H\x00\x88\x01\x01\x12\r\n\x05mapId\x18\x01 \x01(\x05\x12\x33\n\x06heroes\x18\x02 \x03(\x0b\x32#.ProtobufData.ReadyGameRequest.Hero\x1a\x38\n\x04Hero\x12\x10\n\x08position\x18\x01 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x02 \x03(\x05\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11ReadyGameResponse\x12\x13\n\x05msgId\x18\xea\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\x82\x03\n\x10StartGameRequest\x12\x13\n\x05msgId\x18\xeb\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x39\n\x06\x63hange\x18\x02 \x03(\x0b\x32).ProtobufData.StartGameRequest.heroChange\x12\x32\n\x05\x63\x61rds\x18\x06 \x03(\x0b\x32#.ProtobufData.StartGameRequest.card\x1a\xa1\x01\n\nheroChange\x12\x10\n\x08playerId\x18\x01 \x01(\x05\x12\x14\n\x0cheroUniqueId\x18\x02 \x01(\x03\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x12)\n\x08position\x18\x04 \x01(\x0b\x32\x17.ProtobufData.PbVector3\x12\x30\n\x0cpositionType\x18\x05 \x01(\x0e\x32\x1a.ProtobufData.PositionType\x1a,\n\x04\x63\x61rd\x12\x0e\n\x06\x63\x61rdId\x18\x01 \x01(\x05\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x02 \x01(\x03\x42\x08\n\x06_msgId\"R\n\x11StartGameResponse\x12\x13\n\x05msgId\x18\xec\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"Q\n\x11StartRoundRequest\x12\x13\n\x05msgId\x18\xed\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"b\n\x12StartRoundResponse\x12\x13\n\x05msgId\x18\xee\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06roomId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"\x9a\x02\n\x0fPlayCardRequest\x12\x13\n\x05msgId\x18\xef\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x38\n\x06\x63hange\x18\x04 \x03(\x0b\x32(.ProtobufData.PlayCardRequest.CardChange\x1a\x8e\x01\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12\x30\n\x0freleasePosition\x18\x02 \x01(\x0b\x32\x17.ProtobufData.PbVector3\x12\x12\n\ntargetType\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x03\x12\x0e\n\x06\x63\x61rdId\x18\x05 \x01(\x05\x42\x08\n\x06_msgId\"Q\n\x10PlayCardResponse\x12\x13\n\x05msgId\x18\xf0\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xc4\x01\n\x10\x42\x61ttleActionBase\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12.\n\ntypeAction\x18\x02 \x01(\x0b\x32\x18.ProtobufData.TypeActionH\x00\x12.\n\nmoveAction\x18\x03 \x01(\x0b\x32\x18.ProtobufData.MoveActionH\x00\x12\x30\n\x0bskillAction\x18\x04 \x01(\x0b\x32\x19.ProtobufData.SkillActionH\x00\x42\x08\n\x06\x61\x63tion\"2\n\nTypeAction\x12\x0c\n\x04type\x18\x01 \x01(\x05\x12\x0f\n\x02Id\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x05\n\x03_Id\"i\n\nMoveAction\x12)\n\x08movePath\x18\x01 \x03(\x0b\x32\x17.ProtobufData.PbVector3\x12\x30\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x18.ProtobufData.ChangeHero\"j\n\x0bSkillAction\x12\x30\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x18.ProtobufData.ChangeHero\x12)\n\x08position\x18\x03 \x01(\x0b\x32\x17.ProtobufData.PbVector3\"\x83\x01\n\nChangeHero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12+\n\x04type\x18\x02 \x01(\x0e\x32\x1d.ProtobufData.ChangeStateType\x12\x32\n\x0f\x63hangeStateList\x18\x03 \x03(\x0b\x32\x19.ProtobufData.ChangeState\"\x83\x01\n\x0b\x43hangeState\x12\x0c\n\x02hp\x18\x01 \x01(\x05H\x00\x12/\n\x0cpushPosition\x18\x02 \x01(\x0b\x32\x17.ProtobufData.PbVector3H\x00\x12,\n\tbuffState\x18\x03 \x01(\x0b\x32\x17.ProtobufData.BuffStateH\x00\x42\x07\n\x05state\"*\n\tBuffState\x12\x0e\n\x06\x62uffId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\",\n\tPbVector3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xed\x01\n\rActionRequest\x12\x13\n\x05msgId\x18\xf1\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\r\n\x05level\x18\x04 \x01(\x05\x12\r\n\x05round\x18\x05 \x01(\x05\x12\x13\n\x0broundStatus\x18\x06 \x01(\x08\x12\x10\n\x08gameOver\x18\x07 \x01(\x08\x12\x0e\n\x06winner\x18\x08 \x01(\x05\x12\x34\n\x0c\x62\x61ttleAction\x18\t \x01(\x0b\x32\x1e.ProtobufData.BattleActionBaseB\x08\n\x06_msgId\"p\n\x0e\x41\x63tionResponse\x12\x13\n\x05msgId\x18\xf2\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\x0e\n\x06result\x18\x04 \x01(\x08\x42\x08\n\x06_msgId*J\n\x0cPositionType\x12\x0e\n\nfrontRight\x10\x00\x12\x0c\n\x08\x62\x61\x63kLeft\x10\x01\x12\r\n\tbackRight\x10\x02\x12\r\n\tfrontLeft\x10\x03*\'\n\x0f\x43hangeStateType\x12\n\n\x06\x44\x61mage\x10\x00\x12\x08\n\x04Heal\x10\x01\x32\x94\x03\n\x0f\x43\x61rdGameService\x12L\n\tReadyGame\x12\x1e.ProtobufData.ReadyGameRequest\x1a\x1f.ProtobufData.ReadyGameResponse\x12L\n\tStartGame\x12\x1e.ProtobufData.StartGameRequest\x1a\x1f.ProtobufData.StartGameResponse\x12O\n\nStartRound\x12\x1f.ProtobufData.StartRoundRequest\x1a .ProtobufData.StartRoundResponse\x12I\n\x08PlayCard\x12\x1d.ProtobufData.PlayCardRequest\x1a\x1e.ProtobufData.PlayCardResponse\x12I\n\x0cPlayerAction\x12\x1b.ProtobufData.ActionRequest\x1a\x1c.ProtobufData.ActionResponseb\x06proto3'
 )
 
 _POSITIONTYPE = _descriptor.EnumDescriptor(
@@ -53,8 +53,8 @@ _POSITIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2399,
-  serialized_end=2473,
+  serialized_start=2497,
+  serialized_end=2571,
 )
 _sym_db.RegisterEnumDescriptor(_POSITIONTYPE)
 
@@ -79,8 +79,8 @@ _CHANGESTATETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2475,
-  serialized_end=2514,
+  serialized_start=2573,
+  serialized_end=2612,
 )
 _sym_db.RegisterEnumDescriptor(_CHANGESTATETYPE)
 
@@ -296,8 +296,46 @@ _STARTGAMEREQUEST_HEROCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=413,
-  serialized_end=574,
+  serialized_start=465,
+  serialized_end=626,
+)
+
+_STARTGAMEREQUEST_CARD = _descriptor.Descriptor(
+  name='card',
+  full_name='ProtobufData.StartGameRequest.card',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='cardId', full_name='ProtobufData.StartGameRequest.card.cardId', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='cardUniqueId', full_name='ProtobufData.StartGameRequest.card.cardUniqueId', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=628,
+  serialized_end=672,
 )
 
 _STARTGAMEREQUEST = _descriptor.Descriptor(
@@ -329,10 +367,17 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='cards', full_name='ProtobufData.StartGameRequest.cards', index=3,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[_STARTGAMEREQUEST_HEROCHANGE, ],
+  nested_types=[_STARTGAMEREQUEST_HEROCHANGE, _STARTGAMEREQUEST_CARD, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -347,7 +392,7 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=296,
-  serialized_end=584,
+  serialized_end=682,
 )
 
 
@@ -397,8 +442,8 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=586,
-  serialized_end=668,
+  serialized_start=684,
+  serialized_end=766,
 )
 
 
@@ -448,8 +493,8 @@ _STARTROUNDREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=670,
-  serialized_end=751,
+  serialized_start=768,
+  serialized_end=849,
 )
 
 
@@ -506,8 +551,8 @@ _STARTROUNDRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=753,
-  serialized_end=851,
+  serialized_start=851,
+  serialized_end=949,
 )
 
 
@@ -566,8 +611,8 @@ _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=984,
-  serialized_end=1126,
+  serialized_start=1082,
+  serialized_end=1224,
 )
 
 _PLAYCARDREQUEST = _descriptor.Descriptor(
@@ -623,8 +668,8 @@ _PLAYCARDREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=854,
-  serialized_end=1136,
+  serialized_start=952,
+  serialized_end=1234,
 )
 
 
@@ -674,8 +719,8 @@ _PLAYCARDRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1138,
-  serialized_end=1219,
+  serialized_start=1236,
+  serialized_end=1317,
 )
 
 
@@ -732,8 +777,8 @@ _BATTLEACTIONBASE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1222,
-  serialized_end=1418,
+  serialized_start=1320,
+  serialized_end=1516,
 )
 
 
@@ -776,8 +821,8 @@ _TYPEACTION = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1420,
-  serialized_end=1470,
+  serialized_start=1518,
+  serialized_end=1568,
 )
 
 
@@ -815,8 +860,8 @@ _MOVEACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1472,
-  serialized_end=1577,
+  serialized_start=1570,
+  serialized_end=1675,
 )
 
 
@@ -854,8 +899,8 @@ _SKILLACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1579,
-  serialized_end=1685,
+  serialized_start=1677,
+  serialized_end=1783,
 )
 
 
@@ -900,8 +945,8 @@ _CHANGEHERO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1688,
-  serialized_end=1819,
+  serialized_start=1786,
+  serialized_end=1917,
 )
 
 
@@ -951,8 +996,8 @@ _CHANGESTATE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1822,
-  serialized_end=1953,
+  serialized_start=1920,
+  serialized_end=2051,
 )
 
 
@@ -990,8 +1035,8 @@ _BUFFSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1955,
-  serialized_end=1997,
+  serialized_start=2053,
+  serialized_end=2095,
 )
 
 
@@ -1036,8 +1081,8 @@ _PBVECTOR3 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1999,
-  serialized_end=2043,
+  serialized_start=2097,
+  serialized_end=2141,
 )
 
 
@@ -1136,8 +1181,8 @@ _ACTIONREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=2046,
-  serialized_end=2283,
+  serialized_start=2144,
+  serialized_end=2381,
 )
 
 
@@ -1201,8 +1246,8 @@ _ACTIONRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=2285,
-  serialized_end=2397,
+  serialized_start=2383,
+  serialized_end=2495,
 )
 
 _READYGAMEREQUEST_HERO.containing_type = _READYGAMEREQUEST
@@ -1216,7 +1261,9 @@ _READYGAMERESPONSE.fields_by_name['msgId'].containing_oneof = _READYGAMERESPONSE
 _STARTGAMEREQUEST_HEROCHANGE.fields_by_name['position'].message_type = _PBVECTOR3
 _STARTGAMEREQUEST_HEROCHANGE.fields_by_name['positionType'].enum_type = _POSITIONTYPE
 _STARTGAMEREQUEST_HEROCHANGE.containing_type = _STARTGAMEREQUEST
+_STARTGAMEREQUEST_CARD.containing_type = _STARTGAMEREQUEST
 _STARTGAMEREQUEST.fields_by_name['change'].message_type = _STARTGAMEREQUEST_HEROCHANGE
+_STARTGAMEREQUEST.fields_by_name['cards'].message_type = _STARTGAMEREQUEST_CARD
 _STARTGAMEREQUEST.oneofs_by_name['_msgId'].fields.append(
   _STARTGAMEREQUEST.fields_by_name['msgId'])
 _STARTGAMEREQUEST.fields_by_name['msgId'].containing_oneof = _STARTGAMEREQUEST.oneofs_by_name['_msgId']
@@ -1329,12 +1376,20 @@ StartGameRequest = _reflection.GeneratedProtocolMessageType('StartGameRequest', 
     # @@protoc_insertion_point(class_scope:ProtobufData.StartGameRequest.heroChange)
     })
   ,
+
+  'card' : _reflection.GeneratedProtocolMessageType('card', (_message.Message,), {
+    'DESCRIPTOR' : _STARTGAMEREQUEST_CARD,
+    '__module__' : 'card_game_pb2'
+    # @@protoc_insertion_point(class_scope:ProtobufData.StartGameRequest.card)
+    })
+  ,
   'DESCRIPTOR' : _STARTGAMEREQUEST,
   '__module__' : 'card_game_pb2'
   # @@protoc_insertion_point(class_scope:ProtobufData.StartGameRequest)
   })
 _sym_db.RegisterMessage(StartGameRequest)
 _sym_db.RegisterMessage(StartGameRequest.heroChange)
+_sym_db.RegisterMessage(StartGameRequest.card)
 
 StartGameResponse = _reflection.GeneratedProtocolMessageType('StartGameResponse', (_message.Message,), {
   'DESCRIPTOR' : _STARTGAMERESPONSE,
@@ -1458,8 +1513,8 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2517,
-  serialized_end=2921,
+  serialized_start=2615,
+  serialized_end=3019,
   methods=[
   _descriptor.MethodDescriptor(
     name='ReadyGame',
