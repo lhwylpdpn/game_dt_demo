@@ -17,6 +17,7 @@ def handle_ready_game(self_client, player_id, data):
     self_client.player.match_player(
         current_avaliable_rooms=self_client.factory.game_rooms())  # 匹配对手，创建房间 zhaohu 20250125
     self_client.player.set_ready_game_data(data)
+    print(f"{player_id}: set_ready_game_data ok")
 
     # 构造 ReadyGameResponse
     response = card_game_pb2.ReadyGameResponse()
@@ -26,7 +27,7 @@ def handle_ready_game(self_client, player_id, data):
     msg_id = 1002
     response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
     self_client.sendMessage(response_message, isBinary=True)
-
+    print(f"left_player={self_client.player.room.left_player}, right_player={self_client.player.room.right_player}")
     if self_client.player.room.left_player and self_client.player.room.right_player:
         print(f"Room is full, start game")
 
