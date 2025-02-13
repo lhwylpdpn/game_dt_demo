@@ -41,7 +41,7 @@ message StartGameRequest {
     int32 roomId = 1;  // 房间 ID
     repeated heroChange change = 2;  // 变化列表
     message heroChange {
-     int32 playerId = 1;    // 玩家 ID
+     int64 playerId = 1;    // 玩家 ID
      int64 heroUniqueId = 2;        // 英雄唯一 ID
      int32 heroId = 3;        // 英雄 ID
      PbVector3 position = 4;     // 状态变化描述，直接使用字符串
@@ -166,7 +166,7 @@ message PbVector3 {
 message ActionRequest {
     optional int32 msgId = 1009;
     int32 roomId = 1;      // 房间 ID
-    int32 playerId = 2;    // 玩家 ID
+    int64 playerId = 2;    // 玩家 ID
     int32 actionId = 3;    // 动作帧顺序
     int32 level = 4;        // 阶段
     int32 round = 5;        // 回合
