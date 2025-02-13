@@ -46,6 +46,10 @@ message StartGameRequest {
      int32 heroId = 3;        // 英雄 ID
      PbVector3 position = 4;     // 状态变化描述，直接使用字符串
      PositionType positionType = 5; // 位置类型
+     repeated card cards = 6;  // 卡牌列表
+        message card {
+            int32 cardId = 1;        // 卡牌 ID
+            int64 cardUniqueId = 2;  // 卡牌唯一 ID
     }
 }
 
