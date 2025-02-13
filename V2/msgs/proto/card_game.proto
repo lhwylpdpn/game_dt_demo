@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package ProtobufData;
 /*
  * 1. CS -> ready_game
 */
