@@ -45,7 +45,8 @@ message StartGameRequest {
      int32 heroId = 3;        // 英雄 ID
      PbVector3 position = 4;     // 状态变化描述，直接使用字符串
      PositionType positionType = 5; // 位置类型
-     repeated card cards = 6;  // 卡牌列表
+    }
+    repeated card cards = 6;  // 卡牌列表
         message card {
             int32 cardId = 1;        // 卡牌 ID
             int64 cardUniqueId = 2;  // 卡牌唯一 ID
@@ -108,9 +109,15 @@ message PlayCardResponse {
 message BattleActionBase {
     int64 heroUniqueId = 1; // 英雄唯一ID
     oneof action {
-        MoveAction moveAction = 2;
-        SkillAction skillAction = 3;
+        TypeAction typeAction = 2;
+        MoveAction moveAction = 3;
+        SkillAction skillAction = 4;
     }
+}
+
+message TypeAction {
+    int32 type = 1; // 1卡牌； 2普攻
+    optional int32 Id = 2; // 卡牌id
 }
 
 message MoveAction {
@@ -119,7 +126,6 @@ message MoveAction {
 }
 
 message SkillAction {
-    int32 skillId = 1;  // 技能ID
     repeated ChangeHero targetHeroList = 2; // 目标英雄集合
     PbVector3 position = 3;
 }
