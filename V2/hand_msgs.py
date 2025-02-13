@@ -53,7 +53,7 @@ def handle_start_game(self_client, player_id):
     self_client.player.room.init_game()
     data = self_client.player.room.dict()
 
-
+    print("handle_start_game: data---->", data)
     if data["left_player"]:
         p_id = data["left_player"].get("playerId")
         if data["left_heros"]:
