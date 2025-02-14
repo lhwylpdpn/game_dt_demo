@@ -334,7 +334,6 @@ class Hero(HeroBase): # 逻辑相关处理
         # TODO add new attr
         dict_data["unique_id"] = self.unique_id
         dict_data["positionType"] = self.positionType
-        print(dict_data)
         return dict_data
     
     # 设置上场的出生位置

@@ -185,6 +185,8 @@ def card_actions(game_data):
         if len(hero["AvaliableCards"]) > 0:
             for card in hero["AvaliableCards"]:
                 release_position = card["releasePosition"]
+                if release_position is None: # HU add temp (没出牌没有出牌位置)
+                    continue
                 release_points = range_mht_hollow_circle(release_position, card["AtkDistance"][1],
                                                          card["AtkDistance"][0], 0, 0, maps)
                 targets = [t["HeroID"] for t in heroes if t["playerId"] != hero["playerId"] and tuple(t["position"]) in release_points]

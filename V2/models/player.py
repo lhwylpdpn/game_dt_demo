@@ -88,7 +88,6 @@ class Player():
         return self.__show_cards
 
     def set_show_cards(self, data):
-        print(data)
         show_cards = {_.get("cardUniqueId"):_ for _ in data.get("change")}
         self.__show_cards = show_cards
         for _ in self.get_my_cards():
@@ -129,11 +128,13 @@ class Player():
         return self
     
     def match_player(self, current_avaliable_rooms=[], map_id=1): # 当前服务器的房间状态
-        if not current_avaliable_rooms:
+        room = None
+        for _ in current_avaliable_rooms:
+            if _.left_player is None or _.right_player is None:
+                room = _
+                break
+        if not room:
             room = Room.build_room()
-        else:
-            # TODO select room
-            room = current_avaliable_rooms[0]
         self.set_room(room)
         return self
 
