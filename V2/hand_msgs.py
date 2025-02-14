@@ -171,7 +171,8 @@ def handle_action_request(self_client, player_id, data):
 
     serialized_response = action_response.SerializeToString()
 
-    msg_id = 1010
+    msg_id = 1010 
+    msg_id = 1009 # HU add Temp 
     response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
     self_client.sendMessage(response_message, isBinary=True)
 
