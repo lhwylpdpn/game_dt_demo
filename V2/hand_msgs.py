@@ -138,15 +138,17 @@ def handle_play_card(self_client, player_id, data):
 
 
 def handle_action_request(self_client, player_id, data):
-    print(f"Received ActionRequest: playerId={player_id}")
+    print(f"Received ActionRequest: playerId={player_id} data:{data}")
+    
+    battle_action_base = card_game_pb2.BattleActionBase()
+    battle_action_base.heroUniqueId = data["action"]["id"]
+
     if data["action"]["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
         x, y, z = data["action"]["move_position"]
         fake_move_action = card_game_pb2.MoveAction()
-        battle_action_base = card_game_pb2.BattleActionBase()
-        battle_action_base.heroUniqueId = data["action"]["id"]
-        battle_action_base.moveAction.CopyFrom(fake_move_action)
         fake_move_action.movePath.append(card_game_pb2.PbVector3(x=x, y=y, z=z))
         fake_move_action.targetHeroList.add(heroUniqueId=data["action"]["id"])
+        battle_action_base.moveAction.CopyFrom(fake_move_action)
 
     if data["action"].get("type") in (1, 2):
         fake_type_action = card_game_pb2.TypeAction()
@@ -159,24 +161,23 @@ def handle_action_request(self_client, player_id, data):
             change_state = card_game_pb2.ChangeState()
             change_state.type = card_game_pb2.ChangeStateType.Damage
         fake_skill_action.position.x, fake_skill_action.position.y, fake_skill_action.position.z =  data["action"]["skill_pos"]
-        battle_action = card_game_pb2.BattleActionBase()
-        battle_action.skillAction.CopyFrom(fake_skill_action)
+        battle_action_base.skillAction.CopyFrom(fake_skill_action)
 
 
-    action_response = card_game_pb2.ActionResponse()
-    action_response.roomId = self_client.player.room.room_id
-    action_response.round = self_client.player.room.round
-    action_response.actionId = 89
-    action_response.result = True
+    action_request = card_game_pb2.ActionRequest()
+    action_request.roomId = self_client.player.room.room_id
+    action_request.round = self_client.player.room.round
+    action_request.actionId = data['tick'] ## TODO 需要真正的tik 编号
+    action_request.gameOver = data['gameover'] 
 
-    serialized_response = action_response.SerializeToString()
+    action_request.battleAction.CopyFrom(battle_action_base)  
+    action_request.playerId = player_id            
 
-    msg_id = 1010 
+    serialized_request = action_request.SerializeToString()
+
     msg_id = 1009  
-    response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-    # self_client.sendMessage(response_message, isBinary=True) 
-    # HU add Temp
-    self_client.player.room.topic_manager.publish(self_client.player.room.room_id, response_message,
+    request_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
+    self_client.player.room.topic_manager.publish(self_client.player.room.room_id, request_message,
                                                   isBinary=True)  # HU add
 
 
