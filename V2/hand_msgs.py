@@ -147,7 +147,7 @@ def handle_action_request(self_client, player_id, data):
         x, y, z = data["action"]["move_position"]
         fake_move_action = card_game_pb2.MoveAction()
         fake_move_action.movePath.append(card_game_pb2.PbVector3(x=x, y=y, z=z))
-        fake_move_action.targetHeroList.add(heroUniqueId=data["action"]["id"])
+        fake_move_action.targetHeroList.add(heroUniqueId=data["action"]["unique_id"])
         battle_action_base.moveAction.CopyFrom(fake_move_action)
 
     if data["action"].get("type") in (1, 2):
@@ -204,6 +204,7 @@ def card_actions(game_data):
                         "targets": targets,
                         "section": "2",
                         "id": card["CardID"],
+                        "unique_id": card["unique_id"],
                         "action_type": "ATK"
                     }
                 }

@@ -130,6 +130,7 @@ class schedule:
                     if self.game.check_game_over()[0]:
                         self.game_over=True
                     action['id'] = hero.HeroID
+                    action['unique_id'] = hero.unique_id
                     action['class'] = hero.camp
                     self._record(action, state_dict, new_state_dict)
                     self.tick+=1
@@ -270,7 +271,7 @@ class schedule:
 
 
                         self.performance.event_start('record')
-                        # action['id'] = alive_hero_id
+                        action['unique_id'] = _.unique_id
                         # action['class'] = alive_hero_class
                         if action['action_type'] != 'SKILL_82':  # 反击
                             action['id'] = alive_hero_id
