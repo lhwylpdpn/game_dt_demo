@@ -49,7 +49,7 @@ message StartGameRequest {
      repeated card cards = 6;  // 卡牌列表
         message card {
             int32 cardId = 1;        // 卡牌 ID
-            int64 cardUniqueId = 2;  // 卡牌唯一 ID
+            int32 cardUniqueId = 2;  // 卡牌唯一 ID
     }
     }
 
