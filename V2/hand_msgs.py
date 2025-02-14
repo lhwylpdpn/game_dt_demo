@@ -130,7 +130,7 @@ def handle_play_card(self_client, player_id, data):
     if room_data.get("left_player", {}).get("is_show_cards") and room_data.get("right_player", {}).get("is_show_cards"):
         print(f"双方玩家都已经出牌，开始计算Action")
         handle_start_round(self_client, player_id, room_data)
-        # print("room---->", self_client.player.room.dict())
+        print("room---->", self_client.player.room.dict())
         # [{hero:attr, card: [], speed : []}]
 
         actions = card_actions(self_client.player.room.dict())
