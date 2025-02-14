@@ -172,9 +172,12 @@ def handle_action_request(self_client, player_id, data):
     serialized_response = action_response.SerializeToString()
 
     msg_id = 1010 
-    msg_id = 1009 # HU add Temp 
+    msg_id = 1009  
     response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
-    self_client.sendMessage(response_message, isBinary=True)
+    # self_client.sendMessage(response_message, isBinary=True) 
+    # HU add Temp
+    self_client.player.room.topic_manager.publish(self_client.player.room.room_id, response_message,
+                                                  isBinary=True)  # HU add
 
 
 def card_actions(game_data):
