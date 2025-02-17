@@ -97,7 +97,10 @@ class schedule:
         self.max_hero_num = 0
 
         for __action in card_action_list:
-            hero=__action['hero obj']
+
+            action=__action['action']
+            hero = action['hero_obj']
+
             if hero.camp == 'p1':
                 action_result = self.game.hero_action(hero, action)
 
@@ -111,7 +114,7 @@ class schedule:
             new_state = self.game.get_current_state()
             new_state_dict = self.state_to_dict(new_state)
 
-            for action in action_result:
+            for a in action_result:
 
                 if self.game.check_game_over()[0]:
                     self.game_over = True
@@ -119,11 +122,11 @@ class schedule:
                     self.temp_action_num = 0
                     self.temp_hero_num = 0
                     self.max_hero_num = 0
-                action['id'] = hero.HeroID
-                action['unique_id'] = hero.unique_id
-                action['class'] = hero.camp
-                action['step']=hero['step']
-                self._record(action, state_dict, new_state_dict)
+                a['id'] = hero.HeroID
+                a['unique_id'] = hero.unique_id
+                a['class'] = hero.camp
+                a['step']=action['step']
+                self._record(a, state_dict, new_state_dict)
                 self.tick += 1
                 if self.game_over:
                     return self.game_over
