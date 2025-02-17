@@ -135,7 +135,7 @@ def handle_play_card(self_client, player_id, data):
         print("room---->", self_client.player.room.dict())
         # [{hero:attr, card: [], speed : []}]
 
-        actions = card_actions(self_client.player.room.dict())
+        actions = card_actions(self_client.player.room)
         self_client.player.room.game.single_run(handle_action_request, self_client, actions)
 
 
@@ -184,7 +184,43 @@ def handle_action_request(self_client, player_id, data):
                                                   isBinary=True)  # HU add
 
 
-def card_actions(game_data):
+# def card_actions(room):
+#     game_data = room.dict()
+#     actions = []
+#     maps = game_data["maps"]
+#     heroes = game_data["left_heros"] + game_data["right_heros"]
+#     sorted_heroes = sorted(heroes, key=lambda x: x["Speed"], reverse=True)
+#     for hero in sorted_heroes:
+#         if len(hero["AvaliableCards"]) > 0:
+#             for card in hero["AvaliableCards"]:
+#                 release_position = card["releasePosition"]
+#                 if release_position is None: # HU add temp (没出牌没有出牌位置)
+#                     continue
+#                 release_points = range_mht_hollow_circle(release_position, card["AtkDistance"][1],
+#                                                          card["AtkDistance"][0], 0, 0, maps)
+#                 targets = [t["HeroID"] for t in heroes if t["playerId"] != hero["playerId"] and tuple(t["position"]) in release_points]
+#                 each = {
+#                     "action": {
+#                         "skill_pos": tuple(release_position),
+#                         "skill_range": release_points,
+#                         "release_range": [],
+#                         "type": "1",
+#                         "targets": targets,
+#                         "section": "2",
+#                         "id": card["CardID"],
+#                         "unique_id": hero["unique_id"],
+#                         "action_type": "ATK"
+#                     }
+#                 }
+#
+#                 actions.append(each)
+#     return actions
+
+
+def card_actions(room):
+    game_data = room.dict()
+    heroes_obj = room.left_heros + room.right_heros
+
     actions = []
     maps = game_data["maps"]
     heroes = game_data["left_heros"] + game_data["right_heros"]
@@ -198,6 +234,7 @@ def card_actions(game_data):
                 release_points = range_mht_hollow_circle(release_position, card["AtkDistance"][1],
                                                          card["AtkDistance"][0], 0, 0, maps)
                 targets = [t["HeroID"] for t in heroes if t["playerId"] != hero["playerId"] and tuple(t["position"]) in release_points]
+                hero_obj = [_ for _ in heroes_obj if _.unique_id == hero["unique_id"]][0]
                 each = {
                     "action": {
                         "skill_pos": tuple(release_position),
@@ -208,7 +245,8 @@ def card_actions(game_data):
                         "section": "2",
                         "id": card["CardID"],
                         "unique_id": hero["unique_id"],
-                        "action_type": "ATK"
+                        "action_type": "ATK",
+                        "hero_obj" : hero_obj
                     }
                 }
 
@@ -218,4 +256,4 @@ def card_actions(game_data):
 
 if __name__ == '__main__':
 
-    print(card_actions())
+    print(card_actions(""))
