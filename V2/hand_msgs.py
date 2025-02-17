@@ -228,6 +228,7 @@ def handle_action_request(self_client, player_id, data):
 def card_actions(room):
     game_data = room.dict()
     heroes_obj = room.left_heros + room.right_heros
+    print("heroes_obj ids: ", [_.unique_id for _ in heroes_obj])
 
     actions = []
     maps = game_data["maps"]
@@ -260,6 +261,7 @@ def card_actions(room):
                 }
 
                 actions.append(each)
+    print("card actions: ", actions)
     return actions
 
 
