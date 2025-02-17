@@ -187,7 +187,7 @@ class schedule:
                     action['id'] = hero.HeroID
                     action['unique_id'] = hero.unique_id
                     action['class'] = hero.camp
-                    action['step']=hero['step']
+                    action['step']='auto_fight'
                     self._record(action, state_dict, new_state_dict)
                     self.tick+=1
                     if self.game_over:
