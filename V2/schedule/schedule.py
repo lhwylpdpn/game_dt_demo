@@ -91,7 +91,45 @@ class schedule:
         state_dict = self.state_to_dict(state)
         self.fun_=fun_
         self.client=client
+        self.max_action_num =float('inf')
+        self.temp_action_num = 0
+        self.temp_hero_num = float('inf')
+        self.max_hero_num = 0
 
+        for __action in card_action_list:
+            hero=__action['hero obj']
+            if hero.camp == 'p1':
+                action_result = self.game.hero_action(hero, action)
+
+            else:
+                action_result = self.game.monster_action(hero, action)
+
+            if not action_result:  # 如果动作失败，直接跳出本次动作链路
+                break
+            if isinstance(action_result, dict):
+                action_result = [action_result]
+            new_state = self.game.get_current_state()
+            new_state_dict = self.state_to_dict(new_state)
+
+            for action in action_result:
+
+                if self.game.check_game_over()[0]:
+                    self.game_over = True
+                    self.max_action_num = 0
+                    self.temp_action_num = 0
+                    self.temp_hero_num = 0
+                    self.max_hero_num = 0
+                action['id'] = hero.HeroID
+                action['unique_id'] = hero.unique_id
+                action['class'] = hero.camp
+                action['step']=hero['step']
+                self._record(action, state_dict, new_state_dict)
+                self.tick += 1
+                if self.game_over:
+                    return self.game_over
+                # 每次实际行动就自增tick加1，这样1个tick代表一次行动
+            state = new_state
+            state_dict = self.state_to_dict(state)
 
         #为了返回roundover 单独增加的计数器
         self.max_hero_num=len(alive_hero)
@@ -139,10 +177,15 @@ class schedule:
 
                     if self.game.check_game_over()[0]:
                         self.game_over=True
+                        self.max_action_num=0
+                        self.temp_action_num=0
+                        self.temp_hero_num=0
+                        self.max_hero_num=0
 
                     action['id'] = hero.HeroID
                     action['unique_id'] = hero.unique_id
                     action['class'] = hero.camp
+                    action['step']=hero['step']
                     self._record(action, state_dict, new_state_dict)
                     self.tick+=1
                     if self.game_over:
@@ -416,14 +459,13 @@ class schedule:
         self.record_update_dict[self.tick]['action']=action
         self.record_update_dict[self.tick]['state'].append(update_dict)
         self.record_update_dict[self.tick]['tick'] = self.tick
-        self.record_update_dict[self.tick]['step'] = 'auto_fight'
+        self.record_update_dict[self.tick]['step'] = action['step']
         self.record_update_dict[self.tick]['gameover'] = self.game_over
         if self.temp_action_num==self.max_action_num and self.temp_hero_num==self.max_hero_num:
             #如果是最后一个英雄的最后一个动作,就roundover是True
             self.record_update_dict[self.tick]['roundover'] =True
         else:
             self.record_update_dict[self.tick]['roundover'] = False
-
         self.fun_(self.client,self.client.player.playerId,self.record_update_dict[self.tick])
         #todo 调用彬哥
 
