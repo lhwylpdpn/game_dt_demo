@@ -18,14 +18,12 @@ TURN_END = (5, "Turn End Phase")     # 回合结束阶段
 
 
 def handle_ready_game(self_client, player_id, data):
-    print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
+    print(f"ReadyGameRequest: data={data}")
 
     data = protobuf_to_dict(data)
-    print(f"ReadyGameRequest: data={data}")
     self_client.player.match_player(
         current_avaliable_rooms=self_client.factory.game_rooms(), map_id=data.get("mapId"))  # 匹配对手，创建房间 zhaohu 20250125
     self_client.player.set_ready_game_data(data)
-    print(f"{player_id}: set_ready_game_data ok")
 
     # 构造 ReadyGameResponse
     response = card_game_pb2.ReadyGameResponse()
