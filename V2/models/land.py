@@ -67,11 +67,8 @@ class LandBase(): # 地块基础数据
     
     @property
     def Block(self):
+        self.set_Block()
         return self.__Block
-    
-    def set_Block(self, nb):
-        self.__Block = nb
-        return self
     
     @property
     def Block_Base(self):
