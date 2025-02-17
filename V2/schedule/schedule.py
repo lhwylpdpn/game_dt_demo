@@ -100,7 +100,6 @@ class schedule:
 
             action=__action['action']
             hero = action['hero_obj']
-
             if hero.camp == 'p1':
                 action_result = self.game.hero_action(hero, action)
 
