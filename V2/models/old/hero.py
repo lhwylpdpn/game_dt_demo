@@ -590,7 +590,8 @@ class Hero():
         map_obj = state['maps']
         if not map_obj.land_can_pass(x, y, z):
             raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
-        map_obj.exit(self)            # 离开当前地块
+        if not init_position: # 不是初始化位置时候，需要离开地块
+            map_obj.exit(self)            # 离开当前地块
         map_obj.enter(x,y,z, self, init_position)    # 进入新地块, 返回宝箱
         self.set_x(x).set_y(y).set_z(z)       # 设置新位置
         self.is_move = True

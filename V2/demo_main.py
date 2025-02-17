@@ -17,7 +17,7 @@ from msgid_to_message import MSGID_TO_MESSAGE
 
 # from servics.playermanager import PlayerManagerService  # TODO
 
-MAX_PLAYER = 1000 # 房间最大人数
+MAX_PLAYER = 1000 # 服务器人数限制
 
 
 class CardGameProtocol(WebSocketServerProtocol):
@@ -41,7 +41,7 @@ class CardGameProtocol(WebSocketServerProtocol):
         print(f"Server received")
         try:
             msgId, player_id = self.extract_msgId(data)
-            self.player.set_playerId(player_id)
+            self.player.set_playerId(player_id)     # TODO login 时候设置player_id
              
             # 统一处理msg
             parse_proto, message_handle = MSGID_TO_MESSAGE.get(msgId)
