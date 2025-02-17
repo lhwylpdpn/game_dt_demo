@@ -97,7 +97,7 @@ class schedule:
         self.max_hero_num = 0
 
         for __action in card_action_list:
-            hero=__action['hero obj']
+            hero=__action['hero_obj']
             if hero.camp == 'p1':
                 action_result = self.game.hero_action(hero, action)
 
