@@ -91,9 +91,16 @@ class schedule:
         state_dict = self.state_to_dict(state)
         self.fun_=fun_
         self.client=client
+
+
+        #为了返回roundover 单独增加的计数器
+        self.max_hero_num=len(alive_hero)
+        self.temp_hero_num=0
         for hero in alive_hero:
+            self.temp_hero_num+=1
             if hero.is_death:  # 同一个tick里也可能，后轮到的英雄被先轮到的打死
                 continue
+            actions=None
             if hero.camp == 'p1':
                 self.performance.event_start('schedule_choose_action')
                 actions = self.agent_1.choice_hero_act(hero, state, self.performance)
@@ -106,8 +113,10 @@ class schedule:
                 # print('tick', self.tick, '调度获得的行动list: 怪兽', alive_hero_id, actions)
                 # log_manager.add_log({'stepname':'调度获得的行动list','tick':self.tick,'hero':alive_hero_id,'class':alive_hero_class,'actions':actions})
                 self.performance.event_end('schedule_choose_action')
-
+            self.max_action_num=len(actions)
+            self.temp_action_num=0
             for action in actions:
+                self.temp_action_num+=1
                 action_result=[]
                 self.performance.event_start('game_action')
                 if hero.camp == 'p1':
@@ -127,8 +136,10 @@ class schedule:
                 self.performance.event_end('get_current_state')
 
                 for action in action_result:
+
                     if self.game.check_game_over()[0]:
                         self.game_over=True
+
                     action['id'] = hero.HeroID
                     action['unique_id'] = hero.unique_id
                     action['class'] = hero.camp
@@ -407,6 +418,12 @@ class schedule:
         self.record_update_dict[self.tick]['tick'] = self.tick
         self.record_update_dict[self.tick]['step'] = 'auto_fight'
         self.record_update_dict[self.tick]['gameover'] = self.game_over
+        if self.temp_action_num==self.max_action_num and self.temp_hero_num==self.max_hero_num:
+            #如果是最后一个英雄的最后一个动作,就roundover是True
+            self.record_update_dict[self.tick]['roundover'] =True
+        else:
+            self.record_update_dict[self.tick]['roundover'] = False
+
         self.fun_(self.client,self.client.player.playerId,self.record_update_dict[self.tick])
         #todo 调用彬哥
 
