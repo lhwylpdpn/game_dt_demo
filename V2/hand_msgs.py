@@ -141,7 +141,7 @@ def handle_action_request(self_client, player_id, data):
     print(f"ActionRequest: playerId={player_id} data:{data}")
     
     battle_action_base = card_game_pb2.BattleActionBase()
-    battle_action_base.heroUniqueId = data["action"]["id"]
+    battle_action_base.heroUniqueId = data["action"]["unique_id"]
 
     if data["action"]["action_type"] in ["LEFT", "RIGHT", "TOP", "BOTTOM"]:
         x, y, z = data["action"]["move_position"]
@@ -167,7 +167,7 @@ def handle_action_request(self_client, player_id, data):
     action_request = card_game_pb2.ActionRequest()
     action_request.roomId = self_client.player.room.room_id
     action_request.round = self_client.player.room.round
-    action_request.actionId = data['tick'] 
+    action_request.actionId = data['tick']
     action_request.gameOver = data['gameover'] 
     action_request.roundStatus = data['roundover']
 
