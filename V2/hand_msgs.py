@@ -120,7 +120,7 @@ def handle_start_round(self_client, player_id, data):
 
 
 def handle_play_card(self_client, player_id, data):
-    print(f"PlayCardRequest: roomId={data.roomId}, round={data.round}")
+    print(f"PlayCardRequest: data={data}")
 
     response = card_game_pb2.PlayCardResponse()
     response.roomId = data.roomId
