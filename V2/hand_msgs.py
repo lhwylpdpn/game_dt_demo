@@ -107,6 +107,8 @@ def handle_start_round(self_client, player_id, data):
         response_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_response
         self_client.player.room.topic_manager.publish(self_client.player.room.room_id, response_message,
                                                       isBinary=True)  # HU add
+        self_client.player.room.left_player.set_is_start_round()
+        self_client.player.room.right_player.set_is_start_round()
 
 
 def handle_play_card(self_client, player_id, data):
