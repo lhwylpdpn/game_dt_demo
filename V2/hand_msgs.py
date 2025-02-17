@@ -8,6 +8,24 @@ from protobuf_to_dict import protobuf_to_dict
 
 from schedule.utils.strategy_utils.basic_utils import range_mht_hollow_circle
 
+from enum import Enum
+
+
+class GamePhase(Enum):
+    ENTRY = 1, "Entry Phase"  # 登场阶段
+    SKILL = 2, "Skill Phase"  # 技能阶段
+    TURN_START = 3, "Turn Start Phase"  # 回合开始阶段
+    TURN_PROGRESS = 4, "Turn Progress Phase"  # 回合进行阶段
+    TURN_END = 5, "Turn End Phase"  # 回合结束阶段
+
+    def __new__(cls, value, name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.name = name
+        return obj
+
+    def __str__(self):
+        return self.name
 
 def handle_ready_game(self_client, player_id, data):
     print(f"ReadyGameRequest: mapId={data.mapId}, playerId={player_id}")
@@ -246,7 +264,8 @@ def card_actions(room):
                         "id": card["CardID"],
                         "unique_id": hero["unique_id"],
                         "action_type": "ATK",
-                        "hero_obj" : hero_obj
+                        "hero_obj" : hero_obj,
+                        "step": GamePhase.TURN_START
                     }
                 }
 
