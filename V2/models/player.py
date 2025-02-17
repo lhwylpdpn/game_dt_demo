@@ -130,11 +130,11 @@ class Player():
     def match_player(self, current_avaliable_rooms=[], map_id=1): # 当前服务器的房间状态
         room = None
         for _ in current_avaliable_rooms:
-            if _.left_player is None or _.right_player is None:
+            if not _.is_full() and _.map_id == map_id:
                 room = _
                 break
         if not room:
-            room = Room.build_room()
+            room = Room.build_room(map_id=map_id)
         self.set_room(room)
         return self
 

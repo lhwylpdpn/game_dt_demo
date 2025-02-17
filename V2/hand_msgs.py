@@ -15,7 +15,7 @@ def handle_ready_game(self_client, player_id, data):
     data = protobuf_to_dict(data)
     print(f"ReadyGameRequest: data={data}")
     self_client.player.match_player(
-        current_avaliable_rooms=self_client.factory.game_rooms())  # 匹配对手，创建房间 zhaohu 20250125
+        current_avaliable_rooms=self_client.factory.game_rooms(), map_id=data.get("mapId"))  # 匹配对手，创建房间 zhaohu 20250125
     self_client.player.set_ready_game_data(data)
     print(f"{player_id}: set_ready_game_data ok")
 
