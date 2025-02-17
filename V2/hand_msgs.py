@@ -265,7 +265,7 @@ def card_actions(room):
                         "unique_id": hero["unique_id"],
                         "action_type": "ATK",
                         "hero_obj" : hero_obj,
-                        "step": GamePhase.TURN_START
+                        "step": GamePhase.TURN_START.value
                     }
                 }
 
