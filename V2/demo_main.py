@@ -17,7 +17,7 @@ from msgid_to_message import MSGID_TO_MESSAGE
 
 # from servics.playermanager import PlayerManagerService  # TODO
 
-MAX_PLAYER = 2 # 房间最大人数
+MAX_PLAYER = 1000 # 房间最大人数
 
 
 class CardGameProtocol(WebSocketServerProtocol):

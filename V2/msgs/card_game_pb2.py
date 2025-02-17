@@ -16,16 +16,16 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='card_game.proto',
-  package='',
+  package='ProtobufData',
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\"\xa2\x01\n\x10ReadyGameRequest\x12\x13\n\x05msgId\x18\xe9\x07 \x01(\x05H\x00\x88\x01\x01\x12\r\n\x05mapId\x18\x01 \x01(\x05\x12&\n\x06heroes\x18\x02 \x03(\x0b\x32\x16.ReadyGameRequest.Hero\x1a\x38\n\x04Hero\x12\x10\n\x08position\x18\x01 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x02 \x03(\x05\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11ReadyGameResponse\x12\x13\n\x05msgId\x18\xea\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xf9\x01\n\x10StartGameRequest\x12\x13\n\x05msgId\x18\xeb\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12,\n\x06\x63hange\x18\x02 \x03(\x0b\x32\x1c.StartGameRequest.heroChange\x1a\x87\x01\n\nheroChange\x12\x10\n\x08playerId\x18\x01 \x01(\x05\x12\x14\n\x0cheroUniqueId\x18\x02 \x01(\x03\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x12\x1c\n\x08position\x18\x04 \x01(\x0b\x32\n.PbVector3\x12#\n\x0cpositionType\x18\x05 \x01(\x0e\x32\r.PositionTypeB\x08\n\x06_msgId\"R\n\x11StartGameResponse\x12\x13\n\x05msgId\x18\xec\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"Q\n\x11StartRoundRequest\x12\x13\n\x05msgId\x18\xed\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"b\n\x12StartRoundResponse\x12\x13\n\x05msgId\x18\xee\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06roomId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"\x80\x02\n\x0fPlayCardRequest\x12\x13\n\x05msgId\x18\xef\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12+\n\x06\x63hange\x18\x04 \x03(\x0b\x32\x1b.PlayCardRequest.CardChange\x1a\x81\x01\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12#\n\x0freleasePosition\x18\x02 \x01(\x0b\x32\n.PbVector3\x12\x12\n\ntargetType\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x03\x12\x0e\n\x06\x63\x61rdId\x18\x05 \x01(\x05\x42\x08\n\x06_msgId\"Q\n\x10PlayCardResponse\x12\x13\n\x05msgId\x18\xf0\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"z\n\x10\x42\x61ttleActionBase\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12!\n\nmoveAction\x18\x02 \x01(\x0b\x32\x0b.MoveActionH\x00\x12#\n\x0bskillAction\x18\x03 \x01(\x0b\x32\x0c.SkillActionH\x00\x42\x08\n\x06\x61\x63tion\"O\n\nMoveAction\x12\x1c\n\x08movePath\x18\x01 \x03(\x0b\x32\n.PbVector3\x12#\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x0b.ChangeHero\"a\n\x0bSkillAction\x12\x0f\n\x07skillId\x18\x01 \x01(\x05\x12#\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x0b.ChangeHero\x12\x1c\n\x08position\x18\x03 \x01(\x0b\x32\n.PbVector3\"i\n\nChangeHero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12\x1e\n\x04type\x18\x02 \x01(\x0e\x32\x10.ChangeStateType\x12%\n\x0f\x63hangeStateList\x18\x03 \x03(\x0b\x32\x0c.ChangeState\"i\n\x0b\x43hangeState\x12\x0c\n\x02hp\x18\x01 \x01(\x05H\x00\x12\"\n\x0cpushPosition\x18\x02 \x01(\x0b\x32\n.PbVector3H\x00\x12\x1f\n\tbuffState\x18\x03 \x01(\x0b\x32\n.BuffStateH\x00\x42\x07\n\x05state\"*\n\tBuffState\x12\x0e\n\x06\x62uffId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\",\n\tPbVector3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xe0\x01\n\rActionRequest\x12\x13\n\x05msgId\x18\xf1\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\r\n\x05level\x18\x04 \x01(\x05\x12\r\n\x05round\x18\x05 \x01(\x05\x12\x13\n\x0broundStatus\x18\x06 \x01(\x08\x12\x10\n\x08gameOver\x18\x07 \x01(\x08\x12\x0e\n\x06winner\x18\x08 \x01(\x05\x12\'\n\x0c\x62\x61ttleAction\x18\t \x01(\x0b\x32\x11.BattleActionBaseB\x08\n\x06_msgId\"p\n\x0e\x41\x63tionResponse\x12\x13\n\x05msgId\x18\xf2\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\x0e\n\x06result\x18\x04 \x01(\x08\x42\x08\n\x06_msgId*J\n\x0cPositionType\x12\x0e\n\nfrontRight\x10\x00\x12\x0c\n\x08\x62\x61\x63kLeft\x10\x01\x12\r\n\tbackRight\x10\x02\x12\r\n\tfrontLeft\x10\x03*\'\n\x0f\x43hangeStateType\x12\n\n\x06\x44\x61mage\x10\x00\x12\x08\n\x04Heal\x10\x01\x32\x92\x02\n\x0f\x43\x61rdGameService\x12\x32\n\tReadyGame\x12\x11.ReadyGameRequest\x1a\x12.ReadyGameResponse\x12\x32\n\tStartGame\x12\x11.StartGameRequest\x1a\x12.StartGameResponse\x12\x35\n\nStartRound\x12\x12.StartRoundRequest\x1a\x13.StartRoundResponse\x12/\n\x08PlayCard\x12\x10.PlayCardRequest\x1a\x11.PlayCardResponse\x12/\n\x0cPlayerAction\x12\x0e.ActionRequest\x1a\x0f.ActionResponseb\x06proto3'
+  serialized_pb=b'\n\x0f\x63\x61rd_game.proto\x12\x0cProtobufData\"\xaf\x01\n\x10ReadyGameRequest\x12\x13\n\x05msgId\x18\xe9\x07 \x01(\x05H\x00\x88\x01\x01\x12\r\n\x05mapId\x18\x01 \x01(\x05\x12\x33\n\x06heroes\x18\x02 \x03(\x0b\x32#.ProtobufData.ReadyGameRequest.Hero\x1a\x38\n\x04Hero\x12\x10\n\x08position\x18\x01 \x01(\x05\x12\x0e\n\x06\x63\x61rdId\x18\x02 \x03(\x05\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11ReadyGameResponse\x12\x13\n\x05msgId\x18\xea\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\x8d\x03\n\x10StartGameRequest\x12\x13\n\x05msgId\x18\xeb\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x39\n\x06\x63hange\x18\x02 \x03(\x0b\x32).ProtobufData.StartGameRequest.heroChange\x1a\x8e\x02\n\nheroChange\x12\x10\n\x08playerId\x18\x01 \x01(\x03\x12\x14\n\x0cheroUniqueId\x18\x02 \x01(\x03\x12\x0e\n\x06heroId\x18\x03 \x01(\x05\x12)\n\x08position\x18\x04 \x01(\x0b\x32\x17.ProtobufData.PbVector3\x12\x30\n\x0cpositionType\x18\x05 \x01(\x0e\x32\x1a.ProtobufData.PositionType\x12=\n\x05\x63\x61rds\x18\x06 \x03(\x0b\x32..ProtobufData.StartGameRequest.heroChange.card\x1a,\n\x04\x63\x61rd\x12\x0e\n\x06\x63\x61rdId\x18\x01 \x01(\x05\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"R\n\x11StartGameResponse\x12\x13\n\x05msgId\x18\xec\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"Q\n\x11StartRoundRequest\x12\x13\n\x05msgId\x18\xed\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x42\x08\n\x06_msgId\"b\n\x12StartRoundResponse\x12\x13\n\x05msgId\x18\xee\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x0e\n\x06roomId\x18\x03 \x01(\x05\x42\x08\n\x06_msgId\"\x9a\x02\n\x0fPlayCardRequest\x12\x13\n\x05msgId\x18\xef\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x38\n\x06\x63hange\x18\x04 \x03(\x0b\x32(.ProtobufData.PlayCardRequest.CardChange\x1a\x8e\x01\n\nCardChange\x12\x14\n\x0c\x63\x61rdUniqueId\x18\x01 \x01(\x05\x12\x30\n\x0freleasePosition\x18\x02 \x01(\x0b\x32\x17.ProtobufData.PbVector3\x12\x12\n\ntargetType\x18\x03 \x01(\t\x12\x14\n\x0cheroUniqueId\x18\x04 \x01(\x03\x12\x0e\n\x06\x63\x61rdId\x18\x05 \x01(\x05\x42\x08\n\x06_msgId\"Q\n\x10PlayCardResponse\x12\x13\n\x05msgId\x18\xf0\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x0e\n\x06result\x18\x02 \x01(\x08\x42\x08\n\x06_msgId\"\xc4\x01\n\x10\x42\x61ttleActionBase\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12.\n\ntypeAction\x18\x02 \x01(\x0b\x32\x18.ProtobufData.TypeActionH\x00\x12.\n\nmoveAction\x18\x03 \x01(\x0b\x32\x18.ProtobufData.MoveActionH\x00\x12\x30\n\x0bskillAction\x18\x04 \x01(\x0b\x32\x19.ProtobufData.SkillActionH\x00\x42\x08\n\x06\x61\x63tion\"2\n\nTypeAction\x12\x0c\n\x04type\x18\x01 \x01(\x05\x12\x0f\n\x02Id\x18\x02 \x01(\x05H\x00\x88\x01\x01\x42\x05\n\x03_Id\"i\n\nMoveAction\x12)\n\x08movePath\x18\x01 \x03(\x0b\x32\x17.ProtobufData.PbVector3\x12\x30\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x18.ProtobufData.ChangeHero\"j\n\x0bSkillAction\x12\x30\n\x0etargetHeroList\x18\x02 \x03(\x0b\x32\x18.ProtobufData.ChangeHero\x12)\n\x08position\x18\x03 \x01(\x0b\x32\x17.ProtobufData.PbVector3\"\x83\x01\n\nChangeHero\x12\x14\n\x0cheroUniqueId\x18\x01 \x01(\x03\x12+\n\x04type\x18\x02 \x01(\x0e\x32\x1d.ProtobufData.ChangeStateType\x12\x32\n\x0f\x63hangeStateList\x18\x03 \x03(\x0b\x32\x19.ProtobufData.ChangeState\"\x83\x01\n\x0b\x43hangeState\x12\x0c\n\x02hp\x18\x01 \x01(\x05H\x00\x12/\n\x0cpushPosition\x18\x02 \x01(\x0b\x32\x17.ProtobufData.PbVector3H\x00\x12,\n\tbuffState\x18\x03 \x01(\x0b\x32\x17.ProtobufData.BuffStateH\x00\x42\x07\n\x05state\"*\n\tBuffState\x12\x0e\n\x06\x62uffId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\",\n\tPbVector3\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\xed\x01\n\rActionRequest\x12\x13\n\x05msgId\x18\xf1\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\x10\n\x08playerId\x18\x02 \x01(\x03\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\r\n\x05level\x18\x04 \x01(\x05\x12\r\n\x05round\x18\x05 \x01(\x05\x12\x13\n\x0broundStatus\x18\x06 \x01(\x08\x12\x10\n\x08gameOver\x18\x07 \x01(\x08\x12\x0e\n\x06winner\x18\x08 \x01(\x05\x12\x34\n\x0c\x62\x61ttleAction\x18\t \x01(\x0b\x32\x1e.ProtobufData.BattleActionBaseB\x08\n\x06_msgId\"p\n\x0e\x41\x63tionResponse\x12\x13\n\x05msgId\x18\xf2\x07 \x01(\x05H\x00\x88\x01\x01\x12\x0e\n\x06roomId\x18\x01 \x01(\x05\x12\r\n\x05round\x18\x02 \x01(\x05\x12\x10\n\x08\x61\x63tionId\x18\x03 \x01(\x05\x12\x0e\n\x06result\x18\x04 \x01(\x08\x42\x08\n\x06_msgId*J\n\x0cPositionType\x12\x0e\n\nfrontRight\x10\x00\x12\x0c\n\x08\x62\x61\x63kLeft\x10\x01\x12\r\n\tbackRight\x10\x02\x12\r\n\tfrontLeft\x10\x03*\'\n\x0f\x43hangeStateType\x12\n\n\x06\x44\x61mage\x10\x00\x12\x08\n\x04Heal\x10\x01\x32\x94\x03\n\x0f\x43\x61rdGameService\x12L\n\tReadyGame\x12\x1e.ProtobufData.ReadyGameRequest\x1a\x1f.ProtobufData.ReadyGameResponse\x12L\n\tStartGame\x12\x1e.ProtobufData.StartGameRequest\x1a\x1f.ProtobufData.StartGameResponse\x12O\n\nStartRound\x12\x1f.ProtobufData.StartRoundRequest\x1a .ProtobufData.StartRoundResponse\x12I\n\x08PlayCard\x12\x1d.ProtobufData.PlayCardRequest\x1a\x1e.ProtobufData.PlayCardResponse\x12I\n\x0cPlayerAction\x12\x1b.ProtobufData.ActionRequest\x1a\x1c.ProtobufData.ActionResponseb\x06proto3'
 )
 
 _POSITIONTYPE = _descriptor.EnumDescriptor(
   name='PositionType',
-  full_name='PositionType',
+  full_name='ProtobufData.PositionType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -53,15 +53,15 @@ _POSITIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2078,
-  serialized_end=2152,
+  serialized_start=2508,
+  serialized_end=2582,
 )
 _sym_db.RegisterEnumDescriptor(_POSITIONTYPE)
 
 PositionType = enum_type_wrapper.EnumTypeWrapper(_POSITIONTYPE)
 _CHANGESTATETYPE = _descriptor.EnumDescriptor(
   name='ChangeStateType',
-  full_name='ChangeStateType',
+  full_name='ProtobufData.ChangeStateType',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -79,8 +79,8 @@ _CHANGESTATETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2154,
-  serialized_end=2193,
+  serialized_start=2584,
+  serialized_end=2623,
 )
 _sym_db.RegisterEnumDescriptor(_CHANGESTATETYPE)
 
@@ -96,28 +96,28 @@ Heal = 1
 
 _READYGAMEREQUEST_HERO = _descriptor.Descriptor(
   name='Hero',
-  full_name='ReadyGameRequest.Hero',
+  full_name='ProtobufData.ReadyGameRequest.Hero',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='position', full_name='ReadyGameRequest.Hero.position', index=0,
+      name='position', full_name='ProtobufData.ReadyGameRequest.Hero.position', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='cardId', full_name='ReadyGameRequest.Hero.cardId', index=1,
+      name='cardId', full_name='ProtobufData.ReadyGameRequest.Hero.cardId', index=1,
       number=2, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='heroId', full_name='ReadyGameRequest.Hero.heroId', index=2,
+      name='heroId', full_name='ProtobufData.ReadyGameRequest.Hero.heroId', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -135,34 +135,34 @@ _READYGAMEREQUEST_HERO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=116,
-  serialized_end=172,
+  serialized_start=143,
+  serialized_end=199,
 )
 
 _READYGAMEREQUEST = _descriptor.Descriptor(
   name='ReadyGameRequest',
-  full_name='ReadyGameRequest',
+  full_name='ProtobufData.ReadyGameRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='ReadyGameRequest.msgId', index=0,
+      name='msgId', full_name='ProtobufData.ReadyGameRequest.msgId', index=0,
       number=1001, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='mapId', full_name='ReadyGameRequest.mapId', index=1,
+      name='mapId', full_name='ProtobufData.ReadyGameRequest.mapId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='heroes', full_name='ReadyGameRequest.heroes', index=2,
+      name='heroes', full_name='ProtobufData.ReadyGameRequest.heroes', index=2,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -180,40 +180,40 @@ _READYGAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='ReadyGameRequest._msgId',
+      name='_msgId', full_name='ProtobufData.ReadyGameRequest._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=20,
-  serialized_end=182,
+  serialized_start=34,
+  serialized_end=209,
 )
 
 
 _READYGAMERESPONSE = _descriptor.Descriptor(
   name='ReadyGameResponse',
-  full_name='ReadyGameResponse',
+  full_name='ProtobufData.ReadyGameResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='ReadyGameResponse.msgId', index=0,
+      name='msgId', full_name='ProtobufData.ReadyGameResponse.msgId', index=0,
       number=1002, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='ReadyGameResponse.roomId', index=1,
+      name='roomId', full_name='ProtobufData.ReadyGameResponse.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='ReadyGameResponse.result', index=2,
+      name='result', full_name='ProtobufData.ReadyGameResponse.result', index=2,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -231,55 +231,34 @@ _READYGAMERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='ReadyGameResponse._msgId',
+      name='_msgId', full_name='ProtobufData.ReadyGameResponse._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=184,
-  serialized_end=266,
+  serialized_start=211,
+  serialized_end=293,
 )
 
 
-_STARTGAMEREQUEST_HEROCHANGE = _descriptor.Descriptor(
-  name='heroChange',
-  full_name='StartGameRequest.heroChange',
+_STARTGAMEREQUEST_HEROCHANGE_CARD = _descriptor.Descriptor(
+  name='card',
+  full_name='ProtobufData.StartGameRequest.heroChange.card',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='playerId', full_name='StartGameRequest.heroChange.playerId', index=0,
+      name='cardId', full_name='ProtobufData.StartGameRequest.heroChange.card.cardId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='heroUniqueId', full_name='StartGameRequest.heroChange.heroUniqueId', index=1,
-      number=2, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='heroId', full_name='StartGameRequest.heroChange.heroId', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='position', full_name='StartGameRequest.heroChange.position', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='positionType', full_name='StartGameRequest.heroChange.positionType', index=4,
-      number=5, type=14, cpp_type=8, label=1,
+      name='cardUniqueId', full_name='ProtobufData.StartGameRequest.heroChange.card.cardUniqueId', index=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -296,34 +275,100 @@ _STARTGAMEREQUEST_HEROCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=373,
-  serialized_end=508,
+  serialized_start=639,
+  serialized_end=683,
 )
 
-_STARTGAMEREQUEST = _descriptor.Descriptor(
-  name='StartGameRequest',
-  full_name='StartGameRequest',
+_STARTGAMEREQUEST_HEROCHANGE = _descriptor.Descriptor(
+  name='heroChange',
+  full_name='ProtobufData.StartGameRequest.heroChange',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='StartGameRequest.msgId', index=0,
+      name='playerId', full_name='ProtobufData.StartGameRequest.heroChange.playerId', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='heroUniqueId', full_name='ProtobufData.StartGameRequest.heroChange.heroUniqueId', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='heroId', full_name='ProtobufData.StartGameRequest.heroChange.heroId', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='position', full_name='ProtobufData.StartGameRequest.heroChange.position', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='positionType', full_name='ProtobufData.StartGameRequest.heroChange.positionType', index=4,
+      number=5, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='cards', full_name='ProtobufData.StartGameRequest.heroChange.cards', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_STARTGAMEREQUEST_HEROCHANGE_CARD, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=413,
+  serialized_end=683,
+)
+
+_STARTGAMEREQUEST = _descriptor.Descriptor(
+  name='StartGameRequest',
+  full_name='ProtobufData.StartGameRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='msgId', full_name='ProtobufData.StartGameRequest.msgId', index=0,
       number=1003, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='StartGameRequest.roomId', index=1,
+      name='roomId', full_name='ProtobufData.StartGameRequest.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='change', full_name='StartGameRequest.change', index=2,
+      name='change', full_name='ProtobufData.StartGameRequest.change', index=2,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -341,40 +386,40 @@ _STARTGAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='StartGameRequest._msgId',
+      name='_msgId', full_name='ProtobufData.StartGameRequest._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=269,
-  serialized_end=518,
+  serialized_start=296,
+  serialized_end=693,
 )
 
 
 _STARTGAMERESPONSE = _descriptor.Descriptor(
   name='StartGameResponse',
-  full_name='StartGameResponse',
+  full_name='ProtobufData.StartGameResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='StartGameResponse.msgId', index=0,
+      name='msgId', full_name='ProtobufData.StartGameResponse.msgId', index=0,
       number=1004, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='StartGameResponse.roomId', index=1,
+      name='roomId', full_name='ProtobufData.StartGameResponse.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='StartGameResponse.result', index=2,
+      name='result', full_name='ProtobufData.StartGameResponse.result', index=2,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -392,40 +437,40 @@ _STARTGAMERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='StartGameResponse._msgId',
+      name='_msgId', full_name='ProtobufData.StartGameResponse._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=520,
-  serialized_end=602,
+  serialized_start=695,
+  serialized_end=777,
 )
 
 
 _STARTROUNDREQUEST = _descriptor.Descriptor(
   name='StartRoundRequest',
-  full_name='StartRoundRequest',
+  full_name='ProtobufData.StartRoundRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='StartRoundRequest.msgId', index=0,
+      name='msgId', full_name='ProtobufData.StartRoundRequest.msgId', index=0,
       number=1005, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='StartRoundRequest.roomId', index=1,
+      name='roomId', full_name='ProtobufData.StartRoundRequest.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='round', full_name='StartRoundRequest.round', index=2,
+      name='round', full_name='ProtobufData.StartRoundRequest.round', index=2,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -443,47 +488,47 @@ _STARTROUNDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='StartRoundRequest._msgId',
+      name='_msgId', full_name='ProtobufData.StartRoundRequest._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=604,
-  serialized_end=685,
+  serialized_start=779,
+  serialized_end=860,
 )
 
 
 _STARTROUNDRESPONSE = _descriptor.Descriptor(
   name='StartRoundResponse',
-  full_name='StartRoundResponse',
+  full_name='ProtobufData.StartRoundResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='StartRoundResponse.msgId', index=0,
+      name='msgId', full_name='ProtobufData.StartRoundResponse.msgId', index=0,
       number=1006, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='StartRoundResponse.result', index=1,
+      name='result', full_name='ProtobufData.StartRoundResponse.result', index=1,
       number=1, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='round', full_name='StartRoundResponse.round', index=2,
+      name='round', full_name='ProtobufData.StartRoundResponse.round', index=2,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='StartRoundResponse.roomId', index=3,
+      name='roomId', full_name='ProtobufData.StartRoundResponse.roomId', index=3,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -501,54 +546,54 @@ _STARTROUNDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='StartRoundResponse._msgId',
+      name='_msgId', full_name='ProtobufData.StartRoundResponse._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=687,
-  serialized_end=785,
+  serialized_start=862,
+  serialized_end=960,
 )
 
 
 _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
   name='CardChange',
-  full_name='PlayCardRequest.CardChange',
+  full_name='ProtobufData.PlayCardRequest.CardChange',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='cardUniqueId', full_name='PlayCardRequest.CardChange.cardUniqueId', index=0,
+      name='cardUniqueId', full_name='ProtobufData.PlayCardRequest.CardChange.cardUniqueId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='releasePosition', full_name='PlayCardRequest.CardChange.releasePosition', index=1,
+      name='releasePosition', full_name='ProtobufData.PlayCardRequest.CardChange.releasePosition', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='targetType', full_name='PlayCardRequest.CardChange.targetType', index=2,
+      name='targetType', full_name='ProtobufData.PlayCardRequest.CardChange.targetType', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='heroUniqueId', full_name='PlayCardRequest.CardChange.heroUniqueId', index=3,
+      name='heroUniqueId', full_name='ProtobufData.PlayCardRequest.CardChange.heroUniqueId', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='cardId', full_name='PlayCardRequest.CardChange.cardId', index=4,
+      name='cardId', full_name='ProtobufData.PlayCardRequest.CardChange.cardId', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -566,41 +611,41 @@ _PLAYCARDREQUEST_CARDCHANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=905,
-  serialized_end=1034,
+  serialized_start=1093,
+  serialized_end=1235,
 )
 
 _PLAYCARDREQUEST = _descriptor.Descriptor(
   name='PlayCardRequest',
-  full_name='PlayCardRequest',
+  full_name='ProtobufData.PlayCardRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='PlayCardRequest.msgId', index=0,
+      name='msgId', full_name='ProtobufData.PlayCardRequest.msgId', index=0,
       number=1007, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='PlayCardRequest.roomId', index=1,
+      name='roomId', full_name='ProtobufData.PlayCardRequest.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='round', full_name='PlayCardRequest.round', index=2,
+      name='round', full_name='ProtobufData.PlayCardRequest.round', index=2,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='change', full_name='PlayCardRequest.change', index=3,
+      name='change', full_name='ProtobufData.PlayCardRequest.change', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -618,40 +663,40 @@ _PLAYCARDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='PlayCardRequest._msgId',
+      name='_msgId', full_name='ProtobufData.PlayCardRequest._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=788,
-  serialized_end=1044,
+  serialized_start=963,
+  serialized_end=1245,
 )
 
 
 _PLAYCARDRESPONSE = _descriptor.Descriptor(
   name='PlayCardResponse',
-  full_name='PlayCardResponse',
+  full_name='ProtobufData.PlayCardResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='PlayCardResponse.msgId', index=0,
+      name='msgId', full_name='ProtobufData.PlayCardResponse.msgId', index=0,
       number=1008, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='PlayCardResponse.roomId', index=1,
+      name='roomId', full_name='ProtobufData.PlayCardResponse.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='PlayCardResponse.result', index=2,
+      name='result', full_name='ProtobufData.PlayCardResponse.result', index=2,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -669,41 +714,48 @@ _PLAYCARDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='PlayCardResponse._msgId',
+      name='_msgId', full_name='ProtobufData.PlayCardResponse._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1046,
-  serialized_end=1127,
+  serialized_start=1247,
+  serialized_end=1328,
 )
 
 
 _BATTLEACTIONBASE = _descriptor.Descriptor(
   name='BattleActionBase',
-  full_name='BattleActionBase',
+  full_name='ProtobufData.BattleActionBase',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='heroUniqueId', full_name='BattleActionBase.heroUniqueId', index=0,
+      name='heroUniqueId', full_name='ProtobufData.BattleActionBase.heroUniqueId', index=0,
       number=1, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='moveAction', full_name='BattleActionBase.moveAction', index=1,
+      name='typeAction', full_name='ProtobufData.BattleActionBase.typeAction', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='skillAction', full_name='BattleActionBase.skillAction', index=2,
+      name='moveAction', full_name='ProtobufData.BattleActionBase.moveAction', index=2,
       number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='skillAction', full_name='ProtobufData.BattleActionBase.skillAction', index=3,
+      number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -720,33 +772,77 @@ _BATTLEACTIONBASE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='action', full_name='BattleActionBase.action',
+      name='action', full_name='ProtobufData.BattleActionBase.action',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1129,
-  serialized_end=1251,
+  serialized_start=1331,
+  serialized_end=1527,
 )
 
 
-_MOVEACTION = _descriptor.Descriptor(
-  name='MoveAction',
-  full_name='MoveAction',
+_TYPEACTION = _descriptor.Descriptor(
+  name='TypeAction',
+  full_name='ProtobufData.TypeAction',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='movePath', full_name='MoveAction.movePath', index=0,
+      name='type', full_name='ProtobufData.TypeAction.type', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='Id', full_name='ProtobufData.TypeAction.Id', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_Id', full_name='ProtobufData.TypeAction._Id',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=1529,
+  serialized_end=1579,
+)
+
+
+_MOVEACTION = _descriptor.Descriptor(
+  name='MoveAction',
+  full_name='ProtobufData.MoveAction',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='movePath', full_name='ProtobufData.MoveAction.movePath', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='targetHeroList', full_name='MoveAction.targetHeroList', index=1,
+      name='targetHeroList', full_name='ProtobufData.MoveAction.targetHeroList', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -764,35 +860,28 @@ _MOVEACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1253,
-  serialized_end=1332,
+  serialized_start=1581,
+  serialized_end=1686,
 )
 
 
 _SKILLACTION = _descriptor.Descriptor(
   name='SkillAction',
-  full_name='SkillAction',
+  full_name='ProtobufData.SkillAction',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='skillId', full_name='SkillAction.skillId', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='targetHeroList', full_name='SkillAction.targetHeroList', index=1,
+      name='targetHeroList', full_name='ProtobufData.SkillAction.targetHeroList', index=0,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='position', full_name='SkillAction.position', index=2,
+      name='position', full_name='ProtobufData.SkillAction.position', index=1,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -810,35 +899,35 @@ _SKILLACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1334,
-  serialized_end=1431,
+  serialized_start=1688,
+  serialized_end=1794,
 )
 
 
 _CHANGEHERO = _descriptor.Descriptor(
   name='ChangeHero',
-  full_name='ChangeHero',
+  full_name='ProtobufData.ChangeHero',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='heroUniqueId', full_name='ChangeHero.heroUniqueId', index=0,
+      name='heroUniqueId', full_name='ProtobufData.ChangeHero.heroUniqueId', index=0,
       number=1, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='type', full_name='ChangeHero.type', index=1,
+      name='type', full_name='ProtobufData.ChangeHero.type', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='changeStateList', full_name='ChangeHero.changeStateList', index=2,
+      name='changeStateList', full_name='ProtobufData.ChangeHero.changeStateList', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -856,35 +945,35 @@ _CHANGEHERO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1433,
-  serialized_end=1538,
+  serialized_start=1797,
+  serialized_end=1928,
 )
 
 
 _CHANGESTATE = _descriptor.Descriptor(
   name='ChangeState',
-  full_name='ChangeState',
+  full_name='ProtobufData.ChangeState',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='hp', full_name='ChangeState.hp', index=0,
+      name='hp', full_name='ProtobufData.ChangeState.hp', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='pushPosition', full_name='ChangeState.pushPosition', index=1,
+      name='pushPosition', full_name='ProtobufData.ChangeState.pushPosition', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='buffState', full_name='ChangeState.buffState', index=2,
+      name='buffState', full_name='ProtobufData.ChangeState.buffState', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -902,33 +991,33 @@ _CHANGESTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='state', full_name='ChangeState.state',
+      name='state', full_name='ProtobufData.ChangeState.state',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1540,
-  serialized_end=1645,
+  serialized_start=1931,
+  serialized_end=2062,
 )
 
 
 _BUFFSTATE = _descriptor.Descriptor(
   name='BuffState',
-  full_name='BuffState',
+  full_name='ProtobufData.BuffState',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='buffId', full_name='BuffState.buffId', index=0,
+      name='buffId', full_name='ProtobufData.BuffState.buffId', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='round', full_name='BuffState.round', index=1,
+      name='round', full_name='ProtobufData.BuffState.round', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -946,35 +1035,35 @@ _BUFFSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1647,
-  serialized_end=1689,
+  serialized_start=2064,
+  serialized_end=2106,
 )
 
 
 _PBVECTOR3 = _descriptor.Descriptor(
   name='PbVector3',
-  full_name='PbVector3',
+  full_name='ProtobufData.PbVector3',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='x', full_name='PbVector3.x', index=0,
+      name='x', full_name='ProtobufData.PbVector3.x', index=0,
       number=1, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='y', full_name='PbVector3.y', index=1,
+      name='y', full_name='ProtobufData.PbVector3.y', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='z', full_name='PbVector3.z', index=2,
+      name='z', full_name='ProtobufData.PbVector3.z', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -992,84 +1081,84 @@ _PBVECTOR3 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1691,
-  serialized_end=1735,
+  serialized_start=2108,
+  serialized_end=2152,
 )
 
 
 _ACTIONREQUEST = _descriptor.Descriptor(
   name='ActionRequest',
-  full_name='ActionRequest',
+  full_name='ProtobufData.ActionRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='ActionRequest.msgId', index=0,
+      name='msgId', full_name='ProtobufData.ActionRequest.msgId', index=0,
       number=1009, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='ActionRequest.roomId', index=1,
+      name='roomId', full_name='ProtobufData.ActionRequest.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='playerId', full_name='ActionRequest.playerId', index=2,
-      number=2, type=5, cpp_type=1, label=1,
+      name='playerId', full_name='ProtobufData.ActionRequest.playerId', index=2,
+      number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='actionId', full_name='ActionRequest.actionId', index=3,
+      name='actionId', full_name='ProtobufData.ActionRequest.actionId', index=3,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='level', full_name='ActionRequest.level', index=4,
+      name='level', full_name='ProtobufData.ActionRequest.level', index=4,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='round', full_name='ActionRequest.round', index=5,
+      name='round', full_name='ProtobufData.ActionRequest.round', index=5,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roundStatus', full_name='ActionRequest.roundStatus', index=6,
+      name='roundStatus', full_name='ProtobufData.ActionRequest.roundStatus', index=6,
       number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='gameOver', full_name='ActionRequest.gameOver', index=7,
+      name='gameOver', full_name='ProtobufData.ActionRequest.gameOver', index=7,
       number=7, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='winner', full_name='ActionRequest.winner', index=8,
+      name='winner', full_name='ProtobufData.ActionRequest.winner', index=8,
       number=8, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='battleAction', full_name='ActionRequest.battleAction', index=9,
+      name='battleAction', full_name='ProtobufData.ActionRequest.battleAction', index=9,
       number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1087,54 +1176,54 @@ _ACTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='ActionRequest._msgId',
+      name='_msgId', full_name='ProtobufData.ActionRequest._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1738,
-  serialized_end=1962,
+  serialized_start=2155,
+  serialized_end=2392,
 )
 
 
 _ACTIONRESPONSE = _descriptor.Descriptor(
   name='ActionResponse',
-  full_name='ActionResponse',
+  full_name='ProtobufData.ActionResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='msgId', full_name='ActionResponse.msgId', index=0,
+      name='msgId', full_name='ProtobufData.ActionResponse.msgId', index=0,
       number=1010, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='roomId', full_name='ActionResponse.roomId', index=1,
+      name='roomId', full_name='ProtobufData.ActionResponse.roomId', index=1,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='round', full_name='ActionResponse.round', index=2,
+      name='round', full_name='ProtobufData.ActionResponse.round', index=2,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='actionId', full_name='ActionResponse.actionId', index=3,
+      name='actionId', full_name='ProtobufData.ActionResponse.actionId', index=3,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='result', full_name='ActionResponse.result', index=4,
+      name='result', full_name='ProtobufData.ActionResponse.result', index=4,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -1152,13 +1241,13 @@ _ACTIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_msgId', full_name='ActionResponse._msgId',
+      name='_msgId', full_name='ProtobufData.ActionResponse._msgId',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1964,
-  serialized_end=2076,
+  serialized_start=2394,
+  serialized_end=2506,
 )
 
 _READYGAMEREQUEST_HERO.containing_type = _READYGAMEREQUEST
@@ -1169,8 +1258,10 @@ _READYGAMEREQUEST.fields_by_name['msgId'].containing_oneof = _READYGAMEREQUEST.o
 _READYGAMERESPONSE.oneofs_by_name['_msgId'].fields.append(
   _READYGAMERESPONSE.fields_by_name['msgId'])
 _READYGAMERESPONSE.fields_by_name['msgId'].containing_oneof = _READYGAMERESPONSE.oneofs_by_name['_msgId']
+_STARTGAMEREQUEST_HEROCHANGE_CARD.containing_type = _STARTGAMEREQUEST_HEROCHANGE
 _STARTGAMEREQUEST_HEROCHANGE.fields_by_name['position'].message_type = _PBVECTOR3
 _STARTGAMEREQUEST_HEROCHANGE.fields_by_name['positionType'].enum_type = _POSITIONTYPE
+_STARTGAMEREQUEST_HEROCHANGE.fields_by_name['cards'].message_type = _STARTGAMEREQUEST_HEROCHANGE_CARD
 _STARTGAMEREQUEST_HEROCHANGE.containing_type = _STARTGAMEREQUEST
 _STARTGAMEREQUEST.fields_by_name['change'].message_type = _STARTGAMEREQUEST_HEROCHANGE
 _STARTGAMEREQUEST.oneofs_by_name['_msgId'].fields.append(
@@ -1194,14 +1285,21 @@ _PLAYCARDREQUEST.fields_by_name['msgId'].containing_oneof = _PLAYCARDREQUEST.one
 _PLAYCARDRESPONSE.oneofs_by_name['_msgId'].fields.append(
   _PLAYCARDRESPONSE.fields_by_name['msgId'])
 _PLAYCARDRESPONSE.fields_by_name['msgId'].containing_oneof = _PLAYCARDRESPONSE.oneofs_by_name['_msgId']
+_BATTLEACTIONBASE.fields_by_name['typeAction'].message_type = _TYPEACTION
 _BATTLEACTIONBASE.fields_by_name['moveAction'].message_type = _MOVEACTION
 _BATTLEACTIONBASE.fields_by_name['skillAction'].message_type = _SKILLACTION
+_BATTLEACTIONBASE.oneofs_by_name['action'].fields.append(
+  _BATTLEACTIONBASE.fields_by_name['typeAction'])
+_BATTLEACTIONBASE.fields_by_name['typeAction'].containing_oneof = _BATTLEACTIONBASE.oneofs_by_name['action']
 _BATTLEACTIONBASE.oneofs_by_name['action'].fields.append(
   _BATTLEACTIONBASE.fields_by_name['moveAction'])
 _BATTLEACTIONBASE.fields_by_name['moveAction'].containing_oneof = _BATTLEACTIONBASE.oneofs_by_name['action']
 _BATTLEACTIONBASE.oneofs_by_name['action'].fields.append(
   _BATTLEACTIONBASE.fields_by_name['skillAction'])
 _BATTLEACTIONBASE.fields_by_name['skillAction'].containing_oneof = _BATTLEACTIONBASE.oneofs_by_name['action']
+_TYPEACTION.oneofs_by_name['_Id'].fields.append(
+  _TYPEACTION.fields_by_name['Id'])
+_TYPEACTION.fields_by_name['Id'].containing_oneof = _TYPEACTION.oneofs_by_name['_Id']
 _MOVEACTION.fields_by_name['movePath'].message_type = _PBVECTOR3
 _MOVEACTION.fields_by_name['targetHeroList'].message_type = _CHANGEHERO
 _SKILLACTION.fields_by_name['targetHeroList'].message_type = _CHANGEHERO
@@ -1235,6 +1333,7 @@ DESCRIPTOR.message_types_by_name['StartRoundResponse'] = _STARTROUNDRESPONSE
 DESCRIPTOR.message_types_by_name['PlayCardRequest'] = _PLAYCARDREQUEST
 DESCRIPTOR.message_types_by_name['PlayCardResponse'] = _PLAYCARDRESPONSE
 DESCRIPTOR.message_types_by_name['BattleActionBase'] = _BATTLEACTIONBASE
+DESCRIPTOR.message_types_by_name['TypeAction'] = _TYPEACTION
 DESCRIPTOR.message_types_by_name['MoveAction'] = _MOVEACTION
 DESCRIPTOR.message_types_by_name['SkillAction'] = _SKILLACTION
 DESCRIPTOR.message_types_by_name['ChangeHero'] = _CHANGEHERO
@@ -1252,12 +1351,12 @@ ReadyGameRequest = _reflection.GeneratedProtocolMessageType('ReadyGameRequest', 
   'Hero' : _reflection.GeneratedProtocolMessageType('Hero', (_message.Message,), {
     'DESCRIPTOR' : _READYGAMEREQUEST_HERO,
     '__module__' : 'card_game_pb2'
-    # @@protoc_insertion_point(class_scope:ReadyGameRequest.Hero)
+    # @@protoc_insertion_point(class_scope:ProtobufData.ReadyGameRequest.Hero)
     })
   ,
   'DESCRIPTOR' : _READYGAMEREQUEST,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:ReadyGameRequest)
+  # @@protoc_insertion_point(class_scope:ProtobufData.ReadyGameRequest)
   })
 _sym_db.RegisterMessage(ReadyGameRequest)
 _sym_db.RegisterMessage(ReadyGameRequest.Hero)
@@ -1265,43 +1364,51 @@ _sym_db.RegisterMessage(ReadyGameRequest.Hero)
 ReadyGameResponse = _reflection.GeneratedProtocolMessageType('ReadyGameResponse', (_message.Message,), {
   'DESCRIPTOR' : _READYGAMERESPONSE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:ReadyGameResponse)
+  # @@protoc_insertion_point(class_scope:ProtobufData.ReadyGameResponse)
   })
 _sym_db.RegisterMessage(ReadyGameResponse)
 
 StartGameRequest = _reflection.GeneratedProtocolMessageType('StartGameRequest', (_message.Message,), {
 
   'heroChange' : _reflection.GeneratedProtocolMessageType('heroChange', (_message.Message,), {
+
+    'card' : _reflection.GeneratedProtocolMessageType('card', (_message.Message,), {
+      'DESCRIPTOR' : _STARTGAMEREQUEST_HEROCHANGE_CARD,
+      '__module__' : 'card_game_pb2'
+      # @@protoc_insertion_point(class_scope:ProtobufData.StartGameRequest.heroChange.card)
+      })
+    ,
     'DESCRIPTOR' : _STARTGAMEREQUEST_HEROCHANGE,
     '__module__' : 'card_game_pb2'
-    # @@protoc_insertion_point(class_scope:StartGameRequest.heroChange)
+    # @@protoc_insertion_point(class_scope:ProtobufData.StartGameRequest.heroChange)
     })
   ,
   'DESCRIPTOR' : _STARTGAMEREQUEST,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:StartGameRequest)
+  # @@protoc_insertion_point(class_scope:ProtobufData.StartGameRequest)
   })
 _sym_db.RegisterMessage(StartGameRequest)
 _sym_db.RegisterMessage(StartGameRequest.heroChange)
+_sym_db.RegisterMessage(StartGameRequest.heroChange.card)
 
 StartGameResponse = _reflection.GeneratedProtocolMessageType('StartGameResponse', (_message.Message,), {
   'DESCRIPTOR' : _STARTGAMERESPONSE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:StartGameResponse)
+  # @@protoc_insertion_point(class_scope:ProtobufData.StartGameResponse)
   })
 _sym_db.RegisterMessage(StartGameResponse)
 
 StartRoundRequest = _reflection.GeneratedProtocolMessageType('StartRoundRequest', (_message.Message,), {
   'DESCRIPTOR' : _STARTROUNDREQUEST,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:StartRoundRequest)
+  # @@protoc_insertion_point(class_scope:ProtobufData.StartRoundRequest)
   })
 _sym_db.RegisterMessage(StartRoundRequest)
 
 StartRoundResponse = _reflection.GeneratedProtocolMessageType('StartRoundResponse', (_message.Message,), {
   'DESCRIPTOR' : _STARTROUNDRESPONSE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:StartRoundResponse)
+  # @@protoc_insertion_point(class_scope:ProtobufData.StartRoundResponse)
   })
 _sym_db.RegisterMessage(StartRoundResponse)
 
@@ -1310,12 +1417,12 @@ PlayCardRequest = _reflection.GeneratedProtocolMessageType('PlayCardRequest', (_
   'CardChange' : _reflection.GeneratedProtocolMessageType('CardChange', (_message.Message,), {
     'DESCRIPTOR' : _PLAYCARDREQUEST_CARDCHANGE,
     '__module__' : 'card_game_pb2'
-    # @@protoc_insertion_point(class_scope:PlayCardRequest.CardChange)
+    # @@protoc_insertion_point(class_scope:ProtobufData.PlayCardRequest.CardChange)
     })
   ,
   'DESCRIPTOR' : _PLAYCARDREQUEST,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:PlayCardRequest)
+  # @@protoc_insertion_point(class_scope:ProtobufData.PlayCardRequest)
   })
 _sym_db.RegisterMessage(PlayCardRequest)
 _sym_db.RegisterMessage(PlayCardRequest.CardChange)
@@ -1323,70 +1430,77 @@ _sym_db.RegisterMessage(PlayCardRequest.CardChange)
 PlayCardResponse = _reflection.GeneratedProtocolMessageType('PlayCardResponse', (_message.Message,), {
   'DESCRIPTOR' : _PLAYCARDRESPONSE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:PlayCardResponse)
+  # @@protoc_insertion_point(class_scope:ProtobufData.PlayCardResponse)
   })
 _sym_db.RegisterMessage(PlayCardResponse)
 
 BattleActionBase = _reflection.GeneratedProtocolMessageType('BattleActionBase', (_message.Message,), {
   'DESCRIPTOR' : _BATTLEACTIONBASE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:BattleActionBase)
+  # @@protoc_insertion_point(class_scope:ProtobufData.BattleActionBase)
   })
 _sym_db.RegisterMessage(BattleActionBase)
+
+TypeAction = _reflection.GeneratedProtocolMessageType('TypeAction', (_message.Message,), {
+  'DESCRIPTOR' : _TYPEACTION,
+  '__module__' : 'card_game_pb2'
+  # @@protoc_insertion_point(class_scope:ProtobufData.TypeAction)
+  })
+_sym_db.RegisterMessage(TypeAction)
 
 MoveAction = _reflection.GeneratedProtocolMessageType('MoveAction', (_message.Message,), {
   'DESCRIPTOR' : _MOVEACTION,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:MoveAction)
+  # @@protoc_insertion_point(class_scope:ProtobufData.MoveAction)
   })
 _sym_db.RegisterMessage(MoveAction)
 
 SkillAction = _reflection.GeneratedProtocolMessageType('SkillAction', (_message.Message,), {
   'DESCRIPTOR' : _SKILLACTION,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:SkillAction)
+  # @@protoc_insertion_point(class_scope:ProtobufData.SkillAction)
   })
 _sym_db.RegisterMessage(SkillAction)
 
 ChangeHero = _reflection.GeneratedProtocolMessageType('ChangeHero', (_message.Message,), {
   'DESCRIPTOR' : _CHANGEHERO,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:ChangeHero)
+  # @@protoc_insertion_point(class_scope:ProtobufData.ChangeHero)
   })
 _sym_db.RegisterMessage(ChangeHero)
 
 ChangeState = _reflection.GeneratedProtocolMessageType('ChangeState', (_message.Message,), {
   'DESCRIPTOR' : _CHANGESTATE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:ChangeState)
+  # @@protoc_insertion_point(class_scope:ProtobufData.ChangeState)
   })
 _sym_db.RegisterMessage(ChangeState)
 
 BuffState = _reflection.GeneratedProtocolMessageType('BuffState', (_message.Message,), {
   'DESCRIPTOR' : _BUFFSTATE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:BuffState)
+  # @@protoc_insertion_point(class_scope:ProtobufData.BuffState)
   })
 _sym_db.RegisterMessage(BuffState)
 
 PbVector3 = _reflection.GeneratedProtocolMessageType('PbVector3', (_message.Message,), {
   'DESCRIPTOR' : _PBVECTOR3,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:PbVector3)
+  # @@protoc_insertion_point(class_scope:ProtobufData.PbVector3)
   })
 _sym_db.RegisterMessage(PbVector3)
 
 ActionRequest = _reflection.GeneratedProtocolMessageType('ActionRequest', (_message.Message,), {
   'DESCRIPTOR' : _ACTIONREQUEST,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:ActionRequest)
+  # @@protoc_insertion_point(class_scope:ProtobufData.ActionRequest)
   })
 _sym_db.RegisterMessage(ActionRequest)
 
 ActionResponse = _reflection.GeneratedProtocolMessageType('ActionResponse', (_message.Message,), {
   'DESCRIPTOR' : _ACTIONRESPONSE,
   '__module__' : 'card_game_pb2'
-  # @@protoc_insertion_point(class_scope:ActionResponse)
+  # @@protoc_insertion_point(class_scope:ProtobufData.ActionResponse)
   })
 _sym_db.RegisterMessage(ActionResponse)
 
@@ -1394,17 +1508,17 @@ _sym_db.RegisterMessage(ActionResponse)
 
 _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   name='CardGameService',
-  full_name='CardGameService',
+  full_name='ProtobufData.CardGameService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2196,
-  serialized_end=2470,
+  serialized_start=2626,
+  serialized_end=3030,
   methods=[
   _descriptor.MethodDescriptor(
     name='ReadyGame',
-    full_name='CardGameService.ReadyGame',
+    full_name='ProtobufData.CardGameService.ReadyGame',
     index=0,
     containing_service=None,
     input_type=_READYGAMEREQUEST,
@@ -1414,7 +1528,7 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='StartGame',
-    full_name='CardGameService.StartGame',
+    full_name='ProtobufData.CardGameService.StartGame',
     index=1,
     containing_service=None,
     input_type=_STARTGAMEREQUEST,
@@ -1424,7 +1538,7 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='StartRound',
-    full_name='CardGameService.StartRound',
+    full_name='ProtobufData.CardGameService.StartRound',
     index=2,
     containing_service=None,
     input_type=_STARTROUNDREQUEST,
@@ -1434,7 +1548,7 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='PlayCard',
-    full_name='CardGameService.PlayCard',
+    full_name='ProtobufData.CardGameService.PlayCard',
     index=3,
     containing_service=None,
     input_type=_PLAYCARDREQUEST,
@@ -1444,7 +1558,7 @@ _CARDGAMESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='PlayerAction',
-    full_name='CardGameService.PlayerAction',
+    full_name='ProtobufData.CardGameService.PlayerAction',
     index=4,
     containing_service=None,
     input_type=_ACTIONREQUEST,

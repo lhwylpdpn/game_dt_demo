@@ -131,6 +131,9 @@ class Room():
         self.__left_heros.append(nw)
         return self
     
+    def is_full(self): # 房间是否满了
+        return (self.left_player is not None) and (self.right_player is not None)
+    
     def remove_from_left_hero(self, dh):
         for _ in self.__left_heros:
             if _.HeroID == dh.__HeroID:

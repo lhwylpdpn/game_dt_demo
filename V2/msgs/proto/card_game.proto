@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+package ProtobufData;
 /*
  * 1. CS -> ready_game
 */
@@ -40,12 +41,18 @@ message StartGameRequest {
     int32 roomId = 1;  // 房间 ID
     repeated heroChange change = 2;  // 变化列表
     message heroChange {
-     int32 playerId = 1;    // 玩家 ID
+     int64 playerId = 1;    // 玩家 ID
      int64 heroUniqueId = 2;        // 英雄唯一 ID
      int32 heroId = 3;        // 英雄 ID
      PbVector3 position = 4;     // 状态变化描述，直接使用字符串
      PositionType positionType = 5; // 位置类型
+     repeated card cards = 6;  // 卡牌列表
+        message card {
+            int32 cardId = 1;        // 卡牌 ID
+            int32 cardUniqueId = 2;  // 卡牌唯一 ID
     }
+    }
+
 }
 
 message StartGameResponse {
@@ -104,9 +111,15 @@ message PlayCardResponse {
 message BattleActionBase {
     int64 heroUniqueId = 1; // 英雄唯一ID
     oneof action {
-        MoveAction moveAction = 2;
-        SkillAction skillAction = 3;
+        TypeAction typeAction = 2;
+        MoveAction moveAction = 3;
+        SkillAction skillAction = 4;
     }
+}
+
+message TypeAction {
+    int32 type = 1; // 1卡牌； 2普攻
+    optional int32 Id = 2; // 卡牌id
 }
 
 message MoveAction {
@@ -115,7 +128,6 @@ message MoveAction {
 }
 
 message SkillAction {
-    int32 skillId = 1;  // 技能ID
     repeated ChangeHero targetHeroList = 2; // 目标英雄集合
     PbVector3 position = 3;
 }
@@ -154,7 +166,7 @@ message PbVector3 {
 message ActionRequest {
     optional int32 msgId = 1009;
     int32 roomId = 1;      // 房间 ID
-    int32 playerId = 2;    // 玩家 ID
+    int64 playerId = 2;    // 玩家 ID
     int32 actionId = 3;    // 动作帧顺序
     int32 level = 4;        // 阶段
     int32 round = 5;        // 回合

@@ -17,10 +17,11 @@ class CardBase():
         self.__HitRange = kwargs.get("HitRange", [])       #  受击范围  
         self.__HitRangeType = kwargs.get("HitRangeType", None)         # 受击范围类型  1、菱形 2 正方形
         self.__Param = kwargs.get("Param", [])             # card effect 相关参数 ID|参数
+        self.__releasePosition = None                         # 使用卡牌时候，卡牌的释放点位
                                    
     def dict(self):
         fields = ["CardID", "Cost", "Type", "AtkTarget", 
-                 "AtkDistance", "HitRange", "HitRangeType", "Param"]
+                 "AtkDistance", "HitRange", "HitRangeType", "Param", 'releasePosition']
         return {field:self.__getattribute__(field) for field in fields}
     
     ## attr
@@ -56,6 +57,14 @@ class CardBase():
     def Param(self):
         return self.__Param 
     
+    @property
+    def releasePosition(self):
+        return self.__releasePosition
+    
+    def set_releasePosition(self, value):
+        self.__releasePosition = value
+        return self
+    
 
 class Card(CardBase):
 
@@ -64,10 +73,17 @@ class Card(CardBase):
         self.__effects = {}                  # 卡牌 的效果
         self.__unique_id = None
     
+    def dict(self):
+        dict_data = super().dict()
+        dict_data["unique_id"] = self.unique_id
+        dict_data["effects"] = {k:self.get_effect(k).dict() for k in self.effects.keys()}
+        return dict_data
+    
     def create_unique_id(self):
         self.__unique_id = uniqueID_32()
         return self
     
+    @property
     def unique_id(self):
         return self.__unique_id
 
