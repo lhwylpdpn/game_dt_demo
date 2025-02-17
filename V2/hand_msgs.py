@@ -169,13 +169,14 @@ def handle_action_request(self_client, player_id, data):
     action_request.round = self_client.player.room.round
     action_request.actionId = data['tick'] ## TODO 需要真正的tik 编号
     action_request.gameOver = data['gameover'] 
+    action_request.roundStatus = data['round_status']
 
     action_request.battleAction.CopyFrom(battle_action_base)  
     action_request.playerId = player_id            
 
     serialized_request = action_request.SerializeToString()
 
-    msg_id = 1009  
+    msg_id = 1009
     request_message = struct.pack("<I", msg_id) + struct.pack("<Q", player_id) + serialized_request
     self_client.player.room.topic_manager.publish(self_client.player.room.room_id, request_message,
                                                   isBinary=True)  # HU add
@@ -204,7 +205,7 @@ def card_actions(game_data):
                         "targets": targets,
                         "section": "2",
                         "id": card["CardID"],
-                        "unique_id": card["unique_id"],
+                        "unique_id": hero["unique_id"],
                         "action_type": "ATK"
                     }
                 }
@@ -214,4 +215,5 @@ def card_actions(game_data):
 
 
 if __name__ == '__main__':
-    card_actions()
+   
+    print(card_actions())
