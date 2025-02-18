@@ -161,6 +161,15 @@ if __name__ == "__main__":
     })
     
     actions = card_actions(player_1.room)
+    class clinet():
+        pass
+    
+    def test_hand(*args):
+        print(args)
+        pass
+    cli = clinet()
+    cli.player = player_1
+    player_1.room.game.single_run(test_hand, cli, actions)
 
     # print(player.room.game)
     # print(player.room.dict())

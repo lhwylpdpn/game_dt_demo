@@ -391,3 +391,20 @@ class Hero(HeroBase): # 逻辑相关处理
         for _ in self.__AvaliableCards:
             if _.unique_id == unique_id:
                 self.__AvaliableCards.remove(_)
+    
+    def join_game(self, state, init_position=True): # 进入战局
+        self.move_position(*self.position, state, init_position)
+        return self
+    
+    def move_position(self, x, y, z, state, init_position=False):
+        print("MOVE>>:", self.HeroID, f"from <{self.position}>计划移动到<[{x}, {y}, {z}]>")
+        map_obj = state['maps']
+        if not map_obj.land_can_pass(x, y, z):
+            raise Exception(f"<ERROR>:({x}, {y}, {z}) 不能通过.")
+        if not init_position: # 不是初始化位置时候，需要离开地块
+            map_obj.exit(self)            # 离开当前地块
+        map_obj.enter(x,y,z, self, init_position)    # 进入新地块, 返回宝箱
+        self.set_x(x).set_y(y).set_z(z)       # 设置新位置
+        self.is_move = True
+        print("MOVE>>:", self.HeroID, f"移动到<{self.position}>")
+        return self

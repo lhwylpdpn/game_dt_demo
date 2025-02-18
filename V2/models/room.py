@@ -112,7 +112,7 @@ class Room():
     
     def init_game(self):
         self.__game = schedule(left_hero=self.__left_heros,right_hero=self.__right_heros,state=self.__maps)
-        # self.__game.start()
+        self.__game.start()
         return self
 
     @property
