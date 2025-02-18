@@ -105,7 +105,7 @@ class schedule:
 
             else:
                 action_result = self.game.monster_action(hero, action)
- 
+
             if not action_result:  # 如果动作失败，直接跳出本次动作链路
                 break
             if isinstance(action_result, dict):
