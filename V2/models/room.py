@@ -60,8 +60,8 @@ class Room():
         self.topic_manager = TopicManager() # 订阅管理
 
     def dict(self):
-        fields = ["left_player", "right_player", "room_id", "maps", 
-                 "cards_pool", "heros_pool", "heros_pvp_locations", "effects"]
+        # fields = ["left_player", "right_player", "room_id", "maps", 
+        #          "cards_pool", "heros_pool", "heros_pvp_locations", "effects"]
         data = {}
         data["left_player"] = self.__left_player.dict() if self.__left_player else None
         data["right_player"] = self.__right_player.dict() if self.__right_player else None

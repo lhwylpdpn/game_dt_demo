@@ -88,12 +88,17 @@ class CardGameFactory(WebSocketServerFactory):
             c.sendMessage(msg, isBinary)
 
     # 获取当前的游戏房间
-    def game_rooms(self): 
+    def game_rooms(self, map_id=None): 
+        # @map_id int 房间地图id
         rooms = []
         for _ in self.clients:
             _room = _.player.room
             if _room and _room not in  rooms:
-                rooms.append(_room)
+                if map_id is not None:
+                    if _room.room_id == map_id:
+                        rooms.append(_room)
+                else:
+                    rooms.append(_room)
         return rooms
 
 
