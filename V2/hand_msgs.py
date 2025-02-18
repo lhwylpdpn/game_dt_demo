@@ -247,12 +247,12 @@ def card_actions(room):
                         "skill_pos": tuple(release_position),
                         "skill_range": release_points,
                         "release_range": [],
-                        "type": "1",
+                        "type": "ATK",
                         "targets": targets,
                         "section": "2",
                         "id": card["CardID"],
                         "unique_id": hero["unique_id"],
-                        "action_type": "ATK",
+                        "action_type": f"SKILL_{card['CardID']}",
                         "hero_obj" : hero_obj,
                         "step": 3
                     }

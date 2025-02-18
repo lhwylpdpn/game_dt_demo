@@ -190,8 +190,7 @@ class Action(object):
 
 
 if __name__ == '__main__':
-    data = {"0x13506ff40": {'damage': [{'damage': 0, 'miss': 0, 'pre_damage': -54, 'st': 'Equal', 'effects': [{'role': 'hero', 'role_id': 5002, 'effect_id': 67}, {'role': 'hero', 'role_id': 5002, 'effect_id': 65}], 'crit': 'Default'}, {'damage': 0, 'miss': 0, 'pre_damage': -54, 'st': 'Equal', 'effects': [], 'crit': 'Default'}], 'back_attck': {'action_type': 'SKILL_82', 'atk_range': [[11, 3, 13]], 'atk_position': [[11, 3, 13]], 'release_range': [[11, 3, 13]], 'damage': [{'damage': 0, 'miss': 0, 'pre_damage': 77, 'st': 'Equal', 'effects': [{'role': 'hero', 'role_id': 5002, 'effect_id': 84}], 'crit': 'Default'}], 'effects': [68, 63, 84, 57]}}}
 
 
-    print(Action().calc_back_damage(data["0x13506ff40"]["back_attck"]))
+    print(Action().choose_action())
 
