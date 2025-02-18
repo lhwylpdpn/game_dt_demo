@@ -141,9 +141,9 @@ def handle_play_card(self_client, player_id, data):
         print("room---->", self_client.player.room.dict())
         # [{hero:attr, card: [], speed : []}]
 
-        # actions = card_actions(self_client.player.room)
-        # self_client.player.room.game.single_run(handle_action_request, self_client, actions)
-        self_client.player.room.game.single_run(handle_action_request, self_client, [])
+        actions = card_actions(self_client.player.room)
+        self_client.player.room.game.single_run(handle_action_request, self_client, actions)
+        # self_client.player.room.game.single_run(handle_action_request, self_client, [])
 
 
 def handle_action_request(self_client, player_id, data):
