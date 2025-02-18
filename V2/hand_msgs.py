@@ -163,6 +163,7 @@ def handle_action_request(self_client, player_id, data):
         fake_type_action = card_game_pb2.TypeAction()
         fake_type_action.type = data["action"]["type"]
         fake_type_action.Id = data["action"]["id"]
+        battle_action_base.typeAction.CopyFrom(fake_type_action)
 
         fake_skill_action = card_game_pb2.SkillAction()
         for t in data["action"]["targets"]:
