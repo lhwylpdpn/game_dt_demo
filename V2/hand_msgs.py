@@ -241,14 +241,14 @@ def card_actions(room):
                     continue
                 release_points = range_mht_hollow_circle(release_position, card["AtkDistance"][1],
                                                          card["AtkDistance"][0], 0, 0, maps)
-                targets = [t["HeroID"] for t in heroes if t["playerId"] != hero["playerId"] and tuple(t["position"]) in release_points]
+                targets = [t["unique_id"] for t in heroes if t["playerId"] != hero["playerId"] and tuple(t["position"]) in release_points]
                 hero_obj = [_ for _ in heroes_obj if _.unique_id == hero["unique_id"]][0]
                 each = {
                     "action": {
                         "skill_pos": tuple(release_position),
                         "skill_range": release_points,
                         "release_range": [],
-                        "type": "ATK",
+                        "type": 1,
                         "targets": targets,
                         "section": "2",
                         "id": card["CardID"],

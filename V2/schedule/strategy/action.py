@@ -101,6 +101,7 @@ class Action(object):
             return res
 
         if "SKILL_" in step["action_type"]:
+            return step
             skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
 
             if step["type"] == "ATK":
