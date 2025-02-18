@@ -165,7 +165,7 @@ def handle_action_request(self_client, player_id, data):
         fake_type_action.Id = data["action"]["id"]
 
         fake_skill_action = card_game_pb2.SkillAction()
-        for t in data["action"]["target"]:
+        for t in data["action"]["targets"]:
             fake_skill_action.targetHeroList.add(heroUniqueId=t)
             change_state = card_game_pb2.ChangeState()
             change_state.type = card_game_pb2.ChangeStateType.Damage
