@@ -44,10 +44,13 @@ class CardGameProtocol(WebSocketServerProtocol):
             self.player.set_playerId(player_id)     # TODO login 时候设置player_id
              
             # 统一处理msg
-            parse_proto, message_handle = MSGID_TO_MESSAGE.get(msgId)
-            _req_data = parse_proto()
-            _req_data.ParseFromString(data[12:])
-            message_handle(self, player_id, _req_data)
+            parse_proto, message_handle = MSGID_TO_MESSAGE.get(msgId, (None, None))
+            if message_handle is None:
+                print(f"<WARNING> {msgId} Do not handle.")
+            else:
+                _req_data = parse_proto()
+                _req_data.ParseFromString(data[12:])
+                message_handle(self, player_id, _req_data)
             
         except Exception as e:
             print(f"Error processing request: {e}")
