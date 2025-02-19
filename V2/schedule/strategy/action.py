@@ -102,10 +102,10 @@ class Action(object):
 
         if "SKILL_" in step["action_type"]:
 
-            return [{"type": step["type"], "action_type": "TYPE"}, step]
-            skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
+            # return [{"type": step["type"], "action_type": "TYPE"}, step]
+            # skill = [s for s in hero.skills if s.SkillId == int(step["action_type"].replace("SKILL_", ""))][0]
 
-            if step["type"] == "ATK":
+            # if step["type"] == "ATK":
                 back_res = []
                 # attachment_in_atk = [a for a in state["attachment"] if a.Selected == ATTACHMENT_SELECT and tuple(a.position) in step["skill_range"]]
                 # if attachment_in_atk:
@@ -113,34 +113,33 @@ class Action(object):
 
                 # attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0] # TODO
                 attack_enemies = [e for e in state["monster"] if tuple(e.position) in step["skill_range"] and e.Hp > 0]
-                atk_res = hero.func_attack(attack_enemies, skill, step["skill_pos"], state)
+                atk_res = hero.func_attack(attack_enemies, "", step["skill_pos"], state)
 
-                for _ in atk_res:
-                    if atk_res[_].get("back_attck"):
-                        atk_back = atk_res[_]["back_attck"]
-                        atk_back["id"] = atk_back["id"]
-                        atk_back["class"] = atk_back["class"]
-                        atk_back["damage"] = self.calc_back_damage(atk_back)
-                        back_res.append(atk_back)
+                # for _ in atk_res:
+                #     if atk_res[_].get("back_attck"):
+                #         atk_back = atk_res[_]["back_attck"]
+                #         atk_back["id"] = atk_back["id"]
+                #         atk_back["class"] = atk_back["class"]
+                #         atk_back["damage"] = self.calc_back_damage(atk_back)
+                #         back_res.append(atk_back)
 
-                res["atk_range"] = step["skill_range"]
-                res["atk_position"] = step["skill_pos"]
-                res["release_range"] = step["release_range"]
-                res["damage"] = self.calc_damage(atk_res)
-                res["effects"] = self.calc_effect(atk_res)
-                if back_res: # 返回攻击+反击
-                    return [res] + back_res
+                # res["atk_range"] = step["skill_range"]
+                # res["atk_position"] = step["skill_pos"]
+                # res["release_range"] = step["release_range"]
+                step["damage"] = self.calc_damage(atk_res)
+                step["effects"] = self.calc_effect(atk_res)
+                return [{"type": step["type"], "action_type": "TYPE"}, step]
 
 
-            if step["type"] == "HEAL":
-                target_ids = [_["HeroID"] for _ in step["target"]]
-                target = [e for e in state["monster"] + state["hero"] if e.HeroID in target_ids]
-                heal_res = hero.friend_treatment(target, skill, step["skill_pos"], state)
-
-                res["atk_range"] = step["skill_range"]
-                res["atk_position"] = step["skill_pos"]
-                res["release_range"] = step["release_range"]
-                res["damage"] = self.calc_heal(heal_res)
+            # if step["type"] == "HEAL":
+            #     target_ids = [_["HeroID"] for _ in step["target"]]
+            #     target = [e for e in state["monster"] + state["hero"] if e.HeroID in target_ids]
+            #     heal_res = hero.friend_treatment(target, "", step["skill_pos"], state)
+            #
+            #     res["atk_range"] = step["skill_range"]
+            #     res["atk_position"] = step["skill_pos"]
+            #     res["release_range"] = step["release_range"]
+            #     res["damage"] = self.calc_heal(heal_res)
 
         if step["action_type"] == "WAIT":  # TODO
             hero.dont_move()
