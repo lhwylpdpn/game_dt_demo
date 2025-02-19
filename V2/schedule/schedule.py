@@ -114,7 +114,6 @@ class schedule:
             new_state_dict = self.state_to_dict(new_state)
 
             for a in action_result:
-
                 if self.game.check_game_over()[0]:
                     self.game_over = True
                     self.max_action_num = 0

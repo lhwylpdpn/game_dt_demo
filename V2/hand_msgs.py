@@ -159,12 +159,13 @@ def handle_action_request(self_client, player_id, data):
         fake_move_action.targetHeroList.add(heroUniqueId=data["action"]["unique_id"])
         battle_action_base.moveAction.CopyFrom(fake_move_action)
 
-    if data["action"].get("type") in (1, 2):
+    elif data["action"]["action_type"] == "TYPE":
         fake_type_action = card_game_pb2.TypeAction()
         fake_type_action.type = data["action"]["type"]
         fake_type_action.Id = data["action"]["id"]
         battle_action_base.typeAction.CopyFrom(fake_type_action)
 
+    elif "SKILL_" in data["action"]["action_type"]:
         fake_skill_action = card_game_pb2.SkillAction()
         for t in data["action"]["targets"]:
             fake_skill_action.targetHeroList.add(heroUniqueId=t)
