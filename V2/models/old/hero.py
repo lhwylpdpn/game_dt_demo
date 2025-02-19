@@ -995,34 +995,35 @@ class Hero():
     
     def __atk_enemy(self, enemy, skill, attack_point, state): # 攻击敌人
         result = {"damage":None, "back_attck":None}
-        effect_ids = enemy.before_be_attacked(skill) # 被攻击者添加被动skill
-        unit_num = self.__get_unit_num(skill=skill, state=state)
+        # effect_ids = enemy.before_be_attacked(skill) # 被攻击者添加被动skill
+        # unit_num = self.__get_unit_num(skill=skill, state=state)
+        unit_num = 1
         _res = self.__damage(attacker=self, defender=enemy, skill=skill, unit_num=unit_num) # 需要damage 判断是否由于被动技能，是攻击无效
         # 添加被动技能的effect
-        for each_id in effect_ids:
-            _res[0]["effects"].append(Hero.effect_format_data(enemy, each_id))
-        miss_effect_id, is_miss = enemy.is_miss_hit(skill)
-        if is_miss: # 被动技能使攻击失效 # TODO 彬哥 
-            _res[0]["effects"].append(Hero.effect_format_data(enemy, miss_effect_id))
-            for _ in _res:
-                _["damage"] = 0
-            result["damage"] = copy.deepcopy(_res)
-            print(f"~~~~ {enemy.HeroID} 的被动技能使攻击无效～", _res)
-            return result
+        # for each_id in effect_ids:
+        #     _res[0]["effects"].append(Hero.effect_format_data(enemy, each_id))
+        # miss_effect_id, is_miss = enemy.is_miss_hit(skill)
+        # if is_miss: # 被动技能使攻击失效 # TODO 彬哥 
+        #     _res[0]["effects"].append(Hero.effect_format_data(enemy, miss_effect_id))
+        #     for _ in _res:
+        #         _["damage"] = 0
+        #     result["damage"] = copy.deepcopy(_res)
+        #     print(f"~~~~ {enemy.HeroID} 的被动技能使攻击无效～", _res)
+        #     return result
         result["damage"] = copy.deepcopy(_res)
         enemy.Hp_damage(_res) # 敌人掉血攻击
         if enemy.is_death:
             enemy.leve_game(state)
             return result
-        else: # 没有被打死，可以发动反击
-            for each_back_skill in enemy.get_back_skills(self, skill): # 发动反击
-                print("use back skill:", each_back_skill.SkillId)
-                if enemy.is_in_backskill_range(each_back_skill, self, state):
-                    result["back_attck"] = enemy.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
-                    print("end back....")
-                else:
-                    print("not in backskill range ")
-        enemy.after_be_attacked(skill) # 被攻击者添加被动skill
+        # else: # 没有被打死，可以发动反击
+        #     for each_back_skill in enemy.get_back_skills(self, skill): # 发动反击
+        #         print("use back skill:", each_back_skill.SkillId)
+        #         if enemy.is_in_backskill_range(each_back_skill, self, state):
+        #             result["back_attck"] = enemy.back_attack(enemy=self, skill=each_back_skill, attack_point=self.position)
+        #             print("end back....")
+        #         else:
+        #             print("not in backskill range ")
+        # enemy.after_be_attacked(skill) # 被攻击者添加被动skill
         return result
     
     def __atk_attachment(self, enemy, skill, attack_point, state): # 攻击附着物
@@ -1041,19 +1042,21 @@ class Hero():
         # 敌人属性的改变
         # 地块的改变
         result = {}
-        self.prepare_attack(skill)  # 做攻击之前，加载skill相关
+        if not skill or not enemys:
+            return result
+        #self.prepare_attack(skill)  # 做攻击之前，加载skill相关
         for each in enemys:
             if self.is_death: # 死亡了
                 self.leve_game(state)
                 break
             
-            if isinstance(each, Attachment):
-                result[each] = self.__atk_attachment(each, skill, attack_point, state)
-            else:
-                print("攻击敌人")
-                result[each] = self.__atk_enemy(each, skill, attack_point, state)
+            # if isinstance(each, Attachment):
+            #     result[each] = self.__atk_attachment(each, skill, attack_point, state)
+            # else:
+            print("攻击敌人")
+            result[each] = self.__atk_enemy(each, skill, attack_point, state)
 
-        self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
+        #self.after_atk_skill(enemys=enemys, skill=skill, attack_point=attack_point, state=state)
         return result
     
     def friend_treatment(self, friends=[], skill=None, attack_point=[], state=[]): # 对队友释放治疗技能

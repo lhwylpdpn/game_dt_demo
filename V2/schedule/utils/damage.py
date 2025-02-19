@@ -230,16 +230,16 @@ def damage_calc(attacker, defender, skill):
                 "effect_id": 84  # HIT_BACK
             }
             return [{'damage': 0, 'miss': 0, "pre_damage": pre_damage, "st": st, "effects": [eff], "crit": crit}]
-    damage = 1 # HU add for test
     res = [{'damage': damage, 'miss': miss, "pre_damage": pre_damage, "st": st, "effects": [], "crit": crit}]
     return res
 
 
-def damage(attacker, defender, skill, unit_num=1):
-    d = []
-    for _ in range(unit_num):
-        d += damage_calc(attacker, defender, skill)
-    return d
+def damage(attacker, defender, skill, unit_num=1): # HU add for test
+    return [{'damage': 1, 'miss': 0, "pre_damage": 1, "effects": [], "crit": 0}]
+    # d = []
+    # for _ in range(unit_num):
+    #     d += damage_calc(attacker, defender, skill)
+    # return d
 
 
 if __name__ == '__main__':
