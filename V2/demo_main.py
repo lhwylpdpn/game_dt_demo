@@ -44,7 +44,7 @@ class CardGameProtocol(WebSocketServerProtocol):
             self.player.set_playerId(player_id)     # TODO login 时候设置player_id
              
             # 统一处理msg
-            parse_proto, message_handle = MSGID_TO_MESSAGE.get(msgId, (None, None))
+            parse_proto, message_handle = MSGID_TO_MESSAGE[msgId]
             if message_handle is None:
                 print(f"<WARNING> {msgId} Do not handle.")
             else:
